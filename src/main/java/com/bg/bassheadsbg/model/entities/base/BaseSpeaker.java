@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.model.entities.base;
 
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -23,8 +24,6 @@ public abstract class BaseSpeaker extends BaseEntity {
     private byte numberOfCoils;
     private byte impedance;
     private short powerHandling;
-    @URL(message = "Please, enter a valid URL.")
-    private Set<String> imagesURL = new HashSet<>();
 
     public BaseSpeaker() {
     }
@@ -85,11 +84,4 @@ public abstract class BaseSpeaker extends BaseEntity {
         this.powerHandling = powerHandling;
     }
 
-    public @URL Set<String> getImagesURL() {
-        return imagesURL;
-    }
-
-    public void setImagesURL(@URL Set<String> imagesURL) {
-        this.imagesURL = imagesURL;
-    }
 }
