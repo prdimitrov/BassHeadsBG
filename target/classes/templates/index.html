@@ -12,16 +12,16 @@
     <header>
         <nav>
             <img src="/img/BG.png" alt="NO IMAGE">
-            <ul>
-                <li id="shop-button">
+            <div class="nav-buttons">
+                <button id="shop-button">
                     <i class="fas fa-shopping-cart"></i>
-                    <a href="#">test1</a>
-                </li>
-                <li><a href="#">test2</a></li>
-                <li><a href="#">test4</a></li>
-                <li class="nav-item dropdown">
+                    test1
+                </button>
+                <button>test2</button>
+                <button>test4</button>
+                <div class="nav-item dropdown">
                     <div class="dropdown">
-                        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                        <button onclick="myFunction()" class="dropbtn">Login</button>
                         <div id="myDropdown" class="dropdown-content">
                             <form class="login-form" action="/">
                                 <div class="form-group">
@@ -45,8 +45,8 @@
                             <a href="#" id="register">Register</a>
                         </div>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </nav>
     </header>
     <h1 class="neonText">BassHeads <br> BG</h1>
@@ -62,7 +62,10 @@
             <p>
                 Намалете силата на звука преди да продължите!
             </p>
-            <button id="continue-button">ПРОДЪЛЖИ</button>
+            <div class="entrance-buttons">
+                <button class="entrance-button" id="continue-button">ПРОДЪЛЖИ</button>
+                <button class="entrance-button" id="continue-button-noaudio">БЕЗ АУДИО</button>
+            </div>
         </div>
     </div>
 
