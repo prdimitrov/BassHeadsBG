@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   var continueButton = document.getElementById("continue-button");
+  var continueButtonNoAudio = document.getElementById("continue-button-noaudio");
   var overlay = document.getElementById("overlay");
   var audio = document.getElementById("background-audio");
 
@@ -7,7 +8,12 @@ document.addEventListener("DOMContentLoaded", function () {
     audio.play();
     overlay.style.display = "none";
   });
+  continueButtonNoAudio.addEventListener("click", function () {
+    audio.remove();
+    overlay.style.display = "none";
+  });
 });
+
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
@@ -23,13 +29,21 @@ window.onclick = function (event) {
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
       if (openDropdown.classList.contains('show')) {
-       openDropdown.classList.remove('show');
+        openDropdown.classList.remove('show');
       }
     }
   }
 }
 
 // Prevent dropdown from closing when clicking inside the form
-document.getElementById("myDropdown").addEventListener("click", function(event){
+document.getElementById("myDropdown").addEventListener("click", function (event) {
   event.stopPropagation();
+});
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  const registerLink = document.getElementById('register');
+  registerLink.addEventListener('click', function (event) {
+    event.preventDefault();
+    window.location.href = 'register.html';
+  });
 });
