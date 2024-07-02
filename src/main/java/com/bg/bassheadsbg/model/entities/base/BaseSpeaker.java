@@ -26,6 +26,7 @@ public abstract class BaseSpeaker extends BaseEntity {
     private short powerHandling;
 
     public BaseSpeaker() {
+        super();
     }
 
     public String getBrand() {
