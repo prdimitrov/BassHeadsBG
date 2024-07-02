@@ -12,4 +12,12 @@ public class MultiChannelAmplifier extends BaseAmplifier {
     public MultiChannelAmplifier() {
         super();
     }
+
+    public byte getNumberOfChannels() {
+        return numberOfChannels;
+    }
+
+    public void setNumberOfChannels(byte numberOfChannels) {
+        this.numberOfChannels = numberOfChannels;
+    }
 }

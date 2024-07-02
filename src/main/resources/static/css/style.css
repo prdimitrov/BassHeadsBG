@@ -37,7 +37,7 @@ nav {
     flex-direction: row;
     align-items: center;
     margin: 0 30px 50px 30px;
-    padding: 2em 3em 2em 3em;
+    padding: 0.5em 3em 0.5em 3em;
     justify-content: space-between;
     box-shadow: 0 0 .2rem #fff,
         0 0 .2rem #fff,
@@ -45,9 +45,9 @@ nav {
         0 0 0.8rem rgb(47, 0, 255),
         0 0 2.8rem rgb(47, 0, 255),
         inset 0 0 1.3rem rgb(47, 0, 255);
-        border-bottom-right-radius: 15px;
-        border-bottom-left-radius: 15px;
-    }
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
 
 nav img {
     width: 150px;
@@ -113,6 +113,11 @@ nav .nav-buttons button {
 
 .neonText {
     color: #fff;
+background: rgba(47, 0, 255, 0.31);
+border-radius: 16px;
+backdrop-filter: blur(2.3px);
+-webkit-backdrop-filter: blur(2.3px);
+border: 1px solid rgba(47, 0, 255, 0.1);
     text-shadow:
         0 0 42px rgb(47, 0, 255),
         0 0 82px rgb(47, 0, 255),
@@ -147,31 +152,6 @@ h1 {
         inset 0 0 1.3rem rgb(47, 0, 255);
 }
 
-@keyframes pulsate {
-    100% {
-        text-shadow:
-            0 0 4px #fff,
-            0 0 11px #fff,
-            0 0 19px #fff,
-            0 0 40px rgb(47, 0, 255),
-            0 0 80px rgb(47, 0, 255),
-            0 0 90px rgb(47, 0, 255),
-            0 0 100px rgb(47, 0, 255),
-            0 0 150px rgb(47, 0, 255);
-    }
-    0% {
-        text-shadow:
-            0 0 2px #fff,
-            0 0 4px #fff,
-            0 0 6px #fff,
-            0 0 10px rgb(47, 0, 255),
-            0 0 45px rgb(47, 0, 255),
-            0 0 55px rgb(47, 0, 255),
-            0 0 70px rgb(47, 0, 255),
-            0 0 80px rgb(47, 0, 255);
-    }
-}
-
 #overlay {
     position: fixed;
     top: 0;
@@ -183,7 +163,8 @@ h1 {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    backdrop-filter: blur(10px); /* Apply a blur filter */
+    backdrop-filter: blur(10px);
+    /* Apply a blur filter */
 }
 
 #overlay-content {
@@ -237,58 +218,75 @@ h1 {
 
 /* Css for login/register
 /* Dropdown Button */
-nav button, .dropbtn {
-background-color: #00000000;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
+nav button,
+.dropbtn {
+    background-color: #00000000;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: 0.5s;
 }
 
 /* Dropdown button on hover & focus */
-nav button:hover, .dropbtn:hover, nav ul li:hover, nav ul li:focus {
-  background-color: #1350f7;
-  border-radius: 3px;
+nav button:hover,
+.dropbtn:hover {
+    background-color: #1350f7;
+    border-radius: 3px;
+    transition: 0.5s;
 }
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #7c7c7c73;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #7c7c7c73;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #7c7c7c;}
+.dropdown-content a:hover {
+    background-color: #7c7c7c;
+}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
-    display:block;
+    display: block;
     border-radius: 15px;
     overflow-x: hidden;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.9), /* larger outer shadow */
-                0px 0px 30px 10px rgba(0, 0, 0, 0.5); /* inner spotlight effect */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.9),
+        /* larger outer shadow */
+        0px 0px 30px 10px rgba(0, 0, 0, 0.5);
+    /* inner spotlight effect */
+    padding: 0.5em;
+    transform: translate(-38px, 1px);
 }
 
-#login, #register {
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#login,
+#register {
     width: 100%;
     height: 45px;
     align-self: center;
@@ -296,6 +294,7 @@ nav button:hover, .dropbtn:hover, nav ul li:hover, nav ul li:focus {
     color: #fff;
 }
 
-#login:hover, #register:hover {
+#login:hover,
+#register:hover {
     background-color: rgb(47, 0, 255);
 }
