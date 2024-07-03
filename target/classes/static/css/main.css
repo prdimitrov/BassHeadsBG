@@ -1,4 +1,11 @@
+html, body {
+height: 100%;
+margin: 0;
+}
+
 body {
+display:flex;
+flex-direction: column;
       background-image: linear-gradient(rgba(0, 0, 0, 1),
                  rgba(84, 91, 98, 0.1),
                  rgba(84, 91, 98, 0.7)),
@@ -15,15 +22,19 @@ body {
      padding-right: 100px;
 }
 
-.navbar {
+.navbar, footer {
 box-shadow: 0 0 .2rem #fff,
         0 0 .2rem #fff,
         0 0 2rem rgb(47, 0, 255),
         0 0 0.8rem rgb(47, 0, 255),
         0 0 2.8rem rgb(47, 0, 255),
         inset 0 0 1.3rem rgb(47, 0, 255);
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;}
+    }
+
+.navbar {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
 
 .container, .container-fluid {
      padding-top: 180px;
@@ -69,4 +80,15 @@ form.main-form {
 
 .logged-user {
      color: white;
+}
+
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 2px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+footer p {
+    color: #fff;
 }
