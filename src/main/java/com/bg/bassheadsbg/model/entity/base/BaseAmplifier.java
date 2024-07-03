@@ -1,6 +1,6 @@
-package com.bg.bassheadsbg.model.entities.base;
+package com.bg.bassheadsbg.model.entity.base;
 
-import com.bg.bassheadsbg.model.entities.enums.AmpClass;
+import com.bg.bassheadsbg.model.entity.enums.AmpClass;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;

@@ -1,15 +1,9 @@
-package com.bg.bassheadsbg.model.entities.base;
+package com.bg.bassheadsbg.model.entity.base;
 
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.URL;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @MappedSuperclass
 public abstract class BaseSpeaker extends BaseEntity {

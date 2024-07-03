@@ -1,6 +1,6 @@
-package com.bg.bassheadsbg.model.entities.amplifiers;
+package com.bg.bassheadsbg.model.entity.amplifiers;
 
-import com.bg.bassheadsbg.model.entities.base.BaseAmplifier;
+import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 

@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model.entities.base;
+package com.bg.bassheadsbg.model.entity.base;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
