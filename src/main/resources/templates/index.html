@@ -4,72 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <title>BassHeadsBG</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <header>
-        <nav>
-            <img src="/img/BG.png" alt="NO IMAGE">
-            <div class="nav-buttons">
-                <button id="shop-button">
-                    <i class="fas fa-shopping-cart"></i>
-                    test1
-                </button>
-                <button>test2</button>
-                <button>test4</button>
-                <div class="nav-item dropdown">
-                    <div class="dropdown">
-                        <button onclick="myFunction()" class="dropbtn">Login</button>
-                        <div id="myDropdown" class="dropdown-content">
-                            <form class="login-form" action="/">
-                                <div class="form-group">
-                                    <div class="label-holder text-white d-flex justify-content-center">
-                                        <label for="username" class="h3 mb-2">Username</label>
-                                    </div>
-                                    <input type="text" class="form-control" id="username" name="username" />
-                                </div>
 
-                                <div class="form-group">
-                                    <div class="label-holder text-white d-flex justify-content-center">
-                                        <label for="password" class="h3 mb-2">Password</label>
-                                    </div>
-                                    <input type="password" class="form-control" id="password" name="password" />
-                                </div>
+<div th:replace="~{fragments/navbar::navbar(activeLink=${'home'})}"></div>
 
-                                <div class="button-holder d-flex justify-content-center">
-                                    <button type="submit" id="login">Login</button>
-                                </div>
-                            </form>
-                            <a href="#" id="register">Register</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <h1 class="neonText">BassHeads <br> BG</h1>
-    <audio id="background-audio" src="/audio/cocacola.mp3" loop></audio>
 
-    <!-- Overlay section -->
-    <div id="overlay">
-        <div id="overlay-content">
-            <h1>Внимание!</h1>
-            <p>
-                Този сайт съдържа аудио, което може да бъде изпълнено автоматично.
-            </p>
-            <p>
-                Намалете силата на звука преди да продължите!
-            </p>
-            <div class="entrance-buttons">
-                <button class="entrance-button" id="continue-button">ПРОДЪЛЖИ</button>
-                <button class="entrance-button" id="continue-button-noaudio">БЕЗ АУДИО</button>
-            </div>
-        </div>
-    </div>
+<div class="container-fluid">
+    <h5 class="text-center text-white mt-5">Welcome to BassHeadsBG,
+        <th:block th:text="${welcomeMessage}"></th:block>!
+    </h5>
+</div>
 
-    <script src="/js/script.js"></script>
+<div>
+    <footer> </footer>
+</div>
+
 </body>
-
 </html>
