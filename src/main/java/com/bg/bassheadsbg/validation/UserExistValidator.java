@@ -2,7 +2,7 @@ package com.bg.bassheadsbg.validation;
 
 
 import com.bg.bassheadsbg.model.dto.UserLoginDTO;
-import com.bg.bassheadsbg.model.entity.users.User;
+import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.service.UserService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -27,7 +27,7 @@ public class UserExistValidator implements ConstraintValidator<UserExist, UserLo
 
     @Override
     public boolean isValid(UserLoginDTO userLoginDTO, ConstraintValidatorContext context) {
-        Optional<User> optionalUser = userService.findByUsername(userLoginDTO.getUsername());
+        Optional<UserEntity> optionalUser = userService.findByUsername(userLoginDTO.getUsername());
         if (optionalUser.isEmpty()){
             return false;
         }

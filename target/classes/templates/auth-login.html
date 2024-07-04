@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>BassHeadsBG</title>
     <link rel="stylesheet" href="/css/reset-css.css"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
@@ -33,10 +33,11 @@
                     name="password"
                     type="password"
                     class="form-control"
-                   placeholder="Password"/>
+                    placeholder="Password"/>
         </div>
-        
-        <p class="errors alert alert-danger">
+
+        <!-- Conditional error message -->
+        <p th:if="${wrongCredentials}" class="errors alert alert-danger">
             Invalid username or password.
         </p>
 

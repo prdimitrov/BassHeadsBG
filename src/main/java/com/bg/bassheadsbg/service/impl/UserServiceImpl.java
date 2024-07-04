@@ -2,7 +2,7 @@ package com.bg.bassheadsbg.service.impl;
 
 import com.bg.bassheadsbg.model.dto.UserRegistrationDTO;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
-import com.bg.bassheadsbg.model.entity.users.User;
+import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.repository.RoleRepository;
@@ -35,19 +35,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String userName) {
+    public Optional<UserEntity> findByUsername(String userName) {
         return this.userRepository.findByUsername(userName);
     }
 
-    private User mapUser(UserRegistrationDTO userRegistrationDTO) {
-        User mappedUser = modelMapper.map(userRegistrationDTO, User.class);
+    private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
+        UserEntity mappedUserEntity = modelMapper.map(userRegistrationDTO, UserEntity.class);
 
-        mappedUser.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+        mappedUserEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
 
         UserRole userRole = roleRepository.findByRole(UserRoleEnum.USER);
 
-        mappedUser.getRoles().add(userRole);
+        mappedUserEntity.getRoles().add(userRole);
 
-        return mappedUser;
+        return mappedUserEntity;
     }
 }

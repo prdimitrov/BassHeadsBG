@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+public class UserEntity extends BaseEntity {
     @Size(min = 3, max = 30,
             message = "Username length must be between 3 and 30 characters.")
     @Column(nullable = false, unique = true)
@@ -53,7 +53,7 @@ public class User extends BaseEntity {
 
     private boolean isBanned;
 
-    public User() {
+    public UserEntity() {
         super();
     }
 
