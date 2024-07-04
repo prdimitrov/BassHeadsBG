@@ -2,25 +2,44 @@ package com.bg.bassheadsbg.model.entity.users;
 
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
+    @Size(min = 3, max = 30,
+            message = "Username length must be between 3 and 30 characters.")
+    @NotNull
     private String username;
 
+    @Email(message = "Please, enter a valid email.")
+    @NotNull
     private String email;
 
+    @Size(min = 8,
+            message = "Password length must be minimum 8 characters.")
+    @NotNull
     private String password;
 
+    @Size(min = 3, max = 30,
+            message = "Name length must be between 3 and 30 characters.")
+    @NotNull
     private String firstName;
 
+    @Size(min = 3, max = 30,
+            message = "Last name length must be between 3 and 30 characters.")
+    @NotNull
     private String lastName;
 
+    @Past(message = "You must be born in the past.")
+    @NotNull
     private LocalDate birthDate;
 
     @ManyToMany(fetch = FetchType.EAGER)

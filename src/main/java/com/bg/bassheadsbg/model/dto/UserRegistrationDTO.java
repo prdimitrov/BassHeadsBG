@@ -1,33 +1,41 @@
 package com.bg.bassheadsbg.model.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 public class UserRegistrationDTO {
-    @NotEmpty
-    @Size(min = 3, max = 30)
+    @Size(min = 3, max = 30,
+            message = "Username length must be between 3 and 30 characters.")
+    @NotBlank
     private String username;
 
-    @NotEmpty
-    @Size(min = 3, max = 30)
-    private String firstName;
-
-    @NotEmpty
-    @Size(min = 3, max = 30)
-    private String lastName;
-
-    @NotEmpty
-    private String password;
-
-    @NotEmpty
-    @Email
+    @Email(message = "Please, enter a valid email.")
+    @NotBlank
     private String email;
 
-    @Past(message = "Maybe you should have been born in the past?")
+    @Size(min = 8,
+            message = "Password length must be minimum 8 characters.")
+    @NotBlank
+    private String password;
+
+    @Size(min = 8,
+            message = "Password length must be minimum 8 characters.")
+    @NotBlank
+    private String confirmPassword;
+
+    @Size(min = 3, max = 30,
+            message = "Name length must be between 3 and 30 characters.")
+    @NotBlank
+    private String firstName;
+
+    @Size(min = 3, max = 30,
+            message = "Last name length must be between 3 and 30 characters.")
+    @NotNull
+    private String lastName;
+
+    @Past(message = "You must be born in the past.")
+    @NotNull
     private LocalDate birthDate;
 
     public String getUsername() {
@@ -78,15 +86,11 @@ public class UserRegistrationDTO {
         this.birthDate = birthDate;
     }
 
-    @Override
-    public String toString() {
-        return "UserRegistrationDTO{" +
-                "username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", birthDate=" + birthDate +
-                '}';
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

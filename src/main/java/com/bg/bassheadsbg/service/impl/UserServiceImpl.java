@@ -11,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,6 +32,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(UserRegistrationDTO userRegistrationDTO) {
         userRepository.save(mapUser(userRegistrationDTO));
+    }
+
+    @Override
+    public Optional<User> findByUsername(String userName) {
+        return this.userRepository.findByUsername(userName);
     }
 
     private User mapUser(UserRegistrationDTO userRegistrationDTO) {
