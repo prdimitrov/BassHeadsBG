@@ -31,6 +31,8 @@ public class User extends BaseEntity {
     )
     private Set<UserRole> roles = new HashSet<>();
 
+    private boolean isBanned;
+
     public User() {
         super();
     }
@@ -101,5 +103,13 @@ public class User extends BaseEntity {
                 ", lastName='" + lastName + '\'' +
                 ", birthDate=" + birthDate +
                 '}';
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
     }
 }

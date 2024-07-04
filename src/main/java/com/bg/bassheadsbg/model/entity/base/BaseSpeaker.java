@@ -14,7 +14,7 @@ public abstract class BaseSpeaker extends BaseEntity {
     private String model;
     @Positive
     @NotNull
-    @Min(value = 6, message = "This website is for true BassHeads, it's not headphones website, please enter a size larger than 6 inches.")
+    @Min(value = 6, message = "This website is for true BassHeads, it's not headphones website, \nplease enter a size larger than 6 inches.")
     private byte size;
     @Positive
     @NotNull
