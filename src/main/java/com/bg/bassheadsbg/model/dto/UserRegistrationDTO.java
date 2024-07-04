@@ -1,15 +1,21 @@
 package com.bg.bassheadsbg.model.dto;
 
+import com.bg.bassheadsbg.validation.FieldsMatch;
+import com.bg.bassheadsbg.validation.UniqueUserEmail;
+import com.bg.bassheadsbg.validation.UniqueUserName;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
+@FieldsMatch(first = "password", second = "confirmPassword")
 public class UserRegistrationDTO {
+    @UniqueUserName(message = "Username already in use.")
     @Size(min = 3, max = 30,
             message = "Username length must be between 3 and 30 characters.")
     @NotBlank
     private String username;
 
+    @UniqueUserEmail(message = "Email already in use.")
     @Email(message = "Please, enter a valid email.")
     @NotBlank
     private String email;

@@ -2,11 +2,14 @@ package com.bg.bassheadsbg.web;
 
 import com.bg.bassheadsbg.model.dto.UserRegistrationDTO;
 import com.bg.bassheadsbg.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/users")
@@ -28,9 +31,16 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String register(UserRegistrationDTO registrationDTO) {
+    public String register(@Valid UserRegistrationDTO registerDTO,
+                           BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("registerDTO", registerDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerDTO", bindingResult);
+            return "redirect:/users/register";
+        }
 
-        userService.registerUser(registrationDTO);
+        userService.registerUser(registerDTO);
 
         return "redirect:/";
     }

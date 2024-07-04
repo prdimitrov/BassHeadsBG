@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.validation;
 
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapper;
@@ -12,17 +11,15 @@ public class FieldsMatchValidator implements ConstraintValidator<FieldsMatch, Ob
     private String second;
     private String message;
 
-
     @Override
     public void initialize(FieldsMatch constraintAnnotation) {
-       this.first = constraintAnnotation.first();
-       this.second = constraintAnnotation.second();
-       this.message = constraintAnnotation.message();
+        this.first = constraintAnnotation.first();
+        this.second = constraintAnnotation.second();
+        this.message = constraintAnnotation.message();
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(value);
 
         Object firstValue = beanWrapper.getPropertyValue(this.first);
@@ -30,19 +27,24 @@ public class FieldsMatchValidator implements ConstraintValidator<FieldsMatch, Ob
 
         boolean valid;
 
-        if (firstValue == null){
+        if (firstValue == null) {
             valid = secondValue == null;
-        }else {
+        } else {
             valid = firstValue.equals(secondValue);
         }
 
-        if (!valid){
-            context
-                    .buildConstraintViolationWithTemplate(message)
+        if (!valid) {
+            context.disableDefaultConstraintViolation();
+            // Add the error message to the second field (confirmPassword)
+            context.buildConstraintViolationWithTemplate(message)
                     .addPropertyNode(second)
-                    .addConstraintViolation()
-                    .disableDefaultConstraintViolation();
+                    .addConstraintViolation();
+            // Add a blank message to the first field (password) to apply the error class
+            context.buildConstraintViolationWithTemplate("")
+                    .addPropertyNode(first)
+                    .addConstraintViolation();
         }
+
         return valid;
     }
 }

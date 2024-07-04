@@ -16,11 +16,12 @@ import java.util.Set;
 public class User extends BaseEntity {
     @Size(min = 3, max = 30,
             message = "Username length must be between 3 and 30 characters.")
-    @NotNull
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Email(message = "Please, enter a valid email.")
     @NotNull
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Size(min = 8,
