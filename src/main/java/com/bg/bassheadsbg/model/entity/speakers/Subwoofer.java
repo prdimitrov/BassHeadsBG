@@ -4,23 +4,34 @@ import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "subwoofers")
 public class Subwoofer extends BaseSpeaker {
-    @Column(nullable = false)
+    @Positive
     private byte sensitivity;
+    @Positive
     private float coilHeight;
-    private byte coilLayers;
+    @Positive
+    private Byte coilLayers;
+    @Positive
     private short magnetSize;
-    private float vas;
+    @Positive
+    private Float vas;
+    @Positive
     private byte xmax;
-    private float qms;
-    private float qes;
-    private float qts;
-    private float sd;
-    private float bl;
-    private float z;
+    @Positive
+    private Float qms;
+    @Positive
+    private Float qes;
+    @Positive
+    private Float qts;
+    @Positive
+    private Float sd;
+    @Positive
+    private Float bl;
+    @Positive
     private float mms;
 
     public Subwoofer() {
@@ -112,14 +123,6 @@ public class Subwoofer extends BaseSpeaker {
 
     public void setBl(float bl) {
         this.bl = bl;
-    }
-
-    public float getZ() {
-        return z;
-    }
-
-    public void setZ(float z) {
-        this.z = z;
     }
 
     public float getMms() {

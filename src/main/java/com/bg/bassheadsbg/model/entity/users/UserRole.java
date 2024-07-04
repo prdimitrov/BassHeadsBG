@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.entity.users;
 
-import com.bg.bassheadsbg.model.entity.enums.UserRoleEnum;
+import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 

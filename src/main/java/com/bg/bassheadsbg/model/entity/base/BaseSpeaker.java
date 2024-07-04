@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.model.entity.base;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @MappedSuperclass
@@ -12,11 +13,20 @@ public abstract class BaseSpeaker extends BaseEntity {
     @NotBlank
     private String model;
     @Positive
+    @NotNull
     @Min(value = 6, message = "This website is for true BassHeads, it's not headphones website, please enter a size larger than 6 inches.")
     private byte size;
+    @Positive
+    @NotNull
     private float frequencyResponse;
+    @Positive
+    @NotNull
     private byte numberOfCoils;
+    @Positive
+    @NotNull
     private byte impedance;
+    @Positive
+    @NotNull
     private short powerHandling;
 
     public BaseSpeaker() {

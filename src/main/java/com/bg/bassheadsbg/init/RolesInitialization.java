@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.init;
 
-import com.bg.bassheadsbg.model.entity.enums.UserRoleEnum;
+import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.repository.RoleRepository;
 import org.springframework.boot.CommandLineRunner;

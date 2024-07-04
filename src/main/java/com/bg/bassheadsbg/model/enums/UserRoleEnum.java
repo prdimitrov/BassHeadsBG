@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model.entity.enums;
+package com.bg.bassheadsbg.model.enums;
 
 public enum UserRoleEnum {
     ADMIN,
