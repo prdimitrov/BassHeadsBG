@@ -28,8 +28,21 @@
         >
           <a class="nav-link" href="/brands/all">All Brands</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/offers/add"  th:classappend="${activeLink == 'add-offer'}? 'active'">Add Offer</a>
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="/offers/add"  th:classappend="${activeLink == 'add-offer'}? 'active'">Add Offer</a>-->
+<!--        </li>-->
+        <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+          <a class="nav-link dropdown-toggle" href="/" id="productDropdown" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add Product
+          </a>
+          <div class="dropdown-menu" aria-labelledby="productDropdown">
+            <a class="dropdown-item" href="/">High Range</a>
+            <a class="dropdown-item" href="/">Mid Range</a>
+            <a class="dropdown-item" href="/">Subwoofer</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/">Amplifier</a>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/offers/all" th:classappend="${activeLink == 'all-offers'}? 'active'">All Offers</a>
