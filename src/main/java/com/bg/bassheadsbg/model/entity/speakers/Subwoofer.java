@@ -6,31 +6,45 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "subwoofers")
 public class Subwoofer extends BaseSpeaker {
 
     @Positive
+    @NotNull
     private float coilHeight;
+
     @Positive
     private Byte coilLayers;
+
     @Positive
+    @NotNull
     private short magnetSize;
+
     @Positive
     private Float vas;
+
     @Positive
+    @NotNull
     private byte xmax;
+
     @Positive
     private Float qms;
+
     @Positive
     private Float qes;
+
     @Positive
     private Float qts;
-    @Positive
+
+    @PositiveOrZero
     private Float sd;
+
     @Positive
     private Float bl;
+
     @Positive
     @NotNull
     private float mms;

@@ -14,6 +14,7 @@ public class MidRange extends BaseSpeaker {
     @Positive
     @NotNull
     private int frequencyRangeFrom;
+
     @Positive
     @NotNull
     private int frequencyRangeTo;

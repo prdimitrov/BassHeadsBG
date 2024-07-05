@@ -12,9 +12,11 @@ import jakarta.validation.constraints.Positive;
 public class HighRange extends BaseSpeaker {
     @NotBlank
     private String material;
+
     @Positive
     @NotNull
     private int frequencyRangeFrom;
+
     @Positive
     @NotNull
     private int frequencyRangeTo;

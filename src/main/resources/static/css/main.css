@@ -22,13 +22,17 @@ body {
      padding-right: 100px;
 }
 
-.navbar, footer {
+.navbar, footer, form {
 box-shadow: 0 0 .2rem #fff,
         0 0 .2rem #fff,
         0 0 2rem rgb(47, 0, 255),
         0 0 0.8rem rgb(47, 0, 255),
         0 0 2.8rem rgb(47, 0, 255),
         inset 0 0 1.3rem rgb(47, 0, 255);
+    }
+
+    .navbar form {
+    box-shadow: none;
     }
 
 .navbar {
@@ -39,6 +43,10 @@ box-shadow: 0 0 .2rem #fff,
 .container, .container-fluid {
      flex: 1;
      padding-top: 180px;
+}
+
+.container h2 {
+    padding-bottom: 1em;
 }
 
 .bg-text {
