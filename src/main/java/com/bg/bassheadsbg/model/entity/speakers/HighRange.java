@@ -4,13 +4,21 @@ import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "high_range")
 public class HighRange extends BaseSpeaker {
-    private String material;
     @NotBlank
-    private String frequencyRange;
+    private String material;
+    @Positive
+    @NotNull
+    private int frequencyRangeFrom;
+    @Positive
+    @NotNull
+    private int frequencyRangeTo;
+
     public HighRange() {
         super();
     }
@@ -23,11 +31,19 @@ public class HighRange extends BaseSpeaker {
         this.material = material;
     }
 
-    public String getFrequencyRange() {
-        return frequencyRange;
+    public int getFrequencyRangeFrom() {
+        return frequencyRangeFrom;
     }
 
-    public void setFrequencyRange(String frequencyRange) {
-        this.frequencyRange = frequencyRange;
+    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
+        this.frequencyRangeFrom = frequencyRangeFrom;
+    }
+
+    public int getFrequencyRangeTo() {
+        return frequencyRangeTo;
+    }
+
+    public void setFrequencyRangeTo(int frequencyRangeTo) {
+        this.frequencyRangeTo = frequencyRangeTo;
     }
 }
