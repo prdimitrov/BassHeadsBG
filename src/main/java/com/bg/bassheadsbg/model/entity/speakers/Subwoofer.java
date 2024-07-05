@@ -9,8 +9,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 @Table(name = "subwoofers")
 public class Subwoofer extends BaseSpeaker {
-    @Positive
-    private byte sensitivity;
+
     @Positive
     private float coilHeight;
     @Positive
@@ -35,14 +34,6 @@ public class Subwoofer extends BaseSpeaker {
     private float mms;
 
     public Subwoofer() {
-    }
-
-    public byte getSensitivity() {
-        return sensitivity;
-    }
-
-    public void setSensitivity(byte sensitivity) {
-        this.sensitivity = sensitivity;
     }
 
     public float getCoilHeight() {
