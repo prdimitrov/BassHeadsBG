@@ -4,8 +4,8 @@ margin: 0;
 }
 
 body {
-display:flex;
-flex-direction: column;
+      display:flex;
+      flex-direction: column;
       background-image: linear-gradient(rgba(0, 0, 0, 1),
                  rgba(84, 91, 98, 0.1),
                  rgba(84, 91, 98, 0.7)),
@@ -37,6 +37,7 @@ box-shadow: 0 0 .2rem #fff,
 }
 
 .container, .container-fluid {
+     flex: 1;
      padding-top: 180px;
 }
 
@@ -83,12 +84,13 @@ form.main-form {
 }
 
 footer {
-    margin-top: auto;
+    margin-top: 1em;
     text-align: center;
     padding: 2px;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
 }
+
 footer p {
     color: #fff;
     margin-bottom: 0;
