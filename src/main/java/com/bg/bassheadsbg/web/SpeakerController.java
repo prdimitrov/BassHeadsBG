@@ -23,7 +23,7 @@ public class SpeakerController {
     @GetMapping("/add-subwoofer")
     public String addSubwoofer() {
 
-        return "offer-add";
+        return "subwoofer-add";
     }
 
     @ModelAttribute("addSubwooferDTO")

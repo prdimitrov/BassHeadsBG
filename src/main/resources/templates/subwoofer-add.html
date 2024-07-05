@@ -20,10 +20,10 @@
 <div class="container">
     <h2 class="text-center text-white">Upload Subwoofer</h2>
     <form
-        th:action="@{/speakers/add-subwoofer}"
-        th:method="post"
-        th:object="${addSubwooferDTO}"
-          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+            th:action="@{/speakers/add-subwoofer}"
+            th:method="post"
+            th:object="${addSubwooferDTO}"
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label th:for="brand" class="text-white font-weight-bold">Brand</label>
@@ -228,6 +228,8 @@
                        placeholder="magnetSize"/>
                 <small class="text-danger invalid-feedback" th:errors="*{magnetSize}"></small>
             </div>
+        </div>
+        <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
                     <input type="submit" class="btn btn-info btn-lg" value="Upload Subwoofer"/>
