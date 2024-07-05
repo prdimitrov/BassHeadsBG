@@ -10,7 +10,7 @@ public class AddSubwooferDTO {
     @NotBlank
     private String model;
 
-    @Positive
+    @PositiveOrZero
     private Float sensitivity;
 
     @Positive
@@ -38,33 +38,33 @@ public class AddSubwooferDTO {
     @NotNull
     private float coilHeight;
 
-    @Positive
+    @PositiveOrZero
     private Byte coilLayers;
 
     @Positive
     @NotNull
     private short magnetSize;
 
-    @Positive
+    @PositiveOrZero
     private Float vas;
 
     @Positive
     @NotNull
     private byte xmax;
 
-    @Positive
+    @PositiveOrZero
     private Float qms;
 
-    @Positive
+    @PositiveOrZero
     private Float qes;
 
-    @Positive
+    @PositiveOrZero
     private Float qts;
 
-    @Positive
+    @PositiveOrZero
     private Float sd;
 
-    @Positive
+    @PositiveOrZero
     private Float bl;
 
     @Positive

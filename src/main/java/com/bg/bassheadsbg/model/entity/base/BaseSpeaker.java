@@ -1,10 +1,7 @@
 package com.bg.bassheadsbg.model.entity.base;
 
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 @MappedSuperclass
 public abstract class BaseSpeaker extends BaseEntity {
@@ -14,7 +11,7 @@ public abstract class BaseSpeaker extends BaseEntity {
     @NotBlank
     private String model;
 
-    @Positive
+    @PositiveOrZero
     private Float sensitivity;
 
     @Positive
