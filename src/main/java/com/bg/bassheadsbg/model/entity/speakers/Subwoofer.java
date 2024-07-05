@@ -4,6 +4,7 @@ import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @Entity
@@ -31,6 +32,7 @@ public class Subwoofer extends BaseSpeaker {
     @Positive
     private Float bl;
     @Positive
+    @NotNull
     private float mms;
 
     public Subwoofer() {
