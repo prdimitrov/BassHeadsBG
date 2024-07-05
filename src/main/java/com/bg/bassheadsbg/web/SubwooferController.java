@@ -13,10 +13,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/speakers")
-public class SpeakerController {
+public class SubwooferController {
     private final SubwooferService subwooferService;
 
-    public SpeakerController(SubwooferService subwooferService) {
+    public SubwooferController(SubwooferService subwooferService) {
         this.subwooferService = subwooferService;
     }
 

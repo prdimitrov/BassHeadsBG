@@ -21,6 +21,9 @@ public class HighRange extends BaseSpeaker {
     @NotNull
     private int frequencyRangeTo;
 
+    @NotBlank
+    private String crossover;
+
     public HighRange() {
         super();
     }
@@ -47,5 +50,13 @@ public class HighRange extends BaseSpeaker {
 
     public void setFrequencyRangeTo(int frequencyRangeTo) {
         this.frequencyRangeTo = frequencyRangeTo;
+    }
+
+    public String getCrossover() {
+        return crossover;
+    }
+
+    public void setCrossover(String crossover) {
+        this.crossover = crossover;
     }
 }
