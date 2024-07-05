@@ -32,7 +32,6 @@ public class Subwoofer extends BaseSpeaker {
     @Positive
     private Float bl;
     @Positive
-    @NotNull
     private float mms;
 
     public Subwoofer() {
