@@ -4,32 +4,69 @@ import com.bg.bassheadsbg.model.enums.AmpClass;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @MappedSuperclass
 public abstract class BaseAmplifier extends BaseEntity {
+    @NotBlank
     private String brand;
+
+    @NotBlank
     private String model;
+
+    @NotBlank
     @Enumerated(EnumType.STRING)
     private AmpClass amplifierClass;
+
+    @Positive
+    @NotNull
     private byte impedance;
+
+    @Positive
+    @NotNull
     private int power;
+
+    @Positive
+    @NotNull
     private byte efficiency;
-    private short highPassFilter;
-    private byte lowPassFilter;
-    private boolean subsonicFilter;
+
+
+    @NotBlank
+    private String highPassFilter;
+    @NotBlank
+    private String lowPassFilter;
+    @NotBlank
+    private String subsonicFilter;
+    @NotNull
     private boolean remoteControl;
+    @NotNull
     private boolean bassBoost;
-    private float lowInputLevel;
-    private float highInputLevel;
-    private double distortion;
+    @NotBlank
+    private String lowInputLevel;
+    @NotBlank
+    private String highInputLevel;
+
+    @PositiveOrZero
+    private Float distortion;
+
+    @Positive
+    @NotNull
     private double currentDraw;
 
+    @Positive
+    @NotNull
     private short fuseRating;
 
     //Amp dimensions!
-    private short height;
-    private short width;
-    private short length;
+    @PositiveOrZero
+    private Short height;
+    @PositiveOrZero
+    private Short width;
+    @PositiveOrZero
+    private Short length;
 
     public BaseAmplifier() {
         super();
@@ -83,27 +120,27 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.efficiency = efficiency;
     }
 
-    public short getHighPassFilter() {
+    public String getHighPassFilter() {
         return highPassFilter;
     }
 
-    public void setHighPassFilter(short highPassFilter) {
+    public void setHighPassFilter(String highPassFilter) {
         this.highPassFilter = highPassFilter;
     }
 
-    public byte getLowPassFilter() {
+    public String getLowPassFilter() {
         return lowPassFilter;
     }
 
-    public void setLowPassFilter(byte lowPassFilter) {
+    public void setLowPassFilter(String lowPassFilter) {
         this.lowPassFilter = lowPassFilter;
     }
 
-    public boolean isSubsonicFilter() {
+    public String getSubsonicFilter() {
         return subsonicFilter;
     }
 
-    public void setSubsonicFilter(boolean subsonicFilter) {
+    public void setSubsonicFilter(String subsonicFilter) {
         this.subsonicFilter = subsonicFilter;
     }
 
@@ -123,27 +160,27 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.bassBoost = bassBoost;
     }
 
-    public float getLowInputLevel() {
+    public String getLowInputLevel() {
         return lowInputLevel;
     }
 
-    public void setLowInputLevel(float lowInputLevel) {
+    public void setLowInputLevel(String lowInputLevel) {
         this.lowInputLevel = lowInputLevel;
     }
 
-    public float getHighInputLevel() {
+    public String getHighInputLevel() {
         return highInputLevel;
     }
 
-    public void setHighInputLevel(float highInputLevel) {
+    public void setHighInputLevel(String highInputLevel) {
         this.highInputLevel = highInputLevel;
     }
 
-    public double getDistortion() {
+    public Float getDistortion() {
         return distortion;
     }
 
-    public void setDistortion(double distortion) {
+    public void setDistortion(Float distortion) {
         this.distortion = distortion;
     }
 
@@ -163,27 +200,27 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.fuseRating = fuseRating;
     }
 
-    public short getHeight() {
+    public Short getHeight() {
         return height;
     }
 
-    public void setHeight(short height) {
+    public void setHeight(Short height) {
         this.height = height;
     }
 
-    public short getWidth() {
+    public Short getWidth() {
         return width;
     }
 
-    public void setWidth(short width) {
+    public void setWidth(Short width) {
         this.width = width;
     }
 
-    public short getLength() {
+    public Short getLength() {
         return length;
     }
 
-    public void setLength(short length) {
+    public void setLength(Short length) {
         this.length = length;
     }
 }
