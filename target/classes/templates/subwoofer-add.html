@@ -61,6 +61,7 @@
                 <input th:field="*{size}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
+                       step="any"
                        class="form-control"
                        placeholder="Size"/>
                 <small class="text-danger invalid-feedback" th:errors="*{size}"></small>
