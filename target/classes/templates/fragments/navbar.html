@@ -31,7 +31,7 @@
 <!--        <li class="nav-item">-->
 <!--          <a class="nav-link" href="/offers/add"  th:classappend="${activeLink == 'add-offer'}? 'active'">Add Offer</a>-->
 <!--        </li>-->
-        <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+        <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')" th:classappend="${activeLink == 'device-dropdown'}? 'active'">
           <a class="nav-link dropdown-toggle" href="/" id="productDropdown" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add Device
@@ -41,7 +41,7 @@
             <a class="dropdown-item" th:href="@{/speakers/add-midrange}">Mid Range</a>
             <a class="dropdown-item" th:href="@{/speakers/add-subwoofer}">Subwoofer</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/">Amplifier</a>
+            <a class="dropdown-item" th:href="@{/amplifier/choose-amplifier}">Amplifier</a>
           </div>
         </li>
         <li class="nav-item">

@@ -49,7 +49,7 @@ public abstract class BaseAmplifier extends BaseEntity {
     @NotBlank
     private String highInputLevel;
 
-    @PositiveOrZero
+    @Positive
     private Float distortion;
 
     @Positive
@@ -61,11 +61,11 @@ public abstract class BaseAmplifier extends BaseEntity {
     private short fuseRating;
 
     //Amp dimensions!
-    @PositiveOrZero
+    @Positive
     private Short height;
-    @PositiveOrZero
+    @Positive
     private Short width;
-    @PositiveOrZero
+    @Positive
     private Short length;
 
     public BaseAmplifier() {
