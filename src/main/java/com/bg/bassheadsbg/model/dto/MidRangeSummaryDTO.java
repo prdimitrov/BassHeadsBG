@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.dto;
 
-public record SubwooferSummaryDTO(Long id,
+public record MidRangeSummaryDTO(Long id,
                                   String brand,
                                   String model,
                                   float size,

@@ -1,10 +1,12 @@
-package com.bg.bassheadsbg.model.entity.base;
+package com.bg.bassheadsbg.model.dto;
 
-import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
-@MappedSuperclass
-public abstract class BaseSpeaker extends BaseEntity {
+public class AddHighRangeDTO {
+
     @NotBlank
     private String brand;
 
@@ -34,8 +36,21 @@ public abstract class BaseSpeaker extends BaseEntity {
     @NotNull
     private short powerHandling;
 
-    public BaseSpeaker() {
-        super();
+    @NotBlank
+    private String material;
+
+    @Positive
+    @NotNull
+    private int frequencyRangeFrom;
+
+    @Positive
+    @NotNull
+    private int frequencyRangeTo;
+
+    @NotBlank
+    private String crossover;
+
+    public AddHighRangeDTO() {
     }
 
     public String getBrand() {
@@ -52,6 +67,14 @@ public abstract class BaseSpeaker extends BaseEntity {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Float getSensitivity() {
+        return sensitivity;
+    }
+
+    public void setSensitivity(Float sensitivity) {
+        this.sensitivity = sensitivity;
     }
 
     public float getSize() {
@@ -86,6 +109,14 @@ public abstract class BaseSpeaker extends BaseEntity {
         this.impedance = impedance;
     }
 
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
     public short getPowerHandling() {
         return powerHandling;
     }
@@ -94,11 +125,27 @@ public abstract class BaseSpeaker extends BaseEntity {
         this.powerHandling = powerHandling;
     }
 
-    public Float getSensitivity() {
-        return sensitivity;
+    public int getFrequencyRangeFrom() {
+        return frequencyRangeFrom;
     }
 
-    public void setSensitivity(Float sensitivity) {
-        this.sensitivity = sensitivity;
+    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
+        this.frequencyRangeFrom = frequencyRangeFrom;
+    }
+
+    public int getFrequencyRangeTo() {
+        return frequencyRangeTo;
+    }
+
+    public void setFrequencyRangeTo(int frequencyRangeTo) {
+        this.frequencyRangeTo = frequencyRangeTo;
+    }
+
+    public String getCrossover() {
+        return crossover;
+    }
+
+    public void setCrossover(String crossover) {
+        this.crossover = crossover;
     }
 }

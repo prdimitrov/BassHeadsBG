@@ -15,8 +15,7 @@ public class AddSubwooferDTO {
 
     @Positive
     @NotNull
-    @Min(value = 6, message = "This website is for true BassHeads, it's not headphones website, please enter a size larger than 6 inches.")
-    private byte size;
+    private float size;
 
     @Positive
     @NotNull
@@ -98,11 +97,11 @@ public class AddSubwooferDTO {
         this.sensitivity = sensitivity;
     }
 
-    public byte getSize() {
+    public float getSize() {
         return size;
     }
 
-    public void setSize(byte size) {
+    public void setSize(float size) {
         this.size = size;
     }
 

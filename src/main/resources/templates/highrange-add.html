@@ -20,7 +20,7 @@
 <div class="container">
     <h2 class="text-center text-white">Upload Speaker</h2>
     <form
-            th:action="@{/speakers/add-highrange}"
+            th:action="@{/speakers/add-midrange}"
             th:method="post"
             th:object="${addHighRangeDTO}"
             class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
@@ -61,6 +61,7 @@
                 <input th:field="*{size}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
+                       step="any"
                        class="form-control"
                        placeholder="Size"/>
                 <small class="text-danger invalid-feedback" th:errors="*{size}"></small>
@@ -90,27 +91,6 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="coilHeight" class="text-white font-weight-bold">Coil height in mm</label>
-                <input th:field="*{coilHeight}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       step="any"
-                       class="form-control"
-                       placeholder="Coil Height"/>
-                <small class="text-danger invalid-feedback" th:errors="*{coilHeight}"></small>
-            </div>
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="coilLayers" class="text-white font-weight-bold">Coil Layers</label>
-                <input th:field="*{coilLayers}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       class="form-control"
-                       placeholder="Number of layers"/>
-                <small class="text-danger invalid-feedback" th:errors="*{coilLayers}"></small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6 mb-3">
                 <label th:for="impedance" class="text-white font-weight-bold">Impedance Ω</label>
                 <input th:field="*{impedance}"
                        th:errorclass="'is-invalid bg-danger'"
@@ -133,15 +113,6 @@
         <h3 class="text-center text-white">T/C Parameters</h3>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="material" class="text-white font-weight-bold">Material</label>
-                <input th:field="*{material}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="text"
-                       class="form-control"
-                       placeholder="RMS"/>
-                <small class="text-danger invalid-feedback" th:errors="*{powerHandling}"></small>
-            </div>
-            <div class="form-group col-md-6 mb-3">
                 <label th:for="frequencyRangeFrom" class="text-white font-weight-bold">Frequency Range from</label>
                 <input th:field="*{frequencyRangeFrom}"
                        th:errorclass="'is-invalid bg-danger'"
@@ -158,6 +129,26 @@
                        class="form-control"
                        placeholder="fs to"/>
                 <small class="text-danger invalid-feedback" th:errors="*{frequencyRangeTo}"></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="material" class="text-white font-weight-bold">Material</label>
+                <input th:field="*{material}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="text"
+                       class="form-control"
+                       placeholder="Material"/>
+                <small class="text-danger invalid-feedback" th:errors="*{material}"></small>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="crossover" class="text-white font-weight-bold">Crossover</label>
+                <input th:field="*{crossover}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="text"
+                       class="form-control"
+                       placeholder="Crossover"/>
+                <small class="text-danger invalid-feedback" th:errors="*{crossover}"></small>
             </div>
         </div>
         <div class="row">

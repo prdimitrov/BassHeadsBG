@@ -18,11 +18,11 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'add-offer'})}"></div>
 
 <div class="container">
-    <h2 class="text-center text-white">Upload Subwoofer</h2>
+    <h2 class="text-center text-white">Upload Speaker</h2>
     <form
-            th:action="@{/speakers/add-subwoofer}"
+            th:action="@{/speakers/add-midrange}"
             th:method="post"
-            th:object="${addSubwooferDTO}"
+            th:object="${addHighRangeDTO}"
             class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
             <div class="form-group col-md-6 mb-3">
@@ -61,6 +61,7 @@
                 <input th:field="*{size}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
+                       step="any"
                        class="form-control"
                        placeholder="Size"/>
                 <small class="text-danger invalid-feedback" th:errors="*{size}"></small>
@@ -90,27 +91,6 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="coilHeight" class="text-white font-weight-bold">Coil height in mm</label>
-                <input th:field="*{coilHeight}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       step="any"
-                       class="form-control"
-                       placeholder="Coil Height"/>
-                <small class="text-danger invalid-feedback" th:errors="*{coilHeight}"></small>
-            </div>
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="coilLayers" class="text-white font-weight-bold">Coil Layers</label>
-                <input th:field="*{coilLayers}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       class="form-control"
-                       placeholder="Number of layers"/>
-                <small class="text-danger invalid-feedback" th:errors="*{coilLayers}"></small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6 mb-3">
                 <label th:for="impedance" class="text-white font-weight-bold">Impedance Ω</label>
                 <input th:field="*{impedance}"
                        th:errorclass="'is-invalid bg-danger'"
@@ -133,106 +113,48 @@
         <h3 class="text-center text-white">T/C Parameters</h3>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="vas" class="text-white font-weight-bold">Vas</label>
-                <input th:field="*{vas}"
+                <label th:for="frequencyRangeFrom" class="text-white font-weight-bold">Frequency Range from</label>
+                <input th:field="*{frequencyRangeFrom}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
-                       step="any"
                        class="form-control"
-                       placeholder="Vas"/>
-                <small class="text-danger invalid-feedback" th:errors="*{vas}"></small>
+                       placeholder="fs from"/>
+                <small class="text-danger invalid-feedback" th:errors="*{frequencyRangeFrom}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="xmax" class="text-white font-weight-bold">Xmax</label>
-                <input th:field="*{xmax}"
+                <label th:for="frequencyRangeTo" class="text-white font-weight-bold">Frequency Range To</label>
+                <input th:field="*{frequencyRangeTo}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
                        class="form-control"
-                       placeholder="xmax"/>
-                <small class="text-danger invalid-feedback" th:errors="*{xmax}"></small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="qms" class="text-white font-weight-bold">Qms</label>
-                <input th:field="*{qms}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       step="any"
-                       type="number"
-                       class="form-control"
-                       placeholder="qms"/>
-                <small class="text-danger invalid-feedback" th:errors="*{qms}"></small>
-            </div>
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="qes" class="text-white font-weight-bold">Qes</label>
-                <input th:field="*{qes}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       step="any"
-                       class="form-control"
-                       placeholder="qes"/>
-                <small class="text-danger invalid-feedback" th:errors="*{qes}"></small>
+                       placeholder="fs to"/>
+                <small class="text-danger invalid-feedback" th:errors="*{frequencyRangeTo}"></small>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="qts" class="text-white font-weight-bold">Qts</label>
-                <input th:field="*{qts}"
+                <label th:for="material" class="text-white font-weight-bold">Material</label>
+                <input th:field="*{material}"
                        th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       step="any"
+                       type="text"
                        class="form-control"
-                       placeholder="qts"/>
-                <small class="text-danger invalid-feedback" th:errors="*{qts}"></small>
+                       placeholder="Material"/>
+                <small class="text-danger invalid-feedback" th:errors="*{material}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="sd" class="text-white font-weight-bold">Sd</label>
-                <input th:field="*{sd}"
+                <label th:for="crossover" class="text-white font-weight-bold">Crossover</label>
+                <input th:field="*{crossover}"
                        th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       step="any"
+                       type="text"
                        class="form-control"
-                       placeholder="sd"/>
-                <small class="text-danger invalid-feedback" th:errors="*{sd}"></small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="bl" class="text-white font-weight-bold">Bl</label>
-                <input th:field="*{bl}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       step="any"
-                       class="form-control"
-                       placeholder="bl"/>
-                <small class="text-danger invalid-feedback" th:errors="*{bl}"></small>
-            </div>
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="mms" class="text-white font-weight-bold">Mms</label>
-                <input th:field="*{mms}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       step="any"
-                       class="form-control"
-                       placeholder="mms"/>
-                <small class="text-danger invalid-feedback" th:errors="*{mms}"></small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="magnetSize" class="text-white font-weight-bold">Magnet size</label>
-                <input th:field="*{magnetSize}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       class="form-control"
-                       placeholder="magnetSize"/>
-                <small class="text-danger invalid-feedback" th:errors="*{magnetSize}"></small>
+                       placeholder="Crossover"/>
+                <small class="text-danger invalid-feedback" th:errors="*{crossover}"></small>
             </div>
         </div>
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Upload Subwoofer"/>
+                    <input type="submit" class="btn btn-info btn-lg" value="Upload Speaker"/>
                 </div>
             </div>
         </div>

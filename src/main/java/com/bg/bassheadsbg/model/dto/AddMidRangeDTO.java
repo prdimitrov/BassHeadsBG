@@ -1,10 +1,9 @@
-package com.bg.bassheadsbg.model.entity.base;
+package com.bg.bassheadsbg.model.dto;
 
-import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.*;
 
-@MappedSuperclass
-public abstract class BaseSpeaker extends BaseEntity {
+public class AddMidRangeDTO {
+
     @NotBlank
     private String brand;
 
@@ -34,8 +33,15 @@ public abstract class BaseSpeaker extends BaseEntity {
     @NotNull
     private short powerHandling;
 
-    public BaseSpeaker() {
-        super();
+    @Positive
+    @NotNull
+    private int frequencyRangeFrom;
+
+    @Positive
+    @NotNull
+    private int frequencyRangeTo;
+
+    public AddMidRangeDTO() {
     }
 
     public String getBrand() {
@@ -52,6 +58,14 @@ public abstract class BaseSpeaker extends BaseEntity {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Float getSensitivity() {
+        return sensitivity;
+    }
+
+    public void setSensitivity(Float sensitivity) {
+        this.sensitivity = sensitivity;
     }
 
     public float getSize() {
@@ -94,11 +108,19 @@ public abstract class BaseSpeaker extends BaseEntity {
         this.powerHandling = powerHandling;
     }
 
-    public Float getSensitivity() {
-        return sensitivity;
+    public int getFrequencyRangeFrom() {
+        return frequencyRangeFrom;
     }
 
-    public void setSensitivity(Float sensitivity) {
-        this.sensitivity = sensitivity;
+    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
+        this.frequencyRangeFrom = frequencyRangeFrom;
+    }
+
+    public int getFrequencyRangeTo() {
+        return frequencyRangeTo;
+    }
+
+    public void setFrequencyRangeTo(int frequencyRangeTo) {
+        this.frequencyRangeTo = frequencyRangeTo;
     }
 }
