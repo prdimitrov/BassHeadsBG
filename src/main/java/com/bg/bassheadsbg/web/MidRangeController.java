@@ -40,7 +40,7 @@ public class MidRangeController {
             redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.addMidRangeDTO"
                     , bindingResult);
-            return "redirect:/speakers/midrange-add";
+            return "redirect:/speakers/add-midrange";
         }
 
         midRangeService.addDevice(addMidRangeDTO);
