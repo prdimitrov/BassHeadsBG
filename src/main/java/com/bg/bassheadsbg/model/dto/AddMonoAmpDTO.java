@@ -1,16 +1,12 @@
-package com.bg.bassheadsbg.model.entity.base;
+package com.bg.bassheadsbg.model.dto;
 
 import com.bg.bassheadsbg.model.enums.AmpClass;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 
-@MappedSuperclass
-public abstract class BaseAmplifier extends BaseEntity {
+public class AddMonoAmpDTO {
+
     @NotBlank
     private String brand;
 
@@ -33,19 +29,24 @@ public abstract class BaseAmplifier extends BaseEntity {
     @NotNull
     private byte efficiency;
 
-
     @NotBlank
     private String highPassFilter;
+
     @NotBlank
     private String lowPassFilter;
+
     @NotBlank
     private String subsonicFilter;
+
     @NotNull
     private boolean remoteControl;
+
     @NotNull
     private boolean bassBoost;
+
     @NotBlank
     private String lowInputLevel;
+
     @NotBlank
     private String highInputLevel;
 
@@ -60,16 +61,24 @@ public abstract class BaseAmplifier extends BaseEntity {
     @NotNull
     private short fuseRating;
 
-    //Amp dimensions!
+    @NotNull
+    @Positive
+    private byte numberOfRca;
+
+    @NotNull
+    @Positive
+    private byte numberOfSpeakerOutputs;
+
     @Positive
     private Short height;
+
     @Positive
     private Short width;
+
     @Positive
     private Short length;
 
-    public BaseAmplifier() {
-        super();
+    public AddMonoAmpDTO() {
     }
 
     public String getBrand() {
@@ -198,6 +207,22 @@ public abstract class BaseAmplifier extends BaseEntity {
 
     public void setFuseRating(short fuseRating) {
         this.fuseRating = fuseRating;
+    }
+
+    public byte getNumberOfRca() {
+        return numberOfRca;
+    }
+
+    public void setNumberOfRca(byte numberOfRca) {
+        this.numberOfRca = numberOfRca;
+    }
+
+    public byte getNumberOfSpeakerOutputs() {
+        return numberOfSpeakerOutputs;
+    }
+
+    public void setNumberOfSpeakerOutputs(byte numberOfSpeakerOutputs) {
+        this.numberOfSpeakerOutputs = numberOfSpeakerOutputs;
     }
 
     public Short getHeight() {
