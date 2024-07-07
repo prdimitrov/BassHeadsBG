@@ -6,71 +6,38 @@ import com.bg.bassheadsbg.model.dto.SubwooferSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import com.bg.bassheadsbg.repository.SubwooferRepository;
 import com.bg.bassheadsbg.service.SubwooferService;
-import jakarta.persistence.EntityExistsException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SubwooferServiceImpl implements SubwooferService {
-    private final SubwooferRepository subwooferRepository;
-    private final ModelMapper modelMapper;
+public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDTO, SubwooferDetailsDTO, SubwooferSummaryDTO, Subwoofer, SubwooferRepository>
+        implements SubwooferService {
 
     public SubwooferServiceImpl(SubwooferRepository subwooferRepository, ModelMapper modelMapper) {
-        this.subwooferRepository = subwooferRepository;
-        this.modelMapper = modelMapper;
-    }
-
-
-    @Override
-    public long addSubwoofer(AddSubwooferDTO addSubwooferDTO) {
-        return subwooferRepository.save(mapSubwoofer(addSubwooferDTO)).getId();
+        super(subwooferRepository, modelMapper);
     }
 
     @Override
-    public void deleteSubwoofer(long subwooferId) {
-        subwooferRepository.deleteById(subwooferId);
+    protected Subwoofer mapToDevice(AddSubwooferDTO addSubwooferDTO) {
+        Subwoofer subwoofer = modelMapper.map(addSubwooferDTO, Subwoofer.class);
+        checkEntityExists(addSubwooferDTO, addSubwooferDTO.getBrand(), addSubwooferDTO.getModel());
+        return subwoofer;
     }
 
     @Override
-    public SubwooferDetailsDTO getSubwooferDetails(Long id) {
-        return this.subwooferRepository
-                .findById(id)
-                .map(this::toSubwooferDetails)
-                .orElseThrow();
-    }
-
-    @Override
-    public List<SubwooferSummaryDTO> getAllSubwooferSummary() {
-        return subwooferRepository
-                .findAll()
-                .stream()
-                .map(this::toSubwooferSummary)
-                .toList();
-    }
-
-    private SubwooferSummaryDTO toSubwooferSummary(Subwoofer subwoofer) {
-        return modelMapper.map(subwoofer, SubwooferSummaryDTO.class);
-    }
-
-    private SubwooferDetailsDTO toSubwooferDetails(Subwoofer subwoofer) {
+    protected SubwooferDetailsDTO toDetailsDTO(Subwoofer subwoofer) {
         return modelMapper.map(subwoofer, SubwooferDetailsDTO.class);
     }
 
-    private Subwoofer mapSubwoofer(AddSubwooferDTO addSubwooferDTO) {
-        Subwoofer mappedSubwoofer = modelMapper.map(addSubwooferDTO, Subwoofer.class);
+    @Override
+    protected SubwooferSummaryDTO toSummaryDTO(Subwoofer subwoofer) {
+        return modelMapper.map(subwoofer, SubwooferSummaryDTO.class);
+    }
 
-        Optional<Subwoofer> optSubwoofer = subwooferRepository.findByBrandAndModel(addSubwooferDTO.getBrand(), addSubwooferDTO.getModel());
-
-        if (optSubwoofer.isPresent()) {
-            throw new EntityExistsException("Subwoofer with brand "
-                    + addSubwooferDTO.getBrand()
-                    + " and model "
-                    + addSubwooferDTO.getModel()
-                    + " already exists.");
-        }
-        return mappedSubwoofer;
+    @Override
+    protected Optional<Subwoofer> findByBrandAndModel(String brand, String model) {
+        return repository.findByBrandAndModel(brand, model);
     }
 }

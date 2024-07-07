@@ -43,7 +43,7 @@ public class MidRangeController {
             return "redirect:/speakers/midrange-add";
         }
 
-        midRangeService.addMidRange(addMidRangeDTO);
+        midRangeService.addDevice(addMidRangeDTO);
         return "redirect:/home";
     }
 }

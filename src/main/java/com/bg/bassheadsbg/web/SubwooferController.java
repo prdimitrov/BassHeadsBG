@@ -43,7 +43,7 @@ public class SubwooferController {
             return "redirect:/speakers/add-subwoofer";
         }
 
-        subwooferService.addSubwoofer(addSubwooferDTO);
+        subwooferService.addDevice(addSubwooferDTO);
         return "redirect:/home";
     }
 }

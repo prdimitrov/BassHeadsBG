@@ -43,7 +43,7 @@ public class HighRangeController {
             return "redirect:/speakers/add-highrange";
         }
 
-        highRangeService.addHighRange(addHighRangeDTO);
+        highRangeService.addDevice(addHighRangeDTO);
         return "redirect:/home";
     }
 }

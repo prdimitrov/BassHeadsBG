@@ -1,74 +1,43 @@
 package com.bg.bassheadsbg.service.impl;
 
-import com.bg.bassheadsbg.model.dto.*;
+import com.bg.bassheadsbg.model.dto.AddMidRangeDTO;
+import com.bg.bassheadsbg.model.dto.MidRangeDetailsDTO;
+import com.bg.bassheadsbg.model.dto.MidRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import com.bg.bassheadsbg.repository.MidRangeRepository;
 import com.bg.bassheadsbg.service.MidRangeService;
-import jakarta.persistence.EntityExistsException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MidRangeServiceImpl implements MidRangeService {
-    private final MidRangeRepository midRangeRepository;
-    private final ModelMapper modelMapper;
+public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO, MidRangeDetailsDTO, MidRangeSummaryDTO, MidRange, MidRangeRepository>
+        implements MidRangeService {
 
     public MidRangeServiceImpl(MidRangeRepository midRangeRepository, ModelMapper modelMapper) {
-        this.midRangeRepository = midRangeRepository;
-        this.modelMapper = modelMapper;
-    }
-
-
-    @Override
-    public long addMidRange(AddMidRangeDTO addMidRangeDTO) {
-        return midRangeRepository.save(mapMidRange(addMidRangeDTO)).getId();
+        super(midRangeRepository, modelMapper);
     }
 
     @Override
-    public void deleteMidRange(long midRangeId) {
-        midRangeRepository.deleteById(midRangeId);
+    protected MidRange mapToDevice(AddMidRangeDTO addMidRangeDTO) {
+        MidRange midRange = modelMapper.map(addMidRangeDTO, MidRange.class);
+        checkEntityExists(addMidRangeDTO, addMidRangeDTO.getBrand(), addMidRangeDTO.getModel());
+        return midRange;
     }
 
     @Override
-    public MidRangeDetailsDTO getMidRangeDetails(Long id) {
-        return this.midRangeRepository
-                .findById(id)
-                .map(this::toMidRangeDetails)
-                .orElseThrow();
-    }
-
-    @Override
-    public List<MidRangeSummaryDTO> getAllMidRangeSummary() {
-        return midRangeRepository
-                .findAll()
-                .stream()
-                .map(this::toMidRangeSummary)
-                .toList();
-    }
-
-    private MidRangeSummaryDTO toMidRangeSummary(MidRange midRange) {
-        return modelMapper.map(midRange, MidRangeSummaryDTO.class);
-    }
-
-    private MidRangeDetailsDTO toMidRangeDetails(MidRange midRange) {
+    protected MidRangeDetailsDTO toDetailsDTO(MidRange midRange) {
         return modelMapper.map(midRange, MidRangeDetailsDTO.class);
     }
 
-    private MidRange mapMidRange(AddMidRangeDTO addMidRangeDTO) {
-        MidRange mappedMidRange = modelMapper.map(addMidRangeDTO, MidRange.class);
+    @Override
+    protected MidRangeSummaryDTO toSummaryDTO(MidRange midRange) {
+        return modelMapper.map(midRange, MidRangeSummaryDTO.class);
+    }
 
-        Optional<MidRange> optMidRange = midRangeRepository.findByBrandAndModel(addMidRangeDTO.getBrand(), addMidRangeDTO.getModel());
-
-        if (optMidRange.isPresent()) {
-            throw new EntityExistsException("Speaker with brand "
-                    + addMidRangeDTO.getBrand()
-                    + " and model "
-                    + addMidRangeDTO.getModel()
-                    + " already exists.");
-        }
-        return mappedMidRange;
+    @Override
+    protected Optional<MidRange> findByBrandAndModel(String brand, String model) {
+        return repository.findByBrandAndModel(brand, model);
     }
 }
