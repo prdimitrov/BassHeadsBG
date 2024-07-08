@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.config;
 
+import com.bg.bassheadsbg.config.custom.CustomAccessDeniedHandler;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.impl.BassHeadsDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 public class SecurityConfiguration {
@@ -30,8 +32,9 @@ public class SecurityConfiguration {
                                         // some more resources for all users
                                         .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
                                         // all other URL-s should be authenticated.
-                                        .anyRequest()
-                                        .authenticated()
+                                        .requestMatchers("/speakers/**", "/amplifiers/**").hasRole("ADMIN")
+                                        .anyRequest().authenticated()
+
                 )
                 .formLogin(formLogin ->
                         formLogin
@@ -56,9 +59,17 @@ public class SecurityConfiguration {
                                         // invalidate the session after logout.
                                         .invalidateHttpSession(true)
                 )
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling
+                                .accessDeniedHandler(accessDeniedHandler())
+                )
                 .build();
     }
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
     @Bean
     public BassHeadsDetailsService userDetailsService(UserRepository userRepository) {
         return new BassHeadsDetailsService(userRepository);
