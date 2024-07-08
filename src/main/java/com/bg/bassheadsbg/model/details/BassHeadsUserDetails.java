@@ -2,47 +2,23 @@ package com.bg.bassheadsbg.model.details;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
 import java.util.Collection;
 
 public class BassHeadsUserDetails extends User {
 
-    private final String firstName;
-    private final String lastName;
+    private final String username;
 
     public BassHeadsUserDetails(
             String username,
             String password,
-            Collection<? extends GrantedAuthority> authorities,
-            String firstName,
-            String lastName
-    ) {
+            Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.username = username;
     }
 
-
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getFullName() {
-        StringBuilder fullName = new StringBuilder();
-        if (firstName != null) {
-            fullName.append(firstName);
-        }
-        if (lastName != null) {
-            if (!fullName.isEmpty()) {
-                fullName.append(" ");
-            }
-            fullName.append(lastName);
-        }
-
-        return fullName.toString();
+    @Override
+    public String getUsername() {
+        return username;
     }
 }
