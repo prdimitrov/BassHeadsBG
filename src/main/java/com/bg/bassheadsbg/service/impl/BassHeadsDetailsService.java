@@ -35,9 +35,7 @@ public class BassHeadsDetailsService implements UserDetailsService {
 
                 userEntity.getUsername(),
                 userEntity.getPassword(),
-                userEntity.getRoles().stream().map(UserRole::getRole).map(BassHeadsDetailsService::map).toList(),
-                userEntity.getFirstName(),
-                userEntity.getLastName()
+                userEntity.getRoles().stream().map(UserRole::getRole).map(BassHeadsDetailsService::map).toList()
         );
     }
 
