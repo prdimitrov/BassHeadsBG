@@ -15,79 +15,79 @@
 
 <body>
 
-    <div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
+<div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
 
-    <div class="container-fluid">
-        <h1 class="text-center text-white mt-5">Details</h1>
-        <div th:object="${highRangeDetails}" class="specifications row mx-auto d-flex flex-row justify-content-center mt-5">
-            <div class="specs">
-                <div class="device-body pb-1">
-                    <h3>Speaker Specifications</h3>
-                </div>
-                <table class="table table-borderless device-details">
-                    <thead></thead>
-                    <tbody>
-                        <tr>
-                            <td><h4><i class="fas fa-tag"></i> Brand:</h4></td>
-                            <td><span th:text="*{brand}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-mobile-alt"></i> Model:</h4></td>
-                            <td><span th:text="*{model}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-bullhorn"></i> Sensitivity:</h4></td>
-                            <td><span th:text="*{sensitivity} + ' dB (1W / 1m)'"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-ruler-combined"></i> Size:</h4></td>
-                            <td><span th:text="*{size} + ' inch'">inch</span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-wave-square"></i> Fs:</h4></td>
-                            <td><span th:text="*{frequencyResponse} + ' Hz'"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-circle-notch"></i> Coils:</h4></td>
-                            <td><span th:text="*{numberOfCoils}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-ethernet"></i> Impedance:</h4></td>
-                            <td><span th:text="*{impedance} + ' Ω'"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-bolt"></i> Power Handling:</h4></td>
-                            <td><span th:text="*{powerHandling} + ' W (RMS)'"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-cube"></i> Materials:</h4></td>
-                            <td><span th:text="*{material}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-random"></i> Crossover:</h4></td>
-                            <td><span th:text="*{crossover}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-signal"></i> Frequency range:</h4></td>
-                            <td> From <span th:text="*{frequencyRangeFrom} + ' Hz'"></span> to <span th:text="*{frequencyRangeTo} + ' Hz'"></span>Hz</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="device-body">
-                    <a class="device-link" href="/">Update</a>
-                    <form th:method="delete" th:action="@{/speakers/{id}(id=*{id})}">
-                        <input class="btn btn-link" type="submit" value="Delete" />
-                    </form>
-                </div>
+<div class="container-fluid">
+    <h1 class="text-center text-white mt-5">Details</h1>
+    <div th:object="${highRangeDetails}" class="specifications row mx-auto d-flex flex-row justify-content-center mt-5">
+        <div class="specs">
+            <div class="device-body pb-1">
+                <h3>Speaker Specifications</h3>
             </div>
-            <div class="device-images pb-1">
-                <h3>Images</h3>
-                <img src="/" class="card-img-top" alt="">
+            <table class="table table-borderless device-details">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td><h4><i class="fas fa-tag"></i> Brand:</h4></td>
+                    <td><span th:text="*{brand}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-mobile-alt"></i> Model:</h4></td>
+                    <td><span th:text="*{model}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-bullhorn"></i> Sensitivity:</h4></td>
+                    <td><span th:text="*{formattedSensitivity()}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-ruler-combined"></i> Size:</h4></td>
+                    <td><span th:text="*{formattedSize()}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-wave-square"></i> Fs:</h4></td>
+                    <td><span th:text="*{formattedFrequencyResponse()}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-circle-notch"></i> Coils:</h4></td>
+                    <td><span th:text="*{formattedNumberOfCoils()}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-ethernet"></i> Impedance:</h4></td>
+                    <td><span th:text="*{formattedImpedance()}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-bolt"></i> Power Handling:</h4></td>
+                    <td><span th:text="*{formattedPowerHandling()}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-cube"></i> Materials:</h4></td>
+                    <td><span th:text="*{material}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-random"></i> Crossover:</h4></td>
+                    <td><span th:text="*{crossover}"></span></td>
+                </tr>
+                <tr>
+                    <td><h4><i class="fas fa-signal"></i> Frequency range:</h4></td>
+                    <td><span th:text="*{formattedFrequencyRange()}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="device-body">
+                <a class="device-link" href="/">Update</a>
+                <form th:method="delete" th:action="@{/speakers/{id}(id=*{id})}">
+                    <input class="btn btn-link" type="submit" value="Delete" />
+                </form>
             </div>
         </div>
+        <div class="device-images pb-1">
+            <h3>Images</h3>
+            <img src="/" class="card-img-top" alt="">
+        </div>
     </div>
+</div>
 
-    <div th:replace="~{fragments/footer::footer}"></div>
+<div th:replace="~{fragments/footer::footer}"></div>
 
 </body>
 

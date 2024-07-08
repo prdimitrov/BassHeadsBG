@@ -1,7 +1,5 @@
 package com.bg.bassheadsbg.model.dto;
 
-import java.util.Objects;
-
 public final class HighRangeDetailsDTO {
     private Long id;
     private String brand;
@@ -17,8 +15,9 @@ public final class HighRangeDetailsDTO {
     private int frequencyRangeTo;
     private String crossover;
 
-    public HighRangeDetailsDTO() {
-    }
+    public HighRangeDetailsDTO() {}
+
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -122,5 +121,46 @@ public final class HighRangeDetailsDTO {
 
     public void setCrossover(String crossover) {
         this.crossover = crossover;
+    }
+
+    // Helper methods for formatting
+    public String formattedSensitivity() {
+        return formatNumber(sensitivity) + " dB (1W / 1m)";
+    }
+
+    public String formattedSize() {
+        return formatNumber(size) + " inch";
+    }
+
+    public String formattedFrequencyResponse() {
+        return formatNumber(frequencyResponse) + " Hz";
+    }
+
+    public String formattedNumberOfCoils() {
+        return Byte.toString(numberOfCoils);
+    }
+
+    public String formattedImpedance() {
+        return impedance + " Ω";
+    }
+
+    public String formattedPowerHandling() {
+        return powerHandling + " W (RMS)";
+    }
+
+    public String formattedFrequencyRange() {
+        return "From " + frequencyRangeFrom + " Hz to " + frequencyRangeTo + " Hz";
+    }
+
+    // Utility method to format numbers
+    private String formatNumber(Number number) {
+        if (number == null) {
+            return "";
+        }
+        if (number.doubleValue() % 1 == 0) {
+            return String.valueOf(number.intValue());
+        } else {
+            return String.valueOf(number);
+        }
     }
 }
