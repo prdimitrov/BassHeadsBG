@@ -1,18 +1,126 @@
 package com.bg.bassheadsbg.model.dto;
 
-public record HighRangeDetailsDTO(
-        Long id,
-        String brand,
-        String model,
-        Float sensitivity,
-        float size,
-        float frequencyResponse,
-        byte numberOfCoils,
-        byte impedance,
-        short powerHandling,
-        String material,
-        int frequencyRangeFrom,
-        int frequencyRangeTo,
-        String crossover) {
+import java.util.Objects;
 
+public final class HighRangeDetailsDTO {
+    private Long id;
+    private String brand;
+    private String model;
+    private Float sensitivity;
+    private float size;
+    private float frequencyResponse;
+    private byte numberOfCoils;
+    private byte impedance;
+    private short powerHandling;
+    private String material;
+    private int frequencyRangeFrom;
+    private int frequencyRangeTo;
+    private String crossover;
+
+    public HighRangeDetailsDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Float getSensitivity() {
+        return sensitivity;
+    }
+
+    public void setSensitivity(Float sensitivity) {
+        this.sensitivity = sensitivity;
+    }
+
+    public float getSize() {
+        return size;
+    }
+
+    public void setSize(float size) {
+        this.size = size;
+    }
+
+    public float getFrequencyResponse() {
+        return frequencyResponse;
+    }
+
+    public void setFrequencyResponse(float frequencyResponse) {
+        this.frequencyResponse = frequencyResponse;
+    }
+
+    public byte getNumberOfCoils() {
+        return numberOfCoils;
+    }
+
+    public void setNumberOfCoils(byte numberOfCoils) {
+        this.numberOfCoils = numberOfCoils;
+    }
+
+    public byte getImpedance() {
+        return impedance;
+    }
+
+    public void setImpedance(byte impedance) {
+        this.impedance = impedance;
+    }
+
+    public short getPowerHandling() {
+        return powerHandling;
+    }
+
+    public void setPowerHandling(short powerHandling) {
+        this.powerHandling = powerHandling;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public int getFrequencyRangeFrom() {
+        return frequencyRangeFrom;
+    }
+
+    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
+        this.frequencyRangeFrom = frequencyRangeFrom;
+    }
+
+    public int getFrequencyRangeTo() {
+        return frequencyRangeTo;
+    }
+
+    public void setFrequencyRangeTo(int frequencyRangeTo) {
+        this.frequencyRangeTo = frequencyRangeTo;
+    }
+
+    public String getCrossover() {
+        return crossover;
+    }
+
+    public void setCrossover(String crossover) {
+        this.crossover = crossover;
+    }
 }

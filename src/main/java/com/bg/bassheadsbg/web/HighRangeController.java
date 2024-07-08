@@ -4,11 +4,9 @@ import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
 import com.bg.bassheadsbg.service.HighRangeService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -43,7 +41,24 @@ public class HighRangeController {
             return "redirect:/speakers/add-highrange";
         }
 
-        highRangeService.addDevice(addHighRangeDTO);
-        return "redirect:/home";
+        long newHighRange = highRangeService.addDevice(addHighRangeDTO);
+
+        return "redirect:/speakers/" + newHighRange;
+    }
+
+    @GetMapping("/{id}")
+    public String highRangeDetails(@PathVariable("id") Long id,
+                                   Model model) {
+        model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
+
+        return "highrange-details";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteHighRange(@PathVariable("id") Long id) {
+
+        highRangeService.deleteDevice(id);
+
+        return "redirect:/";
     }
 }
