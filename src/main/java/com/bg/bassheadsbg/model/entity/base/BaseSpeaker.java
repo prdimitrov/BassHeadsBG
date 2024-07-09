@@ -1,7 +1,11 @@
 package com.bg.bassheadsbg.model.entity.base;
 
-import jakarta.persistence.MappedSuperclass;
+import com.bg.bassheadsbg.validation.ValidUrlSet;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @MappedSuperclass
 public abstract class BaseSpeaker extends BaseEntity {
@@ -33,6 +37,11 @@ public abstract class BaseSpeaker extends BaseEntity {
     @Positive
     @NotNull
     private short powerHandling;
+
+    @ValidUrlSet
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Column(name = "images")
+    private Set<String> images = new HashSet<>();
 
     public BaseSpeaker() {
         super();
@@ -100,5 +109,13 @@ public abstract class BaseSpeaker extends BaseEntity {
 
     public void setSensitivity(Float sensitivity) {
         this.sensitivity = sensitivity;
+    }
+
+    public Set<String> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<String> images) {
+        this.images = images;
     }
 }

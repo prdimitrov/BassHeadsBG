@@ -238,4 +238,5 @@ public class AddMultiChannelAmpDTO {
     public void setLength(Short length) {
         this.length = length;
     }
+
 }

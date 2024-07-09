@@ -1,7 +1,5 @@
 package com.bg.bassheadsbg.model.dto;
 
-import jakarta.validation.constraints.Size;
-
 public class UserLoginDTO {
     private String username;
 

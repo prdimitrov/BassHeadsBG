@@ -163,4 +163,5 @@ public final class HighRangeDetailsDTO {
             return String.valueOf(number);
         }
     }
+
 }

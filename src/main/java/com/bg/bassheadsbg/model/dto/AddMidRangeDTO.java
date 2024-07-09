@@ -2,6 +2,7 @@ package com.bg.bassheadsbg.model.dto;
 
 import jakarta.validation.constraints.*;
 
+
 public class AddMidRangeDTO {
 
     @NotBlank
@@ -123,4 +124,5 @@ public class AddMidRangeDTO {
     public void setFrequencyRangeTo(int frequencyRangeTo) {
         this.frequencyRangeTo = frequencyRangeTo;
     }
+
 }

@@ -3,7 +3,11 @@ package com.bg.bassheadsbg.model.dto;
 import com.bg.bassheadsbg.model.enums.AmpClass;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+import java.util.Set;
 
 public class AddMonoAmpDTO {
 
@@ -248,4 +252,5 @@ public class AddMonoAmpDTO {
     public void setLength(Short length) {
         this.length = length;
     }
+
 }

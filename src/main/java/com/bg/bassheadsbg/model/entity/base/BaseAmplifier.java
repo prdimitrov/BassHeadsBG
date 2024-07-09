@@ -1,13 +1,14 @@
 package com.bg.bassheadsbg.model.entity.base;
 
 import com.bg.bassheadsbg.model.enums.AmpClass;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import com.bg.bassheadsbg.validation.ValidUrlSet;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @MappedSuperclass
 public abstract class BaseAmplifier extends BaseEntity {
@@ -67,6 +68,11 @@ public abstract class BaseAmplifier extends BaseEntity {
     private Short width;
     @Positive
     private Short length;
+
+    @ValidUrlSet
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Column(name = "images")
+    private Set<String> images = new HashSet<>();
 
     public BaseAmplifier() {
         super();
@@ -222,5 +228,13 @@ public abstract class BaseAmplifier extends BaseEntity {
 
     public void setLength(Short length) {
         this.length = length;
+    }
+
+    public Set<String> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<String> images) {
+        this.images = images;
     }
 }
