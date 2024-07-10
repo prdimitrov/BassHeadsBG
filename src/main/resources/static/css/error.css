@@ -1,0 +1,39 @@
+html {
+padding: 0;
+margin: 0;
+background-color: #B0B0B0;
+}
+body {
+display: flex;
+padding: 1em;
+margin: 1em;
+gap: 1em;
+flex-direction: column;
+width: 300px;
+background-color: #888888;
+color: #fff;
+align-items: center;
+justify-content: center;
+text-align: center;
+border: 1px solid black;
+border-radius: 20px;
+}
+
+p {
+font-weight: bold;
+}
+
+a {
+border: 1px solid black;
+padding: 1em 2em 1em 2em;
+background-color: grey;
+font-weight: bold;
+border-radius: 20px;
+background-color: #404040;
+text-decoration: none;
+transition: 0.3s;
+}
+
+a:hover {
+color: #3300CC;
+}
