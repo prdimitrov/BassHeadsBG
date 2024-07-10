@@ -32,8 +32,8 @@ public class SecurityConfiguration {
                                         // some more resources for all users
                                         .requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/error").permitAll()
                                         // all other URL-s should be authenticated.
-                                        .requestMatchers("/speakers/**", "/amplifiers/**").hasRole("ADMIN")
                                         .anyRequest().authenticated()
+//                                        .requestMatchers("/speakers/**", "/amplifiers/**").hasRole("ADMIN")
 
                 )
                 .formLogin(formLogin ->

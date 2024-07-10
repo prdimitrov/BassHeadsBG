@@ -2,11 +2,14 @@ package com.bg.bassheadsbg.web;
 
 import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
 import com.bg.bassheadsbg.service.HighRangeService;
+import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -60,5 +63,14 @@ public class HighRangeController {
         highRangeService.deleteDevice(id);
 
         return "redirect:/";
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ModelAndView handleObjectNotFound(ObjectNotFoundException onfe) {
+        ModelAndView modelAndView = new ModelAndView("not-found");
+        modelAndView.addObject("name", onfe.getId());
+
+                return modelAndView;
     }
 }

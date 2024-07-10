@@ -6,6 +6,7 @@ import com.bg.bassheadsbg.model.dto.HighRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.HighRange;
 import com.bg.bassheadsbg.repository.HighRangeRepository;
 import com.bg.bassheadsbg.service.HighRangeService;
+import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,15 @@ public class HighRangeServiceImpl extends CommonDeviceServiceImpl<AddHighRangeDT
 
     public HighRangeServiceImpl(HighRangeRepository highRangeRepository, ModelMapper modelMapper) {
         super(highRangeRepository, modelMapper);
+    }
+
+    @Override
+    public HighRangeDetailsDTO getDeviceDetails(Long id) {
+        return repository.findById(id)
+                .map(this::toDetailsDTO)
+                .orElseThrow(() -> new ObjectNotFoundException("Speaker with id " + id + " not found!", id));
+                                                              //TODO: DO THE .orELseThrow for the other services!!!!
+                                                              //TODO: OR FIND A WAY TO DO IT IN THE CommonDeviceServiceImpl!!!!
     }
 
     @Override
