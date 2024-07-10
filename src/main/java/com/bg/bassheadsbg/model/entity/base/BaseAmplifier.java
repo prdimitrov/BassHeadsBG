@@ -7,7 +7,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @MappedSuperclass
@@ -70,9 +72,9 @@ public abstract class BaseAmplifier extends BaseEntity {
     private Short length;
 
     @ValidUrlSet
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "images")
-    private Set<String> images = new HashSet<>();
+    private List<String> images = new ArrayList<>();
 
     public BaseAmplifier() {
         super();
@@ -230,11 +232,11 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.length = length;
     }
 
-    public Set<String> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(Set<String> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 }

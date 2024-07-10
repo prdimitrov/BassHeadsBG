@@ -4,6 +4,7 @@
     background-color: unset;
 }
 
+
 .specs, .device-images {
     box-shadow: 0 0 .2rem #fff,
     0 0 .2rem #fff,
@@ -16,7 +17,19 @@
     border-radius: 20px;
 }
 
-h3, h4, h5 {
+.device-images {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+}
+
+.device-images button {
+    margin: 0 10px;
+}
+
+h2, h4, h5 {
     text-align: center;
     color: #00c8ff;
 }
@@ -29,8 +42,8 @@ form {
     gap: 2em;
 }
 
-.specs, .device-images {
-    width: 580px;
+.specs {
+    width: 400px;
 }
 
 .device-text {
@@ -53,4 +66,24 @@ form {
 .table h4 {
     margin: 0;
     text-align: left;
+}
+
+.img-thumbnail {
+    max-width: 750px;
+    max-height: 650px;
+}
+
+.gallery {
+    display: flex;
+}
+
+.gallery-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#prev, #next {
+    width: 65px;
+    height: 130px;
 }

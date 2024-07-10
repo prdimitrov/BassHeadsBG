@@ -1,5 +1,8 @@
 package com.bg.bassheadsbg.model.dto;
 
+import java.util.List;
+import java.util.Set;
+
 public final class HighRangeDetailsDTO {
     private Long id;
     private String brand;
@@ -14,6 +17,8 @@ public final class HighRangeDetailsDTO {
     private int frequencyRangeFrom;
     private int frequencyRangeTo;
     private String crossover;
+    private List<String> images;
+    private String imagesString;
 
     public HighRangeDetailsDTO() {}
 
@@ -164,4 +169,24 @@ public final class HighRangeDetailsDTO {
         }
     }
 
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+        if (images != null && !images.isEmpty()) {
+            this.imagesString = String.join(", ", images);
+        } else {
+            this.imagesString = "";
+        }
+    }
+
+    public String getImagesString() {
+        return imagesString;
+    }
+
+    public void setImagesString(String imagesString) {
+        this.imagesString = imagesString;
+    }
 }

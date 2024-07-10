@@ -1,11 +1,11 @@
 package com.bg.bassheadsbg.model.entity.base;
 
-import com.bg.bassheadsbg.validation.ValidUrlSet;
+import com.bg.bassheadsbg.validation.ValidUrlList;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @MappedSuperclass
 public abstract class BaseSpeaker extends BaseEntity {
@@ -38,10 +38,10 @@ public abstract class BaseSpeaker extends BaseEntity {
     @NotNull
     private short powerHandling;
 
-    @ValidUrlSet
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ValidUrlList
+    @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "images")
-    private Set<String> images = new HashSet<>();
+    private List<String> images = new ArrayList<>();
 
     public BaseSpeaker() {
         super();
@@ -111,11 +111,11 @@ public abstract class BaseSpeaker extends BaseEntity {
         this.sensitivity = sensitivity;
     }
 
-    public Set<String> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(Set<String> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 }

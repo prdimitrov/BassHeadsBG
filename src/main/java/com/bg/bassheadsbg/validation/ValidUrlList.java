@@ -7,10 +7,10 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ImagesUrlsValidator.class)
+@Constraint(validatedBy = ListUrlsValidator.class)
 @Documented
-public @interface ValidUrlSet {
-    String message() default "Invalid URL in the set!";
+public @interface ValidUrlList {
+    String message() default "Invalid URL in the list!";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
