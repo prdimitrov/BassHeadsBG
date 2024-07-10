@@ -113,6 +113,14 @@ public class UserEntity extends BaseEntity {
         this.roles = roles;
     }
 
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -123,13 +131,5 @@ public class UserEntity extends BaseEntity {
                 ", lastName='" + lastName + '\'' +
                 ", birthDate=" + birthDate +
                 '}';
-    }
-
-    public boolean isBanned() {
-        return isBanned;
-    }
-
-    public void setBanned(boolean banned) {
-        isBanned = banned;
     }
 }
