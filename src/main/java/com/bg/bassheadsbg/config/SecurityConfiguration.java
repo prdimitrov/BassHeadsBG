@@ -31,9 +31,9 @@ public class SecurityConfiguration {
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                         // some more resources for all users
                                         .requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/error").permitAll()
+                                        .requestMatchers("/speakers/**", "/amplifiers/**").hasRole("ADMIN")
                                         // all other URL-s should be authenticated.
                                         .anyRequest().authenticated()
-//                                        .requestMatchers("/speakers/**", "/amplifiers/**").hasRole("ADMIN")
 
                 )
                 .formLogin(formLogin ->

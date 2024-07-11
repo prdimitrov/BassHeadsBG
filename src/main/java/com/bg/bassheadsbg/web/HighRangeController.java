@@ -13,7 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/speakers")
+//@RequestMapping("/speakers")
+@RequestMapping("/speakers/high-range")
 public class HighRangeController {
     private final HighRangeService highRangeService;
 
@@ -21,7 +22,8 @@ public class HighRangeController {
         this.highRangeService = highRangeService;
     }
 
-    @GetMapping("/add-highrange")
+//    @GetMapping("/add-highrange")
+    @GetMapping("/add")
     public String addHighRange(Model model) {
         if (!model.containsAttribute("addHighRangeDTO")) {
             model.addAttribute("addHighRangeDTO", new AddHighRangeDTO());
@@ -34,18 +36,19 @@ public class HighRangeController {
         return new AddHighRangeDTO();
     }
 
-    @PostMapping("/add-highrange")
+//    @PostMapping("/add-highrange")
+    @PostMapping("/add")
     public String addHighRange(@Valid @ModelAttribute("addHighRangeDTO") AddHighRangeDTO addHighRangeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addHighRangeDTO", addHighRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addHighRangeDTO", bindingResult);
-            return "redirect:/speakers/add-highrange";
+            return "redirect:/speakers/high-range/add";
         }
 
         long newHighRange = highRangeService.addDevice(addHighRangeDTO);
-        return "redirect:/speakers/" + newHighRange;
+        return "redirect:/speakers/high-range/add" + newHighRange;
     }
 
     @GetMapping("/{id}")
