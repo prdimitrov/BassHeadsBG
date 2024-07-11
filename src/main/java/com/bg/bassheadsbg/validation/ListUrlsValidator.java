@@ -14,11 +14,11 @@ public class ListUrlsValidator implements ConstraintValidator<ValidUrlList, List
     @Override
     public boolean isValid(List<String> urls, ConstraintValidatorContext context) {
         if (urls == null || urls.isEmpty()) {
-            return false; // Null or empty set is considered invalid
+            return false; // Null or empty list is considered invalid
         }
 
         for (String url : urls) {
-            if (!isValidUrl(url)) {
+            if (url == null || url.trim().isEmpty() || !isValidUrl(url)) {
                 return false; // Invalid URL found
             }
         }
@@ -26,8 +26,6 @@ public class ListUrlsValidator implements ConstraintValidator<ValidUrlList, List
     }
 
     private boolean isValidUrl(String url) {
-        // Implement your URL validation logic here
-        // Example: Simple URL validation using regex
-        return url != null && url.matches("^(http|https)://.+");
+        return url.matches("^(http|https)://.+");
     }
 }

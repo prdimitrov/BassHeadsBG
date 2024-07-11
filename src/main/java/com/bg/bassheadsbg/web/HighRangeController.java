@@ -22,8 +22,10 @@ public class HighRangeController {
     }
 
     @GetMapping("/add-highrange")
-    public String addHighRange() {
-
+    public String addHighRange(Model model) {
+        if (!model.containsAttribute("addHighRangeDTO")) {
+            model.addAttribute("addHighRangeDTO", new AddHighRangeDTO());
+        }
         return "highrange-add";
     }
 
@@ -33,19 +35,16 @@ public class HighRangeController {
     }
 
     @PostMapping("/add-highrange")
-    public String addHighRange(@Valid AddHighRangeDTO addHighRangeDTO,
+    public String addHighRange(@Valid @ModelAttribute("addHighRangeDTO") AddHighRangeDTO addHighRangeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("addHighRangeDTO", new AddHighRangeDTO());
-            redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.addHighRangeDTO"
-                    , bindingResult);
+            redirectAttributes.addFlashAttribute("addHighRangeDTO", addHighRangeDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addHighRangeDTO", bindingResult);
             return "redirect:/speakers/add-highrange";
         }
 
         long newHighRange = highRangeService.addDevice(addHighRangeDTO);
-
         return "redirect:/speakers/" + newHighRange;
     }
 
@@ -53,15 +52,12 @@ public class HighRangeController {
     public String highRangeDetails(@PathVariable("id") Long id,
                                    Model model) {
         model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
-
         return "highrange-details";
     }
 
     @DeleteMapping("/{id}")
     public String deleteHighRange(@PathVariable("id") Long id) {
-
         highRangeService.deleteDevice(id);
-
         return "redirect:/";
     }
 
@@ -70,7 +66,6 @@ public class HighRangeController {
     public ModelAndView handleObjectNotFound(ObjectNotFoundException onfe) {
         ModelAndView modelAndView = new ModelAndView("/error/not-found");
         modelAndView.addObject("name", onfe.getId());
-
-                return modelAndView;
+        return modelAndView;
     }
 }

@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = ListUrlsValidator.class)
 @Documented
 public @interface ValidUrlList {
-    String message() default "Invalid URL in the list!";
+    String message() default "ヅ Invalid URL in the list! ヅ";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

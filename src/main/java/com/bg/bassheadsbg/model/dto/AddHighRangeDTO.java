@@ -1,19 +1,14 @@
 package com.bg.bassheadsbg.model.dto;
 
 import com.bg.bassheadsbg.validation.ValidUrlList;
-import com.bg.bassheadsbg.validation.ValidUrlSet;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.FetchType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AddHighRangeDTO {
 
@@ -61,12 +56,9 @@ public class AddHighRangeDTO {
     private String crossover;
 
     @ValidUrlList
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "images")
-    private List<String> images = new ArrayList<>();
+    private List<@URL @NotBlank String> images = new ArrayList<>();
 
-    public AddHighRangeDTO() {
-    }
+    // Getters and Setters
 
     public String getBrand() {
         return brand;
@@ -124,20 +116,20 @@ public class AddHighRangeDTO {
         this.impedance = impedance;
     }
 
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
     public short getPowerHandling() {
         return powerHandling;
     }
 
     public void setPowerHandling(short powerHandling) {
         this.powerHandling = powerHandling;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
     }
 
     public int getFrequencyRangeFrom() {

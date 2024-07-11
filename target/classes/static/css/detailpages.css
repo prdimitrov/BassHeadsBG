@@ -4,8 +4,12 @@
     background-color: unset;
 }
 
+.container, .container-fluid {
+    flex: 1;
+    padding-top: 100px;
+}
 
-.specs, .device-images {
+.device-images {
     box-shadow: 0 0 .2rem #fff,
     0 0 .2rem #fff,
     0 0 2rem rgb(47, 0, 255),
@@ -39,11 +43,19 @@ form {
 }
 
 .specifications {
-    gap: 2em;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    margin: 3em 0 1em 0;
 }
 
 .specs {
-    width: 400px;
+    margin: 1em;
+    padding: 2em;
+    background-color: #000420a1;
+    border-radius: 15px;
 }
 
 .device-text {
@@ -69,21 +81,47 @@ form {
 }
 
 .img-thumbnail {
-    max-width: 750px;
-    max-height: 650px;
+    max-width: 500px;
+    max-height: 500px;
 }
 
 .gallery {
     display: flex;
+    width: 500px;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 20px;
 }
 
 .gallery-buttons {
+    padding: 0.25em;
+    margin: 0;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background-color: #000420a1;
     width: 100%;
+    border-radius: 15px;
 }
 
-#prev, #next {
-    width: 65px;
-    height: 130px;
+.gallery-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    padding: 0.1em;
+    border: 1px solid #000;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 50px;
+    background-color: #17a2b8;
+    color: #fff;
+    transition: 0.2s;
+}
+
+.gallery-button:active {
+    background-color: rgb(47, 0, 255);
+    color: #17a2b8;
+    border: 2px solid #000;
 }

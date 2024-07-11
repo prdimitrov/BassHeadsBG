@@ -43,7 +43,7 @@ body {
 
 .container, .container-fluid {
     flex: 1;
-    padding-top: 180px;
+    padding-top: 150px;
 }
 
 .container h2 {
