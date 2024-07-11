@@ -1,39 +1,236 @@
-html {
-padding: 0;
-margin: 0;
-background-color: #B0B0B0;
-}
-body {
-display: flex;
-padding: 1em;
-margin: 1em;
-gap: 1em;
-flex-direction: column;
-width: 300px;
-background-color: #888888;
-color: #fff;
-align-items: center;
-justify-content: center;
-text-align: center;
-border: 1px solid black;
-border-radius: 20px;
+@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
+*{
+    margin: 0px;
+    padding: 0px;
 }
 
-p {
-font-weight: bold;
+html, body {
+    height: 100%;
+}
+
+body{
+    font-family: 'Exo', sans-serif;
+}
+
+
+.context {
+    width: 100%;
+    position: absolute;
+    top:50vh;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2em;
+    text-align: center;
+}
+
+.context img {
+    width: 200px;
+    height: 150px;
+}
+
+.context h1{
+    text-align: center;
+    color: #fff;
+    font-size: 50px;
+}
+
+.context {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
 }
 
 a {
 border: 1px solid black;
-padding: 1em 2em 1em 2em;
+padding: 0.5em 1em 0.5em 1em;
+width: 45%;
+text-align: center;
 background-color: grey;
 font-weight: bold;
 border-radius: 20px;
-background-color: #404040;
+background-color: rgba(64, 64, 64, 0.7);
 text-decoration: none;
+font-size: 45px;
 transition: 0.3s;
 }
 
 a:hover {
-color: #3300CC;
+background-color: #404040;
+}
+
+
+.area{
+    background: #4e54c8;
+    background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
+    width: 100%;
+    min-height: 100vh;
+    z-index: 0;
+
+}
+
+.speakers{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.speakers li{
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+
+}
+
+.speakers li:nth-child(1){
+    left: 25%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+}
+
+.speakers li:nth-child(1) img {
+width:80px;
+height:80px;
+}
+
+.speakers li:nth-child(2){
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+.speakers li:nth-child(2) img {
+width:20px;
+height:20px;
+}
+
+.speakers li:nth-child(3){
+    left: 70%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 4s;
+}
+
+.speakers li:nth-child(3) img {
+width:20px;
+height:20px;
+}
+
+.speakers li:nth-child(4){
+    left: 40%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+
+.speakers li:nth-child(4) img {
+width:60px;
+height:60px;
+}
+
+.speakers li:nth-child(5){
+    left: 65%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+}
+
+.speakers li:nth-child(5) img {
+width:20px;
+height:20px;
+}
+
+.speakers li:nth-child(6){
+    left: 75%;
+    width: 110px;
+    height: 110px;
+    animation-delay: 3s;
+}
+
+.speakers li:nth-child(6) img {
+width:110px;
+height:110px;
+}
+
+.speakers li:nth-child(7){
+    left: 35%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 7s;
+}
+
+.speakers li:nth-child(7) img {
+width:150px;
+height:150px;
+}
+
+.speakers li:nth-child(8){
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+
+.speakers li:nth-child(8) img {
+width:25px;
+height:25px;
+}
+
+.speakers li:nth-child(9){
+    left: 20%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+
+.speakers li:nth-child(9) img {
+width:15px;
+height:15px;
+}
+
+.speakers li:nth-child(10){
+    left: 85%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+.speakers li:nth-child(10) img {
+width:150px;
+height:150px;
+}
+
+
+
+@keyframes animate {
+
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+
 }

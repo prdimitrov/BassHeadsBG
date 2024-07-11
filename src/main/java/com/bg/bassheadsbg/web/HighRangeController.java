@@ -68,7 +68,7 @@ public class HighRangeController {
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(ObjectNotFoundException.class)
     public ModelAndView handleObjectNotFound(ObjectNotFoundException onfe) {
-        ModelAndView modelAndView = new ModelAndView("not-found");
+        ModelAndView modelAndView = new ModelAndView("/error/not-found");
         modelAndView.addObject("name", onfe.getId());
 
                 return modelAndView;

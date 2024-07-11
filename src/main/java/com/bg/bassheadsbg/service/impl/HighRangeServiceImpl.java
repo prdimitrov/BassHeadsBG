@@ -25,8 +25,6 @@ public class HighRangeServiceImpl extends CommonDeviceServiceImpl<AddHighRangeDT
         return repository.findById(id)
                 .map(this::toDetailsDTO)
                 .orElseThrow(() -> new ObjectNotFoundException("Speaker with id " + id + " not found!", id));
-                                                              //TODO: DO THE .orELseThrow for the other services!!!!
-                                                              //TODO: OR FIND A WAY TO DO IT IN THE CommonDeviceServiceImpl!!!!
     }
 
     @Override

@@ -5,10 +5,6 @@
     padding: 0px;
 }
 
-html, body {
-    height: 100%;
-}
-
 body{
     font-family: 'Exo', sans-serif;
 }
@@ -19,17 +15,6 @@ body{
     position: absolute;
     top:50vh;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    gap: 2em;
-    text-align: center;
-}
-
-.context img {
-    width: 200px;
-    height: 150px;
 }
 
 .context h1{
@@ -38,29 +23,16 @@ body{
     font-size: 50px;
 }
 
-.context {
-    display: flex;
-    gap: 1em;
-    align-items: center;
-    justify-content: center;
-}
-
 a {
 border: 1px solid black;
 padding: 0.5em 1em 0.5em 1em;
-width: 45%;
-text-align: center;
 background-color: grey;
 font-weight: bold;
 border-radius: 20px;
-background-color: rgba(64, 64, 64, 0.7);
-text-decoration: none;
-font-size: 45px;
-transition: 0.3s;
-}
-
-a:hover {
 background-color: #404040;
+text-decoration: none;
+transform: translate(300px, 10px);
+font-size: 45px;
 }
 
 
@@ -68,7 +40,7 @@ background-color: #404040;
     background: #4e54c8;
     background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
     width: 100%;
-    min-height: 100vh;
+    height:100vh;
     z-index: 0;
 
 }
@@ -216,7 +188,6 @@ height:15px;
 width:150px;
 height:150px;
 }
-
 
 
 @keyframes animate {
