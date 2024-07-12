@@ -11,6 +11,8 @@ import java.util.Set;
 
 public class AddMonoAmpDTO {
 
+    private long id;
+
     @NotBlank
     private String brand;
 
@@ -253,4 +255,11 @@ public class AddMonoAmpDTO {
         this.length = length;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

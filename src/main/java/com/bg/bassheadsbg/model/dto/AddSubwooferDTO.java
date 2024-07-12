@@ -4,6 +4,8 @@ import jakarta.validation.constraints.*;
 
 public class AddSubwooferDTO {
 
+    private long id;
+
     @NotBlank
     private String brand;
 
@@ -248,5 +250,13 @@ public class AddSubwooferDTO {
                 ", bl=" + bl +
                 ", mms=" + mms +
                 '}';
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -85,9 +85,11 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="device-body">
+                    <div sec:authorize="hasRole('ADMIN')" class="device-body">
                         <a class="device-link" href="/">Update</a>
-                        <form th:method="delete" th:action="@{/speakers/{id}(id=*{id})}">
+                        <form
+                                th:method="delete"
+                                th:action="@{/speakers/high-range/{id}(id=*{id})}">
                             <input class="btn btn-link" type="submit" value="Delete"/>
                         </form>
                     </div>

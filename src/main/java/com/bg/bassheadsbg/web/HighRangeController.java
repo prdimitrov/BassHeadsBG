@@ -44,11 +44,11 @@ public class HighRangeController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addHighRangeDTO", addHighRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addHighRangeDTO", bindingResult);
-            return "redirect:/speakers/high-range/add";
+            return "redirect:/speakers/high-range/add/";
         }
 
         long newHighRange = highRangeService.addDevice(addHighRangeDTO);
-        return "redirect:/speakers/high-range/add" + newHighRange;
+        return "redirect:/speakers/high-range/add/" + newHighRange;
     }
 
     @GetMapping("/{id}")

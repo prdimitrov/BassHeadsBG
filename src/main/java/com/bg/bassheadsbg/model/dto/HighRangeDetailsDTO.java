@@ -1,10 +1,9 @@
 package com.bg.bassheadsbg.model.dto;
 
 import java.util.List;
-import java.util.Set;
 
 public final class HighRangeDetailsDTO {
-    private Long id;
+    private long id;
     private String brand;
     private String model;
     private Float sensitivity;
@@ -24,11 +23,11 @@ public final class HighRangeDetailsDTO {
 
     // Getters and Setters
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

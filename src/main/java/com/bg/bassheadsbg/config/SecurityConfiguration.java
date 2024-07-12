@@ -31,7 +31,11 @@ public class SecurityConfiguration {
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                         // some more resources for all users
                                         .requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/error").permitAll()
-                                        .requestMatchers("/speakers/**", "/amplifiers/**").hasRole("ADMIN")
+                                        .requestMatchers("/speakers/high-range/add",
+                                                "/speakers/mid-range/add",
+                                                "/speakers/subwoofers/add",
+                                                "/amplifiers/mono-amp/add",
+                                                "/amplifiers/multi-channel-amp/add").hasRole("ADMIN")
                                         // all other URL-s should be authenticated.
                                         .anyRequest().authenticated()
 

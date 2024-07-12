@@ -12,6 +12,8 @@ import java.util.List;
 
 public class AddHighRangeDTO {
 
+    private long id;
+
     @NotBlank
     private String brand;
 
@@ -162,5 +164,13 @@ public class AddHighRangeDTO {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

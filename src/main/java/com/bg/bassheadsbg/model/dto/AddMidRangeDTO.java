@@ -5,6 +5,8 @@ import jakarta.validation.constraints.*;
 
 public class AddMidRangeDTO {
 
+    private long id;
+
     @NotBlank
     private String brand;
 
@@ -125,4 +127,11 @@ public class AddMidRangeDTO {
         this.frequencyRangeTo = frequencyRangeTo;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

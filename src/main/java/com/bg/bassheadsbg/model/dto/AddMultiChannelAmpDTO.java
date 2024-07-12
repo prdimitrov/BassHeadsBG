@@ -9,6 +9,8 @@ import jakarta.validation.constraints.Positive;
 
 public class AddMultiChannelAmpDTO {
 
+    private long id;
+
     @NotBlank
     private String brand;
 
@@ -239,4 +241,11 @@ public class AddMultiChannelAmpDTO {
         this.length = length;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
