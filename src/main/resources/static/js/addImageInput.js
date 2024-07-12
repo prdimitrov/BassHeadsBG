@@ -1,5 +1,5 @@
 // Define imageIndex globally to track the number of image inputs
-let imageIndex = 0;
+let imageIndex = document.querySelectorAll('#image-inputs .input-group').length;
 
 // Function to add a new image input field
 function addImageInput() {

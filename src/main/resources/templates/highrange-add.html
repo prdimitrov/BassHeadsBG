@@ -154,13 +154,15 @@
         </div>
 
         <hr class="mt-3 mb-3"/>
-        <h3 class="text-center text-white">Images</h3>
-        <div class="row device-images pb-1">
+        <h3 th:classappend="${#fields.hasErrors('images')} ? 'bg-danger' : ''" class="text-center text-white">
+            Images
+        </h3>        <div class="row device-images pb-1">
             <div id="image-inputs" class="col-md-12">
                 <div th:each="image, iterStat : ${addHighRangeDTO.images}">
                     <div class="input-group mb-3">
-                        <input type="text" th:name="|images[${iterStat.index}]|" th:value="${image}" class="form-control" placeholder="Image URL">
+                        <input type="text" th:value="${image}" th:field="*{images[__${iterStat.index}__]}" class="form-control" placeholder="Image URL" th:classappend="${#fields.hasErrors('images[__${iterStat.index}__]')} ? 'text-danger bg-warning' : ''">
                         <div class="input-group-append">
+                                <!--            Items will be added here                -->
                             <button class="btn btn-danger" type="button" onclick="removeImageInput(this)">Remove</button>
                         </div>
                     </div>
