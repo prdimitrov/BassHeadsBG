@@ -54,7 +54,7 @@
                        step="any"
                        type="number"
                        class="form-control"
-                       placeholder="Sensitivity"/>
+                       placeholder="dB ( 1W / 1m )"/>
                 <small class="text-danger invalid-feedback" th:errors="*{sensitivity}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
@@ -64,7 +64,7 @@
                        type="number"
                        step="any"
                        class="form-control"
-                       placeholder="Size"/>
+                       placeholder="Inch"/>
                 <small class="text-danger invalid-feedback" th:errors="*{size}"></small>
             </div>
         </div>
@@ -86,7 +86,7 @@
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
                        class="form-control"
-                       placeholder="Number of coils"/>
+                       placeholder="0"/>
                 <small class="text-danger invalid-feedback" th:errors="*{numberOfCoils}"></small>
             </div>
         </div>
@@ -113,12 +113,12 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="impedance" class="text-white font-weight-bold">Impedance Ω</label>
+                <label th:for="impedance" class="text-white font-weight-bold">Impedance</label>
                 <input th:field="*{impedance}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
                        class="form-control"
-                       placeholder="Impedance"/>
+                       placeholder="Ω"/>
                 <small class="text-danger invalid-feedback" th:errors="*{impedance}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
@@ -127,7 +127,7 @@
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
                        class="form-control"
-                       placeholder="RMS"/>
+                       placeholder="W"/>
                 <small class="text-danger invalid-feedback" th:errors="*{powerHandling}"></small>
             </div>
         </div>

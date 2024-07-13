@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BassHeadsBG</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/detailpages.css">
+    <link rel="stylesheet" type="text/css" href="/css/got-bass-bgrd.css">
+    <link rel="stylesheet" type="text/css" href="/css/omg.css">
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
+
+<div class="container-fluid">
+    <div th:object="${midRangeDetails}" class="specifications">
+        <div class="device-images  pb-2 pt-2 text-center">
+            <div class="device-body pb-2 pt-2  text-center">
+                <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
+            </div>
+            <div class="gallery">
+                <img id="device-image" src="/" class="card-img-top img-thumbnail" alt="Device Image">
+            </div>
+            <div class="gallery-buttons">
+                <button id="prev" class="gallery-button"><i class="fa-solid fa-arrow-left"></i></button>
+                <div id="thumbnails" class="d-flex justify-content-center align-items flex-wrap mt-2"></div>
+                <button id="next" class="gallery-button"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="device-body">
+                <h2>Specifications</h2>
+                <div class="specs">
+                    <table class="table table-borderless device-details">
+                        <thead></thead>
+                        <tbody>
+                        <tr>
+                            <td><h4><i class="fas fa-tag"></i> Brand</h4></td>
+                            <td><span th:text="*{brand}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-mobile-alt"></i> Model</h4></td>
+                            <td><span th:text="*{model}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-bullhorn"></i> Sensitivity</h4></td>
+                            <td><span th:text="*{formattedSensitivity()}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-ruler-combined"></i> Size</h4></td>
+                            <td><span th:text="*{formattedSize()}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-wave-square"></i> Fs</h4></td>
+                            <td><span th:text="*{formattedFrequencyResponse()}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-circle-notch"></i> Coils</h4></td>
+                            <td><span th:text="*{formattedNumberOfCoils()}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-ethernet"></i> Impedance</h4></td>
+                            <td><span th:text="*{formattedImpedance()}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-bolt"></i> Power Handling</h4></td>
+                            <td><span th:text="*{formattedPowerHandling()}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-signal"></i> Frequency range</h4></td>
+                            <td><span th:text="*{formattedFrequencyRange()}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div sec:authorize="hasRole('ADMIN')" class="device-body">
+                        <a class="device-link" href="/">Update</a>
+                        <form
+                                th:method="delete"
+                                th:action="@{/speakers/mid-range/{id}(id=*{id})}">
+                            <input class="btn btn-link" type="submit" value="Delete"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer::footer}"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const images = [[${midRangeDetails.images}]];
+    /*]]>*/
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentIndex = 0;
+
+        const imgElement = document.getElementById('device-image');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const thumbnailsContainer = document.getElementById('thumbnails');
+
+        function updateImage() {
+            if (images.length > 0) {
+                imgElement.src = images[currentIndex];
+            } else {
+                imgElement.src = '/'; // Fallback image
+            }
+        }
+
+        function createThumbnails() {
+            images.forEach((image, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = image;
+                thumbnail.classList.add('img-thumbnail', 'm-1');
+                thumbnail.style.width = '100px';
+                thumbnail.style.cursor = 'pointer';
+
+                thumbnail.addEventListener('click', function() {
+                    currentIndex = index;
+                    updateImage();
+                });
+
+                thumbnailsContainer.appendChild(thumbnail);
+            });
+        }
+
+        prevButton.addEventListener('click', function() {
+            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+            updateImage();
+        });
+
+        nextButton.addEventListener('click', function() {
+            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+            updateImage();
+        });
+
+        updateImage(); // Initial call to set the first image
+        createThumbnails(); // Create thumbnails
+    });
+</script>
+</body>
+</html>

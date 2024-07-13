@@ -133,7 +133,7 @@ public final class HighRangeDetailsDTO {
     }
 
     public String formattedSize() {
-        return formatNumber(size) + " inch";
+        return formatNumber(size) + " \"";
     }
 
     public String formattedFrequencyResponse() {
@@ -149,11 +149,11 @@ public final class HighRangeDetailsDTO {
     }
 
     public String formattedPowerHandling() {
-        return powerHandling + " W (RMS)";
+        return powerHandling + " W";
     }
 
     public String formattedFrequencyRange() {
-        return "From " + frequencyRangeFrom + " Hz to " + frequencyRangeTo + " Hz";
+        return "From " + frequencyRangeFrom + " Hz - " + frequencyRangeTo + " Hz";
     }
 
     // Utility method to format numbers

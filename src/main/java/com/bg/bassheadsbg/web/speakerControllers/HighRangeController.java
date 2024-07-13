@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.web;
+package com.bg.bassheadsbg.web.speakerControllers;
 
 import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
 import com.bg.bassheadsbg.service.HighRangeService;
@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-//@RequestMapping("/speakers")
 @RequestMapping("/speakers/high-range")
 public class HighRangeController {
     private final HighRangeService highRangeService;
@@ -22,7 +21,6 @@ public class HighRangeController {
         this.highRangeService = highRangeService;
     }
 
-//    @GetMapping("/add-highrange")
     @GetMapping("/add")
     public String addHighRange(Model model) {
         if (!model.containsAttribute("addHighRangeDTO")) {
@@ -36,7 +34,6 @@ public class HighRangeController {
         return new AddHighRangeDTO();
     }
 
-//    @PostMapping("/add-highrange")
     @PostMapping("/add")
     public String addHighRange(@Valid @ModelAttribute("addHighRangeDTO") AddHighRangeDTO addHighRangeDTO,
                                BindingResult bindingResult,

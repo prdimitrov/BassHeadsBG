@@ -1,6 +1,11 @@
 package com.bg.bassheadsbg.model.dto;
 
+import com.bg.bassheadsbg.validation.ValidUrlList;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.URL;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddSubwooferDTO {
 
@@ -71,6 +76,9 @@ public class AddSubwooferDTO {
     @Positive
     @NotNull
     private float mms;
+
+    @ValidUrlList
+    private List<@URL @NotBlank String> images = new ArrayList<>();
 
     public AddSubwooferDTO() {
     }
@@ -258,5 +266,9 @@ public class AddSubwooferDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<@URL @NotBlank String> getImages() {
+        return images;
     }
 }

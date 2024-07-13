@@ -1,11 +1,16 @@
 package com.bg.bassheadsbg.model.dto;
 
 import com.bg.bassheadsbg.model.enums.AmpClass;
+import com.bg.bassheadsbg.validation.ValidUrlList;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.hibernate.validator.constraints.URL;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddMultiChannelAmpDTO {
 
@@ -77,6 +82,9 @@ public class AddMultiChannelAmpDTO {
 
     @Positive
     private Short length;
+
+    @ValidUrlList
+    private List<@URL @NotBlank String> images = new ArrayList<>();
 
     public AddMultiChannelAmpDTO() {
     }
@@ -247,5 +255,13 @@ public class AddMultiChannelAmpDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<@URL @NotBlank String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<@URL @NotBlank String> images) {
+        this.images = images;
     }
 }

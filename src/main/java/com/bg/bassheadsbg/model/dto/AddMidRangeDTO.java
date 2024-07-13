@@ -1,6 +1,11 @@
 package com.bg.bassheadsbg.model.dto;
 
+import com.bg.bassheadsbg.validation.ValidUrlList;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.URL;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddMidRangeDTO {
@@ -43,6 +48,9 @@ public class AddMidRangeDTO {
     @Positive
     @NotNull
     private int frequencyRangeTo;
+
+    @ValidUrlList
+    private List<@URL @NotBlank String> images = new ArrayList<>();
 
     public AddMidRangeDTO() {
     }
@@ -133,5 +141,13 @@ public class AddMidRangeDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<@URL @NotBlank String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<@URL @NotBlank String> images) {
+        this.images = images;
     }
 }
