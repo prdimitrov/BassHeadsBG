@@ -86,12 +86,12 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div sec:authorize="hasRole('ADMIN')" class="device-body">
-                        <a class="device-link" href="/">Update</a>
+                    <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
+                        <a class="btn btn-info btn-lg" href="/">Update</a>
                         <form
                                 th:method="delete"
                                 th:action="@{/speakers/high-range/{id}(id=*{id})}">
-                            <input class="btn btn-link" type="submit" value="Delete"/>
+                            <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
                         </form>
                     </div>
                 </div>
