@@ -4,9 +4,11 @@ package com.bg.bassheadsbg.service.impl;
 import com.bg.bassheadsbg.model.dto.AddMonoAmpDTO;
 import com.bg.bassheadsbg.model.dto.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.MonoAmpSummaryDTO;
+import com.bg.bassheadsbg.model.dto.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
 import com.bg.bassheadsbg.repository.MonoAmplifierRepository;
 import com.bg.bassheadsbg.service.MonoAmpService;
+import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,13 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
 
     public MonoAmpServiceImpl(MonoAmplifierRepository monoAmplifierRepository, ModelMapper modelMapper) {
         super(monoAmplifierRepository, modelMapper);
+    }
+
+    @Override
+    public MonoAmpDetailsDTO getDeviceDetails(Long id) {
+        return repository.findById(id)
+                .map(this::toDetailsDTO)
+                .orElseThrow(() -> new ObjectNotFoundException("Amp with id " + id + " not found!", id));
     }
 
     @Override

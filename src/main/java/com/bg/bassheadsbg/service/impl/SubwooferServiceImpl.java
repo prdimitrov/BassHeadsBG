@@ -1,11 +1,13 @@
 package com.bg.bassheadsbg.service.impl;
 
 import com.bg.bassheadsbg.model.dto.AddSubwooferDTO;
+import com.bg.bassheadsbg.model.dto.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.dto.SubwooferSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import com.bg.bassheadsbg.repository.SubwooferRepository;
 import com.bg.bassheadsbg.service.SubwooferService;
+import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,13 @@ public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDT
 
     public SubwooferServiceImpl(SubwooferRepository subwooferRepository, ModelMapper modelMapper) {
         super(subwooferRepository, modelMapper);
+    }
+
+    @Override
+    public SubwooferDetailsDTO getDeviceDetails(Long id) {
+        return repository.findById(id)
+                .map(this::toDetailsDTO)
+                .orElseThrow(() -> new ObjectNotFoundException("Speaker with id " + id + " not found!", id));
     }
 
     @Override

@@ -1,11 +1,13 @@
 package com.bg.bassheadsbg.service.impl;
 
 import com.bg.bassheadsbg.model.dto.AddMidRangeDTO;
+import com.bg.bassheadsbg.model.dto.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.MidRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import com.bg.bassheadsbg.repository.MidRangeRepository;
 import com.bg.bassheadsbg.service.MidRangeService;
+import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,13 @@ public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO,
 
     public MidRangeServiceImpl(MidRangeRepository midRangeRepository, ModelMapper modelMapper) {
         super(midRangeRepository, modelMapper);
+    }
+
+    @Override
+    public MidRangeDetailsDTO getDeviceDetails(Long id) {
+        return repository.findById(id)
+                .map(this::toDetailsDTO)
+                .orElseThrow(() -> new ObjectNotFoundException("Speaker with id " + id + " not found!", id));
     }
 
     @Override
