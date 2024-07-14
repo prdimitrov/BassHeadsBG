@@ -2,10 +2,7 @@ package com.bg.bassheadsbg.model.entity.users;
 
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -16,27 +13,28 @@ import java.util.Set;
 public class UserEntity extends BaseEntity {
     @Size(min = 3, max = 30,
             message = "Username length must be between 3 and 30 characters.")
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String username;
 
     @Email(message = "Please, enter a valid email.")
-    @NotNull
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
 
     @Size(min = 8,
             message = "Password length must be minimum 8 characters.")
-    @NotNull
+    @NotBlank
     private String password;
 
     @Size(min = 3, max = 30,
             message = "Name length must be between 3 and 30 characters.")
-    @NotNull
+    @NotBlank
     private String firstName;
 
     @Size(min = 3, max = 30,
             message = "Last name length must be between 3 and 30 characters.")
-    @NotNull
+    @NotBlank
     private String lastName;
 
     @Past(message = "You must be born in the past.")

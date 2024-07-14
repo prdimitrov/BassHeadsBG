@@ -37,7 +37,7 @@ public class UserRegistrationDTO {
 
     @Size(min = 3, max = 30,
             message = "Last name length must be between 3 and 30 characters.")
-    @NotNull
+    @NotBlank
     private String lastName;
 
     @Past(message = "You must be born in the past.")

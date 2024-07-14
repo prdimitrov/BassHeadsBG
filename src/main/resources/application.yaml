@@ -3,7 +3,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        format_sql: 'TRUE'
+        format_sql: 'FALSE'
+#        format_sql: 'TRUE' beshe na true
     hibernate:
       ddl-auto: update
     open-in-view: 'false'
@@ -17,14 +18,17 @@ spring:
     username: ${db_username}
     url: jdbc:mysql://${db_address}:3306/bassheads_bg?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     initialization-mode: always
+
 logging:
   level:
     org:
       hibernate:
         type:
           descriptor: TRACE
-        SQL: DEBUG
+#        SQL: DEBUG
+        SQL:
       nodeValue: WARN
     blog: WARN
+
 server:
   port: 8080

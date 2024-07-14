@@ -52,7 +52,7 @@ public class MonoChannelAmplifierController {
     @GetMapping("/{id}")
     public String monoAmpDetails(@PathVariable("id") Long id,
                                    Model model) {
-        model.addAttribute("MonoAmpDetails", monoAmpService.getDeviceDetails(id));
+        model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
         return "monoamp-details";
     }
 
