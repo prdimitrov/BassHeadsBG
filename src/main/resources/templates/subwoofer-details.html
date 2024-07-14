@@ -21,21 +21,28 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
 
 <div class="container-fluid">
-    <div th:object="${midRangeDetails}" class="specifications">
+    <div th:object="${subwooferDetails}" class="specifications">
+
         <div class="device-images  pb-2 pt-2 text-center">
+
             <div class="device-body pb-2 pt-2  text-center">
                 <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
             </div>
+
             <div class="gallery">
                 <img id="device-image" src="/" class="card-img-top img-thumbnail" alt="Device Image">
             </div>
+
             <div class="gallery-buttons">
                 <button id="prev" class="gallery-button"><i class="fa-solid fa-arrow-left"></i></button>
                 <div id="thumbnails" class="d-flex justify-content-center align-items flex-wrap mt-2"></div>
                 <button id="next" class="gallery-button"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
+
             <div class="device-body">
+
                 <h2>Specifications</h2>
+
                 <div class="specs">
                     <table class="table table-borderless device-details">
                         <thead></thead>
@@ -65,6 +72,14 @@
                             <td><span th:text="*{formattedNumberOfCoils()}"></span></td>
                         </tr>
                         <tr>
+                            <td><h4><i class="fas fa-ruler-vertical"></i> Coil height</h4></td>
+                            <td><span th:text="*{formattedCoilHeight()}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-layer-group"></i> Coil layers</h4></td>
+                            <td><span th:text="*{formattedCoilLayers()}"></span></td>
+                        </tr>
+                        <tr>
                             <td><h4><i class="fas fa-ethernet"></i> Impedance</h4></td>
                             <td><span th:text="*{formattedImpedance()}"></span></td>
                         </tr>
@@ -73,20 +88,57 @@
                             <td><span th:text="*{formattedPowerHandling()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-signal"></i> Frequency range</h4></td>
-                            <td><span th:text="*{formattedFrequencyRange()}"></span></td>
+                            <td><h4><i class="fas fa-magnet"></i> Magnet size</h4></td>
+                            <td><span th:text="*{formattedMagnetSize()}"></span></td>
                         </tr>
                         </tbody>
                     </table>
-                    <div sec:authorize="hasRole('ADMIN')" class="device-body">
-                        <a class="device-link" href="/">Update</a>
+
+                    <hr>
+
+                    <h2><i class="fas fa-sliders-h"></i> T/C Parameters</h2>
+                    <hr>
+
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <h4>Mms</h4>
+                            <span th:text="*{formattedMms()}"></span>
+                            <h4>Xmax</h4></td>
+                            <span th:text="*{formattedXmax()}"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <h4>Qms</h4>
+                            <span th:text="*{formattedQms()}"></span>
+                            <h4>Qes</h4>
+                            <span th:text="*{formattedQes()}"></span>
+                            <h4>Qts</h4>
+                            <span th:text="*{formattedQts()}"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <h4>Bl</h4>
+                            <span th:text="*{formattedBl()}"></span>
+                            <h4>Sd</h4>
+                            <span th:text="*{formattedSd()}"></span>
+                        </div>
+                    </div>
+
+                    <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
+                        <a class="btn btn-info btn-lg" href="/">Update</a>
                         <form
                                 th:method="delete"
-                                th:action="@{/speakers/mid-range/{id}(id=*{id})}">
-                            <input class="btn btn-link" type="submit" value="Delete"/>
+                                th:action="@{/speakers/subwoofers/{id}(id=*{id})}">
+                            <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
                         </form>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -96,7 +148,7 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    setupGallery([[${midRangeDetails.images}]]);
+    setupGallery([[${subwooferDetails.images}]]);
     /*]]>*/
 </script>
 

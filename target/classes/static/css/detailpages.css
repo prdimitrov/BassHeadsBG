@@ -81,16 +81,25 @@ form {
 }
 
 .img-thumbnail {
-    max-width: 500px;
-    max-height: 500px;
+    height: 100%;
 }
 
+/*
 .gallery {
     display: flex;
     width: 500px;
     height: 500px;
     overflow: hidden;
-    border-radius: 20px;
+}
+*/
+
+.gallery {
+    display: flex;
+    height: 30em;
+    overflow: hidden;
+    border-radius: 15px;
+    padding: 2em;
+    background-color: #000420a1;
 }
 
 .gallery-buttons {
@@ -124,4 +133,66 @@ form {
     background-color: rgb(47, 0, 255);
     color: #17a2b8;
     border: 2px solid #000;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+span {
+    color: #fff;
+    font-weight: bold;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    background-color: #19b9a140;
+    border: 2px solid #fff;
+}
+
+.table {
+    background-color: #19b9a140;
+    border: 2px solid #fff;
+}
+
+.btn {
+    width: 100px;
+    height: 50px;
+    border-radius: 15px;
+}
+
+.admin-buttons {
+    display:flex;
+    flex-direction: row;
+    padding: 1em;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
+    background-color: #19b9a140;
+    border: 2px solid #fff;
+}
+
+.gallery .img-thumbnail {
+    padding: 0.25em;
+    background-color: #000;
+}
+
+.img-thumbnail {
+    padding: 0;
+    background-color: transparent;
+    border: unset;
+}
+
+#thumbnails {
+    background-color: #000;
+    padding: 0.25em;
+}
+
+#thumbnails .img-thumbnail {
+    height: 100px;
+    width: auto;
 }

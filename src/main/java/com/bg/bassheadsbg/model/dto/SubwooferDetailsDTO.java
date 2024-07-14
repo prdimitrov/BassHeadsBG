@@ -27,85 +27,167 @@ public final class SubwooferDetailsDTO {
     private List<String> images;
     private String imagesString;
 
+    public SubwooferDetailsDTO() {
+    }
 
-    public Long id() {
+    public Long getId() {
         return id;
     }
 
-    public String brand() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getBrand() {
         return brand;
     }
 
-    public String model() {
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
         return model;
     }
 
-    public Float sensitivity() {
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Float getSensitivity() {
         return sensitivity;
     }
 
-    public float size() {
+    public void setSensitivity(Float sensitivity) {
+        this.sensitivity = sensitivity;
+    }
+
+    public float getSize() {
         return size;
     }
 
-    public float frequencyResponse() {
+    public void setSize(float size) {
+        this.size = size;
+    }
+
+    public float getFrequencyResponse() {
         return frequencyResponse;
     }
 
-    public byte numberOfCoils() {
+    public void setFrequencyResponse(float frequencyResponse) {
+        this.frequencyResponse = frequencyResponse;
+    }
+
+    public byte getNumberOfCoils() {
         return numberOfCoils;
     }
 
-    public byte impedance() {
+    public void setNumberOfCoils(byte numberOfCoils) {
+        this.numberOfCoils = numberOfCoils;
+    }
+
+    public byte getImpedance() {
         return impedance;
     }
 
-    public short powerHandling() {
+    public void setImpedance(byte impedance) {
+        this.impedance = impedance;
+    }
+
+    public short getPowerHandling() {
         return powerHandling;
     }
 
-    public float coilHeight() {
+    public void setPowerHandling(short powerHandling) {
+        this.powerHandling = powerHandling;
+    }
+
+    public float getCoilHeight() {
         return coilHeight;
     }
 
-    public Byte coilLayers() {
+    public void setCoilHeight(float coilHeight) {
+        this.coilHeight = coilHeight;
+    }
+
+    public Byte getCoilLayers() {
         return coilLayers;
     }
 
-    public short magnetSize() {
+    public void setCoilLayers(Byte coilLayers) {
+        this.coilLayers = coilLayers;
+    }
+
+    public short getMagnetSize() {
         return magnetSize;
     }
 
-    public Float vas() {
+    public void setMagnetSize(short magnetSize) {
+        this.magnetSize = magnetSize;
+    }
+
+    public Float getVas() {
         return vas;
     }
 
-    public byte xmax() {
+    public void setVas(Float vas) {
+        this.vas = vas;
+    }
+
+    public byte getXmax() {
         return xmax;
     }
 
-    public Float qms() {
+    public void setXmax(byte xmax) {
+        this.xmax = xmax;
+    }
+
+    public Float getQms() {
         return qms;
     }
 
-    public Float qes() {
+    public void setQms(Float qms) {
+        this.qms = qms;
+    }
+
+    public Float getQes() {
         return qes;
     }
 
-    public Float qts() {
+    public void setQes(Float qes) {
+        this.qes = qes;
+    }
+
+    public Float getQts() {
         return qts;
     }
 
-    public Float sd() {
+    public void setQts(Float qts) {
+        this.qts = qts;
+    }
+
+    public Float getSd() {
         return sd;
     }
 
-    public Float bl() {
+    public void setSd(Float sd) {
+        this.sd = sd;
+    }
+
+    public Float getBl() {
         return bl;
     }
 
-    public float mms() {
+    public void setBl(Float bl) {
+        this.bl = bl;
+    }
+
+    public float getMms() {
         return mms;
+    }
+
+    public void setMms(float mms) {
+        this.mms = mms;
     }
 
     // Helper methods for formatting
@@ -114,15 +196,15 @@ public final class SubwooferDetailsDTO {
     }
 
     public String formattedSensitivity() {
-        return formatNumber(sensitivity) + " dB (1W / 1m)";
+        return formatNumber(sensitivity) + "dB (1W / 1m)";
     }
 
     public String formattedSize() {
-        return formatNumber(size) + " \"";
+        return formatNumber(size) + "\"";
     }
 
     public String formattedFrequencyResponse() {
-        return formatNumber(frequencyResponse) + " Hz";
+        return formatNumber(frequencyResponse) + "Hz";
     }
 
     public String formattedNumberOfCoils() {
@@ -130,31 +212,31 @@ public final class SubwooferDetailsDTO {
     }
 
     public String formattedImpedance() {
-        return impedance + " Ω";
+        return impedance + "Ω";
     }
 
     public String formattedPowerHandling() {
-        return powerHandling + " W";
+        return powerHandling + "W";
     }
 
     public String formattedCoilHeight() {
-        return coilHeight + " \"";
+        return formatNumber(coilHeight) + "\"";
     }
 
     public String formattedCoilLayers() {
-        return Byte.toString(coilLayers);
+        return coilLayers == null ? "" : Byte.toString(coilLayers);
     }
 
     public String formattedMagnetSize() {
-        return magnetSize + " oz";
+        return magnetSize + "oz";
     }
 
     public String formattedVas() {
-        return formatNumber(vas) + " L";
+        return formatNumber(vas) + "L";
     }
 
     public String formattedXmax() {
-        return xmax + " mm";
+        return xmax + "mm";
     }
 
     public String formattedQms() {
@@ -176,7 +258,7 @@ public final class SubwooferDetailsDTO {
     }
 
     public String formattedMms() {
-        return formatNumber(mms) + " 687g";
+        return formatNumber(mms) + "g";
     }
 
 

@@ -36,8 +36,8 @@ public class MidRangeController {
 
     @PostMapping("/add")
     public String addMidRange(@Valid @ModelAttribute("addMidRangeDTO") AddMidRangeDTO addMidRangeDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMidRangeDTO", addMidRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMidRangeDTO", bindingResult);
@@ -50,7 +50,7 @@ public class MidRangeController {
 
     @GetMapping("/{id}")
     public String midRangeDetails(@PathVariable("id") Long id,
-                                   Model model) {
+                                  Model model) {
         model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
         return "midrange-details";
     }

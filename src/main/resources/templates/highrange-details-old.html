@@ -13,7 +13,6 @@
     <link rel="stylesheet" type="text/css" href="/css/omg.css">
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/deviceImageSlider.js"></script>
 </head>
 
 <body>
@@ -21,7 +20,7 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
 
 <div class="container-fluid">
-    <div th:object="${midRangeDetails}" class="specifications">
+    <div th:object="${highRangeDetails}" class="specifications">
         <div class="device-images  pb-2 pt-2 text-center">
             <div class="device-body pb-2 pt-2  text-center">
                 <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
@@ -73,6 +72,14 @@
                             <td><span th:text="*{formattedPowerHandling()}"></span></td>
                         </tr>
                         <tr>
+                            <td><h4><i class="fas fa-cube"></i> Materials</h4></td>
+                            <td><span th:text="*{material}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-random"></i> Crossover</h4></td>
+                            <td><span th:text="*{crossover}"></span></td>
+                        </tr>
+                        <tr>
                             <td><h4><i class="fas fa-signal"></i> Frequency range</h4></td>
                             <td><span th:text="*{formattedFrequencyRange()}"></span></td>
                         </tr>
@@ -82,7 +89,7 @@
                         <a class="device-link" href="/">Update</a>
                         <form
                                 th:method="delete"
-                                th:action="@{/speakers/mid-range/{id}(id=*{id})}">
+                                th:action="@{/speakers/high-range/{id}(id=*{id})}">
                             <input class="btn btn-link" type="submit" value="Delete"/>
                         </form>
                     </div>
@@ -96,9 +103,55 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    setupGallery([[${midRangeDetails.images}]]);
+    const images = [[${highRangeDetails.images}]];
     /*]]>*/
-</script>
 
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentIndex = 0;
+
+        const imgElement = document.getElementById('device-image');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const thumbnailsContainer = document.getElementById('thumbnails');
+
+        function updateImage() {
+            if (images.length > 0) {
+                imgElement.src = images[currentIndex];
+            } else {
+                imgElement.src = '/'; // Fallback image
+            }
+        }
+
+        function createThumbnails() {
+            images.forEach((image, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = image;
+                thumbnail.classList.add('img-thumbnail', 'm-1');
+                thumbnail.style.width = '100px';
+                thumbnail.style.cursor = 'pointer';
+
+                thumbnail.addEventListener('click', function() {
+                    currentIndex = index;
+                    updateImage();
+                });
+
+                thumbnailsContainer.appendChild(thumbnail);
+            });
+        }
+
+        prevButton.addEventListener('click', function() {
+            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+            updateImage();
+        });
+
+        nextButton.addEventListener('click', function() {
+            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+            updateImage();
+        });
+
+        updateImage(); // Initial call to set the first image
+        createThumbnails(); // Create thumbnails
+    });
+</script>
 </body>
 </html>

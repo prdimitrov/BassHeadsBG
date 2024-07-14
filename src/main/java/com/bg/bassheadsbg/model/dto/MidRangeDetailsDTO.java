@@ -115,7 +115,7 @@ public final class MidRangeDetailsDTO {
     }
 
     public String formattedSize() {
-        return formatNumber(size) + " \"";
+        return formatNumber(size) + "\"";
     }
 
     public String formattedFrequencyResponse() {
@@ -135,7 +135,7 @@ public final class MidRangeDetailsDTO {
     }
 
     public String formattedFrequencyRange() {
-        return "From " + frequencyRangeFrom + " Hz - " + frequencyRangeTo + " Hz";
+        return frequencyRangeFrom + " Hz - " + frequencyRangeTo + " Hz";
     }
 
     // Utility method to format numbers
