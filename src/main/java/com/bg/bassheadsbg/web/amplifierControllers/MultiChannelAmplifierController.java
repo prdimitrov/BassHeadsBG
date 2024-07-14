@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.web;
+package com.bg.bassheadsbg.web.amplifierControllers;
 
 
 import com.bg.bassheadsbg.model.dto.AddMultiChannelAmpDTO;
