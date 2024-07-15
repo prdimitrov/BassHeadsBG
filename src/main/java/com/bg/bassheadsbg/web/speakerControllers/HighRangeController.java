@@ -1,8 +1,10 @@
 package com.bg.bassheadsbg.web.speakerControllers;
 
 import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
+import com.bg.bassheadsbg.model.dto.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.service.HighRangeService;
 import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

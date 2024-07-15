@@ -87,10 +87,11 @@
                         </tbody>
                     </table>
                     <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
-                        <a class="btn btn-info btn-lg" href="/">Update</a>
-                        <form
-                                th:method="delete"
-                                th:action="@{/speakers/high-range/{id}(id=*{id})}">
+                        <form th:action="@{/speakers/high-range/edit(id=${highRangeDetails.id})}" th:object="${highRangeDetails}" method="post">
+                            <input type="hidden" th:field="*{id}"/>
+                            <input class="btn btn-info btn-lg" type="submit" value="Update"/>
+                        </form>
+                        <form th:method="delete" th:action="@{/speakers/high-range/{id}(id=${highRangeDetails.id})}">
                             <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
                         </form>
                     </div>

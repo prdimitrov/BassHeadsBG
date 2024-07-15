@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BassHeadsBG</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/got-bass-bgrd.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/addDeviceFloatInput.js"></script>
+    <script src="/js/center-align-inputs.js"></script>
+    <script src="/js/addImageInput.js" defer></script>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar::navbar(activeLink=${'device-dropdown'})}"></div>
+
+<div class="container">
+    <h2 class="text-center text-white">Upload Speaker</h2>
+    <form th:action="@{/speakers/high-range/edit/{id}(id=${addHighRangeDTO.id})}"
+          th:method="post"
+          th:object="${addHighRangeDTO}"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+
+        <input type="hidden" name="id" th:value="${addHighRangeDTO.id}" />
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="brand" class="text-white font-weight-bold">Brand</label>
+                <input th:field="*{brand}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="text"
+                       class="form-control"
+                       placeholder="Brand"/>
+                <small class="text-danger invalid-feedback" th:errors="*{brand}"></small>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="model" class="text-white font-weight-bold">Model</label>
+                <input th:field="*{model}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="text"
+                       class="form-control"
+                       placeholder="Model"/>
+                <small class="text-danger invalid-feedback" th:errors="*{model}"></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="sensitivity" class="text-white font-weight-bold">Sensitivity</label>
+                <input th:field="*{sensitivity}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       step="any"
+                       type="number"
+                       class="form-control"
+                       placeholder="dB ( 1W / 1m )"/>
+                <small class="text-danger invalid-feedback" th:errors="*{sensitivity}"></small>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="size" class="text-white font-weight-bold">Size</label>
+                <input th:field="*{size}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       step="any"
+                       class="form-control"
+                       placeholder="Inch"/>
+                <small class="text-danger invalid-feedback" th:errors="*{size}"></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="frequencyResponse" class="text-white font-weight-bold">Frequency Response</label>
+                <input th:field="*{frequencyResponse}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       step="any"
+                       class="form-control"
+                       placeholder="Fs"/>
+                <small class="text-danger invalid-feedback" th:errors="*{frequencyResponse}"></small>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="numberOfCoils" class="text-white font-weight-bold">Number of coils</label>
+                <input th:field="*{numberOfCoils}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       class="form-control"
+                       placeholder="0"/>
+                <small class="text-danger invalid-feedback" th:errors="*{numberOfCoils}"></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="impedance" class="text-white font-weight-bold">Impedance</label>
+                <input th:field="*{impedance}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       class="form-control"
+                       placeholder="Ω"/>
+                <small class="text-danger invalid-feedback" th:errors="*{impedance}"></small>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="powerHandling" class="text-white font-weight-bold">Power handling (RMS)</label>
+                <input th:field="*{powerHandling}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       class="form-control"
+                       placeholder="W"/>
+                <small class="text-danger invalid-feedback" th:errors="*{powerHandling}"></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="material" class="text-white font-weight-bold">Material</label>
+                <input th:field="*{material}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="text"
+                       class="form-control"
+                       placeholder="Material"/>
+                <small class="text-danger invalid-feedback" th:errors="*{material}"></small>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="crossover" class="text-white font-weight-bold">Crossover</label>
+                <input th:field="*{crossover}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="text"
+                       class="form-control"
+                       placeholder="Crossover"/>
+                <small class="text-danger invalid-feedback" th:errors="*{crossover}"></small>
+            </div>
+        </div>
+        <hr class="mt-3 mb-3"/>
+        <h3 class="text-center text-white">T/C Parameters</h3>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="frequencyRangeFrom" class="text-white font-weight-bold">Frequency Range from</label>
+                <input th:field="*{frequencyRangeFrom}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       class="form-control"
+                       placeholder="Hz"/>
+                <small class="text-danger invalid-feedback" th:errors="*{frequencyRangeFrom}"></small>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label th:for="frequencyRangeTo" class="text-white font-weight-bold">Frequency Range To</label>
+                <input th:field="*{frequencyRangeTo}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       class="form-control"
+                       placeholder="Hz"/>
+                <small class="text-danger invalid-feedback" th:errors="*{frequencyRangeTo}"></small>
+            </div>
+        </div>
+
+        <hr class="mt-3 mb-3"/>
+        <h3 th:classappend="${#fields.hasErrors('images')} ? 'bg-danger' : ''" class="text-center text-white">
+            Images
+        </h3>        <div class="row device-images pb-1">
+            <div id="image-inputs" class="col-md-12">
+                <div th:each="image, iterStat : ${addHighRangeDTO.images}">
+                    <div class="input-group mb-3">
+                        <input type="text" th:value="${image}" th:field="*{images[__${iterStat.index}__]}" class="form-control" placeholder="Image URL" th:classappend="${#fields.hasErrors('images[__${iterStat.index}__]')} ? 'text-danger bg-warning' : ''">
+                        <div class="input-group-append">
+                                <!--            Items will be added here                -->
+                            <button class="btn btn-danger" type="button" onclick="removeImageInput(this)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary" id="add-image-button">Add Image</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Upload Speaker"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="~{fragments/footer::footer}"></div>
+
+</body>
+</html>
