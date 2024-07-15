@@ -26,7 +26,7 @@ public class MidRangeController {
         if (!model.containsAttribute("addMidRangeDTO")) {
             model.addAttribute("addMidRangeDTO", new AddMidRangeDTO());
         }
-        return "midrange-add";
+        return "/speakers/midrange-add";
     }
 
     @ModelAttribute("addMidRangeDTO")
@@ -52,7 +52,7 @@ public class MidRangeController {
     public String midRangeDetails(@PathVariable("id") Long id,
                                   Model model) {
         model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
-        return "midrange-details";
+        return "/speakers/midrange-details";
     }
 
     @DeleteMapping("/{id}")

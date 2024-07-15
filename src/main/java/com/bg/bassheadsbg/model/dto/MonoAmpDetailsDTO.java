@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.model.dto;
 
 import com.bg.bassheadsbg.model.enums.AmpClass;
+import com.bg.bassheadsbg.util.ValueFormatterUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,125 +30,214 @@ public final class MonoAmpDetailsDTO {
     private byte numberOfRca;
     private byte numberOfSpeakerOutputs;
     private List<String> images;
+    private String imagesString;
 
     public MonoAmpDetailsDTO() {
     }
 
-    public Long id() {
+    public Long getId() {
         return id;
     }
 
-    public String brand() {
+    public String getBrand() {
         return brand;
     }
 
-    public String model() {
+    public String getModel() {
         return model;
     }
 
-    public String amplifierClass() {
+    public String getAmplifierClass() {
         return amplifierClass;
     }
 
-    public byte impedance() {
-        return impedance;
+    public String getImpedance() {
+        return ValueFormatterUtil.formatValue(impedance) + " Ω";
     }
 
-    public int power() {
-        return power;
+    public String getPower() {
+        return ValueFormatterUtil.formatValue(power) + " W";
     }
 
-    public byte efficiency() {
-        return efficiency;
+    public String getEfficiency() {
+        return ValueFormatterUtil.formatValue(efficiency) + " %";
     }
 
-    public String highPassFilter() {
-        return highPassFilter;
+    public String getHighPassFilter() {
+        return ValueFormatterUtil.formatValue(highPassFilter);
     }
 
-    public String lowPassFilter() {
-        return lowPassFilter;
+    public String getLowPassFilter() {
+        return ValueFormatterUtil.formatValue(lowPassFilter);
     }
 
-    public String subsonicFilter() {
-        return subsonicFilter;
+    public String getSubsonicFilter() {
+        return ValueFormatterUtil.formatValue(subsonicFilter);
     }
 
-    public boolean remoteControl() {
-        return remoteControl;
+    public String isRemoteControl() {
+        return ValueFormatterUtil.formatValue(isRemoteControl());
     }
 
-    public boolean bassBoost() {
-        return bassBoost;
+    public String isBassBoost() {
+        return ValueFormatterUtil.formatValue(isBassBoost());
     }
 
-    public String lowInputLevel() {
-        return lowInputLevel;
+    public String getLowInputLevel() {
+        return ValueFormatterUtil.formatValue(lowInputLevel);
     }
 
-    public String highInputLevel() {
-        return highInputLevel;
+    public String getHighInputLevel() {
+        return ValueFormatterUtil.formatValue(highInputLevel);
     }
 
-    public Float distortion() {
-        return distortion;
+    public String getDistortion() {
+        return ">" + ValueFormatterUtil.formatValue(distortion) + " %";
     }
 
-    public double currentDraw() {
-        return currentDraw;
+    public String getCurrentDraw() {
+        return ValueFormatterUtil.formatValue(currentDraw) + " A";
     }
 
-    public short fuseRating() {
-        return fuseRating;
+    public String getFuseRating() {
+        return ValueFormatterUtil.formatValue(fuseRating) + " A";
     }
 
-    public Short height() {
-        return height;
+    public String getHeight() {
+        if (ValueFormatterUtil.formatValue(height).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(height) + " mm";
     }
 
-    public Short width() {
-        return width;
+    public String getWidth() {
+        if (ValueFormatterUtil.formatValue(width).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(width) + " mm";
     }
 
-    public Short length() {
-        return length;
+    public String getLength() {
+        if (ValueFormatterUtil.formatValue(length).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(length) + " mm";
     }
 
-    public byte numberOfRca() {
+    public List<String> getImages() {
+        return images;
+    }
+
+    public byte getNumberOfRca() {
         return numberOfRca;
     }
 
-    public byte numberOfSpeakerOutputs() {
+    public byte getNumberOfSpeakerOutputs() {
         return numberOfSpeakerOutputs;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 
+    public void setModel(String model) {
+        this.model = model;
+    }
 
-    @Override
-    public String toString() {
-        return "MonoAmpDetailsDTO[" +
-                "id=" + id + ", " +
-                "brand=" + brand + ", " +
-                "model=" + model + ", " +
-                "amplifierClass=" + amplifierClass + ", " +
-                "impedance=" + impedance + ", " +
-                "power=" + power + ", " +
-                "efficiency=" + efficiency + ", " +
-                "highPassFilter=" + highPassFilter + ", " +
-                "lowPassFilter=" + lowPassFilter + ", " +
-                "subsonicFilter=" + subsonicFilter + ", " +
-                "remoteControl=" + remoteControl + ", " +
-                "bassBoost=" + bassBoost + ", " +
-                "lowInputLevel=" + lowInputLevel + ", " +
-                "highInputLevel=" + highInputLevel + ", " +
-                "distortion=" + distortion + ", " +
-                "currentDraw=" + currentDraw + ", " +
-                "fuseRating=" + fuseRating + ", " +
-                "height=" + height + ", " +
-                "width=" + width + ", " +
-                "length=" + length + ", " +
-                "numberOfRca=" + numberOfRca + ", " +
-                "numberOfSpeakerOutputs=" + numberOfSpeakerOutputs + ']';
+    public void setAmplifierClass(String amplifierClass) {
+        this.amplifierClass = amplifierClass;
+    }
+
+    public void setImpedance(byte impedance) {
+        this.impedance = impedance;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public void setEfficiency(byte efficiency) {
+        this.efficiency = efficiency;
+    }
+
+    public void setHighPassFilter(String highPassFilter) {
+        this.highPassFilter = highPassFilter;
+    }
+
+    public void setLowPassFilter(String lowPassFilter) {
+        this.lowPassFilter = lowPassFilter;
+    }
+
+    public void setSubsonicFilter(String subsonicFilter) {
+        this.subsonicFilter = subsonicFilter;
+    }
+
+    public void setRemoteControl(boolean remoteControl) {
+        this.remoteControl = remoteControl;
+    }
+
+    public void setBassBoost(boolean bassBoost) {
+        this.bassBoost = bassBoost;
+    }
+
+    public void setLowInputLevel(String lowInputLevel) {
+        this.lowInputLevel = lowInputLevel;
+    }
+
+    public void setHighInputLevel(String highInputLevel) {
+        this.highInputLevel = highInputLevel;
+    }
+
+    public void setDistortion(Float distortion) {
+        this.distortion = distortion;
+    }
+
+    public void setCurrentDraw(double currentDraw) {
+        this.currentDraw = currentDraw;
+    }
+
+    public void setFuseRating(short fuseRating) {
+        this.fuseRating = fuseRating;
+    }
+
+    public void setHeight(Short height) {
+        this.height = height;
+    }
+
+    public void setWidth(Short width) {
+        this.width = width;
+    }
+
+    public void setLength(Short length) {
+        this.length = length;
+    }
+
+    public void setNumberOfRca(byte numberOfRca) {
+        this.numberOfRca = numberOfRca;
+    }
+
+    public void setNumberOfSpeakerOutputs(byte numberOfSpeakerOutputs) {
+        this.numberOfSpeakerOutputs = numberOfSpeakerOutputs;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+        if (images != null && !images.isEmpty()) {
+            this.imagesString = String.join(", ", images);
+        } else {
+            this.imagesString = "";
+        }
+    }
+
+    public String getImagesString() {
+        return imagesString;
+    }
+
+    public void setImagesString(String imagesString) {
+        this.imagesString = imagesString;
     }
 }

@@ -1,5 +1,7 @@
 package com.bg.bassheadsbg.model.dto;
 
+import com.bg.bassheadsbg.util.ValueFormatterUtil;
+
 import java.util.List;
 
 public final class MidRangeDetailsDTO {
@@ -19,135 +21,55 @@ public final class MidRangeDetailsDTO {
 
     public MidRangeDetailsDTO() {}
 
-    // Getters and Setters
-
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getModel() {
         return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public Float getSensitivity() {
-        return sensitivity;
-    }
-
-    public void setSensitivity(Float sensitivity) {
-        this.sensitivity = sensitivity;
-    }
-
-    public float getSize() {
-        return size;
-    }
-
-    public void setSize(float size) {
-        this.size = size;
-    }
-
-    public float getFrequencyResponse() {
-        return frequencyResponse;
-    }
-
-    public void setFrequencyResponse(float frequencyResponse) {
-        this.frequencyResponse = frequencyResponse;
-    }
-
-    public byte getNumberOfCoils() {
-        return numberOfCoils;
-    }
-
-    public void setNumberOfCoils(byte numberOfCoils) {
-        this.numberOfCoils = numberOfCoils;
-    }
-
-    public byte getImpedance() {
-        return impedance;
-    }
-
-    public void setImpedance(byte impedance) {
-        this.impedance = impedance;
-    }
-
-    public short getPowerHandling() {
-        return powerHandling;
-    }
-
-    public void setPowerHandling(short powerHandling) {
-        this.powerHandling = powerHandling;
     }
 
     public int getFrequencyRangeFrom() {
         return frequencyRangeFrom;
     }
 
-    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
-        this.frequencyRangeFrom = frequencyRangeFrom;
-    }
-
     public int getFrequencyRangeTo() {
         return frequencyRangeTo;
     }
 
-    public void setFrequencyRangeTo(int frequencyRangeTo) {
-        this.frequencyRangeTo = frequencyRangeTo;
+    public String getSensitivity() {
+        if (ValueFormatterUtil.formatValue(sensitivity).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(sensitivity) + " dB (1W / 1m)";
     }
 
-    // Helper methods for formatting
-    public String formattedSensitivity() {
-        return formatNumber(sensitivity) + " dB (1W / 1m)";
+    public String getSize() {
+        return ValueFormatterUtil.formatValue(size) + "\"";
     }
 
-    public String formattedSize() {
-        return formatNumber(size) + "\"";
+    public String getFrequencyResponse() {
+        return ValueFormatterUtil.formatValue(frequencyResponse) + " Hz";
     }
 
-    public String formattedFrequencyResponse() {
-        return formatNumber(frequencyResponse) + " Hz";
-    }
-
-    public String formattedNumberOfCoils() {
+    public String getNumberOfCoils() {
         return Byte.toString(numberOfCoils);
     }
 
-    public String formattedImpedance() {
+    public String getImpedance() {
         return impedance + " Ω";
     }
 
-    public String formattedPowerHandling() {
+    public String getPowerHandling() {
         return powerHandling + " W";
     }
 
-    public String formattedFrequencyRange() {
+    public String getFrequencyRange() {
         return frequencyRangeFrom + " Hz - " + frequencyRangeTo + " Hz";
-    }
-
-    // Utility method to format numbers
-    private String formatNumber(Number number) {
-        if (number == null) {
-            return "";
-        }
-        if (number.doubleValue() % 1 == 0) {
-            return String.valueOf(number.intValue());
-        } else {
-            return String.valueOf(number);
-        }
     }
 
     public List<String> getImages() {
@@ -163,8 +85,48 @@ public final class MidRangeDetailsDTO {
         }
     }
 
-    public String getImagesString() {
-        return imagesString;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setSensitivity(Float sensitivity) {
+        this.sensitivity = sensitivity;
+    }
+
+    public void setSize(float size) {
+        this.size = size;
+    }
+
+    public void setFrequencyResponse(float frequencyResponse) {
+        this.frequencyResponse = frequencyResponse;
+    }
+
+    public void setNumberOfCoils(byte numberOfCoils) {
+        this.numberOfCoils = numberOfCoils;
+    }
+
+    public void setImpedance(byte impedance) {
+        this.impedance = impedance;
+    }
+
+    public void setPowerHandling(short powerHandling) {
+        this.powerHandling = powerHandling;
+    }
+
+    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
+        this.frequencyRangeFrom = frequencyRangeFrom;
+    }
+
+    public void setFrequencyRangeTo(int frequencyRangeTo) {
+        this.frequencyRangeTo = frequencyRangeTo;
     }
 
     public void setImagesString(String imagesString) {

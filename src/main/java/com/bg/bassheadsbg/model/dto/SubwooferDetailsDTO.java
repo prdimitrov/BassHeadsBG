@@ -1,5 +1,7 @@
 package com.bg.bassheadsbg.model.dto;
 
+import com.bg.bassheadsbg.util.ValueFormatterUtil;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -181,7 +183,6 @@ public final class SubwooferDetailsDTO {
     public void setBl(Float bl) {
         this.bl = bl;
     }
-
     public float getMms() {
         return mms;
     }
@@ -192,19 +193,22 @@ public final class SubwooferDetailsDTO {
 
     // Helper methods for formatting
     public String formattedSensitivity(Number number) {
-        return formatNumber(sensitivity);
+        return ValueFormatterUtil.formatValue(sensitivity);
     }
 
     public String formattedSensitivity() {
-        return formatNumber(sensitivity) + "dB (1W / 1m)";
+        if (ValueFormatterUtil.formatValue(sensitivity).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(sensitivity) + "dB (1W / 1m)";
     }
 
     public String formattedSize() {
-        return formatNumber(size) + "\"";
+        return ValueFormatterUtil.formatValue(size) + "\"";
     }
 
     public String formattedFrequencyResponse() {
-        return formatNumber(frequencyResponse) + "Hz";
+        return ValueFormatterUtil.formatValue(frequencyResponse) + "Hz";
     }
 
     public String formattedNumberOfCoils() {
@@ -220,11 +224,14 @@ public final class SubwooferDetailsDTO {
     }
 
     public String formattedCoilHeight() {
-        return formatNumber(coilHeight) + "\"";
+        return ValueFormatterUtil.formatValue(coilHeight) + "\"";
     }
 
     public String formattedCoilLayers() {
-        return coilLayers == null ? "" : Byte.toString(coilLayers);
+        if (ValueFormatterUtil.formatValue(coilLayers).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(coilLayers);
     }
 
     public String formattedMagnetSize() {
@@ -232,47 +239,51 @@ public final class SubwooferDetailsDTO {
     }
 
     public String formattedVas() {
-        return formatNumber(vas) + "L";
+        if (ValueFormatterUtil.formatValue(vas).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(vas) + "L";
     }
 
     public String formattedXmax() {
-        return xmax + "mm";
+        return xmax + " mm";
     }
 
     public String formattedQms() {
-        return formatNumber(qms);
+        if (ValueFormatterUtil.formatValue(qms).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(qms);
     }
     public String formattedQes() {
-        return formatNumber(qes);
+        if (ValueFormatterUtil.formatValue(qes).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(qes);
     }
     public String formattedQts() {
-        return formatNumber(qts);
+        if (ValueFormatterUtil.formatValue(qts).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(qts);
     }
 
     public String formattedSd() {
-        return formatNumber(sd) + " mm²";
+        if (ValueFormatterUtil.formatValue(sd).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(sd) + " mm²";
     }
 
     public String formattedBl() {
-        return formatNumber(bl) + " T/m";
+        if (ValueFormatterUtil.formatValue(bl).equals("N/A")) {
+            return "N/A";
+        }
+        return ValueFormatterUtil.formatValue(bl) + " T/m";
     }
 
     public String formattedMms() {
-        return formatNumber(mms) + "g";
-    }
-
-
-
-    // Utility method to format numbers
-    private String formatNumber(Number number) {
-        if (number == null) {
-            return "";
-        }
-        if (number.doubleValue() % 1 == 0) {
-            return String.valueOf(number.intValue());
-        } else {
-            return String.valueOf(number);
-        }
+        return ValueFormatterUtil.formatValue(mms) + "g";
     }
 
     public List<String> getImages() {
@@ -294,30 +305,5 @@ public final class SubwooferDetailsDTO {
 
     public void setImagesString(String imagesString) {
         this.imagesString = imagesString;
-    }
-
-    @Override
-    public String toString() {
-        return "SubwooferDetailsDTO[" +
-                "id=" + id + ", " +
-                "brand=" + brand + ", " +
-                "model=" + model + ", " +
-                "sensitivity=" + sensitivity + ", " +
-                "size=" + size + ", " +
-                "frequencyResponse=" + frequencyResponse + ", " +
-                "numberOfCoils=" + numberOfCoils + ", " +
-                "impedance=" + impedance + ", " +
-                "powerHandling=" + powerHandling + ", " +
-                "coilHeight=" + coilHeight + ", " +
-                "coilLayers=" + coilLayers + ", " +
-                "magnetSize=" + magnetSize + ", " +
-                "vas=" + vas + ", " +
-                "xmax=" + xmax + ", " +
-                "qms=" + qms + ", " +
-                "qes=" + qes + ", " +
-                "qts=" + qts + ", " +
-                "sd=" + sd + ", " +
-                "bl=" + bl + ", " +
-                "mms=" + mms + ']';
     }
 }

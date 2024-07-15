@@ -27,7 +27,7 @@ public class SubwooferController {
         if (!model.containsAttribute("addSubwooferDTO")) {
             model.addAttribute("addSubwooferDTO", new AddSubwooferDTO());
         }
-        return "subwoofer-add";
+        return "/speakers/subwoofer-add";
     }
 
     @ModelAttribute("addSubwooferDTO")
@@ -53,7 +53,7 @@ public class SubwooferController {
     public String subwooferDetails(@PathVariable("id") Long id,
                                    Model model) {
         model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
-        return "subwoofer-details";
+        return "/speakers/subwoofer-details";
     }
 
     @DeleteMapping("/{id}")

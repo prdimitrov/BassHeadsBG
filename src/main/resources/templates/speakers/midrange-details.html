@@ -21,7 +21,7 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
 
 <div class="container-fluid">
-    <div th:object="${highRangeDetails}" class="specifications">
+    <div th:object="${midRangeDetails}" class="specifications">
         <div class="device-images  pb-2 pt-2 text-center">
             <div class="device-body pb-2 pt-2  text-center">
                 <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
@@ -50,39 +50,31 @@
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-bullhorn"></i> Sensitivity</h4></td>
-                            <td><span th:text="*{formattedSensitivity()}"></span></td>
+                            <td><span th:text="*{Sensitivity}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-ruler-combined"></i> Size</h4></td>
-                            <td><span th:text="*{formattedSize()}"></span></td>
+                            <td><span th:text="*{Size}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-wave-square"></i> Fs</h4></td>
-                            <td><span th:text="*{formattedFrequencyResponse()}"></span></td>
+                            <td><span th:text="*{FrequencyResponse}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-circle-notch"></i> Coils</h4></td>
-                            <td><span th:text="*{formattedNumberOfCoils()}"></span></td>
+                            <td><span th:text="*{NumberOfCoils}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-ethernet"></i> Impedance</h4></td>
-                            <td><span th:text="*{formattedImpedance()}"></span></td>
+                            <td><span th:text="*{Impedance}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-bolt"></i> Power Handling</h4></td>
-                            <td><span th:text="*{formattedPowerHandling()}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-cube"></i> Materials</h4></td>
-                            <td><span th:text="*{material}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-random"></i> Crossover</h4></td>
-                            <td><span th:text="*{crossover}"></span></td>
+                            <td><span th:text="*{PowerHandling}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-signal"></i> Frequency range</h4></td>
-                            <td><span th:text="*{formattedFrequencyRange()}"></span></td>
+                            <td><span th:text="*{getFrequencyRange}"></span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -90,7 +82,7 @@
                         <a class="btn btn-info btn-lg" href="/">Update</a>
                         <form
                                 th:method="delete"
-                                th:action="@{/speakers/high-range/{id}(id=*{id})}">
+                                th:action="@{/speakers/mid-range/{id}(id=*{id})}">
                             <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
                         </form>
                     </div>
@@ -104,7 +96,7 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    setupGallery([[${highRangeDetails.images}]]);
+    setupGallery([[${midRangeDetails.images}]]);
     /*]]>*/
 </script>
 

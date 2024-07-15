@@ -23,6 +23,7 @@ public class AddMidRangeDTO {
 
     @Positive
     @NotNull
+    @DecimalMax(value = "50", message = "Виждал ли си говорител по-голям от 50 инча?!")
     private float size;
 
     @Positive

@@ -26,7 +26,7 @@ public class HighRangeController {
         if (!model.containsAttribute("addHighRangeDTO")) {
             model.addAttribute("addHighRangeDTO", new AddHighRangeDTO());
         }
-        return "highrange-add";
+        return "/speakers/highrange-add";
     }
 
     @ModelAttribute("addHighRangeDTO")
@@ -52,7 +52,7 @@ public class HighRangeController {
     public String highRangeDetails(@PathVariable("id") Long id,
                                    Model model) {
         model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
-        return "highrange-details";
+        return "/speakers/highrange-details";
     }
 
     @DeleteMapping("/{id}")

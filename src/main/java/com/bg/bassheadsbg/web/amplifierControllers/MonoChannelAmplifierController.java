@@ -27,7 +27,7 @@ public class MonoChannelAmplifierController {
         if (!model.containsAttribute("addMonoAmpDTO")) {
             model.addAttribute("addMonoAmpDTO", new AddMonoAmpDTO());
         }
-        return "monoamp-add";
+        return "/amps/monoamp-add";
     }
 
     @ModelAttribute("addMonoAmpDTO")
@@ -53,7 +53,7 @@ public class MonoChannelAmplifierController {
     public String monoAmpDetails(@PathVariable("id") Long id,
                                    Model model) {
         model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
-        return "monoamp-details";
+        return "/amps/monoamp-details";
     }
 
     @DeleteMapping("/{id}")
