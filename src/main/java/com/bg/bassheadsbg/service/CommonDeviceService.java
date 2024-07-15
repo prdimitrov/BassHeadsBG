@@ -1,5 +1,7 @@
 package com.bg.bassheadsbg.service;
 
+import jakarta.persistence.Entity;
+
 import java.util.List;
 
 public interface CommonDeviceService<AddDTO, DetailsDTO, SummaryDTO> {

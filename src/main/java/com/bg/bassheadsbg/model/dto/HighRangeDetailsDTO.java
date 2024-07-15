@@ -55,42 +55,62 @@ public final class HighRangeDetailsDTO {
         return imagesString;
     }
 
-    public String getSensitivity() {
+    public String formattedSensitivity() {
         if (ValueFormatterUtil.formatValue(sensitivity).equals("N/A")) {
             return "N/A";
         }
         return ValueFormatterUtil.formatValue(sensitivity) + " dB (1W / 1m)";
     }
 
-    public String getSize() {
+    public String formattedSize() {
         return ValueFormatterUtil.formatValue(size) + "\"";
     }
 
-    public String getFrequencyResponse() {
+    public String formattedFrequencyResponse() {
         if (ValueFormatterUtil.formatValue(frequencyResponse).equals("N/A")) {
             return "N/A";
         }
         return ValueFormatterUtil.formatValue(frequencyResponse) + " Hz";
     }
 
-    public String getNumberOfCoils() {
-        return Byte.toString(numberOfCoils);
-    }
-
-    public String getImpedance() {
+    public String formattedImpedance() {
         return impedance + " Ω";
     }
 
-    public String getPowerHandling() {
+    public String formattedPowerHandling() {
         return powerHandling + " W";
     }
 
-    public String getFrequencyRange() {
+    public String formattedFrequencyRange() {
         return frequencyRangeFrom + " Hz - " + frequencyRangeTo + " Hz";
     }
 
     public List<String> getImages() {
         return images;
+    }
+
+    public Float getSensitivity() {
+        return sensitivity;
+    }
+
+    public float getSize() {
+        return size;
+    }
+
+    public float getFrequencyResponse() {
+        return frequencyResponse;
+    }
+
+    public byte getNumberOfCoils() {
+        return numberOfCoils;
+    }
+
+    public byte getImpedance() {
+        return impedance;
+    }
+
+    public short getPowerHandling() {
+        return powerHandling;
     }
 
     public void setId(long id) {

@@ -50,6 +50,33 @@ public class HighRangeController {
         return "redirect:/speakers/high-range/" + newHighRange;
     }
 
+    @GetMapping("/edit/{id}")
+    public String getEditHighRange(@PathVariable("id") Long id,
+                                Model model) {
+        HighRangeDetailsDTO highRangeDetailsDTO = highRangeService.getDeviceDetails(id);
+
+        if (!model.containsAttribute("highRangeDetails")) {
+            model.addAttribute("highRangeDetails", highRangeDetailsDTO);
+        }
+        return "/speakers/highrange-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String postEditHighRange(@Valid @ModelAttribute("highRangeDetails") AddHighRangeDTO addHighRangeDTO,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("highRangeDetails", addHighRangeDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.highRangeDetails", bindingResult);
+            return "redirect:/speakers/high-range/edit/" + addHighRangeDTO.getId();
+        }
+
+        long newHighRange = highRangeService.addDevice(addHighRangeDTO);
+        return "redirect:/speakers/high-range/" + newHighRange;
+    }
+
+
+
     @GetMapping("/{id}")
     public String highRangeDetails(@PathVariable("id") Long id,
                                    Model model) {
