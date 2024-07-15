@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BassHeadsBG</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/detailpages.css">
+    <link rel="stylesheet" type="text/css" href="/css/got-bass-bgrd.css">
+    <link rel="stylesheet" type="text/css" href="/css/omg.css">
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/deviceImageSlider.js"></script>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
+
+<div class="container-fluid">
+    <div th:object="${midRangeDetails}" class="specifications">
+        <div class="device-images  pb-2 pt-2 text-center">
+            <div class="device-body pb-2 pt-2  text-center">
+                <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
+            </div>
+            <div class="gallery">
+                <img id="device-image" src="/" class="card-img-top img-thumbnail" alt="Device Image">
+            </div>
+            <div class="gallery-buttons">
+                <button id="prev" class="gallery-button"><i class="fa-solid fa-arrow-left"></i></button>
+                <div id="thumbnails" class="d-flex justify-content-center align-items flex-wrap mt-2"></div>
+                <button id="next" class="gallery-button"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="device-body">
+                <h2>Specifications</h2>
+                <div class="specs">
+                    <table class="table table-borderless device-details">
+                        <thead></thead>
+                        <tbody>
+                        <tr>
+                            <td><h4><i class="fas fa-tag"></i> Brand</h4></td>
+                            <td><span th:text="*{brand}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-mobile-alt"></i> Model</h4></td>
+                            <td><span th:text="*{model}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-bullhorn"></i> Sensitivity</h4></td>
+                            <td><span th:text="*{Sensitivity}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-ruler-combined"></i> Size</h4></td>
+                            <td><span th:text="*{Size}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-wave-square"></i> Fs</h4></td>
+                            <td><span th:text="*{FrequencyResponse}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-circle-notch"></i> Coils</h4></td>
+                            <td><span th:text="*{NumberOfCoils}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-ethernet"></i> Impedance</h4></td>
+                            <td><span th:text="*{Impedance}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-bolt"></i> Power Handling</h4></td>
+                            <td><span th:text="*{PowerHandling}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-signal"></i> Frequency range</h4></td>
+                            <td><span th:text="*{getFrequencyRange}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
+                        <a class="btn btn-info btn-lg" href="/">Update</a>
+                        <form
+                                th:method="delete"
+                                th:action="@{/speakers/mid-range/{id}(id=*{id})}">
+                            <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer::footer}"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    setupGallery([[${midRangeDetails.images}]]);
+    /*]]>*/
+</script>
+
+</body>
+</html>

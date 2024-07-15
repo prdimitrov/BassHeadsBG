@@ -53,7 +53,7 @@ public class MultiChannelAmplifierController {
     public String multiChannelAmpDetails(@PathVariable("id") Long id,
                                  Model model) {
         model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
-        return "/amps/multi-channel-details";
+        return "/amps/multichannel-amp-details";
     }
 
     @DeleteMapping("/{id}")
