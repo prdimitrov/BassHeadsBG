@@ -35,10 +35,6 @@ public class AddMonoAmpDTO {
     @NotNull
     private int power;
 
-    @Positive
-    @NotNull
-    private byte efficiency;
-
     @NotBlank
     private String highPassFilter;
 
@@ -132,14 +128,6 @@ public class AddMonoAmpDTO {
 
     public void setPower(int power) {
         this.power = power;
-    }
-
-    public byte getEfficiency() {
-        return efficiency;
-    }
-
-    public void setEfficiency(byte efficiency) {
-        this.efficiency = efficiency;
     }
 
     public String getHighPassFilter() {

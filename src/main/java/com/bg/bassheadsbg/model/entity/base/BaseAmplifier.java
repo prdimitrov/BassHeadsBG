@@ -30,23 +30,24 @@ public abstract class BaseAmplifier extends BaseEntity {
     @NotNull
     private int power;
 
-    @Positive
-    @NotNull
-    private byte efficiency;
-
-
     @NotBlank
     private String highPassFilter;
+
     @NotBlank
     private String lowPassFilter;
+
     @NotBlank
     private String subsonicFilter;
+
     @NotNull
     private boolean remoteControl;
+
     @NotNull
     private boolean bassBoost;
+
     @NotBlank
     private String lowInputLevel;
+
     @NotBlank
     private String highInputLevel;
 
@@ -116,14 +117,6 @@ public abstract class BaseAmplifier extends BaseEntity {
 
     public void setPower(int power) {
         this.power = power;
-    }
-
-    public byte getEfficiency() {
-        return efficiency;
-    }
-
-    public void setEfficiency(byte efficiency) {
-        this.efficiency = efficiency;
     }
 
     public String getHighPassFilter() {

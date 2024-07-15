@@ -13,7 +13,6 @@ public final class MonoAmpDetailsDTO {
     private String amplifierClass;
     private byte impedance;
     private int power;
-    private byte efficiency;
     private String highPassFilter;
     private String lowPassFilter;
     private String subsonicFilter;
@@ -57,10 +56,6 @@ public final class MonoAmpDetailsDTO {
 
     public String getPower() {
         return ValueFormatterUtil.formatValue(power) + " W";
-    }
-
-    public String getEfficiency() {
-        return ValueFormatterUtil.formatValue(efficiency) + " %";
     }
 
     public String getHighPassFilter() {
@@ -158,10 +153,6 @@ public final class MonoAmpDetailsDTO {
 
     public void setPower(int power) {
         this.power = power;
-    }
-
-    public void setEfficiency(byte efficiency) {
-        this.efficiency = efficiency;
     }
 
     public void setHighPassFilter(String highPassFilter) {

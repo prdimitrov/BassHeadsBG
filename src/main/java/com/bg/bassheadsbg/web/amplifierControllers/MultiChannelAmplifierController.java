@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/amplifiers/multichannel-amplifiers")
+@RequestMapping("/amplifiers/multi-channel-amplifiers")
 public class MultiChannelAmplifierController {
     private final MultiChannelAmpService multiChannelAmpService;
 
@@ -37,8 +37,8 @@ public class MultiChannelAmplifierController {
 
     @PostMapping("/add")
     public String addMultiChannelAmp(@Valid @ModelAttribute("addMultiChannelAmpDTO") AddMultiChannelAmpDTO addMultiChannelAmpDTO,
-                             BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
+                                     BindingResult bindingResult,
+                                     RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMultiChannelAmpDTO", addMultiChannelAmpDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMultiChannelAmpDTO", bindingResult);

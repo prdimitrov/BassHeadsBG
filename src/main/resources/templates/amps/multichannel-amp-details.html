@@ -21,7 +21,7 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
 
 <div class="container-fluid">
-    <div th:object="${monoAmpDetails}" class="specifications">
+    <div th:object="${multiChannelAmpDetails}" class="specifications">
         <div class="device-images  pb-2 pt-2 text-center">
             <div class="device-body pb-2 pt-2  text-center">
                 <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
@@ -59,10 +59,6 @@
                         <tr>
                             <td><h4><i class="fas fa-wave-square"></i> Power</h4></td>
                             <td><span th:text="*{power}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-tachometer-alt"></i> Efficiency</h4></td>
-                            <td><span th:text="*{efficiency}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-signal"></i> HPF</h4></td>
@@ -129,10 +125,8 @@
                         <h2><i class="fas fa-sliders-h"></i> Additional</h2>
                         <hr>
                         <div class="form-group col-md-6 mb-3">
-                            <h4>RCA</h4></td>
-                            <span th:text="*{numberOfRca}"></span>
-                            <h4>Outputs</h4></td>
-                            <span th:text="*{numberOfSpeakerOutputs}"></span>
+                            <h4>Channels</h4></td>
+                            <span th:text="*{numberOfChannels}"></span>
                         </div>
                     </div>
 
@@ -154,7 +148,7 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    setupGallery([[${monoAmpDetails.images}]]);
+    setupGallery([[${multiChannelAmpDetails.images}]]);
     /*]]>*/
 </script>
 

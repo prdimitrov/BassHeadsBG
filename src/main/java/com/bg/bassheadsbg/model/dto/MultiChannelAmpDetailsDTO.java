@@ -7,7 +7,6 @@ public record MultiChannelAmpDetailsDTO(
         String amplifierClass,
         byte impedance,
         int power,
-        byte efficiency,
         String highPassFilter,
         String lowPassFilter,
         String subsonicFilter,

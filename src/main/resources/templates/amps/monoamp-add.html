@@ -79,15 +79,6 @@
                 <small class="text-danger invalid-feedback" th:if="${#fields.hasErrors('amplifierClass')}"
                        th:errors="*{amplifierClass}"></small>
             </div>
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="efficiency" class="text-white font-weight-bold">Efficiency</label>
-                <input th:field="*{efficiency}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="number"
-                       class="form-control"
-                       placeholder="%"/>
-                <small class="text-danger invalid-feedback" th:errors="*{efficiency}"></small>
-            </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
