@@ -21,7 +21,7 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'device-dropdown'})}"></div>
 
 <div class="container">
-    <h2 class="text-center text-white">Upload Speaker</h2>
+    <h2 class="text-center text-white">Update Speaker</h2>
 
     <form th:action="@{/speakers/high-range/edit/{id}(id=${highRangeDetails.id})}"
           th:method="post"

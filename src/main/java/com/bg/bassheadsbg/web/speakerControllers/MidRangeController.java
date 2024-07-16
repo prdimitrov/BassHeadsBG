@@ -1,6 +1,8 @@
 package com.bg.bassheadsbg.web.speakerControllers;
 
 import com.bg.bassheadsbg.model.dto.AddMidRangeDTO;
+import com.bg.bassheadsbg.model.dto.MidRangeDetailsDTO;
+import com.bg.bassheadsbg.model.helpers.MidRangeDetailsHelperDTO;
 import com.bg.bassheadsbg.service.MidRangeService;
 import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import jakarta.validation.Valid;
@@ -17,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MidRangeController {
     private final MidRangeService midRangeService;
 
-    public MidRangeController(MidRangeService midRangeService) {
+    public  MidRangeController(MidRangeService midRangeService) {
         this.midRangeService = midRangeService;
     }
 
@@ -36,8 +38,8 @@ public class MidRangeController {
 
     @PostMapping("/add")
     public String addMidRange(@Valid @ModelAttribute("addMidRangeDTO") AddMidRangeDTO addMidRangeDTO,
-                              BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMidRangeDTO", addMidRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMidRangeDTO", bindingResult);
@@ -48,10 +50,46 @@ public class MidRangeController {
         return "redirect:/speakers/mid-range/" + newMidRange;
     }
 
+    @GetMapping("/edit/{id}")
+    public String getEditMidRange(@PathVariable("id") Long id,
+                                   Model model) {
+        MidRangeDetailsDTO midRangeDetailsDTO = midRangeService.getDeviceDetails(id);
+
+        if (!model.containsAttribute("midRangeDetails")) {
+            model.addAttribute("midRangeDetails", midRangeDetailsDTO);
+        }
+        return "/speakers/midrange-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String postEditMidRange(@Valid @ModelAttribute("midRangeDetails") AddMidRangeDTO addMidRangeDTO,
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("midRangeDetails", addMidRangeDTO);
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "midRangeDetails", bindingResult);
+            return "redirect:/speakers/mid-range/edit/" + addMidRangeDTO.getId();
+        }
+
+        long newMidRange = midRangeService.addDevice(addMidRangeDTO);
+        return "redirect:/speakers/mid-range/" + newMidRange;
+    }
+
+
+
     @GetMapping("/{id}")
     public String midRangeDetails(@PathVariable("id") Long id,
-                                  Model model) {
+                                   Model model) {
+
+        MidRangeDetailsDTO deviceDetails = midRangeService.getDeviceDetails(id);
         model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
+
+        MidRangeDetailsHelperDTO helperDTO =
+                new MidRangeDetailsHelperDTO(deviceDetails);
+
+        model.addAttribute("helperDTO", helperDTO);
+
+
         return "/speakers/midrange-details";
     }
 
