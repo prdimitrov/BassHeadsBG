@@ -20,12 +20,12 @@ public final class MonoAmpDetailsDTO {
     private boolean bassBoost;
     private String lowInputLevel;
     private String highInputLevel;
-    private Float distortion;
+    private float distortion;
     private double currentDraw;
     private short fuseRating;
-    private Short height;
-    private Short width;
-    private Short length;
+    private short height;
+    private short width;
+    private short length;
     private byte numberOfRca;
     private byte numberOfSpeakerOutputs;
     private List<String> images;
@@ -34,185 +34,184 @@ public final class MonoAmpDetailsDTO {
     public MonoAmpDetailsDTO() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getBrand() {
         return brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public String getAmplifierClass() {
-        return amplifierClass;
-    }
-
-    public String getImpedance() {
-        return ValueFormatterUtil.formatValue(impedance) + " Ω";
-    }
-
-    public String getPower() {
-        return ValueFormatterUtil.formatValue(power) + " W";
-    }
-
-    public String getHighPassFilter() {
-        return ValueFormatterUtil.formatValue(highPassFilter);
-    }
-
-    public String getLowPassFilter() {
-        return ValueFormatterUtil.formatValue(lowPassFilter);
-    }
-
-    public String getSubsonicFilter() {
-        return ValueFormatterUtil.formatValue(subsonicFilter);
-    }
-
-    public String isRemoteControl() {
-        return ValueFormatterUtil.formatValue(isRemoteControl());
-    }
-
-    public String isBassBoost() {
-        return ValueFormatterUtil.formatValue(isBassBoost());
-    }
-
-    public String getLowInputLevel() {
-        return ValueFormatterUtil.formatValue(lowInputLevel);
-    }
-
-    public String getHighInputLevel() {
-        return ValueFormatterUtil.formatValue(highInputLevel);
-    }
-
-    public String getDistortion() {
-        return ">" + ValueFormatterUtil.formatValue(distortion) + " %";
-    }
-
-    public String getCurrentDraw() {
-        return ValueFormatterUtil.formatValue(currentDraw) + " A";
-    }
-
-    public String getFuseRating() {
-        return ValueFormatterUtil.formatValue(fuseRating) + " A";
-    }
-
-    public String getHeight() {
-        if (ValueFormatterUtil.formatValue(height).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(height) + " mm";
-    }
-
-    public String getWidth() {
-        if (ValueFormatterUtil.formatValue(width).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(width) + " mm";
-    }
-
-    public String getLength() {
-        if (ValueFormatterUtil.formatValue(length).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(length) + " mm";
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public byte getNumberOfRca() {
-        return numberOfRca;
-    }
-
-    public byte getNumberOfSpeakerOutputs() {
-        return numberOfSpeakerOutputs;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setBrand(String brand) {
         this.brand = brand;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public String getAmplifierClass() {
+        return amplifierClass;
     }
 
     public void setAmplifierClass(String amplifierClass) {
         this.amplifierClass = amplifierClass;
     }
 
+    public byte getImpedance() {
+        return impedance;
+    }
+
     public void setImpedance(byte impedance) {
         this.impedance = impedance;
+    }
+
+    public int getPower() {
+        return power;
     }
 
     public void setPower(int power) {
         this.power = power;
     }
 
+    public String getHighPassFilter() {
+        return highPassFilter;
+    }
+
     public void setHighPassFilter(String highPassFilter) {
         this.highPassFilter = highPassFilter;
+    }
+
+    public String getLowPassFilter() {
+        return lowPassFilter;
     }
 
     public void setLowPassFilter(String lowPassFilter) {
         this.lowPassFilter = lowPassFilter;
     }
 
+    public String getSubsonicFilter() {
+        return subsonicFilter;
+    }
+
     public void setSubsonicFilter(String subsonicFilter) {
         this.subsonicFilter = subsonicFilter;
+    }
+
+    public boolean isRemoteControl() {
+        return remoteControl;
     }
 
     public void setRemoteControl(boolean remoteControl) {
         this.remoteControl = remoteControl;
     }
 
+    public boolean isBassBoost() {
+        return bassBoost;
+    }
+
     public void setBassBoost(boolean bassBoost) {
         this.bassBoost = bassBoost;
+    }
+
+    public String getLowInputLevel() {
+        return lowInputLevel;
     }
 
     public void setLowInputLevel(String lowInputLevel) {
         this.lowInputLevel = lowInputLevel;
     }
 
+    public String getHighInputLevel() {
+        return highInputLevel;
+    }
+
     public void setHighInputLevel(String highInputLevel) {
         this.highInputLevel = highInputLevel;
     }
 
-    public void setDistortion(Float distortion) {
+    public float getDistortion() {
+        return distortion;
+    }
+
+    public void setDistortion(float distortion) {
         this.distortion = distortion;
+    }
+
+    public double getCurrentDraw() {
+        return currentDraw;
     }
 
     public void setCurrentDraw(double currentDraw) {
         this.currentDraw = currentDraw;
     }
 
+    public short getFuseRating() {
+        return fuseRating;
+    }
+
     public void setFuseRating(short fuseRating) {
         this.fuseRating = fuseRating;
     }
 
-    public void setHeight(Short height) {
+    public short getHeight() {
+        return height;
+    }
+
+    public void setHeight(short height) {
         this.height = height;
     }
 
-    public void setWidth(Short width) {
+    public short getWidth() {
+        return width;
+    }
+
+    public void setWidth(short width) {
         this.width = width;
     }
 
-    public void setLength(Short length) {
+    public short getLength() {
+        return length;
+    }
+
+    public void setLength(short length) {
         this.length = length;
+    }
+
+    public byte getNumberOfRca() {
+        return numberOfRca;
     }
 
     public void setNumberOfRca(byte numberOfRca) {
         this.numberOfRca = numberOfRca;
     }
 
+    public byte getNumberOfSpeakerOutputs() {
+        return numberOfSpeakerOutputs;
+    }
+
     public void setNumberOfSpeakerOutputs(byte numberOfSpeakerOutputs) {
         this.numberOfSpeakerOutputs = numberOfSpeakerOutputs;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public String getImagesString() {
+        return imagesString;
+    }
+
+    public void setImagesString(String imagesString) {
+        this.imagesString = imagesString;
     }
 
     public void setImages(List<String> images) {
@@ -222,13 +221,5 @@ public final class MonoAmpDetailsDTO {
         } else {
             this.imagesString = "";
         }
-    }
-
-    public String getImagesString() {
-        return imagesString;
-    }
-
-    public void setImagesString(String imagesString) {
-        this.imagesString = imagesString;
     }
 }

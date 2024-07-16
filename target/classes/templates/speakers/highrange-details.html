@@ -50,15 +50,15 @@
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-bullhorn"></i> Sensitivity</h4></td>
-                            <td><span th:text="*{sensitivity}"></span></td>
+                            <td><span th:text="${helperDTO.formattedSensitivity()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-ruler-combined"></i> Size</h4></td>
-                            <td><span th:text="*{size}"></span></td>
+                            <td><span th:text="${helperDTO.formattedSize()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-wave-square"></i> Fs</h4></td>
-                            <td><span th:text="*{frequencyResponse}"></span></td>
+                            <td><span th:text="${helperDTO.formattedFrequencyResponse()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-circle-notch"></i> Coils</h4></td>
@@ -66,11 +66,11 @@
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-ethernet"></i> Impedance</h4></td>
-                            <td><span th:text="*{impedance}"></span></td>
+                            <td><span th:text="${helperDTO.formattedImpedance()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-bolt"></i> Power Handling</h4></td>
-                            <td><span th:text="*{powerHandling}"></span></td>
+                            <td><span th:text="${helperDTO.formattedPowerHandling()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-cube"></i> Materials</h4></td>
@@ -82,12 +82,12 @@
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-signal"></i> Frequency range</h4></td>
-                            <td><span th:text="*{frequencyRange}"></span></td>
+                            <td><span th:text="${helperDTO.formattedFrequencyRange()}"></span></td>
                         </tr>
                         </tbody>
                     </table>
                     <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
-                        <form th:action="@{/speakers/high-range/edit(id=${highRangeDetails.id})}" th:object="${highRangeDetails}" method="post">
+                        <form th:action="@{/speakers/high-range/edit/{id}(id=${highRangeDetails.id})}" th:object="${highRangeDetails}" method="get">
                             <input type="hidden" th:field="*{id}"/>
                             <input class="btn btn-info btn-lg" type="submit" value="Update"/>
                         </form>

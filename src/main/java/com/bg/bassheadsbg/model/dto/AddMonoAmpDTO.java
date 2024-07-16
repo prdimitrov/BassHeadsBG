@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.hibernate.validator.constraints.URL;
 
 import java.util.ArrayList;
@@ -56,8 +57,9 @@ public class AddMonoAmpDTO {
     @NotBlank
     private String highInputLevel;
 
-    @Positive
-    private Float distortion;
+    @PositiveOrZero
+    @NotNull
+    private float distortion;
 
     @Positive
     @NotNull
@@ -75,19 +77,30 @@ public class AddMonoAmpDTO {
     @Positive
     private byte numberOfSpeakerOutputs;
 
-    @Positive
-    private Short height;
+    @PositiveOrZero
+    @NotNull
+    private short height;
 
-    @Positive
-    private Short width;
+    @PositiveOrZero
+    @NotNull
+    private short width;
 
-    @Positive
-    private Short length;
+    @PositiveOrZero
+    @NotNull
+    private short length;
 
     @ValidUrlList
     private List<@URL @NotBlank String> images = new ArrayList<>();
 
     public AddMonoAmpDTO() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getBrand() {
@@ -186,11 +199,11 @@ public class AddMonoAmpDTO {
         this.highInputLevel = highInputLevel;
     }
 
-    public Float getDistortion() {
+    public float getDistortion() {
         return distortion;
     }
 
-    public void setDistortion(Float distortion) {
+    public void setDistortion(float distortion) {
         this.distortion = distortion;
     }
 
@@ -226,43 +239,35 @@ public class AddMonoAmpDTO {
         this.numberOfSpeakerOutputs = numberOfSpeakerOutputs;
     }
 
-    public Short getHeight() {
+    public short getHeight() {
         return height;
     }
 
-    public void setHeight(Short height) {
+    public void setHeight(short height) {
         this.height = height;
     }
 
-    public Short getWidth() {
+    public short getWidth() {
         return width;
     }
 
-    public void setWidth(Short width) {
+    public void setWidth(short width) {
         this.width = width;
     }
 
-    public Short getLength() {
+    public short getLength() {
         return length;
     }
 
-    public void setLength(Short length) {
+    public void setLength(short length) {
         this.length = length;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public List<@URL @NotBlank String> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<@URL @NotBlank String> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 }

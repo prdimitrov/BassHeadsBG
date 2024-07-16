@@ -18,7 +18,7 @@ public class AddSubwooferDTO {
     private String model;
 
     @PositiveOrZero
-    private Float sensitivity;
+    private float sensitivity;
 
     @Positive
     @NotNull
@@ -46,33 +46,40 @@ public class AddSubwooferDTO {
     private float coilHeight;
 
     @PositiveOrZero
-    private Byte coilLayers;
+    @NotNull
+    private byte coilLayers;
 
     @Positive
     @NotNull
     private short magnetSize;
 
     @PositiveOrZero
-    private Float vas;
+    @NotNull
+    private float vas;
 
     @Positive
     @NotNull
     private byte xmax;
 
     @PositiveOrZero
-    private Float qms;
+    @NotNull
+    private float qms;
 
     @PositiveOrZero
-    private Float qes;
+    @NotNull
+    private float qes;
 
     @PositiveOrZero
-    private Float qts;
+    @NotNull
+    private float qts;
 
     @PositiveOrZero
-    private Float sd;
+    @NotNull
+    private float sd;
 
     @PositiveOrZero
-    private Float bl;
+    @NotNull
+    private float bl;
 
     @Positive
     @NotNull
@@ -81,7 +88,16 @@ public class AddSubwooferDTO {
     @ValidUrlList
     private List<@URL @NotBlank String> images = new ArrayList<>();
 
+
     public AddSubwooferDTO() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getBrand() {
@@ -100,11 +116,11 @@ public class AddSubwooferDTO {
         this.model = model;
     }
 
-    public Float getSensitivity() {
+    public float getSensitivity() {
         return sensitivity;
     }
 
-    public void setSensitivity(Float sensitivity) {
+    public void setSensitivity(float sensitivity) {
         this.sensitivity = sensitivity;
     }
 
@@ -156,11 +172,11 @@ public class AddSubwooferDTO {
         this.coilHeight = coilHeight;
     }
 
-    public Byte getCoilLayers() {
+    public byte getCoilLayers() {
         return coilLayers;
     }
 
-    public void setCoilLayers(Byte coilLayers) {
+    public void setCoilLayers(byte coilLayers) {
         this.coilLayers = coilLayers;
     }
 
@@ -172,11 +188,11 @@ public class AddSubwooferDTO {
         this.magnetSize = magnetSize;
     }
 
-    public Float getVas() {
+    public float getVas() {
         return vas;
     }
 
-    public void setVas(Float vas) {
+    public void setVas(float vas) {
         this.vas = vas;
     }
 
@@ -188,43 +204,43 @@ public class AddSubwooferDTO {
         this.xmax = xmax;
     }
 
-    public Float getQms() {
+    public float getQms() {
         return qms;
     }
 
-    public void setQms(Float qms) {
+    public void setQms(float qms) {
         this.qms = qms;
     }
 
-    public Float getQes() {
+    public float getQes() {
         return qes;
     }
 
-    public void setQes(Float qes) {
+    public void setQes(float qes) {
         this.qes = qes;
     }
 
-    public Float getQts() {
+    public float getQts() {
         return qts;
     }
 
-    public void setQts(Float qts) {
+    public void setQts(float qts) {
         this.qts = qts;
     }
 
-    public Float getSd() {
+    public float getSd() {
         return sd;
     }
 
-    public void setSd(Float sd) {
+    public void setSd(float sd) {
         this.sd = sd;
     }
 
-    public Float getBl() {
+    public float getBl() {
         return bl;
     }
 
-    public void setBl(Float bl) {
+    public void setBl(float bl) {
         this.bl = bl;
     }
 
@@ -236,40 +252,11 @@ public class AddSubwooferDTO {
         this.mms = mms;
     }
 
-    @Override
-    public String toString() {
-        return "AddSubwooferDTO{" +
-                "brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", sensitivity=" + sensitivity +
-                ", size=" + size +
-                ", frequencyResponse=" + frequencyResponse +
-                ", numberOfCoils=" + numberOfCoils +
-                ", impedance=" + impedance +
-                ", powerHandling=" + powerHandling +
-                ", coilHeight=" + coilHeight +
-                ", coilLayers=" + coilLayers +
-                ", magnetSize=" + magnetSize +
-                ", vas=" + vas +
-                ", xmax=" + xmax +
-                ", qms=" + qms +
-                ", qes=" + qes +
-                ", qts=" + qts +
-                ", sd=" + sd +
-                ", bl=" + bl +
-                ", mms=" + mms +
-                '}';
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public List<@URL @NotBlank String> getImages() {
+    public List<String> getImages() {
         return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

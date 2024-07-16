@@ -6,16 +6,17 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "mid_range")
 public class MidRange extends BaseSpeaker {
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private int frequencyRangeFrom;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private int frequencyRangeTo;
 

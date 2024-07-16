@@ -2,6 +2,7 @@ package com.bg.bassheadsbg.web.speakerControllers;
 
 import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
 import com.bg.bassheadsbg.model.dto.HighRangeDetailsDTO;
+import com.bg.bassheadsbg.model.helpers.HighRangeDetailsHelperDTO;
 import com.bg.bassheadsbg.service.HighRangeService;
 import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,7 +68,7 @@ public class HighRangeController {
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("highRangeDetails", addHighRangeDTO);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.highRangeDetails", bindingResult);
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "highRangeDetails", bindingResult);
             return "redirect:/speakers/high-range/edit/" + addHighRangeDTO.getId();
         }
 
@@ -80,7 +81,16 @@ public class HighRangeController {
     @GetMapping("/{id}")
     public String highRangeDetails(@PathVariable("id") Long id,
                                    Model model) {
+
+        HighRangeDetailsDTO deviceDetails = highRangeService.getDeviceDetails(id);
         model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
+
+        HighRangeDetailsHelperDTO helperDTO =
+                new HighRangeDetailsHelperDTO(deviceDetails);
+
+        model.addAttribute("helperDTO", helperDTO);
+
+
         return "/speakers/highrange-details";
     }
 

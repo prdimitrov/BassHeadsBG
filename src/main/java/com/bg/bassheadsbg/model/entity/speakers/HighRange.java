@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "high_range")
@@ -15,11 +16,11 @@ public class HighRange extends BaseSpeaker {
     @Column(nullable = false)
     private String material;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private int frequencyRangeFrom;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private int frequencyRangeTo;
 
@@ -62,4 +63,5 @@ public class HighRange extends BaseSpeaker {
     public void setCrossover(String crossover) {
         this.crossover = crossover;
     }
+
 }

@@ -12,40 +12,41 @@ import jakarta.validation.constraints.PositiveOrZero;
 @Table(name = "subwoofers")
 public class Subwoofer extends BaseSpeaker {
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private float coilHeight;
 
     @PositiveOrZero
-    private Byte coilLayers;
+    private byte coilLayers;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private short magnetSize;
 
     @PositiveOrZero
-    private Float vas;
+    @NotNull
+    private float vas;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private byte xmax;
 
     @PositiveOrZero
-    private Float qms;
+    private float qms;
 
     @PositiveOrZero
-    private Float qes;
+    private float qes;
 
     @PositiveOrZero
-    private Float qts;
+    private float qts;
 
     @PositiveOrZero
-    private Float sd;
+    private float sd;
 
     @PositiveOrZero
-    private Float bl;
+    private float bl;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private float mms;
 

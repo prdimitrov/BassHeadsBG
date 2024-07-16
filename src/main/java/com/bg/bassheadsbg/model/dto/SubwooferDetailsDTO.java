@@ -9,22 +9,22 @@ public final class SubwooferDetailsDTO {
     private Long id;
     private String brand;
     private String model;
-    private Float sensitivity;
+    private float sensitivity;
     private float size;
     private float frequencyResponse;
     private byte numberOfCoils;
     private byte impedance;
     private short powerHandling;
     private float coilHeight;
-    private Byte coilLayers;
+    private byte coilLayers;
     private short magnetSize;
-    private Float vas;
+    private float vas;
     private byte xmax;
-    private Float qms;
-    private Float qes;
-    private Float qts;
-    private Float sd;
-    private Float bl;
+    private float qms;
+    private float qes;
+    private float qts;
+    private float sd;
+    private float bl;
     private float mms;
     private List<String> images;
     private String imagesString;
@@ -56,11 +56,11 @@ public final class SubwooferDetailsDTO {
         this.model = model;
     }
 
-    public Float getSensitivity() {
+    public float getSensitivity() {
         return sensitivity;
     }
 
-    public void setSensitivity(Float sensitivity) {
+    public void setSensitivity(float sensitivity) {
         this.sensitivity = sensitivity;
     }
 
@@ -112,11 +112,11 @@ public final class SubwooferDetailsDTO {
         this.coilHeight = coilHeight;
     }
 
-    public Byte getCoilLayers() {
+    public byte getCoilLayers() {
         return coilLayers;
     }
 
-    public void setCoilLayers(Byte coilLayers) {
+    public void setCoilLayers(byte coilLayers) {
         this.coilLayers = coilLayers;
     }
 
@@ -128,11 +128,11 @@ public final class SubwooferDetailsDTO {
         this.magnetSize = magnetSize;
     }
 
-    public Float getVas() {
+    public float getVas() {
         return vas;
     }
 
-    public void setVas(Float vas) {
+    public void setVas(float vas) {
         this.vas = vas;
     }
 
@@ -144,45 +144,46 @@ public final class SubwooferDetailsDTO {
         this.xmax = xmax;
     }
 
-    public Float getQms() {
+    public float getQms() {
         return qms;
     }
 
-    public void setQms(Float qms) {
+    public void setQms(float qms) {
         this.qms = qms;
     }
 
-    public Float getQes() {
+    public float getQes() {
         return qes;
     }
 
-    public void setQes(Float qes) {
+    public void setQes(float qes) {
         this.qes = qes;
     }
 
-    public Float getQts() {
+    public float getQts() {
         return qts;
     }
 
-    public void setQts(Float qts) {
+    public void setQts(float qts) {
         this.qts = qts;
     }
 
-    public Float getSd() {
+    public float getSd() {
         return sd;
     }
 
-    public void setSd(Float sd) {
+    public void setSd(float sd) {
         this.sd = sd;
     }
 
-    public Float getBl() {
+    public float getBl() {
         return bl;
     }
 
-    public void setBl(Float bl) {
+    public void setBl(float bl) {
         this.bl = bl;
     }
+
     public float getMms() {
         return mms;
     }
@@ -191,103 +192,16 @@ public final class SubwooferDetailsDTO {
         this.mms = mms;
     }
 
-    // Helper methods for formatting
-    public String formattedSensitivity(Number number) {
-        return ValueFormatterUtil.formatValue(sensitivity);
-    }
-
-    public String formattedSensitivity() {
-        if (ValueFormatterUtil.formatValue(sensitivity).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(sensitivity) + "dB (1W / 1m)";
-    }
-
-    public String formattedSize() {
-        return ValueFormatterUtil.formatValue(size) + "\"";
-    }
-
-    public String formattedFrequencyResponse() {
-        return ValueFormatterUtil.formatValue(frequencyResponse) + "Hz";
-    }
-
-    public String formattedNumberOfCoils() {
-        return Byte.toString(numberOfCoils);
-    }
-
-    public String formattedImpedance() {
-        return impedance + "Ω";
-    }
-
-    public String formattedPowerHandling() {
-        return powerHandling + "W";
-    }
-
-    public String formattedCoilHeight() {
-        return ValueFormatterUtil.formatValue(coilHeight) + "\"";
-    }
-
-    public String formattedCoilLayers() {
-        if (ValueFormatterUtil.formatValue(coilLayers).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(coilLayers);
-    }
-
-    public String formattedMagnetSize() {
-        return magnetSize + "oz";
-    }
-
-    public String formattedVas() {
-        if (ValueFormatterUtil.formatValue(vas).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(vas) + "L";
-    }
-
-    public String formattedXmax() {
-        return xmax + " mm";
-    }
-
-    public String formattedQms() {
-        if (ValueFormatterUtil.formatValue(qms).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(qms);
-    }
-    public String formattedQes() {
-        if (ValueFormatterUtil.formatValue(qes).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(qes);
-    }
-    public String formattedQts() {
-        if (ValueFormatterUtil.formatValue(qts).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(qts);
-    }
-
-    public String formattedSd() {
-        if (ValueFormatterUtil.formatValue(sd).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(sd) + " mm²";
-    }
-
-    public String formattedBl() {
-        if (ValueFormatterUtil.formatValue(bl).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(bl) + " T/m";
-    }
-
-    public String formattedMms() {
-        return ValueFormatterUtil.formatValue(mms) + "g";
-    }
-
     public List<String> getImages() {
         return images;
+    }
+
+    public String getImagesString() {
+        return imagesString;
+    }
+
+    public void setImagesString(String imagesString) {
+        this.imagesString = imagesString;
     }
 
     public void setImages(List<String> images) {
@@ -297,13 +211,5 @@ public final class SubwooferDetailsDTO {
         } else {
             this.imagesString = "";
         }
-    }
-
-    public String getImagesString() {
-        return imagesString;
-    }
-
-    public void setImagesString(String imagesString) {
-        this.imagesString = imagesString;
     }
 }

@@ -19,7 +19,8 @@ public class AddMidRangeDTO {
     private String model;
 
     @PositiveOrZero
-    private Float sensitivity;
+    @NotNull
+    private float sensitivity;
 
     @Positive
     @NotNull
@@ -56,6 +57,16 @@ public class AddMidRangeDTO {
     public AddMidRangeDTO() {
     }
 
+    // Getters and Setters
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getBrand() {
         return brand;
     }
@@ -72,11 +83,11 @@ public class AddMidRangeDTO {
         this.model = model;
     }
 
-    public Float getSensitivity() {
+    public float getSensitivity() {
         return sensitivity;
     }
 
-    public void setSensitivity(Float sensitivity) {
+    public void setSensitivity(float sensitivity) {
         this.sensitivity = sensitivity;
     }
 
@@ -136,19 +147,11 @@ public class AddMidRangeDTO {
         this.frequencyRangeTo = frequencyRangeTo;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public List<@URL @NotBlank String> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<@URL @NotBlank String> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 }

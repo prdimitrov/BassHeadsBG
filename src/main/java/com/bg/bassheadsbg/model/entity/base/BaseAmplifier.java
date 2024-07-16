@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,11 @@ public abstract class BaseAmplifier extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AmpClass amplifierClass;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private byte impedance;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private int power;
 
@@ -51,23 +52,27 @@ public abstract class BaseAmplifier extends BaseEntity {
     @NotBlank
     private String highInputLevel;
 
-    @Positive
-    private Float distortion;
+    @PositiveOrZero
+    @NotNull
+    private float distortion;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private double currentDraw;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private short fuseRating;
 
     //Amp dimensions!
-    @Positive
+    @PositiveOrZero
+    @NotNull
     private Short height;
-    @Positive
+    @PositiveOrZero
+    @NotNull
     private Short width;
-    @Positive
+    @PositiveOrZero
+    @NotNull
     private Short length;
 
     @ValidUrlList
@@ -76,7 +81,6 @@ public abstract class BaseAmplifier extends BaseEntity {
     private List<String> images = new ArrayList<>();
 
     public BaseAmplifier() {
-        super();
     }
 
     public String getBrand() {
@@ -175,11 +179,11 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.highInputLevel = highInputLevel;
     }
 
-    public Float getDistortion() {
+    public float getDistortion() {
         return distortion;
     }
 
-    public void setDistortion(Float distortion) {
+    public void setDistortion(float distortion) {
         this.distortion = distortion;
     }
 

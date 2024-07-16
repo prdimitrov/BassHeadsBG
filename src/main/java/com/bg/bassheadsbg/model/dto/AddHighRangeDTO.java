@@ -18,7 +18,8 @@ public class AddHighRangeDTO {
     private String model;
 
     @PositiveOrZero
-    private Float sensitivity;
+    @NotNull
+    private float sensitivity;
 
     @Positive
     @NotNull
@@ -58,7 +59,18 @@ public class AddHighRangeDTO {
     @ValidUrlList
     private List<@URL @NotBlank String> images = new ArrayList<>();
 
+    public AddHighRangeDTO() {
+    }
+
     // Getters and Setters
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getBrand() {
         return brand;
@@ -76,11 +88,11 @@ public class AddHighRangeDTO {
         this.model = model;
     }
 
-    public Float getSensitivity() {
+    public float getSensitivity() {
         return sensitivity;
     }
 
-    public void setSensitivity(Float sensitivity) {
+    public void setSensitivity(float sensitivity) {
         this.sensitivity = sensitivity;
     }
 
@@ -162,13 +174,5 @@ public class AddHighRangeDTO {
 
     public void setImages(List<String> images) {
         this.images = images;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

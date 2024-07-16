@@ -8,7 +8,7 @@ public final class HighRangeDetailsDTO {
     private long id;
     private String brand;
     private String model;
-    private Float sensitivity;
+    private float sensitivity;
     private float size;
     private float frequencyResponse;
     private byte numberOfCoils;
@@ -23,150 +23,123 @@ public final class HighRangeDetailsDTO {
 
     public HighRangeDetailsDTO() {}
 
+    //Getters and Setters
+
+
     public long getId() {
         return id;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public int getFrequencyRangeFrom() {
-        return frequencyRangeFrom;
-    }
-
-    public int getFrequencyRangeTo() {
-        return frequencyRangeTo;
-    }
-
-    public String getCrossover() {
-        return crossover;
-    }
-
-    public String getImagesString() {
-        return imagesString;
-    }
-
-    public String formattedSensitivity() {
-        if (ValueFormatterUtil.formatValue(sensitivity).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(sensitivity) + " dB (1W / 1m)";
-    }
-
-    public String formattedSize() {
-        return ValueFormatterUtil.formatValue(size) + "\"";
-    }
-
-    public String formattedFrequencyResponse() {
-        if (ValueFormatterUtil.formatValue(frequencyResponse).equals("N/A")) {
-            return "N/A";
-        }
-        return ValueFormatterUtil.formatValue(frequencyResponse) + " Hz";
-    }
-
-    public String formattedImpedance() {
-        return impedance + " Ω";
-    }
-
-    public String formattedPowerHandling() {
-        return powerHandling + " W";
-    }
-
-    public String formattedFrequencyRange() {
-        return frequencyRangeFrom + " Hz - " + frequencyRangeTo + " Hz";
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public Float getSensitivity() {
-        return sensitivity;
-    }
-
-    public float getSize() {
-        return size;
-    }
-
-    public float getFrequencyResponse() {
-        return frequencyResponse;
-    }
-
-    public byte getNumberOfCoils() {
-        return numberOfCoils;
-    }
-
-    public byte getImpedance() {
-        return impedance;
-    }
-
-    public short getPowerHandling() {
-        return powerHandling;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
     }
 
     public void setModel(String model) {
         this.model = model;
     }
 
-    public void setSensitivity(Float sensitivity) {
+    public float getSensitivity() {
+        return sensitivity;
+    }
+
+    public void setSensitivity(float sensitivity) {
         this.sensitivity = sensitivity;
+    }
+
+    public float getSize() {
+        return size;
     }
 
     public void setSize(float size) {
         this.size = size;
     }
 
+    public float getFrequencyResponse() {
+        return frequencyResponse;
+    }
+
     public void setFrequencyResponse(float frequencyResponse) {
         this.frequencyResponse = frequencyResponse;
+    }
+
+    public byte getNumberOfCoils() {
+        return numberOfCoils;
     }
 
     public void setNumberOfCoils(byte numberOfCoils) {
         this.numberOfCoils = numberOfCoils;
     }
 
+    public byte getImpedance() {
+        return impedance;
+    }
+
     public void setImpedance(byte impedance) {
         this.impedance = impedance;
+    }
+
+    public short getPowerHandling() {
+        return powerHandling;
     }
 
     public void setPowerHandling(short powerHandling) {
         this.powerHandling = powerHandling;
     }
 
+    public String getMaterial() {
+        return material;
+    }
+
     public void setMaterial(String material) {
         this.material = material;
+    }
+
+    public int getFrequencyRangeFrom() {
+        return frequencyRangeFrom;
     }
 
     public void setFrequencyRangeFrom(int frequencyRangeFrom) {
         this.frequencyRangeFrom = frequencyRangeFrom;
     }
 
+    public int getFrequencyRangeTo() {
+        return frequencyRangeTo;
+    }
+
     public void setFrequencyRangeTo(int frequencyRangeTo) {
         this.frequencyRangeTo = frequencyRangeTo;
+    }
+
+    public String getCrossover() {
+        return crossover;
     }
 
     public void setCrossover(String crossover) {
         this.crossover = crossover;
     }
 
+    public String getImagesString() {
+        return imagesString;
+    }
+
     public void setImagesString(String imagesString) {
         this.imagesString = imagesString;
+    }
+
+    public List<String> getImages() {
+        return images;
     }
 
     public void setImages(List<String> images) {

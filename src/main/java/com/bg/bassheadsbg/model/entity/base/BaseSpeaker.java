@@ -23,25 +23,26 @@ public abstract class BaseSpeaker extends BaseEntity {
     private String model;
 
     @PositiveOrZero
-    private Float sensitivity;
+    @NotNull
+    private float sensitivity;
 
     @Positive
     @NotNull
     private float size;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private float frequencyResponse;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private byte numberOfCoils;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private byte impedance;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private short powerHandling;
 
@@ -51,7 +52,6 @@ public abstract class BaseSpeaker extends BaseEntity {
     private List<@URL @NotBlank String> images = new ArrayList<>();
 
     public BaseSpeaker() {
-        super();
     }
 
     public String getBrand() {
@@ -68,6 +68,14 @@ public abstract class BaseSpeaker extends BaseEntity {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public float getSensitivity() {
+        return sensitivity;
+    }
+
+    public void setSensitivity(float sensitivity) {
+        this.sensitivity = sensitivity;
     }
 
     public float getSize() {
@@ -108,14 +116,6 @@ public abstract class BaseSpeaker extends BaseEntity {
 
     public void setPowerHandling(short powerHandling) {
         this.powerHandling = powerHandling;
-    }
-
-    public Float getSensitivity() {
-        return sensitivity;
-    }
-
-    public void setSensitivity(Float sensitivity) {
-        this.sensitivity = sensitivity;
     }
 
     public List<String> getImages() {
