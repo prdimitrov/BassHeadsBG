@@ -10,7 +10,7 @@ public final class SubwooferDetailsDTO {
     private float size;
     private float frequencyResponse;
     private byte numberOfCoils;
-    private byte impedance;
+    private float impedance;
     private short powerHandling;
     private float coilHeight;
     private byte coilLayers;
@@ -85,11 +85,11 @@ public final class SubwooferDetailsDTO {
         this.numberOfCoils = numberOfCoils;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 

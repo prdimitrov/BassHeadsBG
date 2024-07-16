@@ -29,7 +29,7 @@ public class AddMultiChannelAmpDTO {
 
     @Positive
     @NotNull
-    private byte impedance;
+    private float impedance;
 
     @Positive
     @NotNull
@@ -122,11 +122,11 @@ public class AddMultiChannelAmpDTO {
         this.amplifierClass = amplifierClass;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 

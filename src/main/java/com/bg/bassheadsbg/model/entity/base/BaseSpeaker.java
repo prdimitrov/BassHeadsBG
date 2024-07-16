@@ -40,7 +40,7 @@ public abstract class BaseSpeaker extends BaseEntity {
 
     @PositiveOrZero
     @NotNull
-    private byte impedance;
+    private float impedance;
 
     @PositiveOrZero
     @NotNull
@@ -102,11 +102,11 @@ public abstract class BaseSpeaker extends BaseEntity {
         this.numberOfCoils = numberOfCoils;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 

@@ -36,7 +36,7 @@ public class AddHighRangeDTO {
 
     @Positive
     @NotNull
-    private byte impedance;
+    private float impedance;
 
     @Positive
     @NotNull
@@ -120,11 +120,11 @@ public class AddHighRangeDTO {
         this.numberOfCoils = numberOfCoils;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 

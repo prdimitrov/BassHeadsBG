@@ -10,7 +10,7 @@ public final class HighRangeDetailsDTO {
     private float size;
     private float frequencyResponse;
     private byte numberOfCoils;
-    private byte impedance;
+    private float impedance;
     private short powerHandling;
     private String material;
     private int frequencyRangeFrom;
@@ -80,11 +80,11 @@ public final class HighRangeDetailsDTO {
         this.numberOfCoils = numberOfCoils;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 

@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserEntity> findByUsername(String userName) {
-        return this.userRepository.findByUsername(userName);
+    public Optional<UserEntity> findByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 
     private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {

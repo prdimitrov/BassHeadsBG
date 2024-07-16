@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.web;
+package com.bg.bassheadsbg.web.controller;
 
 import com.bg.bassheadsbg.model.details.BassHeadsUserDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

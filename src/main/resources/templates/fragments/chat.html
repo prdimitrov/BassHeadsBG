@@ -1,0 +1,18 @@
+<div th:fragment="chat">
+    <!-- Chat Icon -->
+    <div id="chat-icon" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer;">
+        <i class="fas fa-comments fa-3x"></i>
+    </div>
+
+    <!-- Chat Box -->
+    <div id="chat-box" class="chat-closed">
+        <div id="chat-header">
+            <span>Chat</span>
+            <button id="close-chat-btn">&#10006;</button> <!-- Close button with cross symbol -->
+        </div>
+        <div id="chat-content"></div>
+        <input type="text" id="chat-input" placeholder="Type a message...">
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="/css/chat.css">
+</div>

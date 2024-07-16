@@ -10,7 +10,7 @@ public final class MidRangeDetailsDTO {
     private float size;
     private float frequencyResponse;
     private byte numberOfCoils;
-    private byte impedance;
+    private float impedance;
     private short powerHandling;
     private int frequencyRangeFrom;
     private int frequencyRangeTo;
@@ -75,11 +75,11 @@ public final class MidRangeDetailsDTO {
         this.numberOfCoils = numberOfCoils;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 

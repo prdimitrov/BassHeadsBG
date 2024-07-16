@@ -24,7 +24,7 @@ public abstract class BaseAmplifier extends BaseEntity {
 
     @PositiveOrZero
     @NotNull
-    private byte impedance;
+    private float impedance;
 
     @PositiveOrZero
     @NotNull
@@ -106,11 +106,11 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.amplifierClass = amplifierClass;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 

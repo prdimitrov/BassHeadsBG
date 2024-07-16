@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface UserService {
     void registerUser(UserRegistrationDTO userRegistrationDTO);
-    Optional<UserEntity> findByUsername(String userName);
+    Optional<UserEntity> findByUsername(String username);
 }

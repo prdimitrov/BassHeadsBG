@@ -37,7 +37,7 @@ public class AddMidRangeDTO {
 
     @Positive
     @NotNull
-    private byte impedance;
+    private float impedance;
 
     @Positive
     @NotNull
@@ -115,11 +115,11 @@ public class AddMidRangeDTO {
         this.numberOfCoils = numberOfCoils;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 

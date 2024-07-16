@@ -7,7 +7,7 @@ public final class MonoAmpDetailsDTO {
     private String brand;
     private String model;
     private String amplifierClass;
-    private byte impedance;
+    private float impedance;
     private int power;
     private String highPassFilter;
     private String lowPassFilter;
@@ -62,11 +62,11 @@ public final class MonoAmpDetailsDTO {
         this.amplifierClass = amplifierClass;
     }
 
-    public byte getImpedance() {
+    public float getImpedance() {
         return impedance;
     }
 
-    public void setImpedance(byte impedance) {
+    public void setImpedance(float impedance) {
         this.impedance = impedance;
     }
 
