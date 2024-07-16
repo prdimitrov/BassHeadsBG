@@ -1,12 +1,11 @@
-package com.bg.bassheadsbg.service.impl;
+package com.bg.bassheadsbg.service.implementation;
 
 import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
-import com.bg.bassheadsbg.model.dto.HighRangeDetailsDTO;
+import com.bg.bassheadsbg.model.details.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.HighRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.HighRange;
 import com.bg.bassheadsbg.repository.HighRangeRepository;
-import com.bg.bassheadsbg.service.HighRangeService;
-import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
+import com.bg.bassheadsbg.service.interfaces.HighRangeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +19,30 @@ public class HighRangeServiceImpl extends CommonDeviceServiceImpl<AddHighRangeDT
         super(highRangeRepository, modelMapper);
     }
 
+//    @Override
+//    public HighRangeDetailsDTO getDeviceDetails(Long id) {
+//        return repository.findById(id)
+//                .map(this::toDetailsDTO)
+//                .orElseThrow(() -> new DeviceNotFoundException("Speaker with id " + id + " not found!", id));
+//    }
+
+
     @Override
-    public HighRangeDetailsDTO getDeviceDetails(Long id) {
-        return repository.findById(id)
-                .map(this::toDetailsDTO)
-                .orElseThrow(() -> new ObjectNotFoundException("Speaker with id " + id + " not found!", id));
+    public HighRange addDevice(AddHighRangeDTO addDeviceDTO) {
+        HighRange highRange = modelMapper.map(addDeviceDTO, HighRange.class);
+        return highRange;
     }
 
     @Override
-    protected HighRange mapToDevice(AddHighRangeDTO addHighRangeDTO) {
-        HighRange highRange = modelMapper.map(addHighRangeDTO, HighRange.class);
-        checkEntityExists(addHighRangeDTO, addHighRangeDTO.getBrand(), addHighRangeDTO.getModel());
+    protected HighRange mapToDevice(AddHighRangeDTO addDeviceDTO) {
+        HighRange highRange = modelMapper.map(addDeviceDTO, HighRange.class);
+        checkEntityExists(addDeviceDTO, addDeviceDTO.getBrand(), addDeviceDTO.getModel());
         return highRange;
+    }
+
+    @Override
+    protected HighRange mapEditedDevice(AddHighRangeDTO addHighRangeDTO) {
+        return modelMapper.map(addHighRangeDTO, HighRange.class);
     }
 
     @Override
