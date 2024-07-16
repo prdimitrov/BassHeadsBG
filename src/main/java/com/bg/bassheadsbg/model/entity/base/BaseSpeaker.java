@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.entity.base;
 
-import com.bg.bassheadsbg.validation.ValidUrlList;
+import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.FetchType;

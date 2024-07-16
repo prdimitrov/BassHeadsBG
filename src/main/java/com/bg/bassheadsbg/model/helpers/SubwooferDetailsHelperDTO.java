@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.helpers;
 
-import com.bg.bassheadsbg.model.dto.SubwooferDetailsDTO;
+import com.bg.bassheadsbg.model.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.util.ValueFormatterUtil;
 
 public final class SubwooferDetailsHelperDTO {

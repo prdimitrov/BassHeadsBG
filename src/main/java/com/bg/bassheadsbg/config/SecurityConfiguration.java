@@ -2,7 +2,7 @@ package com.bg.bassheadsbg.config;
 
 import com.bg.bassheadsbg.config.custom.CustomAccessDeniedHandler;
 import com.bg.bassheadsbg.repository.UserRepository;
-import com.bg.bassheadsbg.service.impl.BassHeadsDetailsService;
+import com.bg.bassheadsbg.service.implementation.BassHeadsDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

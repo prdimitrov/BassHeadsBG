@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.helpers;
 
-import com.bg.bassheadsbg.model.dto.MonoAmpDetailsDTO;
+import com.bg.bassheadsbg.model.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.util.ValueFormatterUtil;
 
 public final class MonoAmpDetailsHelperDTO {

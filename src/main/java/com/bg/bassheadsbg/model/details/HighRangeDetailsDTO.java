@@ -1,63 +1,28 @@
-package com.bg.bassheadsbg.model.dto;
+package com.bg.bassheadsbg.model.details;
 
-import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.URL;
-
-import java.util.ArrayList;
 import java.util.List;
 
-
-public class AddMidRangeDTO {
-
+public final class HighRangeDetailsDTO {
     private long id;
-
-    @NotBlank
     private String brand;
-
-    @NotBlank
     private String model;
-
-    @PositiveOrZero
-    @NotNull
     private float sensitivity;
-
-    @Positive
-    @NotNull
-    @DecimalMax(value = "50", message = "Виждал ли си говорител по-голям от 50 инча?!")
     private float size;
-
-    @Positive
-    @NotNull
     private float frequencyResponse;
-
-    @Positive
-    @NotNull
     private byte numberOfCoils;
-
-    @Positive
-    @NotNull
     private byte impedance;
-
-    @Positive
-    @NotNull
     private short powerHandling;
-
-    @Positive
-    @NotNull
+    private String material;
     private int frequencyRangeFrom;
-
-    @Positive
-    @NotNull
     private int frequencyRangeTo;
+    private String crossover;
+    private List<String> images;
+    private String imagesString;
 
-    @ValidUrlList
-    private List<@URL @NotBlank String> images = new ArrayList<>();
+    public HighRangeDetailsDTO() {}
 
-    public AddMidRangeDTO() {
-    }
+    //Getters and Setters
 
-    // Getters and Setters
 
     public long getId() {
         return id;
@@ -131,6 +96,14 @@ public class AddMidRangeDTO {
         this.powerHandling = powerHandling;
     }
 
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
     public int getFrequencyRangeFrom() {
         return frequencyRangeFrom;
     }
@@ -147,11 +120,32 @@ public class AddMidRangeDTO {
         this.frequencyRangeTo = frequencyRangeTo;
     }
 
+    public String getCrossover() {
+        return crossover;
+    }
+
+    public void setCrossover(String crossover) {
+        this.crossover = crossover;
+    }
+
+    public String getImagesString() {
+        return imagesString;
+    }
+
+    public void setImagesString(String imagesString) {
+        this.imagesString = imagesString;
+    }
+
     public List<String> getImages() {
         return images;
     }
 
     public void setImages(List<String> images) {
         this.images = images;
+        if (images != null && !images.isEmpty()) {
+            this.imagesString = String.join(", ", images);
+        } else {
+            this.imagesString = "";
+        }
     }
 }

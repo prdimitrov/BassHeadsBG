@@ -1,85 +1,33 @@
-package com.bg.bassheadsbg.model.entity.base;
+package com.bg.bassheadsbg.model.details;
 
-import com.bg.bassheadsbg.model.enums.AmpClass;
-import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
-
-import java.util.ArrayList;
 import java.util.List;
 
-@MappedSuperclass
-public abstract class BaseAmplifier extends BaseEntity {
-    @NotBlank
+public final class MonoAmpDetailsDTO {
+    private Long id;
     private String brand;
-
-    @NotBlank
     private String model;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private AmpClass amplifierClass;
-
-    @PositiveOrZero
-    @NotNull
+    private String amplifierClass;
     private byte impedance;
-
-    @PositiveOrZero
-    @NotNull
     private int power;
-
-    @NotBlank
     private String highPassFilter;
-
-    @NotBlank
     private String lowPassFilter;
-
-    @NotBlank
     private String subsonicFilter;
-
-    @NotNull
     private boolean remoteControl;
-
-    @NotNull
     private boolean bassBoost;
-
-    @NotBlank
     private String lowInputLevel;
-
-    @NotBlank
     private String highInputLevel;
-
-    @PositiveOrZero
-    @NotNull
     private float distortion;
-
-    @PositiveOrZero
-    @NotNull
     private double currentDraw;
-
-    @PositiveOrZero
-    @NotNull
     private short fuseRating;
+    private short height;
+    private short width;
+    private short length;
+    private byte numberOfRca;
+    private byte numberOfSpeakerOutputs;
+    private List<String> images;
+    private String imagesString;
 
-    //Amp dimensions!
-    @PositiveOrZero
-    @NotNull
-    private Short height;
-    @PositiveOrZero
-    @NotNull
-    private Short width;
-    @PositiveOrZero
-    @NotNull
-    private Short length;
-
-    @ValidUrlList
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "images")
-    private List<String> images = new ArrayList<>();
-
-    public BaseAmplifier() {
+    public MonoAmpDetailsDTO() {
     }
 
     public String getBrand() {
@@ -90,6 +38,14 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.brand = brand;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getModel() {
         return model;
     }
@@ -98,11 +54,11 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.model = model;
     }
 
-    public AmpClass getAmplifierClass() {
+    public String getAmplifierClass() {
         return amplifierClass;
     }
 
-    public void setAmplifierClass(AmpClass amplifierClass) {
+    public void setAmplifierClass(String amplifierClass) {
         this.amplifierClass = amplifierClass;
     }
 
@@ -202,35 +158,64 @@ public abstract class BaseAmplifier extends BaseEntity {
         this.fuseRating = fuseRating;
     }
 
-    public Short getHeight() {
+    public short getHeight() {
         return height;
     }
 
-    public void setHeight(Short height) {
+    public void setHeight(short height) {
         this.height = height;
     }
 
-    public Short getWidth() {
+    public short getWidth() {
         return width;
     }
 
-    public void setWidth(Short width) {
+    public void setWidth(short width) {
         this.width = width;
     }
 
-    public Short getLength() {
+    public short getLength() {
         return length;
     }
 
-    public void setLength(Short length) {
+    public void setLength(short length) {
         this.length = length;
+    }
+
+    public byte getNumberOfRca() {
+        return numberOfRca;
+    }
+
+    public void setNumberOfRca(byte numberOfRca) {
+        this.numberOfRca = numberOfRca;
+    }
+
+    public byte getNumberOfSpeakerOutputs() {
+        return numberOfSpeakerOutputs;
+    }
+
+    public void setNumberOfSpeakerOutputs(byte numberOfSpeakerOutputs) {
+        this.numberOfSpeakerOutputs = numberOfSpeakerOutputs;
     }
 
     public List<String> getImages() {
         return images;
     }
 
+    public String getImagesString() {
+        return imagesString;
+    }
+
+    public void setImagesString(String imagesString) {
+        this.imagesString = imagesString;
+    }
+
     public void setImages(List<String> images) {
         this.images = images;
+        if (images != null && !images.isEmpty()) {
+            this.imagesString = String.join(", ", images);
+        } else {
+            this.imagesString = "";
+        }
     }
 }

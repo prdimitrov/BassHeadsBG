@@ -1,102 +1,39 @@
-package com.bg.bassheadsbg.model.dto;
+package com.bg.bassheadsbg.model.details;
 
-import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.URL;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class AddSubwooferDTO {
-
-    private long id;
-
-    @NotBlank
+public final class SubwooferDetailsDTO {
+    private Long id;
     private String brand;
-
-    @NotBlank
     private String model;
-
-    @PositiveOrZero
     private float sensitivity;
-
-    @Positive
-    @NotNull
-    @DecimalMax(value = "50", message = "Виждал ли си говорител по-голям от 50 инча?!")
     private float size;
-
-    @Positive
-    @NotNull
     private float frequencyResponse;
-
-    @Positive
-    @NotNull
     private byte numberOfCoils;
-
-    @Positive
-    @NotNull
     private byte impedance;
-
-    @Positive
-    @NotNull
     private short powerHandling;
-
-    @Positive
-    @NotNull
     private float coilHeight;
-
-    @PositiveOrZero
-    @NotNull
     private byte coilLayers;
-
-    @Positive
-    @NotNull
     private short magnetSize;
-
-    @PositiveOrZero
-    @NotNull
     private float vas;
-
-    @Positive
-    @NotNull
     private byte xmax;
-
-    @PositiveOrZero
-    @NotNull
     private float qms;
-
-    @PositiveOrZero
-    @NotNull
     private float qes;
-
-    @PositiveOrZero
-    @NotNull
     private float qts;
-
-    @PositiveOrZero
-    @NotNull
     private float sd;
-
-    @PositiveOrZero
-    @NotNull
     private float bl;
-
-    @Positive
-    @NotNull
     private float mms;
+    private List<String> images;
+    private String imagesString;
 
-    @ValidUrlList
-    private List<@URL @NotBlank String> images = new ArrayList<>();
-
-
-    public AddSubwooferDTO() {
+    public SubwooferDetailsDTO() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -256,7 +193,20 @@ public class AddSubwooferDTO {
         return images;
     }
 
+    public String getImagesString() {
+        return imagesString;
+    }
+
+    public void setImagesString(String imagesString) {
+        this.imagesString = imagesString;
+    }
+
     public void setImages(List<String> images) {
         this.images = images;
+        if (images != null && !images.isEmpty()) {
+            this.imagesString = String.join(", ", images);
+        } else {
+            this.imagesString = "";
+        }
     }
 }

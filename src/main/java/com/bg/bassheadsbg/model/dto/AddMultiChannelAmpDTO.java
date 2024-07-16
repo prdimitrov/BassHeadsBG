@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.model.dto;
 
 import com.bg.bassheadsbg.model.enums.AmpClass;
-import com.bg.bassheadsbg.validation.ValidUrlList;
+import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;

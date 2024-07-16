@@ -1,9 +1,7 @@
 package com.bg.bassheadsbg.model.helpers;
 
-import com.bg.bassheadsbg.model.dto.MultiChannelAmpDetailsDTO;
+import com.bg.bassheadsbg.model.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.util.ValueFormatterUtil;
-
-import java.util.List;
 
 public final class MultiChannelAmpDetailsHelperDTO {
     private final MultiChannelAmpDetailsDTO multiChannelAmpDetails;

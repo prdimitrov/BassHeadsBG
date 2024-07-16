@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.dto;
 
-import com.bg.bassheadsbg.validation.ValidUrlList;
+import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
 

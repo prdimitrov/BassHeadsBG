@@ -1,15 +1,15 @@
 package com.bg.bassheadsbg.model.dto;
 
-import com.bg.bassheadsbg.validation.FieldsMatch;
-import com.bg.bassheadsbg.validation.UniqueUserEmail;
-import com.bg.bassheadsbg.validation.UniqueUserName;
+import com.bg.bassheadsbg.validation.fieldsMatcher.FieldsMatch;
+import com.bg.bassheadsbg.validation.uniqueEmail.UniqueUserEmail;
+import com.bg.bassheadsbg.validation.uniqueUsername.UniqueUsername;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 @FieldsMatch(first = "password", second = "confirmPassword")
 public class UserRegistrationDTO {
-    @UniqueUserName(message = "Username already in use.")
+    @UniqueUsername(message = "Username already in use.")
     @Size(min = 3, max = 30,
             message = "Username length must be between 3 and 30 characters.")
     @NotBlank

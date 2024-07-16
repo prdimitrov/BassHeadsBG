@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.model.dto;
 
 import com.bg.bassheadsbg.model.enums.AmpClass;
-import com.bg.bassheadsbg.validation.ValidUrlList;
+import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.URL;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class AddMonoAmpDTO {
 
