@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BassHeadsBG</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/detailpages.css">
+    <link rel="stylesheet" type="text/css" href="/css/got-bass-bgrd.css">
+    <link rel="stylesheet" type="text/css" href="/css/omg.css">
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/deviceImageSlider.js"></script>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
+
+<div class="container-fluid">
+    <div th:object="${monoAmpDetails}" class="specifications">
+        <div class="device-images  pb-2 pt-2 text-center">
+            <div class="device-body pb-2 pt-2  text-center">
+                <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
+            </div>
+            <div class="gallery">
+                <img id="device-image" src="/" class="card-img-top img-thumbnail" alt="Device Image">
+            </div>
+            <div class="gallery-buttons">
+                <button id="prev" class="gallery-button"><i class="fa-solid fa-arrow-left"></i></button>
+                <div id="thumbnails" class="d-flex justify-content-center align-items flex-wrap mt-2"></div>
+                <button id="next" class="gallery-button"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="device-body">
+                <h2>Specifications</h2>
+                <div class="specs">
+                    <table class="table table-borderless device-details">
+                        <thead></thead>
+                        <tbody>
+                        <tr>
+                            <td><h4><i class="fas fa-tag"></i> Brand</h4></td>
+                            <td><span th:text="*{brand}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-mobile-alt"></i> Model</h4></td>
+                            <td><span th:text="*{model}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-music"></i> Class</h4></td>
+                            <td><span class="ampclass" th:text="*{amplifierClass}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-cogs"></i> Impedance</h4></td>
+                            <td><span th:text="${helperDTO.formattedImpedance}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-wave-square"></i> Power</h4></td>
+                            <td><span th:text="${helperDTO.formattedPower}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-signal"></i> HPF</h4></td>
+                            <td><span th:text="${helperDTO.formattedHighPassFilter}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-signal"></i> LPF</h4></td>
+                            <td><span th:text="${helperDTO.formattedLowPassFilter}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-signal"></i> Subsonic</h4></td>
+                            <td><span th:text="${helperDTO.formattedSubsonicFilter}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-wifi"></i> Remote Control</h4></td>
+                            <td><span th:if="${helperDTO.remoteControl}">&#x2714;</span><span th:unless="${helperDTO.remoteControl}">&#x274C;</span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-volume-up"></i> Bass Boost</h4></td>
+                            <td><span th:if="${helperDTO.bassBoost}">&#x2714;</span><span th:unless="${helperDTO.bassBoost}">&#x274C;</span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-level-down-alt"></i> Low Input Level</h4></td>
+                            <td><span th:text="${helperDTO.formattedLowInputLevel}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-level-up-alt"></i> High Input Level</h4></td>
+                            <td><span th:text="${helperDTO.formattedHighInputLevel}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-exclamation-triangle text-orange"></i> Distortion</h4></td>
+                            <td><span th:text="${helperDTO.formattedDistortion}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-bolt text-yellow"></i> Current Draw</h4></td>
+                            <td><span th:text="${helperDTO.formattedCurrentDraw}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-fire text-red"></i> Fuse Rating</h4></td>
+                            <td><span th:text="${helperDTO.formattedFuseRating}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <hr>
+
+                    <h2><i class="fas fa-sliders-h"></i> Dimensions</h2>
+                    <hr>
+
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <h4>Height</h4>
+                            <span th:text="${helperDTO.formattedHeight}"></span>
+                            <h4>Width</h4></td>
+                            <span th:text="${helperDTO.formattedWidth}"></span>
+                            <h4>Length</h4></td>
+                            <span th:text="${helperDTO.formattedLength}"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h2><i class="fas fa-sliders-h"></i> Additional</h2>
+                        <hr>
+                        <div class="form-group col-md-6 mb-3">
+                            <h4>RCA</h4></td>
+                            <span th:text="*{numberOfRca}"></span>
+                            <h4>Outputs</h4></td>
+                            <span th:text="*{numberOfSpeakerOutputs}"></span>
+                        </div>
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
+                        <form th:action="@{/amplifiers/mono-amplifiers/edit/{id}(id=${monoAmpDetails.id})}" th:object="${monoAmpDetails}" method="get">
+                            <input type="hidden" th:field="*{id}"/>
+                            <input class="btn btn-info btn-lg" type="submit" value="Update"/>
+                        </form>
+                        <form th:method="delete" th:action="@{/amplifiers/mono-amplifiers/{id}(id=${monoAmpDetails.id})}">
+                            <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer::footer}"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    setupGallery([[${monoAmpDetails.images}]]);
+    /*]]>*/
+</script>
+
+</body>
+</html>
