@@ -81,4 +81,12 @@ public final class MonoAmpDetailsHelperDTO {
         }
         return ValueFormatterUtil.formatValue(length) + " mm";
     }
+
+    public String formattedNumberOfRca() {
+        return ValueFormatterUtil.formatValue(monoAmpDetails.getNumberOfRca());
+    }
+
+    public String formattedNumberOfSpeakerOutputs() {
+        return ValueFormatterUtil.formatValue(monoAmpDetails.getNumberOfSpeakerOutputs());
+    }
 }

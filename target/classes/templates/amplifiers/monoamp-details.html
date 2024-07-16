@@ -124,9 +124,9 @@
                         <hr>
                         <div class="form-group col-md-6 mb-3">
                             <h4>RCA</h4></td>
-                            <span th:text="*{numberOfRca}"></span>
+                            <span th:text="${helperDTO.formattedNumberOfRca}"></span>
                             <h4>Outputs</h4></td>
-                            <span th:text="*{numberOfSpeakerOutputs}"></span>
+                            <span th:text="${helperDTO.formattedNumberOfSpeakerOutputs}"></span>
                         </div>
                     </div>
                     <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">

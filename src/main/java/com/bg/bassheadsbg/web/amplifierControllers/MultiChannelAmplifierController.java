@@ -2,6 +2,8 @@ package com.bg.bassheadsbg.web.amplifierControllers;
 
 
 import com.bg.bassheadsbg.model.dto.AddMultiChannelAmpDTO;
+import com.bg.bassheadsbg.model.dto.MultiChannelAmpDetailsDTO;
+import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.service.MultiChannelAmpService;
 import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import jakarta.validation.Valid;
@@ -27,7 +29,7 @@ public class MultiChannelAmplifierController {
         if (!model.containsAttribute("addMultiChannelAmpDTO")) {
             model.addAttribute("addMultiChannelAmpDTO", new AddMultiChannelAmpDTO());
         }
-        return "/amps/multichannel-amp-add";
+        return "/amplifiers/multichannel-amp-add";
     }
 
     @ModelAttribute("addMultiChannelAmpDTO")
@@ -49,11 +51,45 @@ public class MultiChannelAmplifierController {
         return "redirect:/amplifiers/multi-channel-amplifiers/" + newMultiChannelAmp;
     }
 
+    @GetMapping("/edit/{id}")
+    public String getEditMultiChannelAmp(@PathVariable("id") Long id,
+                                 Model model) {
+
+        if (!model.containsAttribute("multiChannelAmpDetails")) {
+            MultiChannelAmpDetailsDTO multiChannelAmpDetailsDTO = multiChannelAmpService.getDeviceDetails(id);
+            model.addAttribute("multiChannelAmpDetails", multiChannelAmpDetailsDTO);
+        }
+        return "/amplifiers/multichannel-amp-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String postEditMultiChannelAmp(@Valid @ModelAttribute("multiChannelAmpDetails") AddMultiChannelAmpDTO addMultiChannelAmpDTO,
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("multiChannelAmpDetails", addMultiChannelAmpDTO);
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "multiChannelAmpDetails", bindingResult);
+            return "redirect:/amplifiers/multi-channel-amplifiers/edit/" + addMultiChannelAmpDTO.getId();
+        }
+
+        long newMultiChannelAmp = multiChannelAmpService.addDevice(addMultiChannelAmpDTO);
+        return "redirect:/amplifiers/multi-channel-amplifiers/" + newMultiChannelAmp;
+    }
+
     @GetMapping("/{id}")
     public String multiChannelAmpDetails(@PathVariable("id") Long id,
                                  Model model) {
+
+        MultiChannelAmpDetailsDTO deviceDetails = multiChannelAmpService.getDeviceDetails(id);
         model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
-        return "/amps/multichannel-amp-details";
+
+        MultiChannelAmpDetailsHelperDTO helperDTO =
+                new MultiChannelAmpDetailsHelperDTO(deviceDetails);
+
+        model.addAttribute("helperDTO", helperDTO);
+
+        model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
+        return "/amplifiers/multichannel-amp-details";
     }
 
     @DeleteMapping("/{id}")
