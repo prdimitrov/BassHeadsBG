@@ -54,53 +54,51 @@
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-cogs"></i> Impedance</h4></td>
-                            <td><span th:text="*{impedance}"></span></td>
+                            <td><span th:text="${helperDTO.formattedImpedance}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-wave-square"></i> Power</h4></td>
-                            <td><span th:text="*{power}"></span></td>
+                            <td><span th:text="${helperDTO.formattedPower}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-signal"></i> HPF</h4></td>
-                            <td><span th:text="*{highPassFilter}"></span></td>
+                            <td><span th:text="${helperDTO.formattedHighPassFilter}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-signal"></i> LPF</h4></td>
-                            <td><span th:text="*{lowPassFilter}"></span></td>
+                            <td><span th:text="${helperDTO.formattedLowPassFilter}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-signal"></i> Subsonic</h4></td>
-                            <td><span th:text="*{subsonicFilter}"></span></td>
+                            <td><span th:text="${helperDTO.formattedSubsonicFilter}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-wifi"></i> RemoteControl</h4></td>
-                            <td th:if="${remoteControl}"><span>&#x2714</span></td>
-                            <td th:unless="${remoteControl}"><span>&#x274C</span></td>
+                            <td><h4><i class="fas fa-wifi"></i> Remote Control</h4></td>
+                            <td><span th:if="${helperDTO.remoteControl}">&#x2714;</span><span th:unless="${helperDTO.remoteControl}">&#x274C;</span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-volume-up"></i> BassBoost</h4></td>
-                            <td th:if="${bassBoost}"><span>&#x2714</span></td>
-                            <td th:unless="${bassBoost}"><span>&#x274C</span></td>
+                            <td><h4><i class="fas fa-volume-up"></i> Bass Boost</h4></td>
+                            <td><span th:if="${helperDTO.bassBoost}">&#x2714;</span><span th:unless="${helperDTO.bassBoost}">&#x274C;</span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-level-down-alt"></i> Low Input Level</h4></td>
-                            <td><span th:text="*{lowInputLevel}"></span></td>
+                            <td><span th:text="${helperDTO.formattedLowInputLevel}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-level-up-alt"></i> High Input Level</h4></td>
-                            <td><span th:text="*{highInputLevel}"></span></td>
+                            <td><span th:text="${helperDTO.formattedHighInputLevel}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-exclamation-triangle text-orange"></i> Distortion</h4></td>
-                            <td><span th:text="*{distortion}"></span></td>
+                            <td><span th:text="${helperDTO.formattedDistortion}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-bolt text-yellow"></i> Current Draw</h4></td>
-                            <td><span th:text="*{currentDraw}"></span></td>
+                            <td><span th:text="${helperDTO.formattedCurrentDraw}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-fire text-red"></i> Fuse Rating</h4></td>
-                            <td><span th:text="*{fuseRating}"></span></td>
+                            <td><span th:text="${helperDTO.formattedFuseRating}"></span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -113,11 +111,11 @@
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <h4>Height</h4>
-                            <span th:text="*{height}"></span>
+                            <span th:text="${helperDTO.formattedHeight}"></span>
                             <h4>Width</h4></td>
-                            <span th:text="*{width}"></span>
+                            <span th:text="${helperDTO.formattedWidth}"></span>
                             <h4>Length</h4></td>
-                            <span th:text="*{length}"></span>
+                            <span th:text="${helperDTO.formattedLength}"></span>
                         </div>
                     </div>
 
@@ -131,12 +129,12 @@
                             <span th:text="*{numberOfSpeakerOutputs}"></span>
                         </div>
                     </div>
-
                     <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
-                        <a class="btn btn-info btn-lg" href="/">Update</a>
-                        <form
-                                th:method="delete"
-                                th:action="@{/amplifiers/mono-amplifiers/{id}(id=*{id})}">
+                        <form th:action="@{/amplifiers/mono-amplifiers/edit/{id}(id=${monoAmpDetails.id})}" th:object="${monoAmpDetails}" method="get">
+                            <input type="hidden" th:field="*{id}"/>
+                            <input class="btn btn-info btn-lg" type="submit" value="Update"/>
+                        </form>
+                        <form th:method="delete" th:action="@{/amplifiers/mono-amplifiers/{id}(id=${monoAmpDetails.id})}">
                             <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
                         </form>
                     </div>

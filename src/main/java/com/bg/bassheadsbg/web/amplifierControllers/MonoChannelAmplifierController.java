@@ -2,6 +2,10 @@ package com.bg.bassheadsbg.web.amplifierControllers;
 
 
 import com.bg.bassheadsbg.model.dto.AddMonoAmpDTO;
+import com.bg.bassheadsbg.model.dto.HighRangeDetailsDTO;
+import com.bg.bassheadsbg.model.dto.MonoAmpDetailsDTO;
+import com.bg.bassheadsbg.model.helpers.HighRangeDetailsHelperDTO;
+import com.bg.bassheadsbg.model.helpers.MonoAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.service.MonoAmpService;
 import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import jakarta.validation.Valid;
@@ -27,7 +31,7 @@ public class MonoChannelAmplifierController {
         if (!model.containsAttribute("addMonoAmpDTO")) {
             model.addAttribute("addMonoAmpDTO", new AddMonoAmpDTO());
         }
-        return "/amps/monoamp-add";
+        return "/amplifiers/monoamp-add";
     }
 
     @ModelAttribute("addMonoAmpDTO")
@@ -49,11 +53,43 @@ public class MonoChannelAmplifierController {
         return "redirect:/amplifiers/mono-amplifiers/" + newMonoAmp;
     }
 
+    @GetMapping("/edit/{id}")
+    public String getEditMonoAmp(@PathVariable("id") Long id,
+                                   Model model) {
+
+        if (!model.containsAttribute("monoAmpDetails")) {
+            MonoAmpDetailsDTO monoAmpDetailsDTO = monoAmpService.getDeviceDetails(id);
+            model.addAttribute("monoAmpDetails", monoAmpDetailsDTO);
+        }
+        return "/amplifiers/monoamp-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String postEditMonoAmp(@Valid @ModelAttribute("monoAmpDetails") AddMonoAmpDTO addMonoAmpDTO,
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("monoAmpDetails", addMonoAmpDTO);
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "monoAmpDetails", bindingResult);
+            return "redirect:/amplifiers/mono-amplifiers/edit/" + addMonoAmpDTO.getId();
+        }
+
+        long newMonoAmp = monoAmpService.addDevice(addMonoAmpDTO);
+        return "redirect:/amplifiers/mono-amplifiers/" + newMonoAmp;
+    }
+
     @GetMapping("/{id}")
     public String monoAmpDetails(@PathVariable("id") Long id,
                                    Model model) {
+
+        MonoAmpDetailsDTO deviceDetails = monoAmpService.getDeviceDetails(id);
         model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
-        return "/amps/monoamp-details";
+
+        MonoAmpDetailsHelperDTO helperDTO =
+                new MonoAmpDetailsHelperDTO(deviceDetails);
+
+        model.addAttribute("helperDTO", helperDTO);
+        return "/amplifiers/monoamp-details";
     }
 
     @DeleteMapping("/{id}")

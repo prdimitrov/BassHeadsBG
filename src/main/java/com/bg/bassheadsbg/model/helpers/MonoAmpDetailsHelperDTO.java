@@ -30,12 +30,12 @@ public final class MonoAmpDetailsHelperDTO {
         return ValueFormatterUtil.formatValue(monoAmpDetails.getSubsonicFilter());
     }
 
-    public String isRemoteControl() {
-        return ValueFormatterUtil.formatValue(monoAmpDetails.isRemoteControl());
+    public boolean isRemoteControl() {
+        return monoAmpDetails.isRemoteControl();
     }
 
-    public String isBassBoost() {
-        return ValueFormatterUtil.formatValue(monoAmpDetails.isBassBoost());
+    public boolean isBassBoost() {
+        return monoAmpDetails.isBassBoost();
     }
 
     public String formattedLowInputLevel() {

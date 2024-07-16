@@ -32,12 +32,12 @@ public final class MultiChannelAmpDetailsHelperDTO {
         return ValueFormatterUtil.formatValue(multiChannelAmpDetails.getSubsonicFilter());
     }
 
-    public String isRemoteControl() {
-        return ValueFormatterUtil.formatValue(multiChannelAmpDetails.isRemoteControl());
+    public boolean isRemoteControl() {
+        return multiChannelAmpDetails.isRemoteControl();
     }
 
-    public String isBassBoost() {
-        return ValueFormatterUtil.formatValue(multiChannelAmpDetails.isBassBoost());
+    public boolean isBassBoost() {
+        return multiChannelAmpDetails.isBassBoost();
     }
 
     public String formattedLowInputLevel() {
