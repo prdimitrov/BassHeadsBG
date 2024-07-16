@@ -57,39 +57,39 @@
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-bullhorn"></i> Sensitivity</h4></td>
-                            <td><span th:text="*{formattedSensitivity()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedSensitivity()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-ruler-combined"></i> Size</h4></td>
-                            <td><span th:text="*{formattedSize()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedSize()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-wave-square"></i> Fs</h4></td>
-                            <td><span th:text="*{formattedFrequencyResponse()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedFrequencyResponse()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-circle-notch"></i> Coils</h4></td>
-                            <td><span th:text="*{formattedNumberOfCoils()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedNumberOfCoils()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-ruler-vertical"></i> Coil height</h4></td>
-                            <td><span th:text="*{formattedCoilHeight()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedCoilHeight()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-layer-group"></i> Coil layers</h4></td>
-                            <td><span th:text="*{formattedCoilLayers()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedCoilLayers()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-ethernet"></i> Impedance</h4></td>
-                            <td><span th:text="*{formattedImpedance()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedImpedance()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-bolt"></i> Power Handling</h4></td>
-                            <td><span th:text="*{formattedPowerHandling()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedPowerHandling()}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-magnet"></i> Magnet size</h4></td>
-                            <td><span th:text="*{formattedMagnetSize()}"></span></td>
+                            <td><span th:text="${helperDTO.formattedMagnetSize()}"></span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -102,37 +102,38 @@
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <h4>Mms</h4>
-                            <span th:text="*{formattedMms()}"></span>
+                            <span th:text="${helperDTO.formattedMms()}"></span>
                             <h4>Xmax</h4></td>
-                            <span th:text="*{formattedXmax()}"></span>
+                            <span th:text="${helperDTO.formattedXmax()}"></span>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <h4>Qms</h4>
-                            <span th:text="*{formattedQms()}"></span>
+                            <span th:text="${helperDTO.formattedQms()}"></span>
                             <h4>Qes</h4>
-                            <span th:text="*{formattedQes()}"></span>
+                            <span th:text="${helperDTO.formattedQes()}"></span>
                             <h4>Qts</h4>
-                            <span th:text="*{formattedQts()}"></span>
+                            <span th:text="${helperDTO.formattedQts()}"></span>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <h4>Bl</h4>
-                            <span th:text="*{formattedBl()}"></span>
+                            <span th:text="${helperDTO.formattedBl()}"></span>
                             <h4>Sd</h4>
-                            <span th:text="*{formattedSd()}"></span>
+                            <span th:text="${helperDTO.formattedSd()}"></span>
                         </div>
                     </div>
 
                     <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
-                        <a class="btn btn-info btn-lg" href="/">Update</a>
-                        <form
-                                th:method="delete"
-                                th:action="@{/speakers/subwoofers/{id}(id=*{id})}">
+                        <form th:action="@{/speakers/subwoofers/edit/{id}(id=${subwooferDetails.id})}" th:object="${subwooferDetails}" method="get">
+                            <input type="hidden" th:field="*{id}"/>
+                            <input class="btn btn-info btn-lg" type="submit" value="Update"/>
+                        </form>
+                        <form th:method="delete" th:action="@{/speakers/subwoofers/{id}(id=${subwooferDetails.id})}">
                             <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
                         </form>
                     </div>

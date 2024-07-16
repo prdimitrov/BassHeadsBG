@@ -1,7 +1,10 @@
 package com.bg.bassheadsbg.web.speakerControllers;
 
-
 import com.bg.bassheadsbg.model.dto.AddSubwooferDTO;
+import com.bg.bassheadsbg.model.dto.MidRangeDetailsDTO;
+import com.bg.bassheadsbg.model.dto.SubwooferDetailsDTO;
+import com.bg.bassheadsbg.model.helpers.MidRangeDetailsHelperDTO;
+import com.bg.bassheadsbg.model.helpers.SubwooferDetailsHelperDTO;
 import com.bg.bassheadsbg.service.SubwooferService;
 import com.bg.bassheadsbg.service.exception.ObjectNotFoundException;
 import jakarta.validation.Valid;
@@ -49,10 +52,42 @@ public class SubwooferController {
         return "redirect:/speakers/subwoofers/" + newSubwoofer;
     }
 
+    @GetMapping("/edit/{id}")
+    public String getEditSubwoofer(@PathVariable("id") Long id,
+                                  Model model) {
+        SubwooferDetailsDTO subwooferDetailsDTO = subwooferService.getDeviceDetails(id);
+
+        if (!model.containsAttribute("subwooferDetails")) {
+            model.addAttribute("subwooferDetails", subwooferDetailsDTO);
+        }
+        return "/speakers/subwoofer-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String postEditSubwoofer(@Valid @ModelAttribute("subwooferDetails") AddSubwooferDTO addSubwooferDTO,
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("subwooferDetails", addSubwooferDTO);
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "subwooferDetails", bindingResult);
+            return "redirect:/speakers/subwoofers/edit/" + addSubwooferDTO.getId();
+        }
+
+        long newSubwoofer = subwooferService.addDevice(addSubwooferDTO);
+        return "redirect:/speakers/subwoofers/" + newSubwoofer;
+    }
+
     @GetMapping("/{id}")
     public String subwooferDetails(@PathVariable("id") Long id,
                                    Model model) {
+
+        SubwooferDetailsDTO deviceDetails = subwooferService.getDeviceDetails(id);
         model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
+
+        SubwooferDetailsHelperDTO helperDTO =
+                new SubwooferDetailsHelperDTO(deviceDetails);
+
+        model.addAttribute("helperDTO", helperDTO);
         return "/speakers/subwoofer-details";
     }
 
