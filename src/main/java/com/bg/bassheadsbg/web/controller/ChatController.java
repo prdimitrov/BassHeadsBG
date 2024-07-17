@@ -37,9 +37,9 @@ public class ChatController {
 
             // Modify message content based on user roles
             if (user.getRoles().stream().anyMatch(role -> role.getRole() == UserRoleEnum.ADMIN)) {
-                message.setContent("(Admin)" + user.getUsername() + " said: " + message.getContent());
+                message.setContent("(Admin)" + user.getUsername() + ": " + message.getContent());
             } else {
-                message.setContent(user.getUsername() + " said: " + message.getContent());
+                message.setContent(user.getUsername() + ": " + message.getContent());
             }
 
             // Store original content in the message object
