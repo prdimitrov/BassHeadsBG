@@ -25,7 +25,7 @@ var WebSocketModule = (function() {
         }, function(error) {
             console.error('Connection error: ' + error);
             connected = false;
-            setTimeout(connect, 10000); // Attempt to reconnect after 10 seconds
+            setTimeout(connect, 60000); // Attempt to reconnect after 60 seconds
         });
     }
 
