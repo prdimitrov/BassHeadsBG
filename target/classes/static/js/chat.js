@@ -23,9 +23,9 @@ var WebSocketModule = (function() {
             // Process queued messages
             processMessageQueue();
         }, function(error) {
-            console.error('Connection error: ' + error);
-            connected = false;
-            setTimeout(connect, 60000); // Attempt to reconnect after 60 seconds
+//            console.error('Connection error: ' + error);
+//            connected = false;
+//            setTimeout(connect, 60000); // Attempt to reconnect after 60 seconds
         });
     }
 

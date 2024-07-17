@@ -2,7 +2,8 @@
     position: fixed;
     bottom: 10px;
     right: 10px;
-    z-index: 1000; /* Ensure icon appears on top */
+    z-index: 999; /* Ensure icon appears on top */
+    transform: translate(-1px, -50px);
 }
 
 #chat-box {
