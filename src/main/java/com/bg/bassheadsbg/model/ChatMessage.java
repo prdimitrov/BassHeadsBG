@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model.dto;
+package com.bg.bassheadsbg.model;
 
 public class ChatMessage {
     private String content;

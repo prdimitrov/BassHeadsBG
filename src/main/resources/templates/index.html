@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>BassHeadsBG</title>
@@ -15,10 +14,7 @@
 </head>
 
 <body>
-
 <div th:replace="~{fragments/navbar::navbar(activeLink=${''})}"></div>
-
-
 <div class="container-fluid">
     <h5 class="text-center text-white mt-5">Welcome to BassHeadsBG,
         <th:block th:text="${welcomeMessage}"></th:block>!
@@ -26,6 +22,8 @@
 </div>
 
 <div th:replace="~{fragments/footer::footer}"></div>
+
+<div th:replace="~{fragments/chat::chat}"></div>
 
 </body>
 </html>
