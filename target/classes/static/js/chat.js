@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var chatContent = document.getElementById('chat-content');
     var closeButton = document.getElementById('close-chat-btn');
 
+    var stompClient = null;
+
     chatIcon.addEventListener('click', function(event) {
         event.stopPropagation(); // Prevent event from bubbling up
         toggleChatBox();
@@ -27,19 +29,35 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Enter') {
             var content = chatInput.value.trim();
             if (content !== '') {
-                stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({'content': content, 'sender': 'User'}));
+                stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({'content': content}));
                 chatInput.value = '';
             }
         }
     });
 
+    // Connect to WebSocket endpoint
     var socket = new SockJS('/chat-websocket');
-    var stompClient = Stomp.over(socket);
+    stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function(frame) {
+        console.log('Connected: ' + frame);
+
+        // Subscribe to topic for receiving new messages
         stompClient.subscribe('/topic/public', function(message) {
-            showMessage(JSON.parse(message.body).content);
+            var msg = JSON.parse(message.body);
+            showMessage(msg.content);
         });
+
+        // Subscribe to topic for initial messages
+        stompClient.subscribe('/topic/public.init', function(messages) {
+            var messageList = JSON.parse(messages.body);
+            messageList.forEach(function(message) {
+                showMessage(message.content);
+            });
+        });
+
+        // Fetch initial messages on connection
+        stompClient.send("/app/chat.loadMessages", {}, {});
     });
 
     function showMessage(message) {

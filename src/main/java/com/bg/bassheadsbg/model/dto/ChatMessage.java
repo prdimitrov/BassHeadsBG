@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.model.dto;
 public class ChatMessage {
     private String content;
     private String sender;
+    private String originalContent;
 
     public String getContent() {
         return content;
@@ -18,5 +19,13 @@ public class ChatMessage {
 
     public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getOriginalContent() {
+        return originalContent;
+    }
+
+    public void setOriginalContent(String originalContent) {
+        this.originalContent = originalContent;
     }
 }
