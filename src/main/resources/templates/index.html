@@ -10,23 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/chat.js"></script>
-
-    <script>
-        // Initialize WebSocket connection and listen for messages
-        document.addEventListener('DOMContentLoaded', function() {
-            WebSocketModule.connect(); // Connect to WebSocket endpoint
-
-            // Function to handle incoming messages and display in chat
-            function handleIncomingMessage(message) {
-                WebSocketModule.showMessage(message); // Call showMessage from WebSocketModule
-            }
-
-            // Example: If you receive a message from another source (not WebSocket)
-            var exampleMessage = { content: "Hello, World!", sender: "Admin" };
-            handleIncomingMessage(exampleMessage); // Display example message in chat
-        });
-    </script>
 </head>
 
 <body>
