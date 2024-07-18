@@ -18,6 +18,12 @@ spring:
     username: ${db_username}
     url: jdbc:mysql://${db_address}:3306/bassheads_bg?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     initialization-mode: always
+  kafka:
+    bootstrap-servers: localhost:9092
+    groupId: test
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
 
 logging:
   level:

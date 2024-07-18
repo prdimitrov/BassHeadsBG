@@ -14,11 +14,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     private final CustomLogoutHandler customLogoutHandler;
 
-    public SecurityConfiguration(CustomLogoutHandler customLogoutHandler) {
+    public SecurityConfig(CustomLogoutHandler customLogoutHandler) {
         this.customLogoutHandler = customLogoutHandler;
     }
 
