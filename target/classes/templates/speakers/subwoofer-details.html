@@ -41,54 +41,54 @@
 
             <div class="device-body">
 
-                <h2>Specifications</h2>
+                <h2 th:text="#{specifications}"></h2>
 
                 <div class="specs">
                     <table class="table table-borderless device-details">
                         <thead></thead>
                         <tbody>
                         <tr>
-                            <td><h4><i class="fas fa-tag"></i> Brand</h4></td>
+                            <td><h4><i class="fas fa-tag"></i> <span class="spec-detail" th:text="#{brand}"></span></h4></td>
                             <td><span th:text="*{brand}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-mobile-alt"></i> Model</h4></td>
+                            <td><h4><i class="fas fa-mobile-alt"></i> <span class="spec-detail" th:text="#{model}"></span></h4></td>
                             <td><span th:text="*{model}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-bullhorn"></i> Sensitivity</h4></td>
+                            <td><h4><i class="fas fa-bullhorn"></i> <span class="spec-detail" th:text="#{sensitivity}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedSensitivity()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-ruler-combined"></i> Size</h4></td>
+                            <td><h4><i class="fas fa-ruler-combined"></i> <span class="spec-detail" th:text="#{size}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedSize()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-wave-square"></i> Fs</h4></td>
+                            <td><h4><i class="fas fa-wave-square"></i> <span class="spec-detail" th:text="#{fs}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedFrequencyResponse()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-circle-notch"></i> Coils</h4></td>
+                            <td><h4><i class="fas fa-circle-notch"></i> <span class="spec-detail" th:text="#{number_of_coils}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedNumberOfCoils()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-ruler-vertical"></i> Coil height</h4></td>
+                            <td><h4><i class="fas fa-ruler-vertical"></i> <span class="spec-detail" th:text="#{coil_height}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedCoilHeight()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-layer-group"></i> Coil layers</h4></td>
+                            <td><h4><i class="fas fa-layer-group"></i> <span class="spec-detail" th:text="#{coil_layers}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedCoilLayers()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-ethernet"></i> Impedance</h4></td>
+                            <td><h4><i class="fas fa-ethernet"></i> <span class="spec-detail" th:text="#{impedance}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedImpedance()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-bolt"></i> Power Handling</h4></td>
+                            <td><h4><i class="fas fa-bolt"></i> <span class="spec-detail" th:text="#{power_handling}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedPowerHandling()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-magnet"></i> Magnet size</h4></td>
+                            <td><h4><i class="fas fa-magnet"></i> <span class="spec-detail" th:text="#{magnet_size}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedMagnetSize()}"></span></td>
                         </tr>
                         </tbody>
@@ -96,7 +96,7 @@
 
                     <hr>
 
-                    <h2><i class="fas fa-sliders-h"></i> T/C Parameters</h2>
+                    <h2><i class="fas fa-sliders-h"></i> <span class="spec-detail" th:text="#{ts_parameters}"></span></h2>
                     <hr>
 
                     <div class="row">
@@ -131,10 +131,10 @@
                     <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
                         <form th:action="@{/speakers/subwoofers/edit/{id}(id=${subwooferDetails.id})}" th:object="${subwooferDetails}" method="get">
                             <input type="hidden" th:field="*{id}"/>
-                            <input class="btn btn-info btn-lg" type="submit" value="Update"/>
+                            <input class="btn btn-info btn-lg" type="submit" th:value="#{update}"/>
                         </form>
                         <form th:method="delete" th:action="@{/speakers/subwoofers/{id}(id=${subwooferDetails.id})}">
-                            <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
+                            <input class="btn btn-info btn-lg" type="submit" th:value="#{delete}"/>
                         </form>
                     </div>
 

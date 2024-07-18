@@ -20,7 +20,7 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'device-dropdown'})}"></div>
 
 <div class="container">
-    <h2 class="text-center text-white">Upload Subwoofer</h2>
+    <h2 class="text-center text-white" th:text="#{upload_subwoofer}"></h2>
     <form
             th:action="@{/speakers/subwoofers/add}"
             th:method="post"
@@ -28,7 +28,7 @@
             class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="brand" class="text-white font-weight-bold">Brand</label>
+                <label th:for="brand" class="text-white font-weight-bold" th:text="#{brand}"></label>
                 <input th:field="*{brand}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="text"
@@ -36,7 +36,7 @@
                 <small class="text-danger invalid-feedback" th:errors="*{brand}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="model" class="text-white font-weight-bold">Model</label>
+                <label th:for="model" class="text-white font-weight-bold" th:text="#{model}"></label>
                 <input th:field="*{model}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="text"
@@ -47,7 +47,7 @@
 
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="sensitivity" class="text-white font-weight-bold">Sensitivity</label>
+                <label th:for="sensitivity" class="text-white font-weight-bold" th:text="#{sensitivity}"></label>
                 <input th:field="*{sensitivity}"
                        th:errorclass="'is-invalid bg-danger'"
                        step="any"
@@ -57,7 +57,7 @@
                 <small class="text-danger invalid-feedback" th:errors="*{sensitivity}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="size" class="text-white font-weight-bold">Size</label>
+                <label th:for="size" class="text-white font-weight-bold" th:text="#{size}"></label>
                 <input th:field="*{size}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
@@ -69,7 +69,7 @@
 
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="frequencyResponse" class="text-white font-weight-bold">Frequency Response</label>
+                <label th:for="frequencyResponse" class="text-white font-weight-bold" th:text="#{frequency_response}"></label>
                 <input th:field="*{frequencyResponse}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
@@ -79,7 +79,7 @@
                 <small class="text-danger invalid-feedback" th:errors="*{frequencyResponse}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="numberOfCoils" class="text-white font-weight-bold">Number of coils</label>
+                <label th:for="numberOfCoils" class="text-white font-weight-bold" th:text="#{number_of_coils}"></label>
                 <input th:field="*{numberOfCoils}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
@@ -90,7 +90,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="coilHeight" class="text-white font-weight-bold">Coil height in mm</label>
+                <label th:for="coilHeight" class="text-white font-weight-bold" th:text="#{coil_height_in_mm}"></label>
                 <input th:field="*{coilHeight}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
@@ -100,7 +100,7 @@
                 <small class="text-danger invalid-feedback" th:errors="*{coilHeight}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="coilLayers" class="text-white font-weight-bold">Coil Layers</label>
+                <label th:for="coilLayers" class="text-white font-weight-bold" th:text="#{coil_layers}"></label>
                 <input th:field="*{coilLayers}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
@@ -110,7 +110,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="impedance" class="text-white font-weight-bold">Impedance</label>
+                <label th:for="impedance" class="text-white font-weight-bold" th:text="#{impedance}"></label>
                 <input th:field="*{impedance}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
@@ -119,7 +119,7 @@
                 <small class="text-danger invalid-feedback" th:errors="*{impedance}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="powerHandling" class="text-white font-weight-bold">Power handling (RMS)</label>
+                <label th:for="powerHandling" class="text-white font-weight-bold" th:text="#{power_handling_rms}"></label>
                 <input th:field="*{powerHandling}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
@@ -130,7 +130,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="magnetSize" class="text-white font-weight-bold">Magnet size</label>
+                <label th:for="magnetSize" class="text-white font-weight-bold" th:text="#{magnet_size}"></label>
                 <input th:field="*{magnetSize}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
@@ -140,7 +140,7 @@
             </div>
         </div>
         <hr class="mt-3 mb-3"/>
-        <h3 class="text-center text-white">T/C Parameters</h3>
+        <h3 class="text-center text-white" th:text="#{ts_parameters}"></h3>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label th:for="vas" class="text-white font-weight-bold">Vas</label>
@@ -229,9 +229,7 @@
             </div>
         </div>
         <hr class="mt-3 mb-3"/>
-        <h3 th:classappend="${#fields.hasErrors('images')} ? 'bg-danger' : ''" class="text-center text-white">
-            Images
-        </h3>
+        <h3 th:classappend="${#fields.hasErrors('images')} ? 'bg-danger' : ''" class="text-center text-white" th:text="#{images}"></h3>
         <div class="row device-images pb-1">
             <div id="image-inputs" class="col-md-12">
                 <div th:each="image, iterStat : ${addSubwooferDTO.images}">
@@ -241,20 +239,20 @@
                                th:classappend="${#fields.hasErrors('images[__${iterStat.index}__]')} ? 'text-danger bg-warning' : ''">
                         <div class="input-group-append">
                             <!--            Items will be added here                -->
-                            <button class="btn btn-danger" type="button" onclick="removeImageInput(this)">Remove
+                            <button class="btn btn-danger" type="button" onclick="removeImageInput(this)" th:text="#{remove}">
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-12">
-                <button type="button" class="btn btn-primary" id="add-image-button">Add Image</button>
+                <button type="button" class="btn btn-primary" id="add-image-button" th:text="#{add_image}"></button>
             </div>
         </div>
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Upload Subwoofer"/>
+                    <input type="submit" class="btn btn-info btn-lg" th:value="#{upload_subwoofer}"/>
                 </div>
             </div>
         </div>
