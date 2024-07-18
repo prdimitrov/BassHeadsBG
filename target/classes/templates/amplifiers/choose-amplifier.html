@@ -18,22 +18,18 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'device-dropdown'})}"></div>
 
 <div class="container">
-    <h2 class="text-center text-white">Choose Amplifier Type</h2>
+    <h2 class="text-center text-white" th:text="#{choose_amplifier_type}"></h2>
     <div class="main-form mx-auto">
         <a  th:href="@{/amplifiers/mono-amplifiers/add}">
         <div class="col">
             <img src="/images/mono-channel-amp-transparent.png" alt="NO IMAGE">
-            <div class="choice">
-                Mono-Channel Amplifier
-            </div>
+            <div class="choice" th:text="#{mono_amp}"></div>
         </div>
         </a>
         <a  th:href="@{/amplifiers/multi-channel-amplifiers/add}">
         <div class="col">
             <img src="/images/multi-channel-amp-transparent.png" alt="NO IMAGE">
-            <div class="choice">
-                Multi-Channel Amplifier
-            </div>
+            <div class="choice" th:text="#{multichannel_amp}"></div>
         </div>
         </a>
     </div>
