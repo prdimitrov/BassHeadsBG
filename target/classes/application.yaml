@@ -4,7 +4,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: 'FALSE'
-#        format_sql: 'TRUE' beshe na true
     hibernate:
       ddl-auto: update
     open-in-view: 'false'
@@ -23,6 +22,8 @@ spring:
     groupId: test
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 
 logging:
