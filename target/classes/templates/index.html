@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/reset-css.css"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/chat.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
@@ -15,14 +16,12 @@
 <body>
 <div th:replace="~{fragments/navbar::navbar(activeLink=${''})}"></div>
 <div class="container-fluid">
-    <h5 class="text-center text-white mt-5" th:text="#{greeting}">Welcome to BassHeadsBG,
-        <th:block th:text="${welcomeMessage}"></th:block>!
-    </h5>
+    <h5 class="text-center text-white mt-5" th:text="#{greeting} + ${welcomeMessage}"></h5>
 </div>
 
-<div th:replace="~{fragments/footer::footer}"></div>
-
 <div sec:authorize=="isAuthenticated()" th:replace="~{fragments/chat::chat}"></div>
+
+<div th:replace="~{fragments/footer::footer}"></div>
 
 </body>
 </html>

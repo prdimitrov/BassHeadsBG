@@ -15,7 +15,7 @@ public class HomeController {
     public String home(@AuthenticationPrincipal UserDetails userDetails,
                        Model model) {
         if (userDetails instanceof BassHeadsUserDetails bassHeadsUserDetails) {
-            model.addAttribute("welcomeMessage", bassHeadsUserDetails.getUsername());
+            model.addAttribute("welcomeMessage", (", " + bassHeadsUserDetails.getUsername()));
         } else {
             model.addAttribute("welcomeMessage", "Anonymous");
         }
