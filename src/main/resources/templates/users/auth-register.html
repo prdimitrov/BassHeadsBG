@@ -17,14 +17,14 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'register'})}"></div>
 
 <div class="container">
-    <h2 class="text-center text-white">Register User</h2>
+    <h2 class="text-center text-white" th:text="#{registration}"></h2>
     <form th:method="post"
           th:action="@{/users/register}"
           th:object="${registerDTO}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="username" class="text-white font-weight-bold">Username</label>
+                <label th:for="username" class="text-white font-weight-bold" th:text="#{username}"></label>
                 <input th:field="*{username}"
                        th:errorclass="'is-invalid alert bg-danger'"
                        type="text"
@@ -33,7 +33,7 @@
                 <small class="text-danger invalid-feedback" th:errors="*{username}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="birthDate" class="text-white font-weight-bold">Date of Birth</label>
+                <label th:for="birthDate" class="text-white font-weight-bold" th:text="#{dob}"></label>
                 <input th:field="*{birthDate}"
                        th:errorclass="'is-invalid alert bg-danger'"
                        type="date"
@@ -45,7 +45,7 @@
 
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="firstName" class="text-white font-weight-bold">First Name</label>
+                <label th:for="firstName" class="text-white font-weight-bold" th:text="#{first_name}"></label>
                 <input th:field="*{firstName}"
                        th:errorclass="'is-invalid alert bg-danger'"
                        type="text"
@@ -54,7 +54,7 @@
                 <small class="text-danger invalid-feedback" th:errors="*{firstName}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="lastName" class="text-white font-weight-bold">Last Name</label>
+                <label th:for="lastName" class="text-white font-weight-bold" th:text="#{last_name}"></label>
                 <input th:field="*{lastName}"
                        th:errorclass="'is-invalid alert bg-danger'"
                        type="text"
@@ -65,7 +65,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="email" class="text-white font-weight-bold">Email</label>
+                <label th:for="email" class="text-white font-weight-bold" th:text="#{user_email}"></label>
                 <input th:field="*{email}"
                        th:errorclass="'is-invalid alert bg-danger'"
                        type="email"
@@ -74,18 +74,18 @@
                 <small class="text-danger invalid-feedback" th:errors="*{email}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label th:for="password" class="text-white font-weight-bold">Password</label>
+                <label th:for="password" class="text-white font-weight-bold" th:text="#{password}"></label>
                 <input th:field="*{password}"
                        th:errorclass="'is-invalid alert bg-danger'"
                        type="password"
                        class="form-control"
                        placeholder="Password"/>
-                <small class="text-danger invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error message</small>
+                <small class="text-danger invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="confirmPassword" class="text-white font-weight-bold">Confirm Password</label>
+                <label th:for="confirmPassword" class="text-white font-weight-bold" th:text="#{confirm_password}"></label>
                 <input th:field="*{confirmPassword}"
                        th:errorclass="'is-invalid alert bg-danger'"
                        type="password"
@@ -97,7 +97,7 @@
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Create user"/>
+                    <input type="submit" class="btn btn-info btn-lg" th:value="#{register_yourself}"/>
                 </div>
             </div>
         </div>
