@@ -81,8 +81,8 @@
           <form th:method="get">
             <label class="text-white mr-2" for="lang" th:text="#{nav_bar_language}">Language</label>
             <select id="lang" name="lang" onchange="this.form.submit()">
-              <option value="eu_US" th:selected="${#locale.toString()} == 'en_US'">EN</option>
-              <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">БГ</option>
+              <option th:value="eu_US" th:selected="${#locale.toString()} == 'en_US'"><span th:text="#{en_US}"></span></option>
+              <option th:value="bg_BG" th:text="#{bg_BG}" th:selected="${#locale.toString()} == 'bg_BG'"><span th:text="#{bg_BG}"></span></option>
             </select>
           </form>
         </li>
