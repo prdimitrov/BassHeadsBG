@@ -17,7 +17,7 @@ public class HomeController {
         if (userDetails instanceof BassHeadsUserDetails bassHeadsUserDetails) {
             model.addAttribute("welcomeMessage", (", " + bassHeadsUserDetails.getUsername()));
         } else {
-            model.addAttribute("welcomeMessage", "Anonymous");
+            model.addAttribute("welcomeMessage", " :)");
         }
 
         return "index";

@@ -70,7 +70,7 @@
                 <label th:for="amplifierClass" class="text-white font-weight-bold" th:text="#{amplifier_class}"></label>
                 <select th:field="*{amplifierClass}" class="form-control" required
                         th:classappend="${#fields.hasErrors('amplifierClass')} ? 'is-invalid' : ''">
-                    <option th:value="#{class}"></option>
+                    <option value="" th:text="#{class}"></option>
                     <option th:each="ampClass : ${T(com.bg.bassheadsbg.model.enums.AmpClass).values()}"
                             th:value="${ampClass}" th:text="${ampClass}"></option>
                 </select>
