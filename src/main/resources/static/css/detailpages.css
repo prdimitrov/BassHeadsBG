@@ -176,6 +176,10 @@ span {
     border: 2px solid #fff;
 }
 
+.admin-buttons .btn {
+    width: 160px;
+}
+
 .gallery .img-thumbnail {
     padding: 0.25em;
     background-color: #000;
