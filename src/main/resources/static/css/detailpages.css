@@ -33,7 +33,7 @@
     margin: 0 10px;
 }
 
-h2, h4, h5 {
+h2, h4, h5, .spec-detail {
     text-align: center;
     color: #00c8ff;
 }

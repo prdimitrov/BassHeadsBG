@@ -25,31 +25,31 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto col-12 justify-content-around">
         <li class="nav-item">
-          <a class="nav-link" href="/brands/all">All Brands</a>
+          <a class="nav-link" href="/brands/all" th:text="#{rankings}"></a>
         </li>
+
         <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')" th:classappend="${activeLink == 'device-dropdown'}? 'active'">
           <a class="nav-link dropdown-toggle" href="/" id="productDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add Device
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{add_device}">
           </a>
           <div class="dropdown-menu" aria-labelledby="productDropdown">
-            <a class="dropdown-item" th:href="@{/speakers/high-range/add}">High Range</a>
-            <a class="dropdown-item" th:href="@{/speakers/mid-range/add}">Mid Range</a>
-            <a class="dropdown-item" th:href="@{/speakers/subwoofers/add}">Subwoofer</a>
+            <a class="dropdown-item" th:href="@{/speakers/high-range/add}" th:text="#{high_ranges}"></a>
+            <a class="dropdown-item" th:href="@{/speakers/mid-range/add}"th:text="#{mid_ranges}"></a>
+            <a class="dropdown-item" th:href="@{/speakers/subwoofers/add}"th:text="#{subwoofers}"></a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" th:href="@{/amplifiers/choose-amplifier}">Amplifier</a>
+            <a class="dropdown-item" th:href="@{/amplifiers/choose-amplifier}"th:text="#{amplifiers}"></a>
           </div>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="/offers/all" th:classappend="${activeLink == 'all-offers'}? 'active'">All Offers</a>
+          <a class="nav-link" href="/offers/all" th:classappend="${activeLink == 'all-offers'}? 'active'" th:text="#{all_devices}"></a>
         </li>
         <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
           <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Admin
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{admin}">
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/">Action</a>
+            <a class="dropdown-item" href="/" th:text="#{ban}"></a>
             <a class="dropdown-item" href="/">Another action</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/">Something else here</a>
@@ -62,13 +62,13 @@
             <form th:method="post"
                   th:action="@{/users/logout}"
                   id="logout-form">
-              <input class="btn btn-link" type="submit" value="Logout"/>
+              <input class="btn btn-link" type="submit" th:value="#{logout}"/>
             </form>
           </div>
         </li>
         <li class="nav-item" sec:authorize="!isAuthenticated()">
           <a class="nav-link" href="/users/register"
-             th:classappend="${activeLink == 'register'}? 'active'">Register</a>
+             th:classappend="${activeLink == 'register'}? 'active'" th:text="#{register}"></a>
         </li>
         <li class="nav-item" sec:authorize=="!isAuthenticated()">
           <a class="nav-link" href="/users/login"
