@@ -41,39 +41,39 @@
                         <thead></thead>
                         <tbody>
                         <tr>
-                            <td><h4><i class="fas fa-tag"></i> Brand</h4></td>
+                            <td><h4><i class="fas fa-tag"></i> <span class="spec-detail" th:text="#{brand}"></span></h4></td>
                             <td><span th:text="*{brand}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-mobile-alt"></i> Model</h4></td>
+                            <td><h4><i class="fas fa-mobile-alt"></i> <span class="spec-detail" th:text="#{model}"></span></h4></td>
                             <td><span th:text="*{model}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-bullhorn"></i> Sensitivity</h4></td>
+                            <td><h4><i class="fas fa-bullhorn"></i> <span class="spec-detail" th:text="#{sensitivity}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedSensitivity()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-ruler-combined"></i> Size</h4></td>
+                            <td><h4><i class="fas fa-ruler-combined"></i> <span class="spec-detail" th:text="#{size}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedSize()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-wave-square"></i> Fs</h4></td>
+                            <td><h4><i class="fas fa-wave-square"></i> <span class="spec-detail" th:text="#{fs}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedFrequencyResponse()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-circle-notch"></i> Coils</h4></td>
+                            <td><h4><i class="fas fa-circle-notch"></i> <span class="spec-detail" th:text="#{coils}"></span></h4></td>
                             <td><span th:text="*{NumberOfCoils}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-ethernet"></i> Impedance</h4></td>
+                            <td><h4><i class="fas fa-ethernet"></i> <span class="spec-detail" th:text="#{impedance}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedImpedance()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-bolt"></i> Power Handling</h4></td>
+                            <td><h4><i class="fas fa-bolt"></i> <span class="spec-detail" th:text="#{power_handling}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedPowerHandling()}"></span></td>
                         </tr>
                         <tr>
-                            <td><h4><i class="fas fa-signal"></i> Frequency range</h4></td>
+                            <td><h4><i class="fas fa-signal"></i> <span class="spec-detail" th:text="#{frequency_range}"></span></h4></td>
                             <td><span th:text="${helperDTO.formattedFrequencyRange()}"></span></td>
                         </tr>
                         </tbody>
@@ -81,10 +81,10 @@
                     <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
                         <form th:action="@{/speakers/mid-range/edit/{id}(id=${midRangeDetails.id})}" th:object="${midRangeDetails}" method="get">
                             <input type="hidden" th:field="*{id}"/>
-                            <input class="btn btn-info btn-lg" type="submit" value="Update"/>
+                            <input class="btn btn-info btn-lg" type="submit" th:value="#{update}"/>
                         </form>
                         <form th:method="delete" th:action="@{/speakers/mid-range/{id}(id=${midRangeDetails.id})}">
-                            <input class="btn btn-info btn-lg" type="submit" value="Delete"/>
+                            <input class="btn btn-info btn-lg" type="submit" th:value="#{delete}"/>
                         </form>
                     </div>
                 </div>

@@ -32,8 +32,7 @@
                 <input th:field="*{brand}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="text"
-                       class="form-control"
-                       placeholder="Brand"/>
+                       class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{brand}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
@@ -41,8 +40,7 @@
                 <input th:field="*{model}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="text"
-                       class="form-control"
-                       placeholder="Model"/>
+                       class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{model}"></small>
             </div>
         </div>
@@ -249,7 +247,7 @@
         <div id="image-inputs" class="col-md-12">
             <div th:each="image, iterStat : ${addMonoAmpDTO.images}">
                 <div class="input-group mb-3">
-                    <input type="text" th:value="${image}" th:field="*{images[__${iterStat.index}__]}" class="form-control" placeholder="Image URL" th:classappend="${#fields.hasErrors('images[__${iterStat.index}__]')} ? 'text-danger bg-warning' : ''">
+                    <input type="text" th:value="${image}" th:field="*{images[__${iterStat.index}__]}" class="form-control" placeholder="URL" th:classappend="${#fields.hasErrors('images[__${iterStat.index}__]')} ? 'text-danger bg-warning' : ''">
                     <div class="input-group-append">
                         <!--            Items will be added here                -->
                         <button class="btn btn-danger" type="button" onclick="removeImageInput(this)">Remove</button>

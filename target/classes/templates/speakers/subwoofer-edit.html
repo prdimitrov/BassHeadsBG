@@ -35,8 +35,7 @@
                 <input th:field="*{brand}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="text"
-                       class="form-control"
-                       placeholder="Brand"/>
+                       class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{brand}"></small>
             </div>
             <div class="form-group col-md-6 mb-3">
@@ -44,8 +43,7 @@
                 <input th:field="*{model}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="text"
-                       class="form-control"
-                       placeholder="Model"/>
+                       class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{model}"></small>
             </div>
         </div>
@@ -67,8 +65,7 @@
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
                        step="any"
-                       class="form-control"
-                       placeholder="Inch"/>
+                       class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{size}"></small>
             </div>
         </div>
@@ -110,8 +107,7 @@
                 <input th:field="*{coilLayers}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
-                       class="form-control"
-                       placeholder="Number of layers"/>
+                       class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{coilLayers}"></small>
             </div>
         </div>
@@ -244,7 +240,7 @@
                 <div th:each="image, iterStat : ${subwooferDetails.images}">
                     <div class="input-group mb-3">
                         <input type="text" th:value="${image}" th:field="*{images[__${iterStat.index}__]}"
-                               class="form-control" placeholder="Image URL"
+                               class="form-control" placeholder="URL"
                                th:classappend="${#fields.hasErrors('images[__${iterStat.index}__]')} ? 'text-danger bg-warning' : ''">
                         <div class="input-group-append">
                             <!--            Items will be added here                -->

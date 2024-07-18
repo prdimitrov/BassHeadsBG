@@ -12,7 +12,7 @@ function addImageInput() {
     inputField.setAttribute('type', 'text');
     inputField.setAttribute('name', `images[${imageIndex}]`);
     inputField.setAttribute('class', 'form-control');
-    inputField.setAttribute('placeholder', 'Image URL');
+    inputField.setAttribute('placeholder', 'URL');
 
     let appendButton = document.createElement('div');
     appendButton.classList.add('input-group-append');
