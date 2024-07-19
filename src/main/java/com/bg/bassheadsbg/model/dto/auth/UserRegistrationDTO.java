@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model.dto;
+package com.bg.bassheadsbg.model.dto.auth;
 
 import com.bg.bassheadsbg.validation.fieldsMatcher.FieldsMatch;
 import com.bg.bassheadsbg.validation.uniqueEmail.UniqueUserEmail;

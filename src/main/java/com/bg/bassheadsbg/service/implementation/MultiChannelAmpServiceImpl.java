@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.kafka.ImageListDTO;
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
@@ -28,10 +28,10 @@ public class MultiChannelAmpServiceImpl extends CommonDeviceServiceImpl<AddMulti
 
     @Override
     protected MultiChannelAmplifier mapToDevice(AddMultiChannelAmpDTO addDeviceDTO) throws JsonProcessingException {
-        ImageListDTO imageListDTO = new ImageListDTO();
-        imageListDTO.setImageUrls(addDeviceDTO.getImages());
-        imageListDTO.setTableName("multi_channel_amplifier_images");
-        imageProducer.sendMessage(imageListDTO);
+        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
+        imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
+        imageListDetailsDTO.setTableName("multi_channel_amplifier_images");
+        imageProducer.sendMessage(imageListDetailsDTO);
         return modelMapper.map(addDeviceDTO, MultiChannelAmplifier.class);
     }
 

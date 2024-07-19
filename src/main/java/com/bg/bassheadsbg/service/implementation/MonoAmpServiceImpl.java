@@ -1,12 +1,11 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.kafka.ImageListDTO;
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MonoAmpSummaryDTO;
 import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
-import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import com.bg.bassheadsbg.repository.MonoAmplifierRepository;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,10 +28,10 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
 
     @Override
     protected MonoAmplifier mapToDevice(AddMonoAmpDTO addDeviceDTO) throws JsonProcessingException {
-        ImageListDTO imageListDTO = new ImageListDTO();
-        imageListDTO.setImageUrls(addDeviceDTO.getImages());
-        imageListDTO.setTableName("mono_amplifier_images");
-        imageProducer.sendMessage(imageListDTO);
+        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
+        imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
+        imageListDetailsDTO.setTableName("mono_amplifier_images");
+        imageProducer.sendMessage(imageListDetailsDTO);
         return modelMapper.map(addDeviceDTO, MonoAmplifier.class);
     }
 

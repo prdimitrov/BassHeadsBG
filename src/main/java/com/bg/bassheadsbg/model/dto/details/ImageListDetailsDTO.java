@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.kafka;
+package com.bg.bassheadsbg.model.dto.details;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageListDTO {
+public class ImageListDetailsDTO {
     public String tableName;
 
     public List<String> imageUrls;

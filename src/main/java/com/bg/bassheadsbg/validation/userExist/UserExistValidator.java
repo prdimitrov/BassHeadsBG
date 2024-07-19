@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.validation.userExist;
 
 
-import com.bg.bassheadsbg.model.dto.UserLoginDTO;
+import com.bg.bassheadsbg.model.dto.auth.UserLoginDTO;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.service.interfaces.UserService;
 import jakarta.validation.ConstraintValidator;

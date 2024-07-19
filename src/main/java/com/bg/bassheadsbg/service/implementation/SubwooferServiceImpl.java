@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.kafka.ImageListDTO;
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
@@ -28,10 +28,10 @@ public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDT
 
     @Override
     protected Subwoofer mapToDevice(AddSubwooferDTO addDeviceDTO) throws JsonProcessingException {
-        ImageListDTO imageListDTO = new ImageListDTO();
-        imageListDTO.setImageUrls(addDeviceDTO.getImages());
-        imageListDTO.setTableName("subwoofer_images");
-        imageProducer.sendMessage(imageListDTO);
+        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
+        imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
+        imageListDetailsDTO.setTableName("subwoofer_images");
+        imageProducer.sendMessage(imageListDetailsDTO);
         return modelMapper.map(addDeviceDTO, Subwoofer.class);
     }
 

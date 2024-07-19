@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.kafka.ImageListDTO;
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
@@ -28,10 +28,10 @@ public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO,
 
     @Override
     protected MidRange mapToDevice(AddMidRangeDTO addDeviceDTO) throws JsonProcessingException {
-        ImageListDTO imageListDTO = new ImageListDTO();
-        imageListDTO.setImageUrls(addDeviceDTO.getImages());
-        imageListDTO.setTableName("mid_range_images");
-        imageProducer.sendMessage(imageListDTO);
+        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
+        imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
+        imageListDetailsDTO.setTableName("mid_range_images");
+        imageProducer.sendMessage(imageListDetailsDTO);
         return modelMapper.map(addDeviceDTO, MidRange.class);
     }
 

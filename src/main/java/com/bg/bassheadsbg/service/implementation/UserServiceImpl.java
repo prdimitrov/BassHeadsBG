@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.model.dto.UserRegistrationDTO;
+import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.entity.users.UserRole;

@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.web.controller.userControllers;
 
-import com.bg.bassheadsbg.model.dto.UserRegistrationDTO;
+import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
 import com.bg.bassheadsbg.service.interfaces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

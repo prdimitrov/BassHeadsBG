@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model.dto;
+package com.bg.bassheadsbg.model.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;

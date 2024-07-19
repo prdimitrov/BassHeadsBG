@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.kafka;
 
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +21,8 @@ public class ImageProducer {
     }
 
 
-    public void sendMessage(ImageListDTO imageListDTO) throws JsonProcessingException {
-        String message = objectMapper.writeValueAsString(imageListDTO);
+    public void sendMessage(ImageListDetailsDTO imageListDetailsDTO) throws JsonProcessingException {
+        String message = objectMapper.writeValueAsString(imageListDetailsDTO);
         kafkaTemplate.send(TOPIC, message);
     }
 }

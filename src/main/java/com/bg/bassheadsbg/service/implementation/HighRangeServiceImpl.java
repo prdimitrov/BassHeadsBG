@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.kafka.ImageListDTO;
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
@@ -29,10 +29,10 @@ public class HighRangeServiceImpl extends CommonDeviceServiceImpl<AddHighRangeDT
     @Override
     protected HighRange mapToDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
         // Produce message to Kafka with image URLs
-        ImageListDTO imageListDTO = new ImageListDTO();
-        imageListDTO.setImageUrls(addDeviceDTO.getImages());
-        imageListDTO.setTableName("high_range_images");
-        imageProducer.sendMessage(imageListDTO);
+        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
+        imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
+        imageListDetailsDTO.setTableName("high_range_images");
+        imageProducer.sendMessage(imageListDetailsDTO);
 
         // Map the DTO to HighRange entity
         return modelMapper.map(addDeviceDTO, HighRange.class);
