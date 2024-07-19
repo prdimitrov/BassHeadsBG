@@ -14,6 +14,7 @@
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/deviceImageSlider.js"></script>
+    <script src="/js/currency.js"></script>
 </head>
 
 <body>
@@ -54,10 +55,6 @@
                         <tr>
                             <td><h4><i class="fas fa-mobile-alt"></i> <span class="spec-detail" th:text="#{model}"></span></h4></td>
                             <td><span th:text="*{model}"></span></td>
-                        </tr>
-                        <tr>
-                            <td><h4><i class="fas fa-dollar-sign text-green"></i></i> <span class="spec-detail" th:text="#{price}"></span></h4></td>
-                            <td><span th:text="*{price}"></span></td>
                         </tr>
                         <tr>
                             <td><h4><i class="fas fa-bullhorn"></i> <span class="spec-detail" th:text="#{sensitivity}"></span></h4></td>
@@ -129,6 +126,31 @@
                             <span th:text="${helperDTO.formattedBl()}"></span>
                             <h4>Sd</h4>
                             <span th:text="${helperDTO.formattedSd()}"></span>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h2><i class="fas fa-dollar-sign text-green"></i> <span class="spec-detail"
+                                                                            th:text="#{price}"></span></h2>
+                    <hr>
+
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <div class="current_price">
+                                <h5 class="text-white align-self-end" th:text="#{approx}"></h5>
+                                <h3 class="text-white align-self-start" id="price" th:text="*{price}"></h3>
+                            </div>
+                            <div class="price-and-currency">
+                                <div class="card-text">
+                                    <select id="currency">
+                                        <option th:each="currency : *{allCurrencies}" th:value="${currency}"
+                                                th:selected="${currency} == 'BGN'" th:text="${currency}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <span th:text="#{currency}"></span>
+                                <input type="hidden" id="priceInBGN" th:value="*{price}">
+                            </div>
                         </div>
                     </div>
 

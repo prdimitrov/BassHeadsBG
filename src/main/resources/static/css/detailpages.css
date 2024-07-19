@@ -33,6 +33,10 @@
     margin: 0 10px;
 }
 
+h3 {
+    color: #fff;
+}
+
 h2, h4, h5, .spec-detail {
     text-align: center;
     color: #00c8ff;
@@ -203,10 +207,21 @@ span {
 
 .price-and-currency {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    align-self: center;
     gap: 0.5em;
     justify-content: space-between;
-    width: 100%; /* Adjust based on your needs */
+}
+
+.current_price {
+    display: flex;
+    gap: 0.5em;
+    flex-direction: row;
+    align-items:center;
+    align-self: center;
+    justify-content: center;
 }
 
 .price-and-currency .card-text {
