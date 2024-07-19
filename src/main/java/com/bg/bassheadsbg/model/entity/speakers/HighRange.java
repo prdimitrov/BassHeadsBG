@@ -8,7 +8,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "high_range")
 public class HighRange extends BaseSpeaker {
@@ -30,38 +34,6 @@ public class HighRange extends BaseSpeaker {
 
     public HighRange() {
         super();
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
-    public int getFrequencyRangeFrom() {
-        return frequencyRangeFrom;
-    }
-
-    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
-        this.frequencyRangeFrom = frequencyRangeFrom;
-    }
-
-    public int getFrequencyRangeTo() {
-        return frequencyRangeTo;
-    }
-
-    public void setFrequencyRangeTo(int frequencyRangeTo) {
-        this.frequencyRangeTo = frequencyRangeTo;
-    }
-
-    public String getCrossover() {
-        return crossover;
-    }
-
-    public void setCrossover(String crossover) {
-        this.crossover = crossover;
     }
 
 }

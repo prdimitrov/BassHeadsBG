@@ -1,14 +1,11 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
 import com.bg.bassheadsbg.model.dto.AddMidRangeDTO;
 import com.bg.bassheadsbg.model.details.MidRangeDetailsDTO;
-import com.bg.bassheadsbg.model.dto.MidRangeSummaryDTO;
-import com.bg.bassheadsbg.model.entity.speakers.HighRange;
+import com.bg.bassheadsbg.model.dto.summary.MidRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import com.bg.bassheadsbg.repository.MidRangeRepository;
 import com.bg.bassheadsbg.service.interfaces.MidRangeService;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

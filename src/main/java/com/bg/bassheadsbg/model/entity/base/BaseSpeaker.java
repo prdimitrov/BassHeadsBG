@@ -9,11 +9,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @MappedSuperclass
 public abstract class BaseSpeaker extends BaseEntity {
     @NotBlank
@@ -51,78 +56,4 @@ public abstract class BaseSpeaker extends BaseEntity {
     @Column(name = "images")
     private List<@URL @NotBlank String> images = new ArrayList<>();
 
-    public BaseSpeaker() {
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public float getSensitivity() {
-        return sensitivity;
-    }
-
-    public void setSensitivity(float sensitivity) {
-        this.sensitivity = sensitivity;
-    }
-
-    public float getSize() {
-        return size;
-    }
-
-    public void setSize(float size) {
-        this.size = size;
-    }
-
-    public float getFrequencyResponse() {
-        return frequencyResponse;
-    }
-
-    public void setFrequencyResponse(float frequencyResponse) {
-        this.frequencyResponse = frequencyResponse;
-    }
-
-    public byte getNumberOfCoils() {
-        return numberOfCoils;
-    }
-
-    public void setNumberOfCoils(byte numberOfCoils) {
-        this.numberOfCoils = numberOfCoils;
-    }
-
-    public float getImpedance() {
-        return impedance;
-    }
-
-    public void setImpedance(float impedance) {
-        this.impedance = impedance;
-    }
-
-    public short getPowerHandling() {
-        return powerHandling;
-    }
-
-    public void setPowerHandling(short powerHandling) {
-        this.powerHandling = powerHandling;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
 }

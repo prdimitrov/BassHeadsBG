@@ -3,9 +3,8 @@ package com.bg.bassheadsbg.service.implementation;
 
 import com.bg.bassheadsbg.model.dto.AddMonoAmpDTO;
 import com.bg.bassheadsbg.model.details.MonoAmpDetailsDTO;
-import com.bg.bassheadsbg.model.dto.MonoAmpSummaryDTO;
+import com.bg.bassheadsbg.model.dto.summary.MonoAmpSummaryDTO;
 import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
-import com.bg.bassheadsbg.model.entity.speakers.HighRange;
 import com.bg.bassheadsbg.repository.MonoAmplifierRepository;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
 import org.modelmapper.ModelMapper;

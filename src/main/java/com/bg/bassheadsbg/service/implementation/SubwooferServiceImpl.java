@@ -2,8 +2,7 @@ package com.bg.bassheadsbg.service.implementation;
 
 import com.bg.bassheadsbg.model.dto.AddSubwooferDTO;
 import com.bg.bassheadsbg.model.details.SubwooferDetailsDTO;
-import com.bg.bassheadsbg.model.dto.SubwooferSummaryDTO;
-import com.bg.bassheadsbg.model.entity.speakers.HighRange;
+import com.bg.bassheadsbg.model.dto.summary.SubwooferSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import com.bg.bassheadsbg.repository.SubwooferRepository;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;

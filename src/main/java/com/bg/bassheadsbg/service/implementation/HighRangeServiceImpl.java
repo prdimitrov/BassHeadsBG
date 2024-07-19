@@ -2,7 +2,7 @@ package com.bg.bassheadsbg.service.implementation;
 
 import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
 import com.bg.bassheadsbg.model.details.HighRangeDetailsDTO;
-import com.bg.bassheadsbg.model.dto.HighRangeSummaryDTO;
+import com.bg.bassheadsbg.model.dto.summary.HighRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.HighRange;
 import com.bg.bassheadsbg.repository.HighRangeRepository;
 import com.bg.bassheadsbg.service.interfaces.HighRangeService;

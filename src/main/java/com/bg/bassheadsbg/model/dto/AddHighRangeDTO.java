@@ -2,11 +2,17 @@ package com.bg.bassheadsbg.model.dto;
 
 import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class AddHighRangeDTO {
 
     private long id;
@@ -59,120 +65,4 @@ public class AddHighRangeDTO {
     @ValidUrlList
     private List<@URL @NotBlank String> images = new ArrayList<>();
 
-    public AddHighRangeDTO() {
-    }
-
-    // Getters and Setters
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public float getSensitivity() {
-        return sensitivity;
-    }
-
-    public void setSensitivity(float sensitivity) {
-        this.sensitivity = sensitivity;
-    }
-
-    public float getSize() {
-        return size;
-    }
-
-    public void setSize(float size) {
-        this.size = size;
-    }
-
-    public float getFrequencyResponse() {
-        return frequencyResponse;
-    }
-
-    public void setFrequencyResponse(float frequencyResponse) {
-        this.frequencyResponse = frequencyResponse;
-    }
-
-    public byte getNumberOfCoils() {
-        return numberOfCoils;
-    }
-
-    public void setNumberOfCoils(byte numberOfCoils) {
-        this.numberOfCoils = numberOfCoils;
-    }
-
-    public float getImpedance() {
-        return impedance;
-    }
-
-    public void setImpedance(float impedance) {
-        this.impedance = impedance;
-    }
-
-    public short getPowerHandling() {
-        return powerHandling;
-    }
-
-    public void setPowerHandling(short powerHandling) {
-        this.powerHandling = powerHandling;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
-    public int getFrequencyRangeFrom() {
-        return frequencyRangeFrom;
-    }
-
-    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
-        this.frequencyRangeFrom = frequencyRangeFrom;
-    }
-
-    public int getFrequencyRangeTo() {
-        return frequencyRangeTo;
-    }
-
-    public void setFrequencyRangeTo(int frequencyRangeTo) {
-        this.frequencyRangeTo = frequencyRangeTo;
-    }
-
-    public String getCrossover() {
-        return crossover;
-    }
-
-    public void setCrossover(String crossover) {
-        this.crossover = crossover;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
 }

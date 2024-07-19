@@ -3,9 +3,8 @@ package com.bg.bassheadsbg.service.implementation;
 
 import com.bg.bassheadsbg.model.dto.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.model.details.MultiChannelAmpDetailsDTO;
-import com.bg.bassheadsbg.model.dto.MultiChannelAmpSummaryDTO;
+import com.bg.bassheadsbg.model.dto.summary.MultiChannelAmpSummaryDTO;
 import com.bg.bassheadsbg.model.entity.amplifiers.MultiChannelAmplifier;
-import com.bg.bassheadsbg.model.entity.speakers.HighRange;
 import com.bg.bassheadsbg.repository.MultiChannelAmplifierRepository;
 import com.bg.bassheadsbg.service.interfaces.MultiChannelAmpService;
 import org.modelmapper.ModelMapper;

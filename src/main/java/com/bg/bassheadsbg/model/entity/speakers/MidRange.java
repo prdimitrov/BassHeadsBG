@@ -7,7 +7,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "mid_range")
 public class MidRange extends BaseSpeaker {
@@ -24,19 +28,4 @@ public class MidRange extends BaseSpeaker {
         super();
     }
 
-    public int getFrequencyRangeFrom() {
-        return frequencyRangeFrom;
-    }
-
-    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
-        this.frequencyRangeFrom = frequencyRangeFrom;
-    }
-
-    public int getFrequencyRangeTo() {
-        return frequencyRangeTo;
-    }
-
-    public void setFrequencyRangeTo(int frequencyRangeTo) {
-        this.frequencyRangeTo = frequencyRangeTo;
-    }
 }
