@@ -34,7 +34,7 @@ public class SecurityConfig {
                         authorizeRequests ->
                                 authorizeRequests
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                        .requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/error").permitAll()
+                                        .requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/error", "/api/convert").permitAll()
                                         .requestMatchers("/speakers/high-range/add",
                                                 "/speakers/mid-range/add",
                                                 "/speakers/subwoofers/add",

@@ -4,9 +4,11 @@ import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
+import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MidRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import com.bg.bassheadsbg.repository.MidRangeRepository;
+import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MidRangeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
@@ -20,10 +22,12 @@ public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO,
         implements MidRangeService {
 
     private final ImageProducer imageProducer;
+    private final ExRateService exRateService;
 
-    public MidRangeServiceImpl(MidRangeRepository midRangeRepository, ModelMapper modelMapper, ImageProducer imageProducer) {
+    public MidRangeServiceImpl(MidRangeRepository midRangeRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService) {
         super(midRangeRepository, modelMapper);
         this.imageProducer = imageProducer;
+        this.exRateService = exRateService;
     }
 
     @Override
@@ -42,7 +46,9 @@ public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO,
 
     @Override
     protected MidRangeDetailsDTO toDetailsDTO(MidRange midRange) {
-        return modelMapper.map(midRange, MidRangeDetailsDTO.class);
+        MidRangeDetailsDTO midRangeDetailsDTO = modelMapper.map(midRange, MidRangeDetailsDTO.class);
+        midRangeDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
+        return midRangeDetailsDTO;
     }
 
     @Override

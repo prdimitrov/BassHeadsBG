@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Configuration;
 public class ForexApiConfig {
 
     private String key;
+
     private String url;
+
     private String base;
 
     public String getKey() {
@@ -51,7 +53,6 @@ public class ForexApiConfig {
                     + "currencies different than USD.");
         }
 
-
     }
 
     private static void verifyNotNullOrEmpty(String name, String value) {
@@ -59,4 +60,5 @@ public class ForexApiConfig {
             throw new IllegalArgumentException("Property " + name + " cannot be empty.");
         }
     }
+
 }

@@ -200,3 +200,15 @@ span {
     height: 100px;
     width: auto;
 }
+
+.price-and-currency {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    justify-content: space-between;
+    width: 100%; /* Adjust based on your needs */
+}
+
+.price-and-currency .card-text {
+    margin-left: 10px
+}

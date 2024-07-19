@@ -12,6 +12,7 @@ import java.util.List;
 public final class MonoAmpDetailsDTO {
     private Long id;
     private int price;
+    List<String> allCurrencies;
     private String brand;
     private String model;
     private String amplifierClass;

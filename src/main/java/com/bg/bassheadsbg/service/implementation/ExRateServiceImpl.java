@@ -1,14 +1,14 @@
 package com.bg.bassheadsbg.service.implementation;
 
+
 import com.bg.bassheadsbg.config.ForexApiConfig;
+import com.bg.bassheadsbg.exception.ApiNotFoundException;
 import com.bg.bassheadsbg.model.dto.exchanges.ExRatesDTO;
 import com.bg.bassheadsbg.model.entity.ExRateEntity;
-import com.bg.bassheadsbg.exception.ApiNotFoundException;
 import com.bg.bassheadsbg.repository.ExRateRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -28,7 +28,7 @@ public class ExRateServiceImpl implements ExRateService {
     private final ForexApiConfig forexApiConfig;
 
     public ExRateServiceImpl(ExRateRepository exRateRepository,
-                             @Qualifier("genericRestClient") RestClient restClient,
+                             RestClient restClient,
                              ForexApiConfig forexApiConfig) {
         this.exRateRepository = exRateRepository;
         this.restClient = restClient;
@@ -78,7 +78,8 @@ public class ExRateServiceImpl implements ExRateService {
         });
     }
 
-    private Optional<BigDecimal> findExRate(String from, String to) {
+    @Override
+    public Optional<BigDecimal> findExRate(String from, String to) {
 
         if (Objects.equals(from, to)) {
             return Optional.of(BigDecimal.ONE);
@@ -87,10 +88,10 @@ public class ExRateServiceImpl implements ExRateService {
         // USD/BGN=x
         // USD/EUR=y
 
-        // USD = x * BGN
-        // USD = y * EUR
+        //USD = x * BGN
+        //USD = y * EUR
 
-        // EUR/BGN = x / y
+        //EUR/BGN = x / y
 
         Optional<BigDecimal> fromOpt = forexApiConfig.getBase().equals(from) ?
                 Optional.of(BigDecimal.ONE) :
@@ -106,6 +107,7 @@ public class ExRateServiceImpl implements ExRateService {
             return Optional.of(toOpt.get().divide(fromOpt.get(), 2, RoundingMode.HALF_DOWN));
         }
     }
+
 
     @Override
     public BigDecimal convert(String from, String to, BigDecimal amount) {

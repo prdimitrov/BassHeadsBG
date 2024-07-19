@@ -3,10 +3,12 @@ package com.bg.bassheadsbg.service.implementation;
 import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
+import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.SubwooferSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import com.bg.bassheadsbg.repository.SubwooferRepository;
+import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
@@ -20,10 +22,12 @@ public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDT
         implements SubwooferService {
 
     private final ImageProducer imageProducer;
+    private final ExRateService exRateService;
 
-    public SubwooferServiceImpl(SubwooferRepository subwooferRepository, ModelMapper modelMapper, ImageProducer imageProducer) {
+    public SubwooferServiceImpl(SubwooferRepository subwooferRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService) {
         super(subwooferRepository, modelMapper);
         this.imageProducer = imageProducer;
+        this.exRateService = exRateService;
     }
 
     @Override
@@ -42,7 +46,9 @@ public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDT
 
     @Override
     protected SubwooferDetailsDTO toDetailsDTO(Subwoofer subwoofer) {
-        return modelMapper.map(subwoofer, SubwooferDetailsDTO.class);
+        SubwooferDetailsDTO subwooferDetailsDTO = modelMapper.map(subwoofer, SubwooferDetailsDTO.class);
+        subwooferDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
+        return subwooferDetailsDTO;
     }
 
     @Override

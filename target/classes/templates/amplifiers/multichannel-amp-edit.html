@@ -50,6 +50,18 @@
 
         <div class="row">
             <div class="form-group col-md-6 mb-3">
+                <label th:for="price" class="text-white font-weight-bold" th:text="#{price}"></label>
+                <input th:field="*{price}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       step="any"
+                       class="form-control"/>
+                <small class="text-danger invalid-feedback" th:errors="*{price}"></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
                 <label th:for="impedance" class="text-white font-weight-bold" th:text="#{impedance}"></label>
                 <input th:field="*{impedance}"
                        th:errorclass="'is-invalid bg-danger'"

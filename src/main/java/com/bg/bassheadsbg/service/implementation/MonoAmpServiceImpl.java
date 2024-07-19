@@ -7,6 +7,7 @@ import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MonoAmpSummaryDTO;
 import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
 import com.bg.bassheadsbg.repository.MonoAmplifierRepository;
+import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
@@ -20,10 +21,12 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
         implements MonoAmpService {
 
     private final ImageProducer imageProducer;
+    private final ExRateService exRateService;
 
-    public MonoAmpServiceImpl(MonoAmplifierRepository monoAmplifierRepository, ModelMapper modelMapper, ImageProducer imageProducer) {
+    public MonoAmpServiceImpl(MonoAmplifierRepository monoAmplifierRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService) {
         super(monoAmplifierRepository, modelMapper);
         this.imageProducer = imageProducer;
+        this.exRateService = exRateService;
     }
 
     @Override
@@ -42,7 +45,9 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
 
     @Override
     protected MonoAmpDetailsDTO toDetailsDTO(MonoAmplifier monoAmplifier) {
-        return modelMapper.map(monoAmplifier, MonoAmpDetailsDTO.class);
+        MonoAmpDetailsDTO monoAmpDetailsDTO = modelMapper.map(monoAmplifier, MonoAmpDetailsDTO.class);
+        monoAmpDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
+        return monoAmpDetailsDTO;
     }
 
     @Override
