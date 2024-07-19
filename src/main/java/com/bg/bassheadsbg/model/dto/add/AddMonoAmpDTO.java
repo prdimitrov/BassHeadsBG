@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model.dto;
+package com.bg.bassheadsbg.model.dto.add;
 
 import com.bg.bassheadsbg.model.enums.AmpClass;
 import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;

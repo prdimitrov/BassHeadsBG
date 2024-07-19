@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.model.dto.AddMidRangeDTO;
-import com.bg.bassheadsbg.model.details.MidRangeDetailsDTO;
+import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
+import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MidRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import com.bg.bassheadsbg.repository.MidRangeRepository;

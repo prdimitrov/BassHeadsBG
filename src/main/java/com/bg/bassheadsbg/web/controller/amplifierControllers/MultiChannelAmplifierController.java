@@ -1,8 +1,8 @@
 package com.bg.bassheadsbg.web.controller.amplifierControllers;
 
 
-import com.bg.bassheadsbg.model.dto.AddMultiChannelAmpDTO;
-import com.bg.bassheadsbg.model.details.MultiChannelAmpDetailsDTO;
+import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
+import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MultiChannelAmpService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;

@@ -1,8 +1,8 @@
-package com.bg.bassheadsbg.model.details;
+package com.bg.bassheadsbg.model.dto.details;
 
 import java.util.List;
 
-public final class MultiChannelAmpDetailsDTO {
+public final class MonoAmpDetailsDTO {
     private Long id;
     private String brand;
     private String model;
@@ -22,19 +22,12 @@ public final class MultiChannelAmpDetailsDTO {
     private short height;
     private short width;
     private short length;
-    private byte numberOfChannels;
+    private byte numberOfRca;
+    private byte numberOfSpeakerOutputs;
     private List<String> images;
     private String imagesString;
 
-    public MultiChannelAmpDetailsDTO() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public MonoAmpDetailsDTO() {
     }
 
     public String getBrand() {
@@ -43,6 +36,14 @@ public final class MultiChannelAmpDetailsDTO {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getModel() {
@@ -181,12 +182,20 @@ public final class MultiChannelAmpDetailsDTO {
         this.length = length;
     }
 
-    public byte getNumberOfChannels() {
-        return numberOfChannels;
+    public byte getNumberOfRca() {
+        return numberOfRca;
     }
 
-    public void setNumberOfChannels(byte numberOfChannels) {
-        this.numberOfChannels = numberOfChannels;
+    public void setNumberOfRca(byte numberOfRca) {
+        this.numberOfRca = numberOfRca;
+    }
+
+    public byte getNumberOfSpeakerOutputs() {
+        return numberOfSpeakerOutputs;
+    }
+
+    public void setNumberOfSpeakerOutputs(byte numberOfSpeakerOutputs) {
+        this.numberOfSpeakerOutputs = numberOfSpeakerOutputs;
     }
 
     public List<String> getImages() {

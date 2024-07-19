@@ -1,8 +1,8 @@
 package com.bg.bassheadsbg.service.interfaces;
 
 
-import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
-import com.bg.bassheadsbg.model.details.HighRangeDetailsDTO;
+import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
+import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.HighRangeSummaryDTO;
 
 

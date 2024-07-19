@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.web.controller.speakerControllers;
 
-import com.bg.bassheadsbg.model.dto.AddHighRangeDTO;
-import com.bg.bassheadsbg.model.details.HighRangeDetailsDTO;
+import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
+import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.HighRangeDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.HighRangeService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;

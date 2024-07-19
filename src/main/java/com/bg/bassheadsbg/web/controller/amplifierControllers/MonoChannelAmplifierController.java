@@ -1,8 +1,8 @@
 package com.bg.bassheadsbg.web.controller.amplifierControllers;
 
 
-import com.bg.bassheadsbg.model.dto.AddMonoAmpDTO;
-import com.bg.bassheadsbg.model.details.MonoAmpDetailsDTO;
+import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
+import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MonoAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;

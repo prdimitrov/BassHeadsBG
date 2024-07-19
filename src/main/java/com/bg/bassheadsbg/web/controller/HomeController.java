@@ -1,15 +1,12 @@
 package com.bg.bassheadsbg.web.controller;
 
-import com.bg.bassheadsbg.kafka.ImageListDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
-import com.bg.bassheadsbg.model.details.BassHeadsUserDetails;
+import com.bg.bassheadsbg.model.dto.details.BassHeadsUserDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.ArrayList;
 
 @Controller
 public class HomeController {

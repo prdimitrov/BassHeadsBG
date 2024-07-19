@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model.details;
+package com.bg.bassheadsbg.model.dto.details;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.web.controller.speakerControllers;
 
-import com.bg.bassheadsbg.model.dto.AddMidRangeDTO;
-import com.bg.bassheadsbg.model.details.MidRangeDetailsDTO;
+import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
+import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MidRangeDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MidRangeService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;

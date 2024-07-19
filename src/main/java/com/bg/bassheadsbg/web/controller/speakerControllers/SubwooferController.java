@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.web.controller.speakerControllers;
 
-import com.bg.bassheadsbg.model.dto.AddSubwooferDTO;
-import com.bg.bassheadsbg.model.details.SubwooferDetailsDTO;
+import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
+import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.SubwooferDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
