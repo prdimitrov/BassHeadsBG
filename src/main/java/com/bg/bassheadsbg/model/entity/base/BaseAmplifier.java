@@ -5,6 +5,7 @@ import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,10 @@ import java.util.List;
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class BaseAmplifier extends BaseEntity {
+
+    @Positive
+    private int price;
+    
     @NotBlank
     private String brand;
 
@@ -35,13 +40,10 @@ public abstract class BaseAmplifier extends BaseEntity {
     @NotNull
     private int power;
 
-    @NotBlank
     private String highPassFilter;
 
-    @NotBlank
     private String lowPassFilter;
 
-    @NotBlank
     private String subsonicFilter;
 
     @NotNull

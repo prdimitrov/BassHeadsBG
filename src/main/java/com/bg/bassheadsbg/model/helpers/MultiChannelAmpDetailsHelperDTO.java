@@ -64,24 +64,24 @@ public final class MultiChannelAmpDetailsHelperDTO {
 
     public String formattedHeight() {
         Short height = multiChannelAmpDetails.getHeight();
-        if (height == null || ValueFormatterUtil.formatValue(height).equals("N/A")) {
-            return "N/A";
+        if (height == null || ValueFormatterUtil.formatValue(height).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(height) + " mm";
     }
 
     public String formattedWidth() {
         Short width = multiChannelAmpDetails.getWidth();
-        if (width == null || ValueFormatterUtil.formatValue(width).equals("N/A")) {
-            return "N/A";
+        if (width == null || ValueFormatterUtil.formatValue(width).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(width) + " mm";
     }
 
     public String formattedLength() {
         Short length = multiChannelAmpDetails.getLength();
-        if (length == null || ValueFormatterUtil.formatValue(length).equals("N/A")) {
-            return "N/A";
+        if (length == null || ValueFormatterUtil.formatValue(length).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(length) + " mm";
     }

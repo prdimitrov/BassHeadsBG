@@ -23,6 +23,9 @@ public class AddMonoAmpDTO {
 
     private long id;
 
+    @Positive
+    private int price;
+
     @NotBlank
     private String brand;
 
@@ -41,13 +44,10 @@ public class AddMonoAmpDTO {
     @NotNull
     private int power;
 
-    @NotBlank
     private String highPassFilter;
 
-    @NotBlank
     private String lowPassFilter;
 
-    @NotBlank
     private String subsonicFilter;
 
     @NotNull

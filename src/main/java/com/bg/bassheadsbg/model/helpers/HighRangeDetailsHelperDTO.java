@@ -11,8 +11,8 @@ public final class HighRangeDetailsHelperDTO {
     }
 
     public String formattedSensitivity() {
-        if (ValueFormatterUtil.formatValue(highRangeDetails.getSensitivity()).equals("N/A")) {
-            return "N/A";
+        if (ValueFormatterUtil.formatValue(highRangeDetails.getSensitivity()).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(highRangeDetails.getSensitivity()) + " dB (1W / 1m)";
     }
@@ -22,8 +22,8 @@ public final class HighRangeDetailsHelperDTO {
     }
 
     public String formattedFrequencyResponse() {
-        if (ValueFormatterUtil.formatValue(highRangeDetails.getFrequencyResponse()).equals("N/A")) {
-            return "N/A";
+        if (ValueFormatterUtil.formatValue(highRangeDetails.getFrequencyResponse()).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(highRangeDetails.getFrequencyResponse()) + " Hz";
     }

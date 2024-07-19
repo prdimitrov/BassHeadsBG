@@ -12,8 +12,8 @@ public final class SubwooferDetailsHelperDTO {
 
     public String formattedSensitivity() {
         Float sensitivity = subwooferDetails.getSensitivity();
-        if (sensitivity == null || ValueFormatterUtil.formatValue(sensitivity).equals("N/A")) {
-            return "N/A";
+        if (sensitivity == null || ValueFormatterUtil.formatValue(sensitivity).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(sensitivity) + "dB (1W / 1m)";
     }
@@ -44,8 +44,8 @@ public final class SubwooferDetailsHelperDTO {
 
     public String formattedCoilLayers() {
         Byte coilLayers = subwooferDetails.getCoilLayers();
-        if (coilLayers == null || ValueFormatterUtil.formatValue(coilLayers).equals("N/A")) {
-            return "N/A";
+        if (coilLayers == null || ValueFormatterUtil.formatValue(coilLayers).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(coilLayers);
     }
@@ -56,8 +56,8 @@ public final class SubwooferDetailsHelperDTO {
 
     public String formattedVas() {
         Float vas = subwooferDetails.getVas();
-        if (vas == null || ValueFormatterUtil.formatValue(vas).equals("N/A")) {
-            return "N/A";
+        if (vas == null || ValueFormatterUtil.formatValue(vas).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(vas) + "L";
     }
@@ -68,40 +68,40 @@ public final class SubwooferDetailsHelperDTO {
 
     public String formattedQms() {
         Float qms = subwooferDetails.getQms();
-        if (qms == null || ValueFormatterUtil.formatValue(qms).equals("N/A")) {
-            return "N/A";
+        if (qms == null || ValueFormatterUtil.formatValue(qms).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(qms);
     }
 
     public String formattedQes() {
         Float qes = subwooferDetails.getQes();
-        if (qes == null || ValueFormatterUtil.formatValue(qes).equals("N/A")) {
-            return "N/A";
+        if (qes == null || ValueFormatterUtil.formatValue(qes).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(qes);
     }
 
     public String formattedQts() {
         Float qts = subwooferDetails.getQts();
-        if (qts == null || ValueFormatterUtil.formatValue(qts).equals("N/A")) {
-            return "N/A";
+        if (qts == null || ValueFormatterUtil.formatValue(qts).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(qts);
     }
 
     public String formattedSd() {
         Float sd = subwooferDetails.getSd();
-        if (sd == null || ValueFormatterUtil.formatValue(sd).equals("N/A")) {
-            return "N/A";
+        if (sd == null || ValueFormatterUtil.formatValue(sd).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(sd) + " mm²";
     }
 
     public String formattedBl() {
         Float bl = subwooferDetails.getBl();
-        if (bl == null || ValueFormatterUtil.formatValue(bl).equals("N/A")) {
-            return "N/A";
+        if (bl == null || ValueFormatterUtil.formatValue(bl).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(bl) + " T/m";
     }

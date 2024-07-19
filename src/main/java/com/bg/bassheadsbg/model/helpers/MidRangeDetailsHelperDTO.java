@@ -12,8 +12,8 @@ public final class MidRangeDetailsHelperDTO {
 
     public String formattedSensitivity() {
         Float sensitivity = midRangeDetails.getSensitivity();
-        if (sensitivity == null || ValueFormatterUtil.formatValue(sensitivity).equals("N/A")) {
-            return "N/A";
+        if (sensitivity == null || ValueFormatterUtil.formatValue(sensitivity).equals("---")) {
+            return "---";
         }
         return ValueFormatterUtil.formatValue(sensitivity) + " dB (1W / 1m)";
     }

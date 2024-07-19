@@ -17,6 +17,9 @@ public class AddHighRangeDTO {
 
     private long id;
 
+    @Positive
+    private int price;
+
     @NotBlank
     private String brand;
 

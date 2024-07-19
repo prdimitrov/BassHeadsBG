@@ -37,5 +37,11 @@ logging:
       nodeValue: WARN
     blog: WARN
 
+forex:
+  api:
+    key: ${FOREX_API_KEY:}
+    url: "https://openexchangerates.org/api/latest.json?app_id={app_id}"
+    base: "USD"
+
 server:
   port: 8080

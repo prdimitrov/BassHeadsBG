@@ -21,6 +21,10 @@ import java.util.List;
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class BaseSpeaker extends BaseEntity {
+
+    @Positive
+    private int price;
+
     @NotBlank
     private String brand;
 

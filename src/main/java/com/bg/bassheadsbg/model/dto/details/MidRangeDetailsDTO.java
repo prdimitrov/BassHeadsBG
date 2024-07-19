@@ -1,9 +1,17 @@
 package com.bg.bassheadsbg.model.dto.details;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public final class MidRangeDetailsDTO {
     private long id;
+    private int price;
     private String brand;
     private String model;
     private float sensitivity;
@@ -16,108 +24,6 @@ public final class MidRangeDetailsDTO {
     private int frequencyRangeTo;
     private List<String> images;
     private String imagesString;
-
-    public MidRangeDetailsDTO() {}
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public float getSensitivity() {
-        return sensitivity;
-    }
-
-    public void setSensitivity(float sensitivity) {
-        this.sensitivity = sensitivity;
-    }
-
-    public float getSize() {
-        return size;
-    }
-
-    public void setSize(float size) {
-        this.size = size;
-    }
-
-    public float getFrequencyResponse() {
-        return frequencyResponse;
-    }
-
-    public void setFrequencyResponse(float frequencyResponse) {
-        this.frequencyResponse = frequencyResponse;
-    }
-
-    public byte getNumberOfCoils() {
-        return numberOfCoils;
-    }
-
-    public void setNumberOfCoils(byte numberOfCoils) {
-        this.numberOfCoils = numberOfCoils;
-    }
-
-    public float getImpedance() {
-        return impedance;
-    }
-
-    public void setImpedance(float impedance) {
-        this.impedance = impedance;
-    }
-
-    public short getPowerHandling() {
-        return powerHandling;
-    }
-
-    public void setPowerHandling(short powerHandling) {
-        this.powerHandling = powerHandling;
-    }
-
-    public int getFrequencyRangeFrom() {
-        return frequencyRangeFrom;
-    }
-
-    public void setFrequencyRangeFrom(int frequencyRangeFrom) {
-        this.frequencyRangeFrom = frequencyRangeFrom;
-    }
-
-    public int getFrequencyRangeTo() {
-        return frequencyRangeTo;
-    }
-
-    public void setFrequencyRangeTo(int frequencyRangeTo) {
-        this.frequencyRangeTo = frequencyRangeTo;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public String getImagesString() {
-        return imagesString;
-    }
-
-    public void setImagesString(String imagesString) {
-        this.imagesString = imagesString;
-    }
 
     public void setImages(List<String> images) {
         this.images = images;

@@ -23,6 +23,9 @@ public class AddMultiChannelAmpDTO {
 
     private long id;
 
+    @Positive
+    private int price;
+
     @NotBlank
     private String brand;
 
@@ -41,13 +44,10 @@ public class AddMultiChannelAmpDTO {
     @NotNull
     private int power;
 
-    @NotBlank
     private String highPassFilter;
 
-    @NotBlank
     private String lowPassFilter;
 
-    @NotBlank
     private String subsonicFilter;
 
     @NotNull

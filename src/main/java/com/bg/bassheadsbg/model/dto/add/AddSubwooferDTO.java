@@ -16,6 +16,9 @@ public class AddSubwooferDTO {
 
     private long id;
 
+    @Positive
+    private int price;
+
     @NotBlank
     private String brand;
 
