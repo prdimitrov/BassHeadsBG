@@ -52,24 +52,6 @@
                             <td><span th:text="*{model}"></span></td>
                         </tr>
                         <tr>
-                            <td>
-                                <h4><i class="fas fa-dollar-sign text-green"></i> <span class="spec-detail" th:text="#{price}"></span></h4>
-                            </td>
-                            <td>
-                                <div class="price-and-currency">
-                                    <span id="price" th:text="*{price}"></span>
-                                    <div class="card-text">
-                                        <select id="currency">
-                                            <option th:each="currency : *{allCurrencies}" th:value="${currency}" th:selected="${currency} == 'BGN'" th:text="${currency}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <span th:text="#{currency}"></span>
-                                    <input type="hidden" id="priceInBGN" th:value="*{price}">
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
                             <td><h4><i class="fas fa-music"></i> <span class="spec-detail" th:text="#{class}"></span>
                             </h4></td>
                             <td><span class="ampclass" th:text="*{amplifierClass}"></span></td>
@@ -157,6 +139,31 @@
                             <span th:text="${helperDTO.formattedWidth}"></span>
                             <h4 th:text="#{height}"></h4></td>
                             <span th:text="${helperDTO.formattedLength}"></span>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h2><i class="fas fa-dollar-sign text-green"></i> <span class="spec-detail"
+                                                                            th:text="#{price}"></span></h2>
+                    <hr>
+
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <div class="current_price">
+                                <h5 class="text-white align-self-end" th:text="#{approx}"></h5>
+                                <h3 class="text-white align-self-start" id="price" th:text="*{price}"></h3>
+                            </div>
+                            <div class="price-and-currency">
+                                <div class="card-text">
+                                    <select id="currency">
+                                        <option th:each="currency : *{allCurrencies}" th:value="${currency}"
+                                                th:selected="${currency} == 'BGN'" th:text="${currency}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <span th:text="#{currency}"></span>
+                                <input type="hidden" id="priceInBGN" th:value="*{price}">
+                            </div>
                         </div>
                     </div>
 
