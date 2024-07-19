@@ -5,6 +5,7 @@ import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.SubwooferDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -39,14 +40,14 @@ public class SubwooferController {
     @PostMapping("/add")
     public String addSubwoofer(@Valid @ModelAttribute("addSubwooferDTO") AddSubwooferDTO addSubwooferDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addSubwooferDTO", addSubwooferDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addSubwooferDTO", bindingResult);
             return "redirect:/speakers/subwoofers/add";
         }
 
-        long newSubwoofer = subwooferService.editDevice(addSubwooferDTO);
+        long newSubwoofer = subwooferService.addDevice(addSubwooferDTO);
         return "redirect:/speakers/subwoofers/" + newSubwoofer;
     }
 

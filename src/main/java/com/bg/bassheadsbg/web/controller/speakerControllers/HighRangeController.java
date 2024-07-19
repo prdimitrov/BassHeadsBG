@@ -5,6 +5,7 @@ import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.HighRangeDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.HighRangeService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -39,14 +40,14 @@ public class HighRangeController {
     @PostMapping("/add")
     public String addHighRange(@Valid @ModelAttribute("addHighRangeDTO") AddHighRangeDTO addHighRangeDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addHighRangeDTO", addHighRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addHighRangeDTO", bindingResult);
             return "redirect:/speakers/high-range/add";
         }
 
-        long newHighRange = highRangeService.editDevice(addHighRangeDTO);
+        long newHighRange = highRangeService.addDevice(addHighRangeDTO);
         return "redirect:/speakers/high-range/" + newHighRange;
     }
 

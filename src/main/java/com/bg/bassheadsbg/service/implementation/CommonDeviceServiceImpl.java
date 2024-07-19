@@ -4,6 +4,7 @@ import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.service.interfaces.CommonDeviceService;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.persistence.EntityExistsException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,8 +24,16 @@ public abstract class CommonDeviceServiceImpl<AddDTO, DetailsDTO, SummaryDTO, En
     }
 
     @Override
+    public long addDevice(AddDTO addDeviceDTO) throws JsonProcessingException {
+        checkEntityExists(addDeviceDTO, getBrand(addDeviceDTO), getModel(addDeviceDTO));
+        Entity entity = mapToDevice(addDeviceDTO);
+        return repository.save(entity).getId();
+    }
+
+    @Override
     public long editDevice(AddDTO addDeviceDTO) {
-        return repository.save(this.mapEditedDevice(addDeviceDTO)).getId();
+        Entity entity = mapEditedDevice(addDeviceDTO);
+        return repository.save(entity).getId();
     }
 
     @Override
@@ -47,9 +56,7 @@ public abstract class CommonDeviceServiceImpl<AddDTO, DetailsDTO, SummaryDTO, En
                 .toList();
     }
 
-    protected abstract Entity addDevice(AddDTO addDeviceDTO);
-
-    protected abstract Entity mapToDevice(AddDTO addDeviceDTO);
+    protected abstract Entity mapToDevice(AddDTO addDeviceDTO) throws JsonProcessingException;
 
     protected abstract Entity mapEditedDevice(AddDTO addDeviceDTO);
 
@@ -65,4 +72,10 @@ public abstract class CommonDeviceServiceImpl<AddDTO, DetailsDTO, SummaryDTO, En
     }
 
     protected abstract Optional<Entity> findByBrandAndModel(String brand, String model);
+
+    protected abstract String getBrand(AddDTO addDeviceDTO);
+
+    protected abstract String getModel(AddDTO addDeviceDTO);
+
+    protected abstract void updateDeviceImageUrls(String oldUrl, String newUrl);
 }

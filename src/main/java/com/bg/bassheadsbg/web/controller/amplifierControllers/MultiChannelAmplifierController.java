@@ -6,6 +6,7 @@ import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MultiChannelAmpService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -40,14 +41,14 @@ public class MultiChannelAmplifierController {
     @PostMapping("/add")
     public String addMultiChannelAmp(@Valid @ModelAttribute("addMultiChannelAmpDTO") AddMultiChannelAmpDTO addMultiChannelAmpDTO,
                                      BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
+                                     RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMultiChannelAmpDTO", addMultiChannelAmpDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMultiChannelAmpDTO", bindingResult);
             return "redirect:/amplifiers/multi-channel-amplifiers/add";
         }
 
-        long newMultiChannelAmp = multiChannelAmpService.editDevice(addMultiChannelAmpDTO);
+        long newMultiChannelAmp = multiChannelAmpService.addDevice(addMultiChannelAmpDTO);
         return "redirect:/amplifiers/multi-channel-amplifiers/" + newMultiChannelAmp;
     }
 

@@ -1,42 +1,38 @@
 package com.bg.bassheadsbg.service.implementation;
 
+import com.bg.bassheadsbg.kafka.ImageListDTO;
+import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.SubwooferSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import com.bg.bassheadsbg.repository.SubwooferRepository;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDTO, SubwooferDetailsDTO, SubwooferSummaryDTO, Subwoofer, SubwooferRepository>
         implements SubwooferService {
 
-    public SubwooferServiceImpl(SubwooferRepository subwooferRepository, ModelMapper modelMapper) {
+    private final ImageProducer imageProducer;
+
+    public SubwooferServiceImpl(SubwooferRepository subwooferRepository, ModelMapper modelMapper, ImageProducer imageProducer) {
         super(subwooferRepository, modelMapper);
-    }
-
-//    @Override
-//    public SubwooferDetailsDTO getDeviceDetails(Long id) {
-//        return repository.findById(id)
-//                .map(this::toDetailsDTO)
-//                .orElseThrow(() -> new DeviceNotFoundException("Speaker with id " + id + " not found!", id));
-//    }
-
-    @Override
-    public Subwoofer addDevice(AddSubwooferDTO addDeviceDTO) {
-        Subwoofer subwoofer = modelMapper.map(addDeviceDTO, Subwoofer.class);
-        return subwoofer;
+        this.imageProducer = imageProducer;
     }
 
     @Override
-    protected Subwoofer mapToDevice(AddSubwooferDTO addDeviceDTO) {
-        Subwoofer subwoofer = modelMapper.map(addDeviceDTO, Subwoofer.class);
-        checkEntityExists(addDeviceDTO, addDeviceDTO.getBrand(), addDeviceDTO.getModel());
-        return subwoofer;
+    protected Subwoofer mapToDevice(AddSubwooferDTO addDeviceDTO) throws JsonProcessingException {
+        ImageListDTO imageListDTO = new ImageListDTO();
+        imageListDTO.setImageUrls(addDeviceDTO.getImages());
+        imageListDTO.setTableName("subwoofer_images");
+        imageProducer.sendMessage(imageListDTO);
+        return modelMapper.map(addDeviceDTO, Subwoofer.class);
     }
 
     @Override
@@ -57,5 +53,31 @@ public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDT
     @Override
     protected Optional<Subwoofer> findByBrandAndModel(String brand, String model) {
         return repository.findByBrandAndModel(brand, model);
+    }
+
+    @Override
+    protected String getBrand(AddSubwooferDTO addDeviceDTO) {
+        return addDeviceDTO.getBrand();
+    }
+
+    @Override
+    protected String getModel(AddSubwooferDTO addDeviceDTO) {
+        return addDeviceDTO.getModel();
+    }
+
+    @Override
+    public void updateDeviceImageUrls(String oldUrl, String newUrl) {
+        List<Subwoofer> subwoofers = repository.findByImagesContaining(oldUrl);
+
+        for (Subwoofer subwoofer : subwoofers) {
+            List<String> images = subwoofer.getImages();
+            for (int i = 0; i < images.size(); i++) {
+                if (images.get(i).equals(oldUrl)) {
+                    images.set(i, newUrl);
+                }
+            }
+            subwoofer.setImages(images);
+            repository.save(subwoofer);
+        }
     }
 }

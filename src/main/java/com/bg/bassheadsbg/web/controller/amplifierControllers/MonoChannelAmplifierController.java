@@ -6,6 +6,7 @@ import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MonoAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -40,14 +41,14 @@ public class MonoChannelAmplifierController {
     @PostMapping("/add")
     public String addMonoAmp(@Valid @ModelAttribute("addMonoAmpDTO") AddMonoAmpDTO addMonoAmpDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMonoAmpDTO", addMonoAmpDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMonoAmpDTO", bindingResult);
             return "redirect:/amplifiers/mono-amplifiers/add";
         }
 
-        long newMonoAmp = monoAmpService.editDevice(addMonoAmpDTO);
+        long newMonoAmp = monoAmpService.addDevice(addMonoAmpDTO);
         return "redirect:/amplifiers/mono-amplifiers/" + newMonoAmp;
     }
 

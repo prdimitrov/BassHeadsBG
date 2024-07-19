@@ -15,4 +15,5 @@ public class ImageCreateResponse {
     private String id;
     private String url;
     private String oldUrl;
+    private String tableName;
 }

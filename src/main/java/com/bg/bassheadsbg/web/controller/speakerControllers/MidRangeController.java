@@ -5,6 +5,7 @@ import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MidRangeDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MidRangeService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -39,14 +40,14 @@ public class MidRangeController {
     @PostMapping("/add")
     public String addMidRange(@Valid @ModelAttribute("addMidRangeDTO") AddMidRangeDTO addMidRangeDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMidRangeDTO", addMidRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMidRangeDTO", bindingResult);
             return "redirect:/speakers/mid-range/add";
         }
 
-        long newMidRange = midRangeService.editDevice(addMidRangeDTO);
+        long newMidRange = midRangeService.addDevice(addMidRangeDTO);
         return "redirect:/speakers/mid-range/" + newMidRange;
     }
 
