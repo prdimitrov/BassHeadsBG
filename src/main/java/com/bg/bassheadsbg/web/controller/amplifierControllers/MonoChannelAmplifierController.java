@@ -32,6 +32,13 @@ public class MonoChannelAmplifierController {
         }
         return "/amplifiers/monoamp-add";
     }
+//    th:href="@{/amplifiers/mono-amplifiers/rankings}"
+
+    @GetMapping("/rankings")
+    public String rankings(Model model) {
+        model.addAttribute("allMonoAmps", monoAmpService.getAllDeviceSummary());
+        return "/amplifiers/monoamp-all";
+    }
 
     @ModelAttribute("addMonoAmpDTO")
     public AddMonoAmpDTO addMonoAmpDTO() {

@@ -1,0 +1,93 @@
+.all-devices {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5em;
+}
+
+a {
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+}
+
+.device {
+    box-shadow: 0 0 .2rem #fff,
+                    0 0 .2rem #fff,
+                    0 0 2rem rgb(47, 0, 255),
+                    0 0 0.8rem rgb(47, 0, 255),
+                    0 0 2.8rem rgb(47, 0, 255),
+                    inset 0 0 1.3rem rgb(47, 0, 255);
+    background-color: #000420a1;
+}
+
+.device-specs {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 2em;
+    gap: 4em;
+}
+
+.card-img-top-wrapper {
+    height: 250px;
+    width: 350px;
+    align-self: center;
+    overflow: hidden;
+}
+
+.device-details {
+    height: 250px;
+    width: 350px;
+    align-self: center;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.spec-details {
+    background-color: white;
+}
+
+.spec-title {
+
+}
+
+.spec-value {
+
+}
+
+.device-buttons {
+    height: 250px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+}
+
+.detail-btn {
+    padding: 0.5em 1em 0.5em 1em;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 100px;
+    height: 50px;
+}
+
+.device-likes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+}
+
+.like-btn {
+    color: #fff;
+    width: 100px;
+    height: 100px;
+}
+
+.total-likes {
+
+}

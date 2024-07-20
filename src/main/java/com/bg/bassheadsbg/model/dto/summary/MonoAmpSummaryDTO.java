@@ -16,6 +16,6 @@ public final class MonoAmpSummaryDTO {
     private String model;
     private String amplifierClass;
     private int power;
-    private List<String> image;
+    private List<String> images;
 
 }

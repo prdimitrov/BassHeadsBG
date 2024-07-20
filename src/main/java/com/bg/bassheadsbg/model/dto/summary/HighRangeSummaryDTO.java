@@ -16,6 +16,6 @@ public final class HighRangeSummaryDTO {
     private String model;
     private float size;
     private short powerHandling;
-    private List<String> image;
+    private List<String> images;
 
 }
