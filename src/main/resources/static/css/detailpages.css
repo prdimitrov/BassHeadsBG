@@ -22,7 +22,6 @@
 }
 
 .device-images {
-    width: 1000px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,11 +71,13 @@ form {
 
 .device-details td {
     color: #fff;
-}
-
-.table td {
     vertical-align: middle;
     text-align: center;
+    width: 100px;
+}
+
+.table tr {
+    height: auto;
 }
 
 .table h4 {
