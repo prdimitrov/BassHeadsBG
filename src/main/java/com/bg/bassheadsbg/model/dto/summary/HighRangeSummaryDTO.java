@@ -11,11 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 public final class HighRangeSummaryDTO {
     private Long id;
-    private int price;
     private String brand;
     private String model;
     private float size;
     private short powerHandling;
     private List<String> images;
-
+    private int userLikes;
 }

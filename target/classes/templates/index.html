@@ -19,7 +19,7 @@
     <h5 class="text-center text-white mt-5" th:text="#{greeting} + ${welcomeMessage}"></h5>
 </div>
 
-<div sec:authorize=="isAuthenticated()" th:replace="~{fragments/chat::chat}"></div>
+<div th:replace="~{fragments/chat::chat}"></div>
 
 <div th:replace="~{fragments/footer::footer}"></div>
 

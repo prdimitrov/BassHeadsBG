@@ -68,4 +68,8 @@ public abstract class BaseSpeaker extends BaseEntity {
     @Column(name = "likes")
     private List<UserEntity> userLikes = new ArrayList<>();
 
+    public long getLikes() {
+        return this.userLikes.size();
+    }
+
 }

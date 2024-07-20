@@ -11,11 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 public final class MultiChannelAmpSummaryDTO {
     private Long id;
-    private int price;
     private String brand;
     private String model;
     private String amplifierClass;
     private int power;
     private List<String> images;
-
+    private int userLikes;
 }

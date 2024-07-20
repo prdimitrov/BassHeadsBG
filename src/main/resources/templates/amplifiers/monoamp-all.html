@@ -27,7 +27,7 @@
                     <img class="card-img-top" alt="NO IMAGE" th:src="*{images.get(0)}"/>
                 </div>
                 <div class="device-details">
-                    <h5 th:text="*{brand} + ' ' + *{model}"></h5>
+                    <h4 th:text="*{brand} + ' ' + *{model}"></h4>
                     <div class="spec-details">
                         <div class="spec-title" th:text="#{class}"></div>
                         <span class="spec-value" th:text="*{amplifierClass}"></span>
@@ -35,13 +35,15 @@
                         <span class="spec-value" th:text="*{power}"></span>
                     </div>
                 </div>
-                <div class="device-buttons">
-                    <a class="detail-btn" th:href="@{/amplifiers/mono-amplifiers/{id}(id=*{id})}">Details</a>
-                    <div class="device-likes">
-                        <i class="fa fa-thumbs-up like-btn"></i>
-                        <p class="total-likes"></p>
-                    </div>
+            </div>
+            <div class="device-buttons">
+                <div class="device-likes">
+                    <form th:action="@{/amplifiers/mono-amplifiers/like/{id}(id=*{id})}" method="post">
+                        <button type="submit" class="fa fa-thumbs-up like-btn" style="background: none; border: none; cursor: pointer;"></button>
+                    </form>
+                    <p class="total-likes" th:text="*{likes}"></p>
                 </div>
+                <a class="detail-btn" th:href="@{/amplifiers/mono-amplifiers/{id}(id=*{id})}">Details</a>
             </div>
         </div>
     </div>

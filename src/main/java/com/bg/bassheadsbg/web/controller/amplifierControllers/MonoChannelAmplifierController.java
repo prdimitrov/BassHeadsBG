@@ -9,6 +9,7 @@ import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,12 +33,27 @@ public class MonoChannelAmplifierController {
         }
         return "/amplifiers/monoamp-add";
     }
-//    th:href="@{/amplifiers/mono-amplifiers/rankings}"
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
         model.addAttribute("allMonoAmps", monoAmpService.getAllDeviceSummary());
         return "/amplifiers/monoamp-all";
+    }
+
+    @PostMapping("/like/{id}")
+    public String likeAmplifier(@PathVariable("id") Long id,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            // Perform the like operation
+            monoAmpService.likeDevice(id);
+
+            // Redirect back to the detail page of the liked amplifier
+            return "redirect:/amplifiers/mono-amplifiers/rankings";
+        } catch (DeviceNotFoundException e) {
+            // Handle the exception and redirect with an error message
+            redirectAttributes.addFlashAttribute("error", "Device not found!");
+            return "redirect:/amplifiers/mono-amplifiers/rankings";
+        }
     }
 
     @ModelAttribute("addMonoAmpDTO")

@@ -93,6 +93,9 @@ public abstract class BaseAmplifier extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "likes")
-    private List<UserEntity> userLikes = new ArrayList<>();
+    private Set<UserEntity> userLikes = new HashSet<>();
 
+    public long getLikes() {
+        return this.userLikes.size();
+    }
 }
