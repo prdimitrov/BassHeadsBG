@@ -24,8 +24,19 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto col-12 justify-content-around">
-        <li class="nav-item">
-          <a class="nav-link" href="/brands/all" th:text="#{rankings}"></a>
+
+        <li class="nav-item dropdown" sec:authorize=="isAuthenticated()" th:classappend="${activeLink == 'device-dropdown'}? 'active'">
+          <a class="nav-link dropdown-toggle" href="/" id="rankingsDropdown" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{rankings}">
+          </a>
+          <div class="dropdown-menu" aria-labelledby="productDropdown">
+            <a class="dropdown-item" th:href="@{/speakers/high-range/rankings}" th:text="#{high_ranges}"></a>
+            <a class="dropdown-item" th:href="@{/speakers/mid-range/rankings}"th:text="#{mid_ranges}"></a>
+            <a class="dropdown-item" th:href="@{/speakers/subwoofers/rankings}"th:text="#{subwoofers}"></a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" th:href="@{/amplifiers/mono-amplifiers/add}" th:text="#{mono_amps}"></a>
+            <a class="dropdown-item" th:href="@{/amplifiers/multi-channel-amplifiers/add}" th:text="#{multichannel_amps}"></a>
+          </div>
         </li>
 
         <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')" th:classappend="${activeLink == 'device-dropdown'}? 'active'">
