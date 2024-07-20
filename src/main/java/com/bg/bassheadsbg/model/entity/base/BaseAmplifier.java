@@ -91,11 +91,4 @@ public abstract class BaseAmplifier extends BaseEntity {
     @Column(name = "images")
     private List<@URL @NotBlank String> images = new ArrayList<>();
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "likes")
-    private Set<UserEntity> userLikes = new HashSet<>();
-
-    public long getLikes() {
-        return this.userLikes.size();
-    }
 }

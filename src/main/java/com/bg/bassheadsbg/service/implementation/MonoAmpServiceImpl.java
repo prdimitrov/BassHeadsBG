@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, MonoAmpDetailsDTO, MonoAmpSummaryDTO, MonoAmplifier, MonoAmplifierRepository>
@@ -71,7 +70,7 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
-        UserEntity user = null;
+        UserEntity user;
         if (principal instanceof UserDetails userDetails) {
             Optional<UserEntity> optUser = userRepository.findByUsername(userDetails.getUsername());
 
@@ -88,9 +87,16 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
         if (optionalAmplifier.isPresent()) {
             MonoAmplifier amplifier = optionalAmplifier.get();
 
-            Set<UserEntity> userLikes = amplifier.getUserLikes();
-            userLikes.add(user); // Add UserEntity instead of userId
+            List<UserEntity> userLikes = amplifier.getUserLikes();
+            long userId = user.getId();
 
+            for (UserEntity existingUser : userLikes) {
+                if (existingUser.getId() == userId) {
+                    throw new RuntimeException("User has already liked this device!");
+                }
+            }
+
+            userLikes.add(user);
             repository.save(amplifier);
         } else {
             throw new DeviceNotFoundException("Device with id " + id + " not found!", id);

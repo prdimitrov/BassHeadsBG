@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.model.entity.base;
 
-import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -16,9 +15,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -63,13 +60,5 @@ public abstract class BaseSpeaker extends BaseEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "images")
     private List<@URL @NotBlank String> images = new ArrayList<>();
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "likes")
-    private List<UserEntity> userLikes = new ArrayList<>();
-
-    public long getLikes() {
-        return this.userLikes.size();
-    }
 
 }
