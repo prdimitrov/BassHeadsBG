@@ -16,5 +16,5 @@ public final class SubwooferSummaryDTO {
     private float size;
     private short powerHandling;
     private List<String> images;
-    private int userLikes;
+    private long likes;
 }
