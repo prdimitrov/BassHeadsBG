@@ -16,5 +16,5 @@ public final class MultiChannelAmpSummaryDTO {
     private String amplifierClass;
     private int power;
     private List<String> images;
-    private int userLikes;
+    private long likes;
 }

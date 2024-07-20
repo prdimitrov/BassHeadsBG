@@ -1,17 +1,22 @@
 package com.bg.bassheadsbg.service.implementation;
 
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
-import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MultiChannelAmpSummaryDTO;
 import com.bg.bassheadsbg.model.entity.amplifiers.MultiChannelAmplifier;
+import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.repository.MultiChannelAmplifierRepository;
+import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MultiChannelAmpService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +28,13 @@ public class MultiChannelAmpServiceImpl extends CommonDeviceServiceImpl<AddMulti
 
     private final ImageProducer imageProducer;
     private final ExRateService exRateService;
+    private final UserRepository userRepository;
 
-    public MultiChannelAmpServiceImpl(MultiChannelAmplifierRepository multiChannelAmplifierRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService) {
+    public MultiChannelAmpServiceImpl(MultiChannelAmplifierRepository multiChannelAmplifierRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository) {
         super(multiChannelAmplifierRepository, modelMapper);
         this.imageProducer = imageProducer;
         this.exRateService = exRateService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -53,7 +60,20 @@ public class MultiChannelAmpServiceImpl extends CommonDeviceServiceImpl<AddMulti
 
     @Override
     protected MultiChannelAmpSummaryDTO toSummaryDTO(MultiChannelAmplifier multiChannelAmplifier) {
-        return modelMapper.map(multiChannelAmplifier, MultiChannelAmpSummaryDTO.class);
+        MultiChannelAmpSummaryDTO multiChannelAmpSummaryDTO = modelMapper.map(multiChannelAmplifier, MultiChannelAmpSummaryDTO.class);
+        multiChannelAmpSummaryDTO.setLikes(multiChannelAmplifier.getLikes()); // Assuming 'likes' field exists
+        return multiChannelAmpSummaryDTO;
+    }
+
+    @Override
+    protected UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+    }
+
+    @Override
+    protected void addLikeToEntity(MultiChannelAmplifier entity, UserEntity user) {
+        entity.getUserLikes().add(user);
     }
 
     @Override

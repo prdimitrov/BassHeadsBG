@@ -1,17 +1,22 @@
 package com.bg.bassheadsbg.service.implementation;
 
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
-import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MidRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
+import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.repository.MidRangeRepository;
+import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MidRangeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +28,13 @@ public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO,
 
     private final ImageProducer imageProducer;
     private final ExRateService exRateService;
+    private final UserRepository userRepository;
 
-    public MidRangeServiceImpl(MidRangeRepository midRangeRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService) {
+    public MidRangeServiceImpl(MidRangeRepository midRangeRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository) {
         super(midRangeRepository, modelMapper);
         this.imageProducer = imageProducer;
         this.exRateService = exRateService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -53,7 +60,20 @@ public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO,
 
     @Override
     protected MidRangeSummaryDTO toSummaryDTO(MidRange midRange) {
-        return modelMapper.map(midRange, MidRangeSummaryDTO.class);
+        MidRangeSummaryDTO midRangeSummaryDTO = modelMapper.map(midRange, MidRangeSummaryDTO.class);
+        midRangeSummaryDTO.setLikes(midRange.getLikes());
+        return midRangeSummaryDTO;
+    }
+
+    @Override
+    protected UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+    }
+
+    @Override
+    protected void addLikeToEntity(MidRange entity, UserEntity user) {
+        entity.getUserLikes().add(user);
     }
 
     @Override

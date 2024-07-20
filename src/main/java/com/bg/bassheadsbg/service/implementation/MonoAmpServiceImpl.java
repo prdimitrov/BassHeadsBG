@@ -59,7 +59,6 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
         return monoAmpDetailsDTO;
     }
 
-
     @Override
     protected MonoAmpSummaryDTO toSummaryDTO(MonoAmplifier monoAmplifier) {
         MonoAmpSummaryDTO monoAmpSummaryDTO = modelMapper.map(monoAmplifier, MonoAmpSummaryDTO.class);
@@ -67,34 +66,15 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
         return monoAmpSummaryDTO;
     }
 
-    public void likeDevice(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    @Override
+    protected UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+    }
 
-        UserEntity user = null;
-        if (principal instanceof UserDetails userDetails) {
-            Optional<UserEntity> optUser = userRepository.findByUsername(userDetails.getUsername());
-
-            if (optUser.isPresent()) {
-                user = optUser.get();
-            } else {
-                throw new RuntimeException("User not found!");
-            }
-        } else {
-            throw new RuntimeException("User not authenticated!");
-        }
-
-        Optional<MonoAmplifier> optionalAmplifier = repository.findById(id);
-        if (optionalAmplifier.isPresent()) {
-            MonoAmplifier amplifier = optionalAmplifier.get();
-
-            Set<UserEntity> userLikes = amplifier.getUserLikes();
-            userLikes.add(user); // Add UserEntity instead of userId
-
-            repository.save(amplifier);
-        } else {
-            throw new DeviceNotFoundException("Device with id " + id + " not found!", id);
-        }
+    @Override
+    protected void addLikeToEntity(MonoAmplifier entity, UserEntity user) {
+        entity.getUserLikes().add(user);
     }
 
     @Override
