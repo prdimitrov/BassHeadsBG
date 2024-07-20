@@ -58,7 +58,6 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
         return monoAmpDetailsDTO;
     }
 
-
     @Override
     protected MonoAmpSummaryDTO toSummaryDTO(MonoAmplifier monoAmplifier) {
         MonoAmpSummaryDTO monoAmpSummaryDTO = modelMapper.map(monoAmplifier, MonoAmpSummaryDTO.class);
@@ -66,41 +65,24 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
         return monoAmpSummaryDTO;
     }
 
-    public void likeDevice(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    @Override
+    protected UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+    }
 
-        UserEntity user;
-        if (principal instanceof UserDetails userDetails) {
-            Optional<UserEntity> optUser = userRepository.findByUsername(userDetails.getUsername());
+    @Override
+    protected void addLikeToEntity(MonoAmplifier entity, UserEntity user) {
+        List<UserEntity> userLikes = entity.getUserLikes();
+        long userId = user.getId();
 
-            if (optUser.isPresent()) {
-                user = optUser.get();
-            } else {
-                throw new RuntimeException("User not found!");
+        for (UserEntity existingUser : userLikes) {
+            if (existingUser.getId() == userId) {
+                throw new RuntimeException("User has already liked this device!");
             }
-        } else {
-            throw new RuntimeException("User not authenticated!");
         }
 
-        Optional<MonoAmplifier> optionalAmplifier = repository.findById(id);
-        if (optionalAmplifier.isPresent()) {
-            MonoAmplifier amplifier = optionalAmplifier.get();
-
-            List<UserEntity> userLikes = amplifier.getUserLikes();
-            long userId = user.getId();
-
-            for (UserEntity existingUser : userLikes) {
-                if (existingUser.getId() == userId) {
-                    throw new RuntimeException("User has already liked this device!");
-                }
-            }
-
-            userLikes.add(user);
-            repository.save(amplifier);
-        } else {
-            throw new DeviceNotFoundException("Device with id " + id + " not found!", id);
-        }
+        userLikes.add(user);
     }
 
     @Override
