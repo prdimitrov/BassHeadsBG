@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
@@ -14,11 +14,9 @@ import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +76,15 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
 
         for (UserEntity existingUser : userLikes) {
             if (existingUser.getId() == userId) {
-                throw new RuntimeException("User has already liked this device!");
+                throw new DeviceAlreadyLikedException
+                        ("User with id "
+                                + userId
+                                + " and with username "
+                                + user.getUsername()
+                                + " has already liked device "
+                                + entity.getBrand()
+                                + " "
+                                + entity.getModel());
             }
         }
 
@@ -114,5 +120,15 @@ public class MonoAmpServiceImpl extends CommonDeviceServiceImpl<AddMonoAmpDTO, M
             monoAmplifier.setImages(images);
             repository.save(monoAmplifier);
         }
+    }
+
+    @Override
+    public List<MonoAmpSummaryDTO> getAllDeviceSummary() {
+        return repository.findAll()
+                .stream()
+                .sorted(Comparator.comparingLong(MonoAmplifier::getLikes).reversed()
+                        .thenComparing(MonoAmplifier::getBrand))
+                .map(this::toSummaryDTO)
+                .toList();
     }
 }

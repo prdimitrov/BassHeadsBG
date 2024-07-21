@@ -1,15 +1,14 @@
 package com.bg.bassheadsbg.web.controller.amplifierControllers;
 
 
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MonoAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,17 +42,8 @@ public class MonoChannelAmplifierController {
     @PostMapping("/like/{id}")
     public String likeAmplifier(@PathVariable("id") Long id,
                                 RedirectAttributes redirectAttributes) {
-        try {
-            // Perform the like operation
-            monoAmpService.likeDevice(id);
-
-            // Redirect back to the detail page of the liked amplifier
-            return "redirect:/amplifiers/mono-amplifiers/rankings";
-        } catch (DeviceNotFoundException e) {
-            // Handle the exception and redirect with an error message
-            redirectAttributes.addFlashAttribute("error", "Device not found!");
-            return "redirect:/amplifiers/mono-amplifiers/rankings";
-        }
+        monoAmpService.likeDevice(id);
+        return "redirect:/amplifiers/mono-amplifiers/rankings";
     }
 
     @ModelAttribute("addMonoAmpDTO")
@@ -63,8 +53,8 @@ public class MonoChannelAmplifierController {
 
     @PostMapping("/add")
     public String addMonoAmp(@Valid @ModelAttribute("addMonoAmpDTO") AddMonoAmpDTO addMonoAmpDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMonoAmpDTO", addMonoAmpDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMonoAmpDTO", bindingResult);
@@ -77,7 +67,7 @@ public class MonoChannelAmplifierController {
 
     @GetMapping("/edit/{id}")
     public String getEditMonoAmp(@PathVariable("id") Long id,
-                                   Model model) {
+                                 Model model) {
 
         if (!model.containsAttribute("monoAmpDetails")) {
             MonoAmpDetailsDTO monoAmpDetailsDTO = monoAmpService.getDeviceDetails(id);
@@ -88,8 +78,8 @@ public class MonoChannelAmplifierController {
 
     @PostMapping("/edit/{id}")
     public String postEditMonoAmp(@Valid @ModelAttribute("monoAmpDetails") AddMonoAmpDTO addMonoAmpDTO,
-                                    BindingResult bindingResult,
-                                    RedirectAttributes redirectAttributes) {
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("monoAmpDetails", addMonoAmpDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "monoAmpDetails", bindingResult);
@@ -102,7 +92,7 @@ public class MonoChannelAmplifierController {
 
     @GetMapping("/{id}")
     public String monoAmpDetails(@PathVariable("id") Long id,
-                                   Model model) {
+                                 Model model) {
 
         MonoAmpDetailsDTO deviceDetails = monoAmpService.getDeviceDetails(id);
         model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
