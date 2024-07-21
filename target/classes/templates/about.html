@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>BassHeadsBG</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/infopages.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/chat.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/websocket.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+
+<body>
+<div th:replace="~{fragments/navbar::navbar(activeLink=${''})}"></div>
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="jumbotron text-center text-white">
+                <h1 class="display-4" th:text="#{about.welcome}"></h1>
+                <p class="lead" th:text="#{about.tagline}"></p>
+                <hr class="my-4">
+                <p th:text="#{about.description}"></p>
+                <ul class="list-unstyled">
+                    <li th:text="#{about.highRangeSpeakers}"></li>
+                    <li th:text="#{about.midRangeSpeakers}"></li>
+                    <li th:text="#{about.subwoofers}"></li>
+                    <li th:text="#{about.monoAmps}"></li>
+                    <li th:text="#{about.multiChannelAmps}"></li>
+                </ul>
+                <p class="mt-4" th:text="#{about.joinCommunity}"></p>
+                <a class="btn btn-primary btn-lg mt-3" th:href="@{/users/register}" role="button" sec:authorize="!isAuthenticated()" th:text="#{about.joinNow}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/chat::chat}"></div>
+<div th:replace="~{fragments/footer::footer}"></div>
+
+</body>
+</html>

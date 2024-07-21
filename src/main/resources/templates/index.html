@@ -20,6 +20,13 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${''})}"></div>
 <div class="container-fluid">
     <h5 class="text-center text-white mt-5" th:text="#{greeting} + ${welcomeMessage}"></h5>
+
+    <h3 class="text-center text-white mt-4" sec:authorize="!isAuthenticated()" th:text="#{login.prompt}"></h3>
+
+    <h3 class="text-center text-white mt-4" sec:authorize="isAuthenticated()" th:text="#{info.text}"></h3>
+
+    <p class="text-center text-white mt-3" sec:authorize="isAuthenticated()" th:text="#{help.prompt}"></p>
+
 </div>
 
 <div th:replace="~{fragments/chat::chat}"></div>
