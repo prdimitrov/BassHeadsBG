@@ -1,8 +1,6 @@
 package com.bg.bassheadsbg.model.entity.users;
 
-import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
-import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;

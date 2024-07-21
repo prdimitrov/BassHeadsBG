@@ -3,7 +3,11 @@ package com.bg.bassheadsbg.model.entity.users;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "roles")
 public class UserRole {
@@ -16,20 +20,4 @@ public class UserRole {
     @Column(unique = true)
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public @NotNull UserRoleEnum getRole() {
-        return role;
-    }
-
-    public void setRole(@NotNull UserRoleEnum role) {
-        this.role = role;
-    }
 }

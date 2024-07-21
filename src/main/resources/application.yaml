@@ -25,23 +25,30 @@ spring:
     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
-
 logging:
   level:
     org:
       hibernate:
         type:
           descriptor: TRACE
-#        SQL: DEBUG
+        #        SQL: DEBUG
         SQL:
       nodeValue: WARN
     blog: WARN
 
 forex:
   api:
-    key: ${FOREX_API_KEY:}
+    key: ${FOREX_API_KEY}
     url: "https://openexchangerates.org/api/latest.json?app_id={FOREX_API_KEY}"
     base: "USD"
 
 server:
   port: 8080
+
+admin:
+  username: ${admin_username}
+  password: ${admin_password}
+  email: ${admin_email}
+  firstName: ${admin_firstName}
+  lastName: ${admin_lastName}
+  birthDate: ${admin_birthDate}

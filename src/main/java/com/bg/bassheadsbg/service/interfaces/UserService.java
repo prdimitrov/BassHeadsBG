@@ -9,4 +9,13 @@ import java.util.Optional;
 public interface UserService {
     void registerUser(UserRegistrationDTO userRegistrationDTO);
     Optional<UserEntity> findByUsername(String username);
+
+    void addRoleToUserId(String role, Long userId);
+
+    void removeRoleToUserId(String role, Long userId);
+
+    UserEntity banUser(Long userId);
+
+    UserEntity unbanUser(Long userId);
+
 }
