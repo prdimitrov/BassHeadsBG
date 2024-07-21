@@ -56,6 +56,7 @@ public class AdminInit implements CommandLineRunner {
             admin.setFirstName(adminFirstName);
             admin.setLastName(adminLastName);
             admin.setBirthDate(LocalDate.parse(adminBirthDate)); // Ensure this format matches the input format!!!
+                                                                 // yyyy-mm-dd
 
             Set<UserRole> roles = Set.of(UserRoleEnum.ADMIN, UserRoleEnum.USER).stream()
                     .map(this::getOrCreateUserRole)
