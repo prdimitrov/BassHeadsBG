@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BassHeadsBG</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/chat.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/chat.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/websocket.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+
+<body>
+<div th:replace="~{fragments/navbar::navbar(activeLink=${''})}"></div>
+<div class="container-fluid mt-5">
+    <h1 class="text-center text-white">All Users</h1>
+    <table class="table table-dark table-striped mt-3">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td>
+                <ul>
+                    <li th:each="role : ${user.roles}" th:text="${role.role}"></li>
+                </ul>
+            </td>
+            <td th:text="${user.isBanned ? 'Banned' : 'Active'}"></td>
+            <td>
+                <div class="btn-group" role="group">
+                    <form th:action="@{'/users/add-role/' + ${user.id} + '/ADMIN'}" method="post">
+                        <button type="submit" class="btn btn-success">Add Admin</button>
+                    </form>
+                    <form th:action="@{'/users/remove-role/' + ${user.id} + '/ADMIN'}" method="post">
+                        <button type="submit" class="btn btn-warning">Remove Admin</button>
+                    </form>
+                    <form th:action="@{'/users/ban/' + ${user.id}}" method="post">
+                        <button type="submit" class="btn btn-danger" th:if="${!user.isBanned}">Ban</button>
+                    </form>
+                    <form th:action="@{'/users/unban/' + ${user.id}}" method="post">
+                        <button type="submit" class="btn btn-info" th:if="${user.isBanned}">Unban</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="~{fragments/chat::chat}"></div>
+<div th:replace="~{fragments/footer::footer}"></div>
+</body>
+</html>
