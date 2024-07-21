@@ -33,19 +33,6 @@ public class MonoChannelAmplifierController {
         return "/amplifiers/monoamp-add";
     }
 
-    @GetMapping("/rankings")
-    public String rankings(Model model) {
-        model.addAttribute("allMonoAmps", monoAmpService.getAllDeviceSummary());
-        return "/amplifiers/monoamp-all";
-    }
-
-    @PostMapping("/like/{id}")
-    public String likeAmplifier(@PathVariable("id") Long id,
-                                RedirectAttributes redirectAttributes) {
-        monoAmpService.likeDevice(id);
-        return "redirect:/amplifiers/mono-amplifiers/rankings";
-    }
-
     @ModelAttribute("addMonoAmpDTO")
     public AddMonoAmpDTO addMonoAmpDTO() {
         return new AddMonoAmpDTO();
@@ -108,6 +95,19 @@ public class MonoChannelAmplifierController {
     public String deleteMonoAmp(@PathVariable("id") Long id) {
         monoAmpService.deleteDevice(id);
         return "redirect:/";
+    }
+
+    @GetMapping("/rankings")
+    public String rankings(Model model) {
+        model.addAttribute("allDevices", monoAmpService.getAllDeviceSummary());
+        return "/amplifiers/monoamp-all";
+    }
+
+    @PostMapping("/like/{id}")
+    public String like(@PathVariable("id") Long id,
+                                RedirectAttributes redirectAttributes) {
+        monoAmpService.likeDevice(id);
+        return "redirect:/amplifiers/mono-amplifiers/rankings";
     }
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND)

@@ -7,5 +7,5 @@ import com.bg.bassheadsbg.model.dto.summary.HighRangeSummaryDTO;
 
 
 public interface HighRangeService extends CommonDeviceService<AddHighRangeDTO, HighRangeDetailsDTO, HighRangeSummaryDTO> {
-
+    void likeDevice(Long id);
 }

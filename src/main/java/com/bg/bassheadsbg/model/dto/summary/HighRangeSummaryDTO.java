@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.dto.summary;
 
+import com.bg.bassheadsbg.util.ValueFormatterUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,4 +18,8 @@ public final class HighRangeSummaryDTO {
     private short powerHandling;
     private List<String> images;
     private long likes;
+
+    public String getSize() {
+        return ValueFormatterUtil.formatValue(this.size);
+    }
 }

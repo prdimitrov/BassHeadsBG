@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.web.controller;
 
-import com.bg.bassheadsbg.model.ChatMessage;
+import com.bg.bassheadsbg.model.entity.users.ChatMessage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.service.implementation.MessageStoreService;

@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.web.controller.amplifierControllers;
 
-
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
@@ -54,7 +53,7 @@ public class MultiChannelAmplifierController {
 
     @GetMapping("/edit/{id}")
     public String getEditMultiChannelAmp(@PathVariable("id") Long id,
-                                 Model model) {
+                                         Model model) {
 
         if (!model.containsAttribute("multiChannelAmpDetails")) {
             MultiChannelAmpDetailsDTO multiChannelAmpDetailsDTO = multiChannelAmpService.getDeviceDetails(id);
@@ -65,8 +64,8 @@ public class MultiChannelAmplifierController {
 
     @PostMapping("/edit/{id}")
     public String postEditMultiChannelAmp(@Valid @ModelAttribute("multiChannelAmpDetails") AddMultiChannelAmpDTO addMultiChannelAmpDTO,
-                                  BindingResult bindingResult,
-                                  RedirectAttributes redirectAttributes) {
+                                          BindingResult bindingResult,
+                                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("multiChannelAmpDetails", addMultiChannelAmpDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "multiChannelAmpDetails", bindingResult);
@@ -79,7 +78,7 @@ public class MultiChannelAmplifierController {
 
     @GetMapping("/{id}")
     public String multiChannelAmpDetails(@PathVariable("id") Long id,
-                                 Model model) {
+                                         Model model) {
 
         MultiChannelAmpDetailsDTO deviceDetails = multiChannelAmpService.getDeviceDetails(id);
         model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
@@ -97,6 +96,19 @@ public class MultiChannelAmplifierController {
     public String deleteMultiChannelAmp(@PathVariable("id") Long id) {
         multiChannelAmpService.deleteDevice(id);
         return "redirect:/";
+    }
+
+    @PostMapping("/like/{id}")
+    public String like(@PathVariable("id") Long id,
+                                      RedirectAttributes redirectAttributes) {
+        multiChannelAmpService.likeDevice(id);
+        return "redirect:/amplifiers/multi-channel-amplifiers/rankings";
+    }
+
+    @GetMapping("/rankings")
+    public String rankings(Model model) {
+        model.addAttribute("allDevices", multiChannelAmpService.getAllDeviceSummary());
+        return "/amplifiers/multichannel-amp-all";
     }
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND)

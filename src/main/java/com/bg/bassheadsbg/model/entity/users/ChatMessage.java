@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model;
+package com.bg.bassheadsbg.model.entity.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

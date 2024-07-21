@@ -100,6 +100,19 @@ public class MidRangeController {
         return "redirect:/";
     }
 
+    @PostMapping("/like/{id}")
+    public String like(@PathVariable("id") Long id,
+                                      RedirectAttributes redirectAttributes) {
+        midRangeService.likeDevice(id);
+        return "redirect:/speakers/mid-range/rankings";
+    }
+
+    @GetMapping("/rankings")
+    public String rankings(Model model) {
+        model.addAttribute("allDevices", midRangeService.getAllDeviceSummary());
+        return "/speakers/midrange-all";
+    }
+
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(DeviceNotFoundException.class)
     public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {

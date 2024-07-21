@@ -17,11 +17,11 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'all-devices'})}"></div>
 
 <div class="container-fluid">
-    <h2 class="text-center text-white mt-5">MonoBlock Rankings</h2>
+    <h2 class="text-center text-white mt-5" th:text="#{mono_rankings}"></h2>
     <div class="all-devices">
         <div
-                th:each="monoAmp : ${allMonoAmps}"
-                th:object="${monoAmp}" class="device">
+                th:each="device : ${allDevices}"
+                th:object="${device}" class="device">
             <div class="device-specs">
                 <div class="card-img-top-wrapper">
                     <img class="card-img-top" alt="NO IMAGE" th:src="*{images.get(0)}"/>
@@ -32,7 +32,7 @@
                         <div class="spec-title" th:text="#{class}"></div>
                         <span class="spec-value" th:text="*{amplifierClass}"></span>
                         <div class="spec-title" th:text="#{power}"></div>
-                        <span class="spec-value" th:text="*{power}"></span>
+                        <span class="spec-value" th:text="${device.power} + ' ' + 'W'"></span>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     </form>
                     <p class="total-likes" th:text="*{likes}"></p>
                 </div>
-                <a class="detail-btn" th:href="@{/amplifiers/mono-amplifiers/{id}(id=*{id})}">Details</a>
+                <a class="detail-btn" th:href="@{/amplifiers/mono-amplifiers/{id}(id=*{id})}" th:text="#{details}"></a>
             </div>
         </div>
     </div>

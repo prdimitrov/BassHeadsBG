@@ -17,7 +17,7 @@
 <div th:replace="~{fragments/navbar::navbar(activeLink=${'all-devices'})}"></div>
 
 <div class="container-fluid">
-    <h2 class="text-center text-white mt-5" th:text="#{mono_rankings}"></h2>
+    <h2 class="text-center text-white mt-5" th:text="#{subwoofers_rankings}"></h2>
     <div class="all-devices">
         <div
                 th:each="device : ${allDevices}"
@@ -29,21 +29,21 @@
                 <div class="device-details">
                     <h4 th:text="*{brand} + ' ' + *{model}"></h4>
                     <div class="spec-details">
-                        <div class="spec-title" th:text="#{class}"></div>
-                        <span class="spec-value" th:text="*{amplifierClass}"></span>
-                        <div class="spec-title" th:text="#{power}"></div>
-                        <span class="spec-value" th:text="${device.power} + ' ' + 'W'"></span>
+                        <div class="spec-title" th:text="#{size}"></div>
+                        <span class="spec-value" th:text="${device.size} + ' ' + #{inch}"></span>
+                        <div class="spec-title" th:text="#{power_handling}"></div>
+                        <span class="spec-value" th:text="${device.powerHandling} + ' ' + 'W'"></span>
                     </div>
                 </div>
             </div>
             <div class="device-buttons">
                 <div class="device-likes">
-                    <form th:action="@{/amplifiers/mono-amplifiers/like/{id}(id=*{id})}" method="post">
+                    <form th:action="@{/speakers/subwoofers/like/{id}(id=*{id})}" method="post">
                         <button type="submit" class="fa fa-thumbs-up like-btn" style="background: none; border: none; cursor: pointer;"></button>
                     </form>
                     <p class="total-likes" th:text="*{likes}"></p>
                 </div>
-                <a class="detail-btn" th:href="@{/amplifiers/mono-amplifiers/{id}(id=*{id})}" th:text="#{details}"></a>
+                <a class="detail-btn" th:href="@{/speakers/subwoofers/{id}(id=*{id})}" th:text="#{details}"></a>
             </div>
         </div>
     </div>

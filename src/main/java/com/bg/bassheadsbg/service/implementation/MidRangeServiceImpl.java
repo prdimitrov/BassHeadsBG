@@ -1,11 +1,12 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MidRangeSummaryDTO;
+import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.repository.MidRangeRepository;
@@ -14,11 +15,9 @@ import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MidRangeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +72,23 @@ public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO,
 
     @Override
     protected void addLikeToEntity(MidRange entity, UserEntity user) {
-        entity.getUserLikes().add(user);
+        List<UserEntity> userLikes = entity.getUserLikes();
+        long userId = user.getId();
+
+        for (UserEntity existingUser : userLikes) {
+            if (existingUser.getId() == userId) {
+                throw new DeviceAlreadyLikedException(
+                        String.format(
+                                "User with id %d and with username %s has already liked device %s %s",
+                                userId,
+                                user.getUsername(),
+                                entity.getBrand(),
+                                entity.getModel()
+                        ));
+            }
+        }
+
+        userLikes.add(user);
     }
 
     @Override
@@ -105,5 +120,17 @@ public class MidRangeServiceImpl extends CommonDeviceServiceImpl<AddMidRangeDTO,
             midRange.setImages(images);
             repository.save(midRange);
         }
+    }
+
+    @Override
+    public List<MidRangeSummaryDTO> getAllDeviceSummary() {
+        return repository.findAll()
+                .stream()
+                .sorted(Comparator.comparingLong(MidRange::getLikes)
+                        .reversed()
+                        .thenComparing(a -> a.getBrand().toLowerCase())
+                        .thenComparing(a -> a.getModel().toLowerCase()))
+                .map(this::toSummaryDTO)
+                .toList();
     }
 }

@@ -100,6 +100,19 @@ public class HighRangeController {
         return "redirect:/";
     }
 
+    @PostMapping("/like/{id}")
+    public String like(@PathVariable("id") Long id,
+                                      RedirectAttributes redirectAttributes) {
+        highRangeService.likeDevice(id);
+        return "redirect:/speakers/high-range/rankings";
+    }
+
+    @GetMapping("/rankings")
+    public String rankings(Model model) {
+        model.addAttribute("allDevices", highRangeService.getAllDeviceSummary());
+        return "/speakers/highrange-all";
+    }
+
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(DeviceNotFoundException.class)
     public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {

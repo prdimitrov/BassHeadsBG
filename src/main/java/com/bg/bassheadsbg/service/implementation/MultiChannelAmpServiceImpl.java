@@ -1,11 +1,13 @@
 package com.bg.bassheadsbg.service.implementation;
 
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MultiChannelAmpSummaryDTO;
+import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
 import com.bg.bassheadsbg.model.entity.amplifiers.MultiChannelAmplifier;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.repository.MultiChannelAmplifierRepository;
@@ -14,11 +16,9 @@ import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MultiChannelAmpService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +61,7 @@ public class MultiChannelAmpServiceImpl extends CommonDeviceServiceImpl<AddMulti
     @Override
     protected MultiChannelAmpSummaryDTO toSummaryDTO(MultiChannelAmplifier multiChannelAmplifier) {
         MultiChannelAmpSummaryDTO multiChannelAmpSummaryDTO = modelMapper.map(multiChannelAmplifier, MultiChannelAmpSummaryDTO.class);
-        multiChannelAmpSummaryDTO.setLikes(multiChannelAmplifier.getLikes()); // Assuming 'likes' field exists
+        multiChannelAmpSummaryDTO.setLikes(multiChannelAmplifier.getLikes());
         return multiChannelAmpSummaryDTO;
     }
 
@@ -73,7 +73,23 @@ public class MultiChannelAmpServiceImpl extends CommonDeviceServiceImpl<AddMulti
 
     @Override
     protected void addLikeToEntity(MultiChannelAmplifier entity, UserEntity user) {
-        entity.getUserLikes().add(user);
+        List<UserEntity> userLikes = entity.getUserLikes();
+        long userId = user.getId();
+
+        for (UserEntity existingUser : userLikes) {
+            if (existingUser.getId() == userId) {
+                throw new DeviceAlreadyLikedException(
+                        String.format(
+                                "User with id %d and with username %s has already liked device %s %s",
+                                userId,
+                                user.getUsername(),
+                                entity.getBrand(),
+                                entity.getModel()
+                        ));
+            }
+        }
+
+        userLikes.add(user);
     }
 
     @Override
@@ -105,5 +121,17 @@ public class MultiChannelAmpServiceImpl extends CommonDeviceServiceImpl<AddMulti
             multiChannelAmplifier.setImages(images);
             repository.save(multiChannelAmplifier);
         }
+    }
+
+    @Override
+    public List<MultiChannelAmpSummaryDTO> getAllDeviceSummary() {
+        return repository.findAll()
+                .stream()
+                .sorted(Comparator.comparingLong(MultiChannelAmplifier::getLikes)
+                        .reversed()
+                        .thenComparing(a -> a.getBrand().toLowerCase())
+                        .thenComparing(a -> a.getModel().toLowerCase()))
+                .map(this::toSummaryDTO)
+                .toList();
     }
 }

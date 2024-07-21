@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.model.ChatMessage;
+import com.bg.bassheadsbg.model.entity.users.ChatMessage;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

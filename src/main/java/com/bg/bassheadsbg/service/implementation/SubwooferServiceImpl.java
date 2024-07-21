@@ -1,11 +1,12 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
+import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.SubwooferSummaryDTO;
+import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.repository.SubwooferRepository;
@@ -14,11 +15,9 @@ import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +60,7 @@ public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDT
     @Override
     protected SubwooferSummaryDTO toSummaryDTO(Subwoofer subwoofer) {
         SubwooferSummaryDTO subwooferSummaryDTO = modelMapper.map(subwoofer, SubwooferSummaryDTO.class);
-        subwooferSummaryDTO.setLikes(subwoofer.getLikes()); // Assuming 'likes' field exists
+        subwooferSummaryDTO.setLikes(subwoofer.getLikes());
         return subwooferSummaryDTO;
     }
 
@@ -73,7 +72,23 @@ public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDT
 
     @Override
     protected void addLikeToEntity(Subwoofer entity, UserEntity user) {
-        entity.getUserLikes().add(user);
+        List<UserEntity> userLikes = entity.getUserLikes();
+        long userId = user.getId();
+
+        for (UserEntity existingUser : userLikes) {
+            if (existingUser.getId() == userId) {
+                throw new DeviceAlreadyLikedException(
+                        String.format(
+                                "User with id %d and with username %s has already liked device %s %s",
+                                userId,
+                                user.getUsername(),
+                                entity.getBrand(),
+                                entity.getModel()
+                        ));
+            }
+        }
+
+        userLikes.add(user);
     }
 
     @Override
@@ -105,5 +120,17 @@ public class SubwooferServiceImpl extends CommonDeviceServiceImpl<AddSubwooferDT
             subwoofer.setImages(images);
             repository.save(subwoofer);
         }
+    }
+
+    @Override
+    public List<SubwooferSummaryDTO> getAllDeviceSummary() {
+        return repository.findAll()
+                .stream()
+                .sorted(Comparator.comparingLong(Subwoofer::getLikes)
+                        .reversed()
+                        .thenComparing(a -> a.getBrand().toLowerCase())
+                        .thenComparing(a -> a.getModel().toLowerCase()))
+                .map(this::toSummaryDTO)
+                .toList();
     }
 }
