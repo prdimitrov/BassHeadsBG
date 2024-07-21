@@ -1,0 +1,10 @@
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 1),
+                      rgba(84, 91, 98, 0.1),
+                      rgba(84, 91, 98, 0.7)),
+                  url('/images/audio-car-blurred.png');
+}
+.jumbotron {
+background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 .2rem #fff, 0 0 .2rem #fff, 0 0 2rem rgb(47, 0, 255), 0 0 0.8rem rgb(47, 0, 255), 0 0 2.8rem rgb(47, 0, 255), inset 0 0 1.3rem rgb(47, 0, 255)
+}

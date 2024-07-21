@@ -10,6 +10,11 @@
     <link rel="stylesheet" type="text/css" href="/css/alldetails.css"/>
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/chat.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/websocket.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
 
 <body>
@@ -49,6 +54,7 @@
     </div>
 </div>
 
+<div th:replace="~{fragments/chat::chat}"></div>
 <div th:replace="~{fragments/footer::footer}"></div>
 
 </body>

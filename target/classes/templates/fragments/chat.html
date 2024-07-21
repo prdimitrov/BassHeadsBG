@@ -1,23 +1,21 @@
 <div th:fragment="chat">
-    <!-- Chat Icon -->
-    <div id="chat-icon" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer;">
-        <i class="fas fa-comments fa-3x"></i>
-    </div>
-
-    <!-- Chat Box -->
-    <div id="chat-box" class="chat-closed">
-        <div id="chat-header">
-            <span th:text="#{bass_chat}"></span>
-            <button id="close-chat-btn">&#10006;</button>
+    <div sec:authorize="isAuthenticated()">
+        <!-- Chat Icon -->
+        <div id="chat-icon" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer;">
+            <i class="fas fa-comments fa-3x"></i>
         </div>
-        <div id="chat-content"></div>
-        <input type="text" id="chat-input" placeholder="...">
-        <small th:text="#{type_a_message}"></small>
+
+        <!-- Chat Box -->
+        <div id="chat-box" class="chat-closed">
+            <div id="chat-header">
+                <span th:text="#{bass_chat}"></span>
+                <button id="close-chat-btn">&#10006;</button>
+            </div>
+            <div id="chat-content"></div>
+            <input type="text" id="chat-input" placeholder="...">
+            <small th:text="#{type_a_message}"></small>
+        </div>
+
+        <link rel="stylesheet" type="text/css" href="/css/chat.css">
     </div>
-
-    <link rel="stylesheet" type="text/css" href="/css/chat.css">
-
-    <script src="/js/chat.js"></script>
-    <script src="/js/logout.js"></script>
-    <script src="/js/websocket.js"></script>
 </div>
