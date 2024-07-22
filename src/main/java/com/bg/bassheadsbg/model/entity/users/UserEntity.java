@@ -3,9 +3,7 @@ package com.bg.bassheadsbg.model.entity.users;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -13,6 +11,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @ToString
 @Entity
 @Table(name = "users")
