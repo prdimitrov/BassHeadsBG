@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.model.entity.amplifiers;
 import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
@@ -16,8 +17,9 @@ import java.util.List;
 @Entity
 @Table(name = "multi_channel_amplifiers")
 public class MultiChannelAmplifier extends BaseAmplifier {
-    @NotNull
-    @Positive
+    @Positive(message = "{numberOfChannels.positive}")
+    @NotNull(message = "{numberOfChannels.positive}")
+    @Max(value = 16, message = "{numberOfChannels.max16}")
     private byte numberOfChannels;
 
     @ManyToMany(fetch = FetchType.EAGER)

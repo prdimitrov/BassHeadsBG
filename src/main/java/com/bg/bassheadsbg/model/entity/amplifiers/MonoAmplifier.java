@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.model.entity.amplifiers;
 import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
@@ -16,11 +17,14 @@ import java.util.List;
 @Entity
 @Table(name = "mono_amplifiers")
 public class MonoAmplifier extends BaseAmplifier {
-    @NotNull
-    @Positive
+    @NotNull(message = "{numberOfRca.positive}")
+    @Positive(message = "{numberOfRca.positive}")
+    @Max(value = 4, message = "{numberOfRca.max4}")
     private byte numberOfRca;
-    @NotNull
-    @Positive
+
+    @NotNull(message = "{numberOfSpeakerOutputs.positive}")
+    @Positive(message = "{numberOfSpeakerOutputs.positive}")
+    @Max(value = 16, message = "numberOfSpeakerOutputs.max16")
     private byte numberOfSpeakerOutputs;
 
     @ManyToMany(fetch = FetchType.EAGER)

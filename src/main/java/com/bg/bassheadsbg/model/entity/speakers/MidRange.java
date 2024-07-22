@@ -3,10 +3,7 @@ package com.bg.bassheadsbg.model.entity.speakers;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,12 +16,14 @@ import java.util.List;
 @Table(name = "mid_range")
 public class MidRange extends BaseSpeaker {
 
-    @PositiveOrZero
-    @NotNull
+    @PositiveOrZero(message = "{frequencyRangeFrom.positiveOrZero}")
+    @NotNull(message = "{frequencyRangeFrom.positiveOrZero}")
+    @Max(value = 40000, message = "{frequencyRangeFrom.max40000}")
     private int frequencyRangeFrom;
 
-    @PositiveOrZero
-    @NotNull
+    @PositiveOrZero(message = "{frequencyRangeTo.positiveOrZero}")
+    @NotNull(message = "{frequencyRangeTo.positiveOrZero}")
+    @Max(value = 80000, message = "{frequencyRangeTo.max80000}")
     private int frequencyRangeTo;
 
     @ManyToMany(fetch = FetchType.EAGER)

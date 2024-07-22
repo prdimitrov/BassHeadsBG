@@ -63,13 +63,13 @@ public class AddHighRangeDTO {
     @NotBlank(message = "{material.notBlank}")
     private String material;
 
-    @Positive(message = "{frequencyRangeFrom.positive}")
-    @NotNull(message = "{frequencyRangeFrom.positive}")
+    @PositiveOrZero(message = "{frequencyRangeFrom.positiveOrZero}")
+    @NotNull(message = "{frequencyRangeFrom.positiveOrZero}")
     @Max(value = 40000, message = "{frequencyRangeFrom.max40000}")
     private Integer frequencyRangeFrom;
 
-    @Positive(message = "{frequencyRangeTo.positive}")
-    @NotNull(message = "{frequencyRangeTo.positive}")
+    @PositiveOrZero(message = "{frequencyRangeTo.positiveOrZero}")
+    @NotNull(message = "{frequencyRangeTo.positiveOrZero}")
     @Max(value = 80000, message = "{frequencyRangeTo.max80000}")
     private Integer frequencyRangeTo;
 
