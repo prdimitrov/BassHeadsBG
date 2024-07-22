@@ -52,7 +52,7 @@ public class AdminInit implements CommandLineRunner {
             admin.setUsername(adminUsername);
             admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setEmail(adminEmail);
-            admin.setVerified(true);
+            admin.setEnabled(true);
             admin.setFirstName(adminFirstName);
             admin.setLastName(adminLastName);
             admin.setBirthDate(LocalDate.parse(adminBirthDate)); // Ensure this format matches the input format!!!

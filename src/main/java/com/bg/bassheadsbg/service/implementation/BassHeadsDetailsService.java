@@ -19,7 +19,6 @@ public class BassHeadsDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository
@@ -30,12 +29,11 @@ public class BassHeadsDetailsService implements UserDetailsService {
     }
 
     private static UserDetails mapUser(UserEntity userEntity) {
-
         return new BassHeadsUserDetails(
-
                 userEntity.getUsername(),
                 userEntity.getPassword(),
-                userEntity.getRoles().stream().map(UserRole::getRole).map(BassHeadsDetailsService::map).toList()
+                userEntity.getRoles().stream().map(UserRole::getRole).map(BassHeadsDetailsService::map).toList(),
+                userEntity.isEnabled()
         );
     }
 

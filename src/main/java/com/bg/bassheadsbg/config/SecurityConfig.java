@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.config;
 
 import com.bg.bassheadsbg.config.custom.CustomAccessDeniedHandler;
+import com.bg.bassheadsbg.config.custom.CustomAuthenticationFailureHandler;
 import com.bg.bassheadsbg.config.custom.CustomLogoutHandler;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.implementation.BassHeadsDetailsService;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 public class SecurityConfig {
@@ -55,7 +57,7 @@ public class SecurityConfig {
                                 .usernameParameter("username")
                                 .passwordParameter("password")
                                 .defaultSuccessUrl("/", true)
-                                .failureForwardUrl("/users/login-error")
+                                .failureHandler(authenticationFailureHandler())
                 )
                 .logout(
                         logout ->
@@ -63,7 +65,7 @@ public class SecurityConfig {
                                         .logoutUrl("/users/logout")
                                         .logoutSuccessUrl("/")
                                         .invalidateHttpSession(true)
-                                        .addLogoutHandler(customLogoutHandler) // Register the custom logout handler
+                                        .addLogoutHandler(customLogoutHandler)
                 )
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling
@@ -80,5 +82,10 @@ public class SecurityConfig {
     @Bean
     public BassHeadsDetailsService userDetailsService(UserRepository userRepository) {
         return new BassHeadsDetailsService(userRepository);
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 }

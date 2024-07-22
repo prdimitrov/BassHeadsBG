@@ -45,15 +45,15 @@ public class AllUsersController {
         return "redirect:/users/all";
     }
 
-    @PostMapping("/ban/{userId}")
-    public String banUser(@PathVariable Long userId) {
-        userService.banUser(userId);
+    @PostMapping("/disable/{userId}")
+    public String disableUser(@PathVariable Long userId) {
+        userService.disableUser(userId);
         return "redirect:/users/all";
     }
 
-    @PostMapping("/unban/{userId}")
-    public String unbanUser(@PathVariable Long userId) {
-        userService.unbanUser(userId);
+    @PostMapping("/enable/{userId}")
+    public String enableUser(@PathVariable Long userId) {
+        userService.enableUser(userId);
         return "redirect:/users/all";
     }
 }

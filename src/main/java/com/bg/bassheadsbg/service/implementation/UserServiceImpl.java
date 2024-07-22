@@ -67,23 +67,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity banUser(Long userId) {
+    public UserEntity enableUser(Long userId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
-        userEntity.setBanned(true);
-        userEntity.getRoles().clear();
+        userEntity.setEnabled(true);
         return userRepository.save(userEntity);
     }
 
     @Override
-    public UserEntity unbanUser(Long userId) {
+    public UserEntity disableUser(Long userId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
-        userEntity.setBanned(false);
-        UserRole userRole = roleService.findByName(UserRoleEnum.USER);
-        userEntity.getRoles().add(userRole);
-
+        userEntity.setEnabled(false);
         return userRepository.save(userEntity);
+    }
+
+    @Override
+    public boolean isAccountDisabled(String username) {
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+        return !user.isEnabled();
     }
 
     private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {

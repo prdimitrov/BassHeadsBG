@@ -55,9 +55,8 @@ public class UserEntity extends BaseEntity {
     )
     private Set<UserRole> roles = new HashSet<>();
 
-    private boolean isBanned;
-
-    private boolean isVerified;
+    @Column(nullable = false)
+    private boolean enabled = true;
 
     public UserEntity() {
         super();

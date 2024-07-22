@@ -1,0 +1,24 @@
+th {
+    font-weight: bold;
+}
+
+.center-table {
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+
+.adm-btns {
+    display: flex;
+    gap: 0.7em;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.adm-btns form {
+    box-shadow: none;
+}
+
+.adm-btns button {
+    border-radius: 20px;
+}

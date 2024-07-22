@@ -19,8 +19,9 @@ public interface UserService {
 
     void removeRoleToUserId(String role, Long userId);
 
-    UserEntity banUser(Long userId);
+    UserEntity enableUser(Long userId);
 
-    UserEntity unbanUser(Long userId);
+    UserEntity disableUser(Long userId);
 
+    boolean isAccountDisabled(String username);
 }
