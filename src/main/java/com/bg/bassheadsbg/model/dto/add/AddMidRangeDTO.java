@@ -17,49 +17,62 @@ public class AddMidRangeDTO {
 
     private long id;
 
-    @Positive
-    private int price;
+    @Positive(message = "{price.positive}")
+    @NotNull(message = "{price.positive}")
+    @Max(value = 50000, message = "{price.max50000}")
+    private Integer price;
 
-    @NotBlank
+    @NotBlank(message = "{brand.notBlank}")
+    @Size(min = 3, max = 15, message = "{brand.min3max15}")
     private String brand;
 
     @NotBlank
+    @Size(min = 3, max = 30, message = "{model.min3max30}")
     private String model;
 
-    @PositiveOrZero
-    @NotNull
-    private float sensitivity;
+    @PositiveOrZero(message = "{sensitivity.positiveOrZero}")
+    @NotNull(message = "{sensitivity.positiveOrZero}")
+    @DecimalMax(value = "50", message = "{sensitivity.max50}")
+    private Double sensitivity;
 
-    @Positive
-    @NotNull
-    @DecimalMax(value = "50", message = "Виждал ли си говорител по-голям от 50 инча?!")
-    private float size;
+    @NotNull(message = "{size.positive}")
+    @Positive(message = "{size.positive}")
+    @DecimalMax(value = "50", message = "{size.max50}")
+    private Double size;
 
-    @Positive
-    @NotNull
-    private float frequencyResponse;
+    @Positive(message = "{frequencyResponse.positive}")
+    @NotNull(message = "{frequencyResponse.positive}")
+    @DecimalMax(value = "20000", message = "{frequencyResponse.max20000}")
+    private Double frequencyResponse;
 
-    @Positive
-    @NotNull
-    private byte numberOfCoils;
+    @Positive(message = "{numberOfCoils.positive}")
+    @NotNull(message = "{numberOfCoils.positive}")
+    @Max(value = 4, message = "{numberOfCoils.max4}")
+    private Integer numberOfCoils;
 
-    @Positive
-    @NotNull
-    private float impedance;
+    @Positive(message = "{impedance.positive}")
+    @NotNull(message = "{impedance.positive}")
+    @DecimalMax(value = "16", message = "{impedance.max16}")
+    private Double impedance;
 
-    @Positive
-    @NotNull
-    private short powerHandling;
+    @Positive(message = "{powerHandling.positive}")
+    @NotNull(message = "{powerHandling.positive}")
+    @Max(value = 32000, message = "{powerHandling.max32000}")
+    private Integer powerHandling;
 
-    @Positive
-    @NotNull
-    private int frequencyRangeFrom;
+    @Positive(message = "{frequencyRangeFrom.positive}")
+    @NotNull(message = "{frequencyRangeFrom.positive}")
+    @Max(value = 40000, message = "{frequencyRangeFrom.max40000}")
+    private Integer frequencyRangeFrom;
 
-    @Positive
-    @NotNull
-    private int frequencyRangeTo;
+    @Positive(message = "{frequencyRangeTo.positive}")
+    @NotNull(message = "{frequencyRangeTo.positive}")
+    @Max(value = 80000, message = "{frequencyRangeTo.max80000}")
+    private Integer frequencyRangeTo;
 
-    @ValidUrlList
-    private List<@URL @NotBlank String> images = new ArrayList<>();
+    @ValidUrlList(message = "{images.validUrlList}")
+    private List<@URL(message = "{images.url}")
+    @NotBlank(message = "{images.notBlank}")
+            String> images = new ArrayList<>();
 
 }

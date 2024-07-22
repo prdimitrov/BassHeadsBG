@@ -16,84 +16,107 @@ public class AddSubwooferDTO {
 
     private long id;
 
-    @Positive
-    private int price;
+    @Positive(message = "{price.positive}")
+    @NotNull(message = "{price.positive}")
+    @Max(value = 50000, message = "{price.max50000}")
+    private Integer price;
 
-    @NotBlank
+    @NotBlank(message = "{brand.notBlank}")
+    @Size(min = 3, max = 15, message = "{brand.min3max15}")
     private String brand;
 
     @NotBlank
+    @Size(min = 3, max = 30, message = "{model.min3max30}")
     private String model;
 
-    @PositiveOrZero
-    private float sensitivity;
+    @PositiveOrZero(message = "{sensitivity.positiveOrZero}")
+    @NotNull(message = "{sensitivity.positiveOrZero}")
+    @DecimalMax(value = "50", message = "{sensitivity.max50}")
+    private Double sensitivity;
 
-    @Positive
-    @NotNull
-    @DecimalMax(value = "50", message = "Виждал ли си говорител по-голям от 50 инча?!")
-    private float size;
+    @NotNull(message = "{size.positive}")
+    @Positive(message = "{size.positive}")
+    @DecimalMax(value = "50", message = "{size.max50}")
+    private Double size;
 
-    @Positive
-    @NotNull
-    private float frequencyResponse;
+    @Positive(message = "{frequencyResponse.positive}")
+    @NotNull(message = "{frequencyResponse.positive}")
+    @DecimalMax(value = "20000", message = "{frequencyResponse.max20000}")
+    private Double frequencyResponse;
 
-    @Positive
-    @NotNull
-    private byte numberOfCoils;
+    @Positive(message = "{numberOfCoils.positive}")
+    @NotNull(message = "{numberOfCoils.positive}")
+    @Max(value = 4, message = "{numberOfCoils.max4}")
+    private Integer numberOfCoils;
 
-    @Positive
-    @NotNull
-    private float impedance;
+    @Positive(message = "{impedance.positive}")
+    @NotNull(message = "{impedance.positive}")
+    @DecimalMax(value = "16", message = "{impedance.max16}")
+    private Double impedance;
 
-    @Positive
-    @NotNull
-    private short powerHandling;
+    @Positive(message = "{powerHandling.positive}")
+    @NotNull(message = "{powerHandling.positive}")
+    @Max(value = 32000, message = "{powerHandling.max32000}")
+    private Integer powerHandling;
 
-    @Positive
-    @NotNull
-    private float coilHeight;
+    @Positive(message = "{coilHeight.positive}")
+    @NotNull(message = "{coilHeight.positive}")
+    @DecimalMax(value = "10", message = "{coilHeight.max10}")
+    private Double coilHeight;
 
-    @PositiveOrZero
-    @NotNull
-    private byte coilLayers;
+    @PositiveOrZero(message = "{coilLayers.positiveOrZero}")
+    @NotNull(message = "{coilLayers.positiveOrZero}")
+    @Max(value = 20, message = "{coilLayers.max20}")
+    private Integer coilLayers;
 
-    @Positive
-    @NotNull
-    private short magnetSize;
+    @Positive(message = "{magnetSize.positive}")
+    @NotNull(message = "{magnetSize.positive}")
+    @Max(value = 5000, message = "{magnetSize.max5000}")
+    private Integer magnetSize;
 
-    @PositiveOrZero
-    @NotNull
-    private float vas;
+    @PositiveOrZero(message = "{vas.positiveOrZero}")
+    @NotNull(message = "{vas.positiveOrZero}")
+    @DecimalMax(value = "1000", message = "{vas.max1000}")
+    private Double vas;
 
-    @Positive
-    @NotNull
-    private byte xmax;
+    @Positive(message = "{xmax.positive}")
+    @NotNull(message = "{xmax.positive}")
+    @Max(value = 100, message = "{xmax.max100}")
+    private Integer xmax;
 
-    @PositiveOrZero
-    @NotNull
-    private float qms;
+    @PositiveOrZero(message = "{qms.positiveOrZero}")
+    @NotNull(message = "{qms.positiveOrZero}")
+    @DecimalMax(value = "30", message = "{qms.max30}")
+    private Double qms;
 
-    @PositiveOrZero
-    @NotNull
-    private float qes;
+    @PositiveOrZero(message = "{qes.positiveOrZero}")
+    @NotNull(message = "{qes.positiveOrZero}")
+    @DecimalMax(value = "10", message = "{qes.max10}")
+    private Double qes;
 
-    @PositiveOrZero
-    @NotNull
-    private float qts;
+    @PositiveOrZero(message = "{qts.positiveOrZero}")
+    @NotNull(message = "{qts.positiveOrZero}")
+    @DecimalMax(value = "10", message = "{qts.max10}")
+    private Double qts;
 
-    @PositiveOrZero
-    @NotNull
-    private float sd;
+    @PositiveOrZero(message = "{sd.positiveOrZero}")
+    @NotNull(message = "{sd.positiveOrZero}")
+    @DecimalMax(value = "2000", message = "{sd.max2000}")
+    private Double sd;
 
-    @PositiveOrZero
-    @NotNull
-    private float bl;
+    @PositiveOrZero(message = "{bl.positiveOrZero}")
+    @NotNull(message = "{bl.positiveOrZero}")
+    @DecimalMax(value = "150", message = "{bl.max150}")
+    private Double bl;
 
-    @Positive
-    @NotNull
-    private float mms;
+    @Positive(message = "{mms.positive}")
+    @NotNull(message = "{mms.positive}")
+    @DecimalMax(value = "3000", message = "{mms.max3000}")
+    private Double mms;
 
-    @ValidUrlList
-    private List<@URL @NotBlank String> images = new ArrayList<>();
+    @ValidUrlList(message = "{images.validUrlList}")
+    private List<@URL(message = "{images.url}")
+    @NotBlank(message = "{images.notBlank}")
+            String> images = new ArrayList<>();
 
 }
