@@ -8,7 +8,10 @@ import com.bg.bassheadsbg.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,16 +22,17 @@ import java.util.Set;
 
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class) //For JUnit 5
 public class BassHeadsDetailsServiceTest {
 
-    static final String TEST_EMAIL = "ancho@abv.bg";
+    private static final String TEST_EMAIL = "ancho@abv.bg";
 
-    static final String NOT_EXISTENT_EMAIL = "noone@example.com";
+    private static final String NOT_EXISTENT_EMAIL = "noone@example.com";
 
-    static final String TEST_USERNAME = "DASKAL";
+    private static final String TEST_USERNAME = "DASKAL";
 
     private BassHeadsDetailsService toTest;
-
+    @Mock
     private UserRepository mockUserRepository;
 
     @BeforeEach
@@ -51,9 +55,9 @@ public class BassHeadsDetailsServiceTest {
         testUser.setEnabled(true);
         testUser.setBirthDate(LocalDate.ofEpochDay(1997-15-12));
         UserRole adminRole = new UserRole();
-        adminRole.setRole(UserRoleEnum.USER);
+        adminRole.setRole(UserRoleEnum.ADMIN);
         UserRole userRole = new UserRole();
-        userRole.setRole(UserRoleEnum.ADMIN);
+        userRole.setRole(UserRoleEnum.USER);
         testUser.setRoles(Set.of(userRole, adminRole));
 
         /*Mockito.*/when(mockUserRepository.findByUsername(TEST_USERNAME))
@@ -71,7 +75,7 @@ public class BassHeadsDetailsServiceTest {
         Assertions.assertEquals(testUser.getPassword(), userDetails.getPassword());
 
         var exectedRoles = testUser.getRoles().stream().map(UserRole::getRole).map(r -> "ROLE_" + r).toList();
-        var actualRoles = userDetails.getAuthorities().stream().map(a -> a.getAuthority()).toList();
+        var actualRoles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
         Assertions.assertEquals(exectedRoles, actualRoles);
     }
