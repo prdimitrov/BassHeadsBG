@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.service.interfaces;
 
 import com.bg.bassheadsbg.model.dto.exchanges.ExRatesDTO;
+import com.bg.bassheadsbg.model.entity.ExRateEntity;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ExRateService {
     void updateRates(ExRatesDTO exRatesDTO);
 
     BigDecimal convert(String from, String to, BigDecimal amount);
+
+    List<ExRateEntity> getAllExRates();
 }

@@ -114,4 +114,9 @@ public class ExRateServiceImpl implements ExRateService {
                 .orElseThrow(() -> new ApiNotFoundException("Conversion from " + from + " to " + to + " not possible!", from + "~" + to))
                 .multiply(amount);
     }
+
+    @Override
+    public List<ExRateEntity> getAllExRates() {
+        return exRateRepository.findAll();
+    }
 }

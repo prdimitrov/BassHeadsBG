@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.init;
 
+import com.bg.bassheadsbg.event.InitializationEvent;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
@@ -7,6 +8,7 @@ import com.bg.bassheadsbg.repository.RoleRepository;
 import com.bg.bassheadsbg.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class AdminInit implements CommandLineRunner {
+public class AdminInitialization implements CommandLineRunner {
 
     @Value("${admin.username}")
     private String adminUsername;
@@ -38,11 +40,13 @@ public class AdminInit implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public AdminInit(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public AdminInitialization(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -64,6 +68,8 @@ public class AdminInit implements CommandLineRunner {
 
             admin.setRoles(roles);
             userRepository.save(admin);
+
+            eventPublisher.publishEvent(new InitializationEvent(this, "Admin user initialized with username: " + adminUsername));
         }
     }
 
