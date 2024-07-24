@@ -5,10 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,42 +20,53 @@ import java.util.List;
 @MappedSuperclass
 public abstract class BaseSpeaker extends BaseEntity {
 
-    @Positive
+    @Positive(message = "{price.positive}")
+    @NotNull(message = "{price.positive}")
+    @Max(value = 50000, message = "{price.max50000}")
     private int price;
 
-    @NotBlank
+    @NotBlank(message = "{brand.notBlank}")
+    @Size(min = 3, max = 15, message = "{brand.min3max15}")
     private String brand;
 
     @NotBlank
+    @Size(min = 3, max = 30, message = "{model.min3max30}")
     private String model;
 
-    @PositiveOrZero
-    @NotNull
+    @PositiveOrZero(message = "{sensitivity.positiveOrZero}")
+    @NotNull(message = "{sensitivity.positiveOrZero}")
+    @DecimalMax(value = "150", message = "{sensitivity.max150}")
     private float sensitivity;
 
-    @Positive
-    @NotNull
+    @NotNull(message = "{size.positive}")
+    @Positive(message = "{size.positive}")
+    @DecimalMax(value = "50", message = "{size.max50}")
     private float size;
 
-    @PositiveOrZero
-    @NotNull
+    @Positive(message = "{frequencyResponse.positive}")
+    @NotNull(message = "{frequencyResponse.positive}")
+    @DecimalMax(value = "20000", message = "{frequencyResponse.max20000}")
     private float frequencyResponse;
 
-    @PositiveOrZero
-    @NotNull
+    @Positive(message = "{numberOfCoils.positive}")
+    @NotNull(message = "{numberOfCoils.positive}")
+    @Max(value = 4, message = "{numberOfCoils.max4}")
     private byte numberOfCoils;
 
-    @PositiveOrZero
-    @NotNull
+    @Positive(message = "{impedance.positive}")
+    @NotNull(message = "{impedance.positive}")
+    @DecimalMax(value = "16", message = "{impedance.max16}")
     private float impedance;
 
-    @PositiveOrZero
-    @NotNull
+    @Positive(message = "{powerHandling.positive}")
+    @NotNull(message = "{powerHandling.positive}")
+    @Max(value = 32000, message = "{powerHandling.max32000}")
     private short powerHandling;
 
     @ValidUrlList
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "images")
-    private List<@URL @NotBlank String> images = new ArrayList<>();
+    private List<@URL(message = "{images.url}") @NotBlank(message = "{images.notBlank}")
+            String> images = new ArrayList<>();
 
 }

@@ -32,7 +32,7 @@ public class AddMidRangeDTO {
 
     @PositiveOrZero(message = "{sensitivity.positiveOrZero}")
     @NotNull(message = "{sensitivity.positiveOrZero}")
-    @DecimalMax(value = "50", message = "{sensitivity.max50}")
+    @DecimalMax(value = "150", message = "{sensitivity.max150}")
     private String sensitivity;
 
     @NotNull(message = "{size.positive}")
