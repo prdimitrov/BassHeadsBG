@@ -3,18 +3,13 @@ package com.bg.bassheadsbg.web.controller.amplifierControllers;
 import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
-import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
-import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MultiChannelAmpService;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -37,13 +32,7 @@ public class MultiChannelAmplifierController {
     @PostMapping("/add")
     public String addMultiChannelAmp(@Valid @ModelAttribute("addMultiChannelAmpDTO") AddMultiChannelAmpDTO addMultiChannelAmpDTO,
                                      BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) throws JsonProcessingException {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("addMultiChannelAmpDTO", addMultiChannelAmpDTO);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMultiChannelAmpDTO", bindingResult);
-            return "redirect:/amplifiers/multi-channel-amplifiers/add";
-        }
-
+                                     RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMultiChannelAmpDTO", addMultiChannelAmpDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMultiChannelAmpDTO", bindingResult);
@@ -64,8 +53,7 @@ public class MultiChannelAmplifierController {
                                          Model model) {
 
         if (!model.containsAttribute("multiChannelAmpDetails")) {
-            MultiChannelAmpDetailsDTO multiChannelAmpDetailsDTO = multiChannelAmpService.getDeviceDetails(id);
-            model.addAttribute("multiChannelAmpDetails", multiChannelAmpDetailsDTO);
+            model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
         }
         return "/amplifiers/multichannel-amp-edit";
     }
@@ -116,11 +104,11 @@ public class MultiChannelAmplifierController {
     }
 
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(DeviceNotFoundException.class)
-    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
-        ModelAndView modelAndView = new ModelAndView("/error/not-found");
-        modelAndView.addObject("name", onfe.getId());
-        return modelAndView;
-    }
+//    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+//    @ExceptionHandler(DeviceNotFoundException.class)
+//    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
+//        ModelAndView modelAndView = new ModelAndView("/error/not-found");
+//        modelAndView.addObject("name", onfe.getId());
+//        return modelAndView;
+//    }
 }

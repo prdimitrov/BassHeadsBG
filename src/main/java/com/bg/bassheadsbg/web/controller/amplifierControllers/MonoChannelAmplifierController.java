@@ -3,17 +3,14 @@ package com.bg.bassheadsbg.web.controller.amplifierControllers;
 
 import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -43,7 +40,6 @@ public class MonoChannelAmplifierController {
         }
 
         try {
-//            long deviceId = monoAmpService.addDevice(addMonoAmpDTO);
             return "redirect:/amplifiers/mono-amplifiers/" + monoAmpService.addDevice(addMonoAmpDTO);
         } catch (JsonProcessingException | DeviceAlreadyExistsException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -55,8 +51,6 @@ public class MonoChannelAmplifierController {
     @GetMapping("/edit/{id}")
     public String getEditMonoAmp(@PathVariable("id") Long id,
                                  Model model) {
-
-//        MonoAmpDetailsDTO monoAmpDetailsDTO = monoAmpService.getDeviceDetails(id);
         if (!model.containsAttribute("monoAmpDetails")) {
             model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
         }
@@ -72,8 +66,6 @@ public class MonoChannelAmplifierController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "monoAmpDetails", bindingResult);
             return "redirect:/amplifiers/mono-amplifiers/edit/" + addMonoAmpDTO.getId();
         }
-
-//        long newMonoAmp = monoAmpService.editDevice(addMonoAmpDTO);
         return "redirect:/amplifiers/mono-amplifiers/" + monoAmpService.editDevice(addMonoAmpDTO);
     }
 
@@ -110,11 +102,11 @@ public class MonoChannelAmplifierController {
         }
     }
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(DeviceNotFoundException.class)
-    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
-        ModelAndView modelAndView = new ModelAndView("/error/not-found");
-        modelAndView.addObject("name", onfe.getId());
-        return modelAndView;
-    }
+//    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+//    @ExceptionHandler(DeviceNotFoundException.class)
+//    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
+//        ModelAndView modelAndView = new ModelAndView("/error/not-found");
+//        modelAndView.addObject("name", onfe.getId());
+//        return modelAndView;
+//    }
 }

@@ -3,8 +3,6 @@ package com.bg.bassheadsbg.web.controller.speakerControllers;
 import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
-import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
-import com.bg.bassheadsbg.model.helpers.SubwooferDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,7 +35,7 @@ public class SubwooferController {
     @PostMapping("/add")
     public String addSubwoofer(@Valid @ModelAttribute("addSubwooferDTO") AddSubwooferDTO addSubwooferDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                               RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addSubwooferDTO", addSubwooferDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addSubwooferDTO", bindingResult);
@@ -56,10 +54,8 @@ public class SubwooferController {
     @GetMapping("/edit/{id}")
     public String getEditSubwoofer(@PathVariable("id") Long id,
                                   Model model) {
-        SubwooferDetailsDTO subwooferDetailsDTO = subwooferService.getDeviceDetails(id);
-
         if (!model.containsAttribute("subwooferDetails")) {
-            model.addAttribute("subwooferDetails", subwooferDetailsDTO);
+            model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
         }
         return "/speakers/subwoofer-edit";
     }
@@ -109,11 +105,11 @@ public class SubwooferController {
         }
     }
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(DeviceNotFoundException.class)
-    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
-        ModelAndView modelAndView = new ModelAndView("/error/not-found");
-        modelAndView.addObject("name", onfe.getId());
-        return modelAndView;
-    }
+//    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+//    @ExceptionHandler(DeviceNotFoundException.class)
+//    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
+//        ModelAndView modelAndView = new ModelAndView("/error/not-found");
+//        modelAndView.addObject("name", onfe.getId());
+//        return modelAndView;
+//    }
 }

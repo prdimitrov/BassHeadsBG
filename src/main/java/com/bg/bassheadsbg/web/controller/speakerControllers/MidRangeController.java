@@ -56,10 +56,8 @@ public class MidRangeController {
     @GetMapping("/edit/{id}")
     public String getEditMidRange(@PathVariable("id") Long id,
                                    Model model) {
-
-        MidRangeDetailsDTO midRangeDetailsDTO = midRangeService.getDeviceDetails(id);
         if (!model.containsAttribute("midRangeDetails")) {
-            model.addAttribute("midRangeDetails", midRangeDetailsDTO);
+            model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
         }
         return "/speakers/midrange-edit";
     }
@@ -110,13 +108,11 @@ public class MidRangeController {
             return "redirect:/speakers/mid-range/rankings";
         }
     }
-
-
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(DeviceNotFoundException.class)
-    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
-        ModelAndView modelAndView = new ModelAndView("/error/not-found");
-        modelAndView.addObject("name", onfe.getId());
-        return modelAndView;
-    }
+//    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+//    @ExceptionHandler(DeviceNotFoundException.class)
+//    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
+//        ModelAndView modelAndView = new ModelAndView("/error/not-found");
+//        modelAndView.addObject("name", onfe.getId());
+//        return modelAndView;
+//    }
 }

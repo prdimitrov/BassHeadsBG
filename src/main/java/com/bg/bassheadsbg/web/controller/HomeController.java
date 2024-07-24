@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.web.controller;
 
-import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.model.dto.details.BassHeadsUserDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

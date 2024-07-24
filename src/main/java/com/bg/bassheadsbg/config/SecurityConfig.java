@@ -8,6 +8,7 @@ import com.bg.bassheadsbg.service.implementation.BassHeadsDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -20,7 +21,7 @@ public class SecurityConfig {
 
     private final CustomLogoutHandler customLogoutHandler;
 
-    public SecurityConfig(CustomLogoutHandler customLogoutHandler) {
+    public SecurityConfig(@Lazy CustomLogoutHandler customLogoutHandler) {
         this.customLogoutHandler = customLogoutHandler;
     }
 

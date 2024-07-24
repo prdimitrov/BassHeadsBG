@@ -114,11 +114,11 @@ public class HighRangeController {
         }
     }
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(DeviceNotFoundException.class)
-    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
-        ModelAndView modelAndView = new ModelAndView("/error/not-found");
-        modelAndView.addObject("name", onfe.getId());
-        return modelAndView;
-    }
+//    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+//    @ExceptionHandler(DeviceNotFoundException.class)
+//    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
+//        ModelAndView modelAndView = new ModelAndView("/error/not-found");
+//        modelAndView.addObject("name", onfe.getId());
+//        return modelAndView;
+//    }
 }
