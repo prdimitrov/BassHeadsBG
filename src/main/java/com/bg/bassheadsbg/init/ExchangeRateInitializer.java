@@ -34,7 +34,9 @@ public class ExchangeRateInitializer implements CommandLineRunner {
                 .map(rate -> rate.getCurrency() + ": " + rate.getRate())
                 .collect(Collectors.joining("\n"));
 
-        eventPublisher.publishEvent(new InitializationEvent(this, "Exchange rates:\n" + exchangeRateDetails));
+        eventPublisher.publishEvent(new InitializationEvent(this, "Exchange rates:\n"
+                + exchangeRateDetails
+                + "\nScroll up to see the loaded exchange rates. :)"));
     }
 
 }
