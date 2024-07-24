@@ -26,7 +26,7 @@ public class AddMidRangeDTO {
     @Size(min = 3, max = 15, message = "{brand.min3max15}")
     private String brand;
 
-    @NotBlank
+    @NotBlank(message = "{model.notBlank}")
     @Size(min = 3, max = 30, message = "{model.min3max30}")
     private String model;
 

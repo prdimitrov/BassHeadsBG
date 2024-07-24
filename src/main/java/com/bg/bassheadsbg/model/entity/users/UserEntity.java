@@ -17,33 +17,33 @@ import java.util.Set;
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
     @Size(min = 3, max = 30,
-            message = "Username length must be between 3 and 30 characters.")
-    @NotBlank
+            message = "{username.min3max30}")
+    @NotBlank(message = "{username.notBlank}")
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Email(message = "Please, enter a valid email.")
-    @NotBlank
+    @Email(message = "{email.valid}")
+    @NotBlank(message = "email.notBlank")
     @Column(nullable = false, unique = true)
     private String email;
 
     @Size(min = 8,
-            message = "Password length must be minimum 8 characters.")
-    @NotBlank
+            message = "{password.sizeMin8}")
+    @NotBlank(message = "{password.notBlank}")
     private String password;
 
     @Size(min = 3, max = 30,
-            message = "Name length must be between 3 and 30 characters.")
-    @NotBlank
+            message = "{firstName.min3max30}")
+    @NotBlank(message = "{firstName.notBlank}")
     private String firstName;
 
     @Size(min = 3, max = 30,
-            message = "Last name length must be between 3 and 30 characters.")
-    @NotBlank
+            message = "{lastName.min3max30}")
+    @NotBlank(message = "{lastName.notBlank}")
     private String lastName;
 
-    @Past(message = "You must be born in the past.")
-    @NotNull
+    @Past(message = "{birthDate.mustBeBornInPast}")
+    @NotNull(message = "{birthDate.notNull}")
     private LocalDate birthDate;
 
     @ManyToMany(fetch = FetchType.EAGER)

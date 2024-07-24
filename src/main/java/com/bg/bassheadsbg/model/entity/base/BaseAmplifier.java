@@ -30,7 +30,7 @@ public abstract class BaseAmplifier extends BaseEntity {
     @Size(min = 3, max = 15, message = "{brand.min3max15}")
     private String brand;
 
-    @NotBlank
+    @NotBlank(message = "{model.notBlank}")
     @Size(min = 3, max = 30, message = "{model.min3max30}")
     private String model;
 
@@ -51,7 +51,7 @@ public abstract class BaseAmplifier extends BaseEntity {
     @Size(max = 100, message = "{highPassFilter.sizeMax100}")
     private String highPassFilter;
 
-    @Size(max = 100, message = "{highPassFilter.sizeMax100}")
+    @Size(max = 100, message = "{lowPassFilter.sizeMax100}")
     private String lowPassFilter;
 
     @Size(max = 100, message = "{subsonicFilter.sizeMax100}")

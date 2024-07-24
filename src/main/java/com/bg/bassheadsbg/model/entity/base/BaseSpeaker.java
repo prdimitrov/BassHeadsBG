@@ -29,7 +29,7 @@ public abstract class BaseSpeaker extends BaseEntity {
     @Size(min = 3, max = 15, message = "{brand.min3max15}")
     private String brand;
 
-    @NotBlank
+    @NotBlank(message = "{model.notBlank}")
     @Size(min = 3, max = 30, message = "{model.min3max30}")
     private String model;
 
@@ -63,7 +63,7 @@ public abstract class BaseSpeaker extends BaseEntity {
     @Max(value = 32000, message = "{powerHandling.max32000}")
     private short powerHandling;
 
-    @ValidUrlList
+    @ValidUrlList(message = "{images.validUrlList}")
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "images")
     private List<@URL(message = "{images.url}") @NotBlank(message = "{images.notBlank}")

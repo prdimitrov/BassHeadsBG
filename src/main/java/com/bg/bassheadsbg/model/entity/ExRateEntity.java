@@ -16,12 +16,12 @@ import java.math.BigDecimal;
 @Table(name = "ex_rates")
 public class ExRateEntity extends BaseEntity {
 
-    @NotEmpty
+    @NotEmpty(message = "{currency.notEmpty}")
     @Column(unique = true)
     private String currency;
 
-    @Positive
-    @NotNull
+    @Positive(message = "{rate.positive}")
+    @NotNull(message = "{rate.notNull}")
     private BigDecimal rate;
 
     public ExRateEntity setCurrency(String currency) {

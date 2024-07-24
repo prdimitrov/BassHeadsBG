@@ -12,40 +12,40 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@FieldsMatch(first = "password", second = "confirmPassword")
+@FieldsMatch(first = "password", second = "confirmPassword", message = "{password.match}")
 public class UserRegistrationDTO {
-    @UniqueUsername(message = "Username already in use.")
+    @UniqueUsername(message = "{username.inUse}")
     @Size(min = 3, max = 30,
-            message = "Username length must be between 3 and 30 characters.")
+            message = "{username.min3max30}")
     @NotBlank
     private String username;
 
-    @UniqueUserEmail(message = "Email already in use.")
-    @Email(message = "Please, enter a valid email.")
-    @NotBlank
+    @UniqueUserEmail(message = "{email.inUse}")
+    @Email(message = "{email.valid}")
+    @NotBlank(message = "{email.NotBlank}")
     private String email;
 
     @Size(min = 8,
-            message = "Password length must be minimum 8 characters.")
-    @NotBlank
+            message = "{password.sizeMin8}")
+    @NotBlank(message = "{password.notBlank}")
     private String password;
 
     @Size(min = 8,
-            message = "Password length must be minimum 8 characters.")
-    @NotBlank
+            message = "{password.sizeMin8}")
+    @NotBlank(message = "{password.notBlank}")
     private String confirmPassword;
 
     @Size(min = 3, max = 30,
-            message = "Name length must be between 3 and 30 characters.")
-    @NotBlank
+            message = "{firstName.min3max30}")
+    @NotBlank(message = "firstName.notBlank")
     private String firstName;
 
     @Size(min = 3, max = 30,
-            message = "Last name length must be between 3 and 30 characters.")
-    @NotBlank
+            message = "{lastName.min3max30}")
+    @NotBlank(message = "{lastName.notBlank}")
     private String lastName;
 
-    @Past(message = "You must be born in the past.")
-    @NotNull
+    @Past(message = "{birthDate.mustBeBornInPast}")
+    @NotNull(message = "{birthDate.notNull}")
     private LocalDate birthDate;
 }
