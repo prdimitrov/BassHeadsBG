@@ -17,11 +17,6 @@ public class HomeController {
     @GetMapping("/")
     public String home(@AuthenticationPrincipal UserDetails userDetails,
                        Model model) {
-        //FIXME: This was used to test the kafka!
-        //        ImageListDTO temp = new ImageListDTO();
-        //        temp.imageUrls = new ArrayList<String>();
-        //        temp.imageUrls.add("http://caraudio-bg.com/img/products/products_1869_444333028400.4%20EVO6--.jpg");
-        //        imageProducer.sendMessage(temp);
         if (userDetails instanceof BassHeadsUserDetails bassHeadsUserDetails) {
             model.addAttribute("welcomeMessage", (", " + bassHeadsUserDetails.getUsername()));
         } else {
