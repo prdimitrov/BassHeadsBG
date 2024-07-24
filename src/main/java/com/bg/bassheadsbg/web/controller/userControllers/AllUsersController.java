@@ -24,8 +24,7 @@ public class AllUsersController {
 
     @GetMapping("/all")
     public String allUsers(Model model) {
-        List<UserEntity> users = userService.findAllUsers();
-        model.addAttribute("users", users);
+        model.addAttribute("users", userService.findAllUsers());
         return "/users/all-users";
     }
 

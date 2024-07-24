@@ -120,12 +120,11 @@
                     </div>
 
                     <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
-                        <form th:action="@{/speakers/mid-range/edit/{id}(id=${midRangeDetails.id})}"
-                              th:object="${midRangeDetails}" method="get">
+                        <form th:action="@{/speakers/mid-range/edit/{id}(id=${midRangeDetails.id})}" th:object="${midRangeDetails}" method="get">
                             <input type="hidden" th:field="*{id}"/>
                             <input class="btn btn-info btn-lg" type="submit" th:value="#{update}"/>
                         </form>
-                        <form th:method="delete" th:action="@{/speakers/mid-range/{id}(id=${midRangeDetails.id})}">
+                        <form th:method="delete" th:action="@{/speakers/mid-range/delete/{id}(id=${midRangeDetails.id})}">
                             <input class="btn btn-info btn-lg" type="submit" th:value="#{delete}"/>
                         </form>
                     </div>

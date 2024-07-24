@@ -90,7 +90,7 @@ public class HighRangeController {
         return "/speakers/highrange-details";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteHighRange(@PathVariable("id") Long id) {
         highRangeService.deleteDevice(id);
         return "redirect:/";
@@ -113,12 +113,4 @@ public class HighRangeController {
             return "redirect:/speakers/high-range/rankings";
         }
     }
-
-//    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-//    @ExceptionHandler(DeviceNotFoundException.class)
-//    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
-//        ModelAndView modelAndView = new ModelAndView("/error/not-found");
-//        modelAndView.addObject("name", onfe.getId());
-//        return modelAndView;
-//    }
 }

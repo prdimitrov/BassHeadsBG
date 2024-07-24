@@ -78,7 +78,7 @@ public class MonoChannelAmplifierController {
         return "/amplifiers/monoamp-details";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteMonoAmp(@PathVariable("id") Long id) {
         monoAmpService.deleteDevice(id);
         return "redirect:/";
@@ -101,12 +101,4 @@ public class MonoChannelAmplifierController {
             return "redirect:/amplifiers/mono-amplifiers/rankings";
         }
     }
-
-//    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-//    @ExceptionHandler(DeviceNotFoundException.class)
-//    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
-//        ModelAndView modelAndView = new ModelAndView("/error/not-found");
-//        modelAndView.addObject("name", onfe.getId());
-//        return modelAndView;
-//    }
 }

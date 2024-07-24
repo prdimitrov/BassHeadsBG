@@ -81,7 +81,7 @@ public class SubwooferController {
         return "/speakers/subwoofer-details";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteSubwoofer(@PathVariable("id") Long id) {
         subwooferService.deleteDevice(id);
         return "redirect:/";

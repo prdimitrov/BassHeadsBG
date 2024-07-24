@@ -45,11 +45,26 @@ public class SecurityConfig {
                                                 "/api/convert",
                                                 "/about",
                                                 "/contacts").permitAll()
-                                        .requestMatchers("/speakers/high-range/add",
+                                        .requestMatchers("/users/all",
+                                                "/users/add-role/**",
+                                                "/users/remove-role/**",
+                                                "/users/enable/**",
+                                                "/users/disable/**",
+                                                "/speakers/high-range/add",
+                                                "/speakers/high-range/edit/**",
+                                                "/speakers/high-range/delete/**",
                                                 "/speakers/mid-range/add",
+                                                "/speakers/mid-range/edit/**",
+                                                "/speakers/mid-range/delete/**",
                                                 "/speakers/subwoofers/add",
+                                                "/speakers/subwoofers/edit/**",
+                                                "/speakers/subwoofers/delete/**",
                                                 "/amplifiers/mono-amp/add",
-                                                "/amplifiers/multi-channel-amp/add").hasRole("ADMIN")
+                                                "/amplifiers/mono-amp/edit/**",
+                                                "/amplifiers/mono-amp/delete/**",
+                                                "/amplifiers/multi-channel-amp/add",
+                                                "/amplifiers/multi-channel-amp/edit/**",
+                                                "/amplifiers/multi-channel-amp/delete/**").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->

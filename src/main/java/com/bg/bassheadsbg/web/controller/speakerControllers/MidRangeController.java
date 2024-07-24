@@ -85,7 +85,7 @@ public class MidRangeController {
         return "/speakers/midrange-details";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteMidRange(@PathVariable("id") Long id) {
         midRangeService.deleteDevice(id);
         return "redirect:/";
@@ -108,11 +108,4 @@ public class MidRangeController {
             return "redirect:/speakers/mid-range/rankings";
         }
     }
-//    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-//    @ExceptionHandler(DeviceNotFoundException.class)
-//    public ModelAndView handleObjectNotFound(DeviceNotFoundException onfe) {
-//        ModelAndView modelAndView = new ModelAndView("/error/not-found");
-//        modelAndView.addObject("name", onfe.getId());
-//        return modelAndView;
-//    }
 }

@@ -190,7 +190,7 @@
                             <input class="btn btn-info btn-lg" type="submit" th:value="#{update}"/>
                         </form>
                         <form th:method="delete"
-                              th:action="@{/amplifiers/mono-amplifiers/{id}(id=${monoAmpDetails.id})}">
+                              th:action="@{/amplifiers/mono-amplifiers/delete/{id}(id=${monoAmpDetails.id})}">
                             <input class="btn btn-info btn-lg" type="submit" th:value="#{delete}"/>
                         </form>
                     </div>
