@@ -3,7 +3,7 @@ package com.bg.bassheadsbg.service.implementation;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.repository.RoleRepository;
-import com.bg.bassheadsbg.service.RoleService;
+import com.bg.bassheadsbg.service.interfaces.RoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

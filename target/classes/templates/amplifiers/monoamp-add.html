@@ -26,6 +26,9 @@
 
 <div class="container">
     <h2 class="text-center text-white" th:text="#{upload_amplifier}"></h2>
+    <div class="alert alert-danger text-center" th:if="${errorMessage}" role="alert">
+        <h3 th:text="${errorMessage}"></h3>
+    </div>
     <form
             th:action="@{/amplifiers/mono-amplifiers/add}"
             th:method="post"

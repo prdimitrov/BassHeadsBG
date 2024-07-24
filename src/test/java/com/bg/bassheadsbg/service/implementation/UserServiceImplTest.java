@@ -2,7 +2,7 @@ package com.bg.bassheadsbg.service.implementation;
 
 import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
 import com.bg.bassheadsbg.repository.UserRepository;
-import com.bg.bassheadsbg.service.RoleService;
+import com.bg.bassheadsbg.service.interfaces.RoleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

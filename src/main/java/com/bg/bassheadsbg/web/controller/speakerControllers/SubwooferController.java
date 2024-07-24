@@ -1,5 +1,7 @@
 package com.bg.bassheadsbg.web.controller.speakerControllers;
 
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.SubwooferDetailsHelperDTO;
@@ -27,14 +29,9 @@ public class SubwooferController {
     @GetMapping("/add")
     public String addSubwoofer(Model model) {
         if (!model.containsAttribute("addSubwooferDTO")) {
-            model.addAttribute("addSubwooferDTO", new AddSubwooferDTO());
+            model.addAttribute("addSubwooferDTO", subwooferService.createNewSubwooferDTO());
         }
         return "/speakers/subwoofer-add";
-    }
-
-    @ModelAttribute("addSubwooferDTO")
-    public AddSubwooferDTO addSubwooferDTO() {
-        return new AddSubwooferDTO();
     }
 
     @PostMapping("/add")
@@ -47,8 +44,13 @@ public class SubwooferController {
             return "redirect:/speakers/subwoofers/add";
         }
 
-        long newSubwoofer = subwooferService.addDevice(addSubwooferDTO);
-        return "redirect:/speakers/subwoofers/" + newSubwoofer;
+        try {
+            return "redirect:/speakers/subwoofers/" + subwooferService.addDevice(addSubwooferDTO);
+        } catch (JsonProcessingException | DeviceAlreadyExistsException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("addSubwooferDTO", addSubwooferDTO);
+            return "redirect:/speakers/subwoofers/add";
+        }
     }
 
     @GetMapping("/edit/{id}")
@@ -65,28 +67,21 @@ public class SubwooferController {
     @PostMapping("/edit/{id}")
     public String postEditSubwoofer(@Valid @ModelAttribute("subwooferDetails") AddSubwooferDTO addSubwooferDTO,
                                    BindingResult bindingResult,
-                                   RedirectAttributes redirectAttributes) {
+                                   RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("subwooferDetails", addSubwooferDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "subwooferDetails", bindingResult);
             return "redirect:/speakers/subwoofers/edit/" + addSubwooferDTO.getId();
         }
 
-        long newSubwoofer = subwooferService.editDevice(addSubwooferDTO);
-        return "redirect:/speakers/subwoofers/" + newSubwoofer;
+        return "redirect:/speakers/subwoofers/" + subwooferService.editDevice(addSubwooferDTO);
     }
 
     @GetMapping("/{id}")
     public String subwooferDetails(@PathVariable("id") Long id,
                                    Model model) {
-
-        SubwooferDetailsDTO deviceDetails = subwooferService.getDeviceDetails(id);
         model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
-
-        SubwooferDetailsHelperDTO helperDTO =
-                new SubwooferDetailsHelperDTO(deviceDetails);
-
-        model.addAttribute("helperDTO", helperDTO);
+        model.addAttribute("helperDTO", subwooferService.getDeviceDetails(id));
         return "/speakers/subwoofer-details";
     }
 
@@ -96,17 +91,22 @@ public class SubwooferController {
         return "redirect:/";
     }
 
-    @PostMapping("/like/{id}")
-    public String like(@PathVariable("id") Long id,
-                       RedirectAttributes redirectAttributes) {
-        subwooferService.likeDevice(id);
-        return "redirect:/speakers/subwoofers/rankings";
-    }
-
     @GetMapping("/rankings")
     public String rankings(Model model) {
         model.addAttribute("allDevices", subwooferService.getAllDeviceSummary());
         return "/speakers/subwoofers-all";
+    }
+
+    @PostMapping("/like/{id}")
+    public String like(@PathVariable("id") Long id,
+                       RedirectAttributes redirectAttributes) {
+        try {
+            subwooferService.likeDevice(id);
+            return "redirect:/speakers/subwoofers/rankings";
+        } catch (DeviceAlreadyLikedException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/speakers/subwoofers/rankings";
+        }
     }
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND)

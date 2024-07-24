@@ -1,5 +1,7 @@
 package com.bg.bassheadsbg.web.controller.speakerControllers;
 
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.helpers.MidRangeDetailsHelperDTO;
@@ -27,35 +29,35 @@ public class MidRangeController {
     @GetMapping("/add")
     public String addMidRange(Model model) {
         if (!model.containsAttribute("addMidRangeDTO")) {
-            model.addAttribute("addMidRangeDTO", new AddMidRangeDTO());
+            model.addAttribute("addMidRangeDTO", midRangeService.createNewAddMidRangeDTO());
         }
         return "/speakers/midrange-add";
-    }
-
-    @ModelAttribute("addMidRangeDTO")
-    public AddMidRangeDTO addMidRangeDTO() {
-        return new AddMidRangeDTO();
     }
 
     @PostMapping("/add")
     public String addMidRange(@Valid @ModelAttribute("addMidRangeDTO") AddMidRangeDTO addMidRangeDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                               RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMidRangeDTO", addMidRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMidRangeDTO", bindingResult);
             return "redirect:/speakers/mid-range/add";
         }
 
-        long newMidRange = midRangeService.addDevice(addMidRangeDTO);
-        return "redirect:/speakers/mid-range/" + newMidRange;
+        try {
+            return "redirect:/speakers/mid-range/" + midRangeService.addDevice(addMidRangeDTO);
+        } catch (JsonProcessingException | DeviceAlreadyExistsException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("addMidRangeDTO", addMidRangeDTO);
+            return "redirect:/speakers/mid-range/add";
+        }
     }
 
     @GetMapping("/edit/{id}")
     public String getEditMidRange(@PathVariable("id") Long id,
                                    Model model) {
-        MidRangeDetailsDTO midRangeDetailsDTO = midRangeService.getDeviceDetails(id);
 
+        MidRangeDetailsDTO midRangeDetailsDTO = midRangeService.getDeviceDetails(id);
         if (!model.containsAttribute("midRangeDetails")) {
             model.addAttribute("midRangeDetails", midRangeDetailsDTO);
         }
@@ -65,15 +67,14 @@ public class MidRangeController {
     @PostMapping("/edit/{id}")
     public String postEditMidRange(@Valid @ModelAttribute("midRangeDetails") AddMidRangeDTO addMidRangeDTO,
                                     BindingResult bindingResult,
-                                    RedirectAttributes redirectAttributes) {
+                                    RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("midRangeDetails", addMidRangeDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "midRangeDetails", bindingResult);
             return "redirect:/speakers/mid-range/edit/" + addMidRangeDTO.getId();
         }
 
-        long newMidRange = midRangeService.editDevice(addMidRangeDTO);
-        return "redirect:/speakers/mid-range/" + newMidRange;
+        return "redirect:/speakers/mid-range/" + midRangeService.editDevice(addMidRangeDTO);
     }
 
 
@@ -81,16 +82,8 @@ public class MidRangeController {
     @GetMapping("/{id}")
     public String midRangeDetails(@PathVariable("id") Long id,
                                    Model model) {
-
-        MidRangeDetailsDTO deviceDetails = midRangeService.getDeviceDetails(id);
         model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
-
-        MidRangeDetailsHelperDTO helperDTO =
-                new MidRangeDetailsHelperDTO(deviceDetails);
-
-        model.addAttribute("helperDTO", helperDTO);
-
-
+        model.addAttribute("helperDTO", midRangeService.getDeviceDetailsHelper(id));
         return "/speakers/midrange-details";
     }
 
@@ -100,18 +93,24 @@ public class MidRangeController {
         return "redirect:/";
     }
 
-    @PostMapping("/like/{id}")
-    public String like(@PathVariable("id") Long id,
-                                      RedirectAttributes redirectAttributes) {
-        midRangeService.likeDevice(id);
-        return "redirect:/speakers/mid-range/rankings";
-    }
-
     @GetMapping("/rankings")
     public String rankings(Model model) {
         model.addAttribute("allDevices", midRangeService.getAllDeviceSummary());
         return "/speakers/midrange-all";
     }
+
+    @PostMapping("/like/{id}")
+    public String like(@PathVariable("id") Long id,
+                                      RedirectAttributes redirectAttributes) {
+        try {
+            midRangeService.likeDevice(id);
+            return "redirect:/speakers/mid-range/rankings";
+        } catch (DeviceAlreadyLikedException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/speakers/mid-range/rankings";
+        }
+    }
+
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(DeviceNotFoundException.class)

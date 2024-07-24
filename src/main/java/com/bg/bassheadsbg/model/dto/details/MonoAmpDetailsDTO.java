@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.dto.details;
 
+import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public final class MonoAmpDetailsDTO {
-    private Long id;
+    private long id;
     private int price;
     List<String> allCurrencies;
     private String brand;
@@ -28,9 +29,9 @@ public final class MonoAmpDetailsDTO {
     private float distortion;
     private double currentDraw;
     private short fuseRating;
-    private short height;
-    private short width;
-    private short length;
+    private Short height;
+    private Short width;
+    private Short length;
     private byte numberOfRca;
     private byte numberOfSpeakerOutputs;
     private List<String> images;

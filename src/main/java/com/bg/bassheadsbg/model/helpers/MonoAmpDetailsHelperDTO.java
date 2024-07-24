@@ -4,10 +4,14 @@ import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.util.ValueFormatterUtil;
 
 public final class MonoAmpDetailsHelperDTO {
-    private final MonoAmpDetailsDTO monoAmpDetails;
+    private MonoAmpDetailsDTO monoAmpDetails;
+
 
     public MonoAmpDetailsHelperDTO(MonoAmpDetailsDTO monoAmpDetails) {
         this.monoAmpDetails = monoAmpDetails;
+    }
+
+    public MonoAmpDetailsHelperDTO() {
     }
 
     public String formattedImpedance() {

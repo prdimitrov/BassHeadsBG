@@ -6,7 +6,7 @@ import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.repository.UserRepository;
-import com.bg.bassheadsbg.service.RoleService;
+import com.bg.bassheadsbg.service.interfaces.RoleService;
 import com.bg.bassheadsbg.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;

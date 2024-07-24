@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.service;
+package com.bg.bassheadsbg.service.interfaces;
 
 import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;

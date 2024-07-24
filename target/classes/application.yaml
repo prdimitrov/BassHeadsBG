@@ -38,7 +38,7 @@ logging:
 
 forex:
   api:
-    key: ${FOREX_API_KEY}
+    key: ${forex_api_key}
     url: "https://openexchangerates.org/api/latest.json?app_id={FOREX_API_KEY}"
     base: "USD"
 
