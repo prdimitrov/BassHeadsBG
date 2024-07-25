@@ -77,7 +77,7 @@ public class SubwooferController {
     public String subwooferDetails(@PathVariable("id") Long id,
                                    Model model) {
         model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
-        model.addAttribute("helperDTO", subwooferService.getDeviceDetails(id));
+        model.addAttribute("helperDTO", subwooferService.getDeviceDetailsHelper(id));
         return "/speakers/subwoofer-details";
     }
 

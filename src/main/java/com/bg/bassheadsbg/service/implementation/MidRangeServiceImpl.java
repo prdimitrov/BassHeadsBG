@@ -150,7 +150,7 @@ public class MidRangeServiceImpl implements MidRangeService {
         if (principal instanceof UserDetails userDetails) {
             user = getUserEntity(userDetails.getUsername());
         } else {
-            throw new RuntimeException("User not authenticated!");
+            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
         }
 
         Optional<MidRange> optionalEntity = repository.findById(id);

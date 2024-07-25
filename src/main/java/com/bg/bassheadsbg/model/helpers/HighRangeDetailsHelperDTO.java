@@ -11,7 +11,8 @@ public final class HighRangeDetailsHelperDTO {
     }
 
     public String formattedSensitivity() {
-        if (ValueFormatterUtil.formatValue(highRangeDetails.getSensitivity()).equals("---")) {
+        Float sensitivity = highRangeDetails.getSensitivity();
+        if (sensitivity == null || ValueFormatterUtil.formatValue(highRangeDetails.getSensitivity()).equals("---")) {
             return "---";
         }
         return ValueFormatterUtil.formatValue(highRangeDetails.getSensitivity()) + " dB (1W / 1m)";

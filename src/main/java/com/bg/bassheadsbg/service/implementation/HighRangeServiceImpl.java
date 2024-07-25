@@ -74,7 +74,7 @@ public class HighRangeServiceImpl implements HighRangeService {
     }
 
     @Override
-    public long editDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
+    public long editDevice(AddHighRangeDTO addDeviceDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
@@ -180,13 +180,11 @@ public class HighRangeServiceImpl implements HighRangeService {
     }
 
     private HighRange mapToDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
-
         createImageListDetailsDTO(addDeviceDTO);
         return modelMapper.map(addDeviceDTO, HighRange.class);
     }
 
-    private HighRange mapEditedDevice(AddHighRangeDTO addHighRangeDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addHighRangeDTO);
+    private HighRange mapEditedDevice(AddHighRangeDTO addHighRangeDTO) {
         return modelMapper.map(addHighRangeDTO, HighRange.class);
     }
 

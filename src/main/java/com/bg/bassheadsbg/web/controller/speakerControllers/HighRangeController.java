@@ -3,17 +3,13 @@ package com.bg.bassheadsbg.web.controller.speakerControllers;
 import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
-import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.service.interfaces.HighRangeService;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -36,7 +32,7 @@ public class HighRangeController {
     @PostMapping("/add")
     public String addHighRange(@Valid @ModelAttribute("addHighRangeDTO") AddHighRangeDTO addHighRangeDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                               RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addHighRangeDTO", addHighRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addHighRangeDTO", bindingResult);
@@ -54,7 +50,7 @@ public class HighRangeController {
 
     @GetMapping("/edit/{id}")
     public String getEditHighRange(@PathVariable("id") Long id,
-                                Model model) {
+                                   Model model) {
 
         if (!model.containsAttribute("highRangeDetails")) {
             model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
@@ -64,8 +60,8 @@ public class HighRangeController {
 
     @PostMapping("/edit/{id}")
     public String postEditHighRange(@Valid @ModelAttribute("highRangeDetails") AddHighRangeDTO addHighRangeDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("highRangeDetails", addHighRangeDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "highRangeDetails", bindingResult);
@@ -76,17 +72,11 @@ public class HighRangeController {
     }
 
 
-
     @GetMapping("/{id}")
     public String highRangeDetails(@PathVariable("id") Long id,
                                    Model model) {
-
-
-        HighRangeDetailsDTO deviceDetails = highRangeService.getDeviceDetails(id);
         model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
         model.addAttribute("helperDTO", highRangeService.getDeviceDetailsHelper(id));
-
-
         return "/speakers/highrange-details";
     }
 
@@ -107,7 +97,7 @@ public class HighRangeController {
                        RedirectAttributes redirectAttributes) {
         try {
             highRangeService.likeDevice(id);
-            return "redirect:/speakers/high-ranges/rankings";
+            return "redirect:/speakers/high-range/rankings";
         } catch (DeviceAlreadyLikedException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/speakers/high-range/rankings";

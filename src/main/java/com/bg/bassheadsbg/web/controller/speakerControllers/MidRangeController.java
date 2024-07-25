@@ -3,18 +3,13 @@ package com.bg.bassheadsbg.web.controller.speakerControllers;
 import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
-import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
-import com.bg.bassheadsbg.model.helpers.MidRangeDetailsHelperDTO;
 import com.bg.bassheadsbg.service.interfaces.MidRangeService;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -22,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MidRangeController {
     private final MidRangeService midRangeService;
 
-    public  MidRangeController(MidRangeService midRangeService) {
+    public MidRangeController(MidRangeService midRangeService) {
         this.midRangeService = midRangeService;
     }
 
@@ -36,8 +31,8 @@ public class MidRangeController {
 
     @PostMapping("/add")
     public String addMidRange(@Valid @ModelAttribute("addMidRangeDTO") AddMidRangeDTO addMidRangeDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMidRangeDTO", addMidRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMidRangeDTO", bindingResult);
@@ -55,7 +50,7 @@ public class MidRangeController {
 
     @GetMapping("/edit/{id}")
     public String getEditMidRange(@PathVariable("id") Long id,
-                                   Model model) {
+                                  Model model) {
         if (!model.containsAttribute("midRangeDetails")) {
             model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
         }
@@ -64,8 +59,8 @@ public class MidRangeController {
 
     @PostMapping("/edit/{id}")
     public String postEditMidRange(@Valid @ModelAttribute("midRangeDetails") AddMidRangeDTO addMidRangeDTO,
-                                    BindingResult bindingResult,
-                                    RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("midRangeDetails", addMidRangeDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "midRangeDetails", bindingResult);
@@ -76,10 +71,9 @@ public class MidRangeController {
     }
 
 
-
     @GetMapping("/{id}")
     public String midRangeDetails(@PathVariable("id") Long id,
-                                   Model model) {
+                                  Model model) {
         model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
         model.addAttribute("helperDTO", midRangeService.getDeviceDetailsHelper(id));
         return "/speakers/midrange-details";
@@ -99,7 +93,7 @@ public class MidRangeController {
 
     @PostMapping("/like/{id}")
     public String like(@PathVariable("id") Long id,
-                                      RedirectAttributes redirectAttributes) {
+                       RedirectAttributes redirectAttributes) {
         try {
             midRangeService.likeDevice(id);
             return "redirect:/speakers/mid-range/rankings";
