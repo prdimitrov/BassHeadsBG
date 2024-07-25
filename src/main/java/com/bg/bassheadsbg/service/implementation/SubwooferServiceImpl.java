@@ -107,9 +107,6 @@ public class SubwooferServiceImpl implements SubwooferService {
 
                 log.info("User with id ({}) and username ({}) deleted device with ID ({}), brand ({}), and model ({}).",
                         user.getId(), user.getUsername(), deviceId, device.getBrand(), device.getModel());
-            } else {
-                log.warn("User with id ({}) and username ({}) attempted to delete a device with ID ({}), but it was not found.",
-                        user.getId(), user.getUsername(), deviceId);
             }
         } else {
             throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);

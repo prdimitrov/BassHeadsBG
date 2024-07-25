@@ -53,6 +53,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>6.3.1</version>
+			<scope>test</scope>
+		</dependency>
+
+
 		<!-- Thymeleaf Extras SpringSecurity -->
 
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6 -->

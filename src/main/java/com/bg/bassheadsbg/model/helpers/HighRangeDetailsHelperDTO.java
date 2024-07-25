@@ -44,4 +44,8 @@ public final class HighRangeDetailsHelperDTO {
                         " Hz");
     }
 
+    public HighRangeDetailsDTO getHighRangeDetails() {
+        return highRangeDetails;
+    }
+
 }
