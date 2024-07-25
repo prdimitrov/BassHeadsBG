@@ -17,12 +17,12 @@ public class UserRegistrationDTO {
     @UniqueUsername(message = "{username.inUse}")
     @Size(min = 3, max = 30,
             message = "{username.min3max30}")
-    @NotBlank
+    @NotBlank(message = "{username.notBlank}")
     private String username;
 
     @UniqueUserEmail(message = "{email.inUse}")
     @Email(message = "{email.valid}")
-    @NotBlank(message = "{email.NotBlank}")
+    @NotBlank(message = "{email.notBlank}")
     private String email;
 
     @Size(min = 8,
@@ -37,7 +37,7 @@ public class UserRegistrationDTO {
 
     @Size(min = 3, max = 30,
             message = "{firstName.min3max30}")
-    @NotBlank(message = "firstName.notBlank")
+    @NotBlank(message = "{firstName.notBlank}")
     private String firstName;
 
     @Size(min = 3, max = 30,

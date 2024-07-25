@@ -16,6 +16,7 @@ import java.util.List;
 @Table(name = "high_range")
 public class HighRange extends BaseSpeaker {
     @NotBlank(message = "{material.notBlank}")
+    @Size(max = 100, message = "{material.max100}")
     @Column(nullable = false)
     private String material;
 
@@ -30,6 +31,7 @@ public class HighRange extends BaseSpeaker {
     private int frequencyRangeTo;
 
     @NotBlank(message = "{crossover.notBlank}")
+    @Size(max = 100, message = "{crossover.max100}")
     @Column(nullable = false)
     private String crossover;
 

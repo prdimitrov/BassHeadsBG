@@ -24,7 +24,7 @@ public class MonoAmplifier extends BaseAmplifier {
 
     @NotNull(message = "{numberOfSpeakerOutputs.positive}")
     @Positive(message = "{numberOfSpeakerOutputs.positive}")
-    @Max(value = 16, message = "numberOfSpeakerOutputs.max16")
+    @Max(value = 16, message = "{numberOfSpeakerOutputs.max16}")
     private byte numberOfSpeakerOutputs;
 
     @ManyToMany(fetch = FetchType.EAGER)

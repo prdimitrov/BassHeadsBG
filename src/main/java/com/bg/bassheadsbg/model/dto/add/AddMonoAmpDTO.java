@@ -92,7 +92,7 @@ public class AddMonoAmpDTO {
 
     @NotNull(message = "{numberOfSpeakerOutputs.positive}")
     @Positive(message = "{numberOfSpeakerOutputs.positive}")
-    @Max(value = 16, message = "numberOfSpeakerOutputs.max16")
+    @Max(value = 16, message = "{numberOfSpeakerOutputs.max16}")
     private String numberOfSpeakerOutputs;
 
     @PositiveOrZero(message = "{height.positiveOrZero}")

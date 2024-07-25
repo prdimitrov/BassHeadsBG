@@ -45,7 +45,7 @@ public class AddMultiChannelAmpDTO {
     @Positive(message = "{power.positive}")
     @NotNull(message = "{power.positive}")
     @Max(value = 300000, message = "{power.max300000}")
-    private Integer power;
+    private String power;
 
     @Size(max = 100, message = "{highPassFilter.sizeMax100}")
     private String highPassFilter;

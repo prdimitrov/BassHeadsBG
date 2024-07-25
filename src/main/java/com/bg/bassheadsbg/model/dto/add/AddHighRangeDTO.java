@@ -61,6 +61,7 @@ public class AddHighRangeDTO {
     private String powerHandling;
 
     @NotBlank(message = "{material.notBlank}")
+    @Size(max = 100, message = "{material.max100}")
     private String material;
 
     @PositiveOrZero(message = "{frequencyRangeFrom.positiveOrZero}")
@@ -74,6 +75,7 @@ public class AddHighRangeDTO {
     private String frequencyRangeTo;
 
     @NotBlank(message = "{crossover.notBlank}")
+    @Size(max = 100, message = "{crossover.max100}")
     private String crossover;
 
     @ValidUrlList(message = "{images.validUrlList}")
