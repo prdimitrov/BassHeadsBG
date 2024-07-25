@@ -2,6 +2,7 @@ package com.bg.bassheadsbg.service.implementation;
 
 import com.bg.bassheadsbg.config.ForexApiConfig;
 import com.bg.bassheadsbg.exception.ApiNotFoundException;
+import com.bg.bassheadsbg.model.dto.exchanges.ExRatesDTO;
 import com.bg.bassheadsbg.model.entity.ExRateEntity;
 import com.bg.bassheadsbg.repository.ExRateRepository;
 import org.junit.jupiter.api.Assertions;
@@ -14,8 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,6 +36,7 @@ public class ExRateServiceImplTest {
 
         private static final ExRateEntity CUR2 = new ExRateEntity()
                 .setCurrency("CUR2").setRate(new BigDecimal("0.5"));
+        private static final List<ExRateEntity> EX_RATE_ENTITIES = List.of(CUR1, CUR2);
     }
 
     private ExRateServiceImpl toTest;
@@ -67,7 +72,7 @@ public class ExRateServiceImplTest {
         initExRates();
 
         BigDecimal result = toTest.convert(from, to, amount);
-        Assertions.assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -94,5 +99,53 @@ public class ExRateServiceImplTest {
         when(mockRepository.count()).thenReturn(6L);
         Assertions.assertTrue(toTest.hasInitializedExRates());
 
+    }
+
+    @Test
+    void testUpdateRatesWithValidData() {
+        ExRatesDTO exRatesDTO = new ExRatesDTO("SUD", Map.of("CUR1", new BigDecimal("4"), "CUR2", new BigDecimal("0.5")));
+        when(mockRepository.findByCurrency("CUR1")).thenReturn(Optional.empty());
+        when(mockRepository.findByCurrency("CUR2")).thenReturn(Optional.of(TestRates.CUR2));
+
+        toTest.updateRates(exRatesDTO);
+    }
+
+    @Test
+    void testConvertWhenConversionNotPossible() {
+        Assertions.assertThrows(ApiNotFoundException.class, () -> toTest.convert("NO_EXIST_1", "NO_EXIST_2", BigDecimal.ONE));
+    }
+
+    @Test
+    void testUpdateRatesWithInvalidBaseCurrency() {
+        ExRatesDTO exRatesDTO = new ExRatesDTO("INVALID_BASE", Map.of("CUR1", new BigDecimal("4"), "CUR2", new BigDecimal("0.5")));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> toTest.updateRates(exRatesDTO));
+    }
+
+    @Test
+    void testGetAllExRates() {
+        ExRateEntity cur1 = new ExRateEntity().setCurrency("CUR1").setRate(new BigDecimal("4"));
+        ExRateEntity cur2 = new ExRateEntity().setCurrency("CUR2").setRate(new BigDecimal("0.5"));
+
+        List<ExRateEntity> expectedRates = List.of(cur1, cur2);
+
+        when(mockRepository.findAll()).thenReturn(expectedRates);
+
+        List<ExRateEntity> actualRates = toTest.getAllExRates();
+
+        assertEquals(expectedRates, actualRates);
+    }
+
+    @Test
+    void testAllSupportedCurrencies() {
+        // Arrange
+        when(mockRepository.findAll()).thenReturn(TestRates.EX_RATE_ENTITIES);
+
+        // Act
+        List<String> actualCurrencies = toTest.allSupportedCurrencies();
+
+        // Assert
+        List<String> expectedCurrencies = List.of("CUR1", "CUR2");
+        assertEquals(expectedCurrencies, actualCurrencies);
     }
 }
