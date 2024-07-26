@@ -108,6 +108,7 @@
                 <input th:field="*{impedance}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
+                       step="any"
                        class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{impedance}"></small>
             </div>

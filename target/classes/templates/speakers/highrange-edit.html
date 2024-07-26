@@ -110,6 +110,7 @@
                 <input th:field="*{impedance}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
+                       step="any"
                        class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{impedance}"></small>
             </div>
@@ -124,7 +125,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="material" class="text-white font-weight-bold" th:text="#{material}"></label>
+                <label th:for="material" class="text-white font-weight-bold" th:text="#{materials}"></label>
                 <input th:field="*{material}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="text"
