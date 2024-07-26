@@ -79,7 +79,6 @@ public abstract class BaseAmplifier extends BaseEntity {
     @Positive(message = "{currentDraw.positive}")
     @NotNull(message = "{currentDraw.positive}")
     @DecimalMax(value = "20000", message = "{currentDraw.max20000}")
-    @PositiveOrZero
     @NotNull
     private double currentDraw;
 
