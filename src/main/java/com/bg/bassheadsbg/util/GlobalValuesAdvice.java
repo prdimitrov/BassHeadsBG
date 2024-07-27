@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import java.beans.PropertyEditorSupport;
 
 @ControllerAdvice
-public class GlobalControllerAdvice {
+public class GlobalValuesAdvice {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

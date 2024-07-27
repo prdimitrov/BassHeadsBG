@@ -14,18 +14,18 @@ public class ListUrlsValidator implements ConstraintValidator<ValidUrlList, List
     @Override
     public boolean isValid(List<String> urls, ConstraintValidatorContext context) {
         if (urls == null || urls.isEmpty()) {
-            return false; // Null or empty list is considered invalid
+            return false;
         }
 
         for (String url : urls) {
             if (url == null || url.trim().isEmpty() || !isValidUrl(url)) {
-                return false; // Invalid URL found
+                return false;
             }
         }
-        return true; // All URLs are valid
+        return true;
     }
 
     private boolean isValidUrl(String url) {
-        return url.matches("^(http|https)://.+");
+        return url.matches("^(http|https):.+");
     }
 }

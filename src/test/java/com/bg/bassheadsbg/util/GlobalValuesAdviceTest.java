@@ -6,13 +6,13 @@ import java.beans.PropertyEditorSupport;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class GlobalControllerAdviceTest {
+public class GlobalValuesAdviceTest {
 
-    private GlobalControllerAdvice globalControllerAdvice;
+    private GlobalValuesAdvice globalValuesAdvice;
 
     @BeforeEach
     public void setUp() {
-        globalControllerAdvice = new GlobalControllerAdvice();
+        globalValuesAdvice = new GlobalValuesAdvice();
     }
 
     @Test

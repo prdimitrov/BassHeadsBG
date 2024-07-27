@@ -20,7 +20,7 @@ spring:
     password: ${db_password}
     username: ${db_username}
     url: jdbc:mysql://localhost:3306/bassheads_bg?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
-    initialization-mode: always
+    initialization-mode: never
   kafka:
     bootstrap-servers: localhost:9092
     groupId: test

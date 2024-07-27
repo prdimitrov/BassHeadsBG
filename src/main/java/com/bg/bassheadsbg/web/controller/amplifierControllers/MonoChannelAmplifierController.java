@@ -1,8 +1,6 @@
 package com.bg.bassheadsbg.web.controller.amplifierControllers;
 
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
-import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
 import com.bg.bassheadsbg.service.interfaces.MonoAmpService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,24 +31,17 @@ public class MonoChannelAmplifierController {
     @PostMapping("/add")
     public String addMonoAmp(@Valid @ModelAttribute("addMonoAmpDTO") AddMonoAmpDTO addMonoAmpDTO,
                              BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {redirectAttributes.addFlashAttribute("addMonoAmpDTO", addMonoAmpDTO);
+                             RedirectAttributes redirectAttributes) throws JsonProcessingException {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("addMonoAmpDTO", addMonoAmpDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMonoAmpDTO", bindingResult);
             return "redirect:/amplifiers/mono-amplifiers/add";
         }
-
-        try {
-            return "redirect:/amplifiers/mono-amplifiers/" + monoAmpService.addDevice(addMonoAmpDTO);
-        } catch (JsonProcessingException | DeviceAlreadyExistsException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            redirectAttributes.addFlashAttribute("addMonoAmpDTO", addMonoAmpDTO);
-            return "redirect:/amplifiers/mono-amplifiers/add";
-        }
+        return "redirect:/amplifiers/mono-amplifiers/" + monoAmpService.addDevice(addMonoAmpDTO);
     }
 
     @GetMapping("/edit/{id}")
-    public String getEditMonoAmp(@PathVariable("id") Long id,
-                                 Model model) {
+    public String getEditMonoAmp(@PathVariable("id") Long id, Model model) {
         if (!model.containsAttribute("monoAmpDetails")) {
             model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
         }
@@ -69,10 +60,8 @@ public class MonoChannelAmplifierController {
         return "redirect:/amplifiers/mono-amplifiers/" + monoAmpService.editDevice(addMonoAmpDTO);
     }
 
-
     @GetMapping("/{id}")
-    public String monoAmpDetails(@PathVariable("id") Long id,
-                                 Model model) {
+    public String monoAmpDetails(@PathVariable("id") Long id, Model model) {
         model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
         model.addAttribute("helperDTO", monoAmpService.getDeviceDetailsHelper(id));
         return "/amplifiers/monoamp-details";
@@ -91,14 +80,8 @@ public class MonoChannelAmplifierController {
     }
 
     @PostMapping("/like/{id}")
-    public String like(@PathVariable("id") Long id,
-                                RedirectAttributes redirectAttributes) {
-        try {
-            monoAmpService.likeDevice(id);
-            return "redirect:/amplifiers/mono-amplifiers/rankings";
-        } catch (DeviceAlreadyLikedException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/amplifiers/mono-amplifiers/rankings";
-        }
+    public String like(@PathVariable("id") Long id) {
+        monoAmpService.likeDevice(id);
+        return "redirect:/amplifiers/mono-amplifiers/rankings";
     }
 }
