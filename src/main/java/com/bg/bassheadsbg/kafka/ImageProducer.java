@@ -4,7 +4,6 @@ import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,11 @@ import org.springframework.stereotype.Service;
 public class ImageProducer {
     private static final String TOPIC = "image-hosting";
     private final ObjectMapper objectMapper;
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public ImageProducer(ObjectMapper objectMapper) {
+    public ImageProducer(ObjectMapper objectMapper, KafkaTemplate<String, String> kafkaTemplate) {
         this.objectMapper = objectMapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
 

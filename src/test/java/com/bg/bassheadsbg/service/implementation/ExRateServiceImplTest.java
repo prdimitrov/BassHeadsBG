@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ExRateServiceImplTest {
 
-    private static final class TestRates{
+    private static final class TestRates {
         // SUD -> base
         // CUR1 -> 4
         // CUR2 -> 0.5

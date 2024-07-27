@@ -208,10 +208,10 @@ public class SubwooferTest {
         assertEquals(1, violations.size());
         assertEquals("{qes.max10}", violations.iterator().next().getMessageTemplate());
     }
+
     @Test
     public void testInvalidQesTwo() {
         Subwoofer subwoofer = createValidSubwoofer();
-//        in the createValidSubwoofer(), the setQes was 0.5f initially.
         subwoofer.setQes(subwoofer.getQes() - 0.6f);
 
         Set<ConstraintViolation<Subwoofer>> violations = validator.validate(subwoofer);

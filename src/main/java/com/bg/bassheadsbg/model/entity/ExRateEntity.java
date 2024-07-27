@@ -33,12 +33,4 @@ public class ExRateEntity extends BaseEntity {
         this.rate = rate;
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "ExRateEntity{" +
-                "currency='" + currency + '\'' +
-                ", rate=" + rate +
-                '}';
-    }
 }

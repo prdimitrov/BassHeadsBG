@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.model.entity.base;
 
-import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.enums.AmpClass;
 import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
 import jakarta.persistence.*;
@@ -11,9 +10,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter

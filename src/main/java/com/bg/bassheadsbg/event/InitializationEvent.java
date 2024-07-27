@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.event;
 
-
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 

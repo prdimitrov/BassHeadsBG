@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.repository;
 
-import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
+import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

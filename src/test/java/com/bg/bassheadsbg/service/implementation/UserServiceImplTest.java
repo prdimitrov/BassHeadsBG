@@ -7,7 +7,6 @@ import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.interfaces.RoleService;
-import com.bg.bassheadsbg.service.interfaces.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,7 +21,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class UserServiceImplTest {
 
@@ -169,9 +169,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> {
-            userService.enableUser(userId);
-        });
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> userService.enableUser(userId));
 
         assertEquals(userId, thrown.getUserId());
     }
@@ -198,9 +196,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> {
-            userService.disableUser(userId);
-        });
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> userService.disableUser(userId));
 
         assertEquals(userId, thrown.getUserId());
     }
@@ -237,9 +233,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> {
-            userService.isAccountDisabled(username);
-        });
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> userService.isAccountDisabled(username));
 
         assertEquals(username, thrown.getUsername());
     }

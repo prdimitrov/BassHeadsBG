@@ -86,10 +86,8 @@ public class ExRateServiceImpl implements ExRateService {
 
         // USD/BGN=x
         // USD/EUR=y
-
         //USD = x * BGN
         //USD = y * EUR
-
         //EUR/BGN = x / y
 
         Optional<BigDecimal> fromOpt = forexApiConfig.getBase().equals(from) ?

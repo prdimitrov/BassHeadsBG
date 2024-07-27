@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.web.controller.userControllers;
 
-import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.service.interfaces.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")

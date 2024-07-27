@@ -22,7 +22,7 @@ public class GlobalValuesAdvice {
         @Override
         public void setAsText(String text) throws IllegalArgumentException {
             if (text == null || text.isEmpty()) {
-                setValue(0.0f); // Default value when empty
+                setValue(0.0f); //This is the default value, when it's empty!
             } else {
                 try {
                     setValue(Float.parseFloat(text));
@@ -52,7 +52,7 @@ public class GlobalValuesAdvice {
         @Override
         public void setAsText(String text) throws IllegalArgumentException {
             if (text == null || text.isEmpty()) {
-                setValue((short) 0); // Default value when empty
+                setValue((short) 0);
             } else {
                 try {
                     setValue(Short.parseShort(text));
@@ -67,7 +67,7 @@ public class GlobalValuesAdvice {
         @Override
         public void setAsText(String text) throws IllegalArgumentException {
             if (text == null || text.isEmpty()) {
-                setValue(0); // Default value when empty
+                setValue(0);
             } else {
                 try {
                     setValue(Integer.parseInt(text));
@@ -82,7 +82,7 @@ public class GlobalValuesAdvice {
         @Override
         public void setAsText(String text) throws IllegalArgumentException {
             if (text == null || text.isEmpty()) {
-                setValue(0.0); // Default value when empty
+                setValue(0.0);
             } else {
                 try {
                     setValue(Double.parseDouble(text));

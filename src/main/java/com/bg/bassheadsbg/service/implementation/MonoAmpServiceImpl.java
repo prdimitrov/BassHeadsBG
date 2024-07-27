@@ -161,7 +161,6 @@ public class MonoAmpServiceImpl implements MonoAmpService {
     }
 
 
-
     @Override
     public void updateDeviceImageUrls(String oldUrl, String newUrl) {
         List<MonoAmplifier> monoAmplifiers = repository.findByImagesContaining(oldUrl);

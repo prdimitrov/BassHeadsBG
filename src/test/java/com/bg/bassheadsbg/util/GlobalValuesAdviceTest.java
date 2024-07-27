@@ -2,7 +2,9 @@ package com.bg.bassheadsbg.util;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.beans.PropertyEditorSupport;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,9 +27,7 @@ public class GlobalValuesAdviceTest {
         editor.setAsText("0.0");
         assertEquals(0.0f, editor.getValue());
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            editor.setAsText("invalid");
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> editor.setAsText("invalid"));
         assertEquals("Invalid float value: invalid", thrown.getMessage());
 
         editor.setAsText("");
@@ -44,9 +44,7 @@ public class GlobalValuesAdviceTest {
         editor.setAsText("0");
         assertEquals((byte) 0, editor.getValue());
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            editor.setAsText("invalid");
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> editor.setAsText("invalid"));
         assertEquals("Invalid byte value: invalid", thrown.getMessage());
 
         editor.setAsText("");
@@ -63,9 +61,7 @@ public class GlobalValuesAdviceTest {
         editor.setAsText("0");
         assertEquals((short) 0, editor.getValue());
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            editor.setAsText("invalid");
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> editor.setAsText("invalid"));
         assertEquals("Invalid short value: invalid", thrown.getMessage());
 
         editor.setAsText("");
@@ -82,9 +78,7 @@ public class GlobalValuesAdviceTest {
         editor.setAsText("0");
         assertEquals(0, editor.getValue());
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            editor.setAsText("invalid");
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> editor.setAsText("invalid"));
         assertEquals("Invalid integer value: invalid", thrown.getMessage());
 
         editor.setAsText("");
@@ -101,9 +95,7 @@ public class GlobalValuesAdviceTest {
         editor.setAsText("0.0");
         assertEquals(0.0, editor.getValue());
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            editor.setAsText("invalid");
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> editor.setAsText("invalid"));
         assertEquals("Invalid double value: invalid", thrown.getMessage());
 
         editor.setAsText("");

@@ -80,7 +80,7 @@ public class AddHighRangeDTO {
 
     @ValidUrlList(message = "{images.validUrlList}")
     private List<@URL(message = "{images.url}")
-                 @NotBlank(message = "{images.notBlank}")
+    @NotBlank(message = "{images.notBlank}")
             String> images = new ArrayList<>();
 
 }

@@ -224,6 +224,22 @@ public class MonoChannelAmplifierControllerIT {
     @Test
     @WithMockUser(username = "DASKALA", roles = {"USER", "ADMIN"})
     public void testPostEditMonoChannelAmpWithErrors() throws Exception {
+        final var mockAddMonoAmpDTO = getAddMonoAmpDTO();
+
+        BindingResult bindingResult = Mockito.mock(BindingResult.class);
+        lenient().when(bindingResult.hasErrors()).thenReturn(true);
+
+        mockMvc.perform(post("/amplifiers/mono-amplifiers/edit/" + mockAddMonoAmpDTO.getId())
+                        .with(csrf())
+                        .flashAttr("monoAmpDetails", mockAddMonoAmpDTO)
+                        .flashAttr(BindingResult.MODEL_KEY_PREFIX + "monoAmpDetails", bindingResult))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/amplifiers/mono-amplifiers/edit/" + mockAddMonoAmpDTO.getId()))
+                .andExpect(MockMvcResultMatchers.flash().attributeExists("monoAmpDetails"))
+                .andExpect(MockMvcResultMatchers.flash().attributeExists(BindingResult.MODEL_KEY_PREFIX + "monoAmpDetails"));
+    }
+
+    private static AddMonoAmpDTO getAddMonoAmpDTO() {
         AddMonoAmpDTO mockAddMonoAmpDTO = new AddMonoAmpDTO();
         mockAddMonoAmpDTO.setId(1L);
         mockAddMonoAmpDTO.setBrand("5555555555555");
@@ -248,17 +264,6 @@ public class MonoChannelAmplifierControllerIT {
         mockAddMonoAmpDTO.setWidth("2");
         mockAddMonoAmpDTO.setLength("2");
         mockAddMonoAmpDTO.setImages(List.of("http://example.com/image1.jpg"));
-
-        BindingResult bindingResult = Mockito.mock(BindingResult.class);
-        lenient().when(bindingResult.hasErrors()).thenReturn(true);
-
-        mockMvc.perform(post("/amplifiers/mono-amplifiers/edit/" + mockAddMonoAmpDTO.getId())
-                        .with(csrf())
-                        .flashAttr("monoAmpDetails", mockAddMonoAmpDTO)
-                        .flashAttr(BindingResult.MODEL_KEY_PREFIX + "monoAmpDetails", bindingResult))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/amplifiers/mono-amplifiers/edit/" + mockAddMonoAmpDTO.getId()))
-                .andExpect(MockMvcResultMatchers.flash().attributeExists("monoAmpDetails"))
-                .andExpect(MockMvcResultMatchers.flash().attributeExists(BindingResult.MODEL_KEY_PREFIX + "monoAmpDetails"));
+        return mockAddMonoAmpDTO;
     }
 }

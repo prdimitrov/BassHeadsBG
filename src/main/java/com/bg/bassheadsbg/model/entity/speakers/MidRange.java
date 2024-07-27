@@ -3,7 +3,9 @@ package com.bg.bassheadsbg.model.entity.speakers;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 

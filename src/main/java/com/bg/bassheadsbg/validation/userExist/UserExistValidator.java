@@ -28,11 +28,11 @@ public class UserExistValidator implements ConstraintValidator<UserExist, UserLo
     @Override
     public boolean isValid(UserLoginDTO userLoginDTO, ConstraintValidatorContext context) {
         Optional<UserEntity> optionalUser = userService.findByUsername(userLoginDTO.getUsername());
-        if (optionalUser.isEmpty()){
+        if (optionalUser.isEmpty()) {
             return false;
         }
-        String  rawPassword = userLoginDTO.getPassword();
-        String  encodedPassword  = optionalUser.get().getPassword();
+        String rawPassword = userLoginDTO.getPassword();
+        String encodedPassword = optionalUser.get().getPassword();
 
         return passwordEncoder.matches(rawPassword, encodedPassword);
 
