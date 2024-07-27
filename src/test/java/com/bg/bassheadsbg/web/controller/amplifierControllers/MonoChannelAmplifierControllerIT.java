@@ -52,7 +52,7 @@ public class MonoChannelAmplifierControllerIT {
 
         mockMvc.perform(get("/amplifiers/mono-amplifiers/add"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/amplifiers/monoamp-add"))
+                .andExpect(view().name("amplifiers/monoamp-add"))
                 .andExpect(model().attributeExists("addMonoAmpDTO"));
     }
 
@@ -103,7 +103,7 @@ public class MonoChannelAmplifierControllerIT {
 
         mockMvc.perform(get("/amplifiers/mono-amplifiers/edit/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/amplifiers/monoamp-edit"))
+                .andExpect(view().name("amplifiers/monoamp-edit"))
                 .andExpect(model().attributeExists("monoAmpDetails"));
     }
 
@@ -156,7 +156,7 @@ public class MonoChannelAmplifierControllerIT {
 
         mockMvc.perform(get("/amplifiers/mono-amplifiers/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/amplifiers/monoamp-details"))
+                .andExpect(view().name("amplifiers/monoamp-details"))
                 .andExpect(model().attributeExists("monoAmpDetails"))
                 .andExpect(model().attributeExists("helperDTO"));
     }
@@ -186,7 +186,7 @@ public class MonoChannelAmplifierControllerIT {
 
         mockMvc.perform(get("/amplifiers/mono-amplifiers/rankings"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/amplifiers/monoamp-all"))
+                .andExpect(view().name("amplifiers/monoamp-all"))
                 .andExpect(model().attributeExists("allDevices"));
     }
 

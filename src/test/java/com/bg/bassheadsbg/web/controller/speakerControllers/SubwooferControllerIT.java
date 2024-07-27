@@ -51,7 +51,7 @@ public class SubwooferControllerIT {
 
         mockMvc.perform(get("/speakers/subwoofers/add"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/subwoofer-add"))
+                .andExpect(view().name("speakers/subwoofer-add"))
                 .andExpect(model().attributeExists("addSubwooferDTO"));
     }
 
@@ -101,7 +101,7 @@ public class SubwooferControllerIT {
 
         mockMvc.perform(get("/speakers/subwoofers/edit/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/subwoofer-edit"))
+                .andExpect(view().name("speakers/subwoofer-edit"))
                 .andExpect(model().attributeExists("subwooferDetails"));
     }
 
@@ -154,7 +154,7 @@ public class SubwooferControllerIT {
 
         mockMvc.perform(get("/speakers/subwoofers/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/subwoofer-details"))
+                .andExpect(view().name("speakers/subwoofer-details"))
                 .andExpect(model().attributeExists("subwooferDetails"))
                 .andExpect(model().attributeExists("helperDTO"));
     }
@@ -184,7 +184,7 @@ public class SubwooferControllerIT {
 
         mockMvc.perform(get("/speakers/subwoofers/rankings"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/subwoofers-all"))
+                .andExpect(view().name("speakers/subwoofers-all"))
                 .andExpect(model().attributeExists("allDevices"));
     }
 

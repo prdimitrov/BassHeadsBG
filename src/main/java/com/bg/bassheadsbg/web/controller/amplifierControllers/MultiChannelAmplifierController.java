@@ -24,7 +24,7 @@ public class MultiChannelAmplifierController {
         if (!model.containsAttribute("addMultiChannelAmpDTO")) {
             model.addAttribute("addMultiChannelAmpDTO", multiChannelAmpService.createNewAddMultiChannelAmpDTO());
         }
-        return "/amplifiers/multichannel-amp-add";
+        return "amplifiers/multichannel-amp-add";
     }
 
     @PostMapping("/add")
@@ -44,7 +44,7 @@ public class MultiChannelAmplifierController {
         if (!model.containsAttribute("multiChannelAmpDetails")) {
             model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
         }
-        return "/amplifiers/multichannel-amp-edit";
+        return "amplifiers/multichannel-amp-edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -63,7 +63,7 @@ public class MultiChannelAmplifierController {
     public String multiChannelAmpDetails(@PathVariable("id") Long id, Model model) {
         model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
         model.addAttribute("helperDTO", multiChannelAmpService.getDeviceDetailsHelper(id));
-        return "/amplifiers/multichannel-amp-details";
+        return "amplifiers/multichannel-amp-details";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -75,7 +75,7 @@ public class MultiChannelAmplifierController {
     @GetMapping("/rankings")
     public String rankings(Model model) {
         model.addAttribute("allDevices", multiChannelAmpService.getAllDeviceSummary());
-        return "/amplifiers/multichannel-amp-all";
+        return "amplifiers/multichannel-amp-all";
     }
 
     @PostMapping("/like/{id}")

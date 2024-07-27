@@ -40,7 +40,7 @@ public class AllUsersControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/users/all"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("/users/all-users"))
+                .andExpect(MockMvcResultMatchers.view().name("users/all-users"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("users"));
 
         verify(userService, times(1)).findAllUsers();

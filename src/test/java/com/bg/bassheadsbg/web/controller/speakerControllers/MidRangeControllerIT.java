@@ -51,7 +51,7 @@ public class MidRangeControllerIT {
 
         mockMvc.perform(get("/speakers/mid-range/add"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/midrange-add"))
+                .andExpect(view().name("speakers/midrange-add"))
                 .andExpect(model().attributeExists("addMidRangeDTO"));
     }
 
@@ -92,7 +92,7 @@ public class MidRangeControllerIT {
 
         mockMvc.perform(get("/speakers/mid-range/edit/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/midrange-edit"))
+                .andExpect(view().name("speakers/midrange-edit"))
                 .andExpect(model().attributeExists("midRangeDetails"));
     }
 
@@ -135,7 +135,7 @@ public class MidRangeControllerIT {
 
         mockMvc.perform(get("/speakers/mid-range/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/midrange-details"))
+                .andExpect(view().name("speakers/midrange-details"))
                 .andExpect(model().attributeExists("midRangeDetails"))
                 .andExpect(model().attributeExists("helperDTO"));
     }
@@ -165,7 +165,7 @@ public class MidRangeControllerIT {
 
         mockMvc.perform(get("/speakers/mid-range/rankings"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/midrange-all"))
+                .andExpect(view().name("speakers/midrange-all"))
                 .andExpect(model().attributeExists("allDevices"));
     }
 

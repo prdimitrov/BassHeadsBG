@@ -52,7 +52,7 @@ public class MultiChannelAmplifierControllerIT {
 
         mockMvc.perform(get("/amplifiers/multi-channel-amplifiers/add"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/amplifiers/multichannel-amp-add"))
+                .andExpect(view().name("amplifiers/multichannel-amp-add"))
                 .andExpect(model().attributeExists("addMultiChannelAmpDTO"));
     }
 
@@ -102,7 +102,7 @@ public class MultiChannelAmplifierControllerIT {
 
         mockMvc.perform(get("/amplifiers/multi-channel-amplifiers/edit/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/amplifiers/multichannel-amp-edit"))
+                .andExpect(view().name("amplifiers/multichannel-amp-edit"))
                 .andExpect(model().attributeExists("multiChannelAmpDetails"));
     }
 
@@ -154,7 +154,7 @@ public class MultiChannelAmplifierControllerIT {
 
         mockMvc.perform(get("/amplifiers/multi-channel-amplifiers/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/amplifiers/multichannel-amp-details"))
+                .andExpect(view().name("amplifiers/multichannel-amp-details"))
                 .andExpect(model().attributeExists("multiChannelAmpDetails"))
                 .andExpect(model().attributeExists("helperDTO"));
     }
@@ -184,7 +184,7 @@ public class MultiChannelAmplifierControllerIT {
 
         mockMvc.perform(get("/amplifiers/multi-channel-amplifiers/rankings"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/amplifiers/multichannel-amp-all"))
+                .andExpect(view().name("amplifiers/multichannel-amp-all"))
                 .andExpect(model().attributeExists("allDevices"));
     }
 

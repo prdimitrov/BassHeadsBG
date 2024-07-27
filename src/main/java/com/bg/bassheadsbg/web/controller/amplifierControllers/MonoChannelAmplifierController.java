@@ -25,7 +25,7 @@ public class MonoChannelAmplifierController {
         if (!model.containsAttribute("addMonoAmpDTO")) {
             model.addAttribute("addMonoAmpDTO", monoAmpService.createNewAddMonoAmpDTO());
         }
-        return "/amplifiers/monoamp-add";
+        return "amplifiers/monoamp-add";
     }
 
     @PostMapping("/add")
@@ -45,7 +45,7 @@ public class MonoChannelAmplifierController {
         if (!model.containsAttribute("monoAmpDetails")) {
             model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
         }
-        return "/amplifiers/monoamp-edit";
+        return "amplifiers/monoamp-edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -64,7 +64,7 @@ public class MonoChannelAmplifierController {
     public String monoAmpDetails(@PathVariable("id") Long id, Model model) {
         model.addAttribute("monoAmpDetails", monoAmpService.getDeviceDetails(id));
         model.addAttribute("helperDTO", monoAmpService.getDeviceDetailsHelper(id));
-        return "/amplifiers/monoamp-details";
+        return "amplifiers/monoamp-details";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -76,7 +76,7 @@ public class MonoChannelAmplifierController {
     @GetMapping("/rankings")
     public String rankings(Model model) {
         model.addAttribute("allDevices", monoAmpService.getAllDeviceSummary());
-        return "/amplifiers/monoamp-all";
+        return "amplifiers/monoamp-all";
     }
 
     @PostMapping("/like/{id}")

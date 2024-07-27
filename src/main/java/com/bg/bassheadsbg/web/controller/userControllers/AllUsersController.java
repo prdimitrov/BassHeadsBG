@@ -22,7 +22,7 @@ public class AllUsersController {
     @GetMapping("/all")
     public String allUsers(Model model) {
         model.addAttribute("users", userService.findAllUsers());
-        return "/users/all-users";
+        return "users/all-users";
     }
 
     @PostMapping("/add-role/{userId}/{role}")

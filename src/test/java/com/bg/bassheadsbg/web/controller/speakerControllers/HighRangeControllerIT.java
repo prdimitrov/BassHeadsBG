@@ -51,7 +51,7 @@ public class HighRangeControllerIT {
 
         mockMvc.perform(get("/speakers/high-range/add"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/highrange-add"))
+                .andExpect(view().name("speakers/highrange-add"))
                 .andExpect(model().attributeExists("addHighRangeDTO"));
     }
 
@@ -94,7 +94,7 @@ public class HighRangeControllerIT {
 
         mockMvc.perform(get("/speakers/high-range/edit/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/highrange-edit"))
+                .andExpect(view().name("speakers/highrange-edit"))
                 .andExpect(model().attributeExists("highRangeDetails"));
     }
 
@@ -139,7 +139,7 @@ public class HighRangeControllerIT {
 
         mockMvc.perform(get("/speakers/high-range/" + deviceId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/highrange-details"))
+                .andExpect(view().name("speakers/highrange-details"))
                 .andExpect(model().attributeExists("highRangeDetails"))
                 .andExpect(model().attributeExists("helperDTO"));
     }
@@ -169,7 +169,7 @@ public class HighRangeControllerIT {
 
         mockMvc.perform(get("/speakers/high-range/rankings"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/speakers/highrange-all"))
+                .andExpect(view().name("speakers/highrange-all"))
                 .andExpect(model().attributeExists("allDevices"));
     }
 

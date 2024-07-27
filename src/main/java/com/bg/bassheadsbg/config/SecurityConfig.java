@@ -59,12 +59,12 @@ public class SecurityConfig {
                                                 "/speakers/subwoofers/add",
                                                 "/speakers/subwoofers/edit/**",
                                                 "/speakers/subwoofers/delete/**",
-                                                "/amplifiers/mono-amp/add",
-                                                "/amplifiers/mono-amp/edit/**",
-                                                "/amplifiers/mono-amp/delete/**",
-                                                "/amplifiers/multi-channel-amp/add",
-                                                "/amplifiers/multi-channel-amp/edit/**",
-                                                "/amplifiers/multi-channel-amp/delete/**").hasRole("ADMIN")
+                                                "/amplifiers/mono-amplifiers/add",
+                                                "/amplifiers/mono-amplifiers/edit/**",
+                                                "/amplifiers/mono-amplifiers/delete/**",
+                                                "/amplifiers/multi-channel-amplifiers/add",
+                                                "/amplifiers/multi-channel-amplifiers/edit/**",
+                                                "/amplifiers/multi-channel-amplifiers/delete/**").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->

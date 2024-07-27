@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ChooseAmplifierController {
     @GetMapping("/choose-amplifier")
     public String chooseAmp() {
-        return "/amplifiers/choose-amplifier";
+        return "amplifiers/choose-amplifier";
     }
 }

@@ -24,7 +24,7 @@ public class MidRangeController {
         if (!model.containsAttribute("addMidRangeDTO")) {
             model.addAttribute("addMidRangeDTO", midRangeService.createNewAddMidRangeDTO());
         }
-        return "/speakers/midrange-add";
+        return "speakers/midrange-add";
     }
 
     @PostMapping("/add")
@@ -44,7 +44,7 @@ public class MidRangeController {
         if (!model.containsAttribute("midRangeDetails")) {
             model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
         }
-        return "/speakers/midrange-edit";
+        return "speakers/midrange-edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -63,7 +63,7 @@ public class MidRangeController {
     public String midRangeDetails(@PathVariable("id") Long id, Model model) {
         model.addAttribute("midRangeDetails", midRangeService.getDeviceDetails(id));
         model.addAttribute("helperDTO", midRangeService.getDeviceDetailsHelper(id));
-        return "/speakers/midrange-details";
+        return "speakers/midrange-details";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -75,7 +75,7 @@ public class MidRangeController {
     @GetMapping("/rankings")
     public String rankings(Model model) {
         model.addAttribute("allDevices", midRangeService.getAllDeviceSummary());
-        return "/speakers/midrange-all";
+        return "speakers/midrange-all";
     }
 
     @PostMapping("/like/{id}")

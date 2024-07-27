@@ -24,7 +24,7 @@ public class SubwooferController {
         if (!model.containsAttribute("addSubwooferDTO")) {
             model.addAttribute("addSubwooferDTO", subwooferService.createNewSubwooferDTO());
         }
-        return "/speakers/subwoofer-add";
+        return "speakers/subwoofer-add";
     }
 
     @PostMapping("/add")
@@ -44,7 +44,7 @@ public class SubwooferController {
         if (!model.containsAttribute("subwooferDetails")) {
             model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
         }
-        return "/speakers/subwoofer-edit";
+        return "speakers/subwoofer-edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -63,7 +63,7 @@ public class SubwooferController {
     public String subwooferDetails(@PathVariable("id") Long id, Model model) {
         model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
         model.addAttribute("helperDTO", subwooferService.getDeviceDetailsHelper(id));
-        return "/speakers/subwoofer-details";
+        return "speakers/subwoofer-details";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -75,7 +75,7 @@ public class SubwooferController {
     @GetMapping("/rankings")
     public String rankings(Model model) {
         model.addAttribute("allDevices", subwooferService.getAllDeviceSummary());
-        return "/speakers/subwoofers-all";
+        return "speakers/subwoofers-all";
     }
 
     @PostMapping("/like/{id}")

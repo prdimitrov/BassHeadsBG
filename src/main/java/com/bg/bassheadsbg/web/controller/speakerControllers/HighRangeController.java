@@ -24,7 +24,7 @@ public class HighRangeController {
         if (!model.containsAttribute("addHighRangeDTO")) {
             model.addAttribute("addHighRangeDTO", highRangeService.createNewAddHighRangeDTO());
         }
-        return "/speakers/highrange-add";
+        return "speakers/highrange-add";
     }
 
     @PostMapping("/add")
@@ -44,7 +44,7 @@ public class HighRangeController {
         if (!model.containsAttribute("highRangeDetails")) {
             model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
         }
-        return "/speakers/highrange-edit";
+        return "speakers/highrange-edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -63,7 +63,7 @@ public class HighRangeController {
     public String highRangeDetails(@PathVariable("id") Long id, Model model) {
         model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
         model.addAttribute("helperDTO", highRangeService.getDeviceDetailsHelper(id));
-        return "/speakers/highrange-details";
+        return "speakers/highrange-details";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -75,7 +75,7 @@ public class HighRangeController {
     @GetMapping("/rankings")
     public String rankings(Model model) {
         model.addAttribute("allDevices", highRangeService.getAllDeviceSummary());
-        return "/speakers/highrange-all";
+        return "speakers/highrange-all";
     }
 
     @PostMapping("/like/{id}")

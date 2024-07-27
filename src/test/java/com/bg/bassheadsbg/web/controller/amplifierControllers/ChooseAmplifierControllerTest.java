@@ -21,6 +21,6 @@ public class ChooseAmplifierControllerTest {
     public void testChooseAmplifierView() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/amplifiers/choose-amplifier"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("/amplifiers/choose-amplifier"));
+                .andExpect(MockMvcResultMatchers.view().name("amplifiers/choose-amplifier"));
     }
 }
