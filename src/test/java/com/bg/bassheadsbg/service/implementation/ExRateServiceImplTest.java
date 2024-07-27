@@ -100,8 +100,7 @@ public class ExRateServiceImplTest {
 
     @Test
     void testUpdateRatesWithValidData() {
-        // Arrange
-        ExRatesDTO exRatesDTO = new ExRatesDTO("SUD", Map.of("CUR1", new BigDecimal("4"), "CUR2", new BigDecimal("0.5"))); // Populate this DTO with valid data
+        ExRatesDTO exRatesDTO = new ExRatesDTO("SUD", Map.of("CUR1", new BigDecimal("4"), "CUR2", new BigDecimal("0.5")));
 
         when(mockRepository.findByCurrency("CUR1")).thenReturn(Optional.empty());
         when(mockRepository.findByCurrency("CUR2")).thenReturn(Optional.of(TestRates.CUR2));
