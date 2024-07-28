@@ -34,9 +34,7 @@ public class CronScheduler {
         this.multiChannelAmplifierRepository = multiChannelAmplifierRepository;
     }
 
-//    private final Logger LOGGER = LoggerFactory.getLogger(CronScheduler.class);
-
-    @Scheduled(cron = "1 * * * * *")
+    @Scheduled(cron = "30 * * * * *")
     public void onCron() {
 
         log.info("*********************************************");
