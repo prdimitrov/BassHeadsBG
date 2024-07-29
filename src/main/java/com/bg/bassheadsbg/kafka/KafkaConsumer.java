@@ -33,6 +33,15 @@ public class KafkaConsumer {
         this.multiChannelAmpService = multiChannelAmpService;
     }
 
+    /**
+     * This method listens for messages from the Kafka topic "image-hosting-firebase-uploaded".
+     * When a message is received, it is deserialized into an ImageCreateResponse object.
+     * Based on the table name contained in the ImageCreateResponse, the corresponding service's
+     * updateDeviceImageUrls method is called to update the image URLs in the database.
+     *
+     * @param message - the incoming Kafka message in JSON format, representing an ImageCreateResponse object
+     * @throws IOException - if an error occurs while deserializing the JSON message into an ImageCreateResponse object
+     */
     @KafkaListener(topics = "image-hosting-firebase-uploaded")
     public void consume(String message) throws IOException {
 

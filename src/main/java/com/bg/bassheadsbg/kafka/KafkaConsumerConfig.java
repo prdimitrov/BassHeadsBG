@@ -22,6 +22,14 @@ public class KafkaConsumerConfig {
     @Value(value = "${spring.kafka.groupId}")
     private String groupId;
 
+
+    /**
+     * Creates a ConsumerFactory which is used to create Kafka consumers.
+     * This method sets up the necessary configuration properties such as the Kafka broker address,
+     * the group ID, and the key/value deserializers.
+     *
+     * @return a ConsumerFactory configured with the necessary properties.
+     */
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -40,6 +48,12 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
+    /**
+     * Creates a ConcurrentKafkaListenerContainerFactory which is used to configure the Kafka listener
+     * container. This factory is responsible for creating listener containers for annotated Kafka listener methods.
+     *
+     * @return a ConcurrentKafkaListenerContainerFactory configured with the consumer factory.
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String>
     kafkaListenerContainerFactory() {

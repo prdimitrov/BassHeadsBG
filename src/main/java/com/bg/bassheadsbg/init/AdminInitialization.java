@@ -49,6 +49,12 @@ public class AdminInitialization implements CommandLineRunner {
         this.eventPublisher = eventPublisher;
     }
 
+    /**
+     * This method overrides the run method of CommandLineRunner and initializes an admin user
+     * using parameters specified in the application.yaml file, which is located in the resources folder.
+     *
+     * @param args - command line arguments (not used).
+     */
     @Override
     public void run(String... args) {
         if (userRepository.count() == 0) {
@@ -73,6 +79,13 @@ public class AdminInitialization implements CommandLineRunner {
         }
     }
 
+    /**
+     * This method retrieves a UserRole from the repository based on the provided UserRoleEnum.
+     * If the role does not exist, it creates a new UserRole and saves it to the repository.
+     *
+     * @param roleEnum - the role to retrieve or create.
+     * @return UserRole entity corresponding to the provided UserRoleEnum.
+     */
     private UserRole getOrCreateUserRole(UserRoleEnum roleEnum) {
         return roleRepository.findByRole(roleEnum)
                 .orElseGet(() -> {

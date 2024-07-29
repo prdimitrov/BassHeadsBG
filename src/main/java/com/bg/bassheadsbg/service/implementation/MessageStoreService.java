@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Service, thatis used for managing chat messages, storing, retrieving, and clearing messages for users.
+ * This class uses in-memory storage with thread-safe collections.
+ */
 @Service
 public class MessageStoreService {
 
@@ -25,6 +29,14 @@ public class MessageStoreService {
         this.dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
 
+    /**
+     * This method stores a new chat message for a user.
+     *
+     * @param username the username of the sender
+     * @param content  the content of the message
+     * @return the stored ChatMessage
+     * @throws IllegalArgumentException if the user with the given username is not found
+     */
     public ChatMessage storeMessage(String username, String content) {
         UserEntity user = userService.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -46,10 +58,21 @@ public class MessageStoreService {
         return message;
     }
 
+    /**
+     * The method retrieves all chat messages for a user.
+     *
+     * @param username the username of the user whose messages should be retrieved
+     * @return a list of ChatMessage for the specified user
+     */
     public List<ChatMessage> getMessages(String username) {
         return new ArrayList<>(userMessages.getOrDefault(username, new CopyOnWriteArrayList<>()));
     }
 
+    /**
+     * The method clears all chat messages for a user.
+     *
+     * @param username the username of the user whose messages should be cleared
+     */
     public void clearMessages(String username) {
         userMessages.remove(username);
     }

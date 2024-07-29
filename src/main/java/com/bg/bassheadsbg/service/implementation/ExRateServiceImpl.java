@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Service implementation for managing exchange rates from www.exchangerates.org.
+ * This class provides methods for fetching, updating, and converting the exchange rates.
+ */
 @Service
 public class ExRateServiceImpl implements ExRateService {
 
@@ -35,6 +39,11 @@ public class ExRateServiceImpl implements ExRateService {
         this.forexApiConfig = forexApiConfig;
     }
 
+    /**
+     * Returns a list of all supported currencies.
+     *
+     * @return a list of currency codes
+     */
     @Override
     public List<String> allSupportedCurrencies() {
         return exRateRepository
@@ -44,11 +53,21 @@ public class ExRateServiceImpl implements ExRateService {
                 .toList();
     }
 
+    /**
+     * Checks if the exchange rates have been initialized in the database.
+     *
+     * @return boolean - true if exchange rates have been initialized, otherwise false
+     */
     @Override
     public boolean hasInitializedExRates() {
         return exRateRepository.count() > 0;
     }
 
+    /**
+     * Fetches the exchange rates from the Forex API (www.exchangerates.org).
+     *
+     * @return an ExRatesDTO that contains the fetched exchange rates
+     */
     @Override
     public ExRatesDTO fetchExRates() {
         return restClient
@@ -59,6 +78,11 @@ public class ExRateServiceImpl implements ExRateService {
                 .body(ExRatesDTO.class);
     }
 
+    /**
+     * Updates the exchange rates in the database with the provided exchange rates.
+     *
+     * @param exRatesDTO the exchange rates to update
+     */
     @Override
     public void updateRates(ExRatesDTO exRatesDTO) {
         LOGGER.info("Updating {} rates.", exRatesDTO.rates().size());
@@ -78,6 +102,13 @@ public class ExRateServiceImpl implements ExRateService {
         });
     }
 
+    /**
+     * Finds the exchange rate between two currencies.
+     *
+     * @param from - the source currency
+     * @param to - the target currency
+     * @return an Optional containing the exchange rate if it's found, or empty if the exchange rate is not found
+     */
     private Optional<BigDecimal> findExRate(String from, String to) {
 
         if (Objects.equals(from, to)) {
@@ -105,7 +136,15 @@ public class ExRateServiceImpl implements ExRateService {
         }
     }
 
-
+    /**
+     * Converts an amount from one currency to another currency.
+     *
+     * @param from - the source currency
+     * @param to - the target currency
+     * @param amount - the amount that has to be converted
+     * @return the converted amount
+     * @throws ApiNotFoundException if the conversion is not possible
+     */
     @Override
     public BigDecimal convert(String from, String to, BigDecimal amount) {
         return findExRate(from, to)
@@ -113,6 +152,11 @@ public class ExRateServiceImpl implements ExRateService {
                 .multiply(amount);
     }
 
+    /**
+     * Retrieves all exchange rates from the database.
+     *
+     * @return a list, containing all of the ExRateEntity objects
+     */
     @Override
     public List<ExRateEntity> getAllExRates() {
         return exRateRepository.findAll();

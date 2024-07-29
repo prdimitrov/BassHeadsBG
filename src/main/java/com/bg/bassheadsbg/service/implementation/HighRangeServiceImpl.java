@@ -28,6 +28,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation for managing high-range speakers.
+ * This class provides methods for creating, editing, deleting, and retrieving high-range speakers,
+ * also handling the likes and updating image URLs.
+ */
 @Slf4j
 @Service
 public class HighRangeServiceImpl implements HighRangeService {
@@ -48,11 +53,23 @@ public class HighRangeServiceImpl implements HighRangeService {
         this.messageSource = messageSource;
     }
 
+    /**
+     * Creates a new instance of AddHighRangeDTO.
+     *
+     * @return a new AddHighRangeDTO object
+     */
     @Override
     public AddHighRangeDTO createNewAddHighRangeDTO() {
         return new AddHighRangeDTO();
     }
 
+    /**
+     * Adds a new high-range device.
+     *
+     * @param addDeviceDTO the DTO containing device information
+     * @return the ID of the newly added device
+     * @throws JsonProcessingException if an error occurs while processing JSON data (the images)
+     */
     @Override
     public long addDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -73,6 +90,12 @@ public class HighRangeServiceImpl implements HighRangeService {
         }
     }
 
+    /**
+     * This method is used for editing an already existing high-range speaker.
+     *
+     * @param addDeviceDTO the DTO, that should contain information about the updated speaker.
+     * @return the ID of the edited high-range speaker.
+     */
     @Override
     public long editDevice(AddHighRangeDTO addDeviceDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -92,6 +115,11 @@ public class HighRangeServiceImpl implements HighRangeService {
         }
     }
 
+    /**
+     * Deletes a high-range speaker by ID.
+     *
+     * @param deviceId the ID of the speaker, that has to be deleted
+     */
     @Override
     public void deleteDevice(long deviceId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -113,6 +141,13 @@ public class HighRangeServiceImpl implements HighRangeService {
         }
     }
 
+    /**
+     * The method is used to retrieve details of a high-range speaker by its ID.
+     *
+     * @param id the ID of the device
+     * @return the details of the speaker
+     * @throws DeviceNotFoundException if the speaker with the given ID is not found
+     */
     @Override
     public HighRangeDetailsDTO getDeviceDetails(Long id) {
         return repository.findById(id)
@@ -120,12 +155,23 @@ public class HighRangeServiceImpl implements HighRangeService {
                 .orElseThrow(() -> new DeviceNotFoundException("Device with id " + id + " not found!", id));
     }
 
+    /**
+     * Retrieves helper details for a high-range speaker by its ID.
+     *
+     * @param id the ID of the high-range speaker
+     * @return the helper details of the speaker
+     */
     @Override
     public HighRangeDetailsHelperDTO getDeviceDetailsHelper(Long id) {
         HighRangeDetailsDTO deviceDetails = getDeviceDetails(id);
         return new HighRangeDetailsHelperDTO(deviceDetails);
     }
 
+    /**
+     * The method is used for retrieving a summary of all high-range speakers.
+     *
+     * @return a list of summaries of high-range speakers.
+     */
     @Override
     public List<HighRangeSummaryDTO> getAllDeviceSummary() {
         return repository.findAll()
@@ -138,6 +184,11 @@ public class HighRangeServiceImpl implements HighRangeService {
                 .toList();
     }
 
+    /**
+     * Method for liking a high-range speaker.
+     *
+     * @param id the ID of the speaker, that should be liked
+     */
     @Override
     public void likeDevice(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -160,6 +211,12 @@ public class HighRangeServiceImpl implements HighRangeService {
         }
     }
 
+    /**
+     * Updates image URLs for high-range devices that contain the old URL.
+     *
+     * @param oldUrl the old image URL
+     * @param newUrl the new image URL
+     */
     @Override
     public void updateDeviceImageUrls(String oldUrl, String newUrl) {
         List<HighRange> highRanges = repository.findByImagesContaining(oldUrl);
@@ -176,15 +233,34 @@ public class HighRangeServiceImpl implements HighRangeService {
         }
     }
 
+    /**
+     * Maps an AddHighRangeDTO to a HighRange entity.
+     *
+     * @param addDeviceDTO the add DTO, that should be mapped
+     * @return the mapped HighRange entity
+     * @throws JsonProcessingException if an error occurs while processing the JSON data
+     */
     private HighRange mapToDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
         createImageListDetailsDTO(addDeviceDTO);
         return modelMapper.map(addDeviceDTO, HighRange.class);
     }
 
+    /**
+     * Maps an AddHighRangeDTO to an edited HighRange entity.
+     *
+     * @param addHighRangeDTO the DTO to map
+     * @return the mapped HighRange entity
+     */
     private HighRange mapEditedDevice(AddHighRangeDTO addHighRangeDTO) {
         return modelMapper.map(addHighRangeDTO, HighRange.class);
     }
 
+    /**
+     * Creates and sends an ImageListDetailsDTO message to update image.
+     *
+     * @param addDeviceDTO the data transfer object, that contains image URLs
+     * @throws JsonProcessingException if an error occurs while processing the JSON data
+     */
     private void createImageListDetailsDTO(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
         ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
         imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
@@ -192,23 +268,49 @@ public class HighRangeServiceImpl implements HighRangeService {
         imageProducer.sendMessage(imageListDetailsDTO);
     }
 
+    /**
+     * The method is used to map a HighRange entity to a HighRangeDetailsDTO.
+     *
+     * @param highRange the HighRange entity
+     * @return the HighRangeDetailsDTO
+     */
     private HighRangeDetailsDTO toDetailsDTO(HighRange highRange) {
         HighRangeDetailsDTO highRangeDetailsDTO = modelMapper.map(highRange, HighRangeDetailsDTO.class);
         highRangeDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
         return highRangeDetailsDTO;
     }
 
+    /**
+     * This method is used to map a HighRange entity to a HighRangeSummaryDTO.
+     *
+     * @param highRange the HighRange entity
+     * @return the HighRangeSummaryDTO
+     */
     private HighRangeSummaryDTO toSummaryDTO(HighRange highRange) {
         HighRangeSummaryDTO highRangeSummaryDTO = modelMapper.map(highRange, HighRangeSummaryDTO.class);
         highRangeSummaryDTO.setLikes(highRange.getLikes());
         return highRangeSummaryDTO;
     }
 
+    /**
+     * The method retrieves a UserEntity by username.
+     *
+     * @param username the username of the user
+     * @return the UserEntity
+     * @throws UserNotFoundException if the user is not found
+     */
     private UserEntity getUserEntity(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
     }
 
+    /**
+     * Adds a like to a HighRange speaker's List<UserEntity> from a UserEntity.
+     *
+     * @param entity the HighRange entity
+     * @param user the UserEntity liking the device, that will be added in the list
+     * @throws DeviceAlreadyLikedException if the user has already liked the device
+     */
     private void addLikeToEntity(HighRange entity, UserEntity user) {
         List<UserEntity> userLikes = entity.getUserLikes();
         long userId = user.getId();
@@ -227,6 +329,13 @@ public class HighRangeServiceImpl implements HighRangeService {
         userLikes.add(user);
     }
 
+    /**
+     * Checks if a high-range speaker with a given brand and model does already exist.
+     *
+     * @param brand the brand of the speaker
+     * @param model the model of the speaker
+     * @throws DeviceAlreadyExistsException if a device with the given brand and model already exists
+     */
     private void checkEntityExists(String brand, String model) {
         Optional<HighRange> existingEntity = findByBrandAndModel(brand, model);
         if (existingEntity.isPresent()) {
@@ -239,14 +348,33 @@ public class HighRangeServiceImpl implements HighRangeService {
         }
     }
 
+    /**
+     * Finds a HighRange entity by its brand and model.
+     *
+     * @param brand the brand of the device
+     * @param model the model of the device
+     * @return an Optional containing the HighRange entity if found
+     */
     private Optional<HighRange> findByBrandAndModel(String brand, String model) {
         return repository.findByBrandAndModel(brand, model);
     }
 
+    /**
+     * This method retrieves the brand from an AddHighRangeDTO.
+     *
+     * @param addDeviceDTO the DTO containing information of the speaker
+     * @return the brand of the speaker
+     */
     private String getBrand(AddHighRangeDTO addDeviceDTO) {
         return addDeviceDTO.getBrand();
     }
 
+    /**
+     * This method retrieves the model from an AddHighRangeDTO.
+     *
+     * @param addDeviceDTO the DTO containing information of the speaker
+     * @return the model of the speaker
+     */
     private String getModel(AddHighRangeDTO addDeviceDTO) {
         return addDeviceDTO.getModel();
     }

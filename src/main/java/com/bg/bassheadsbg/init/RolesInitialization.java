@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class is used to initialize the needed roles in the database, if the database doesn't contain any
+ * user roles.
+ */
 @Component
 public class RolesInitialization implements CommandLineRunner {
 
@@ -23,6 +27,14 @@ public class RolesInitialization implements CommandLineRunner {
         this.eventPublisher = eventPublisher;
     }
 
+    /**
+     * This method is executed when the application starts. It checks if there are any roles in the database.
+     * If there are no roles, it initializes the roles defined in UserRoleEnum and saves them to the database.
+     * It then publishes an event with the details of the initialized roles.
+     *
+     * @param args command line arguments (not in use)
+     * @throws Exception if an error occurs during role initialization
+     */
     @Override
     public void run(String... args) throws Exception {
         if (roleRepository.count() == 0) {
