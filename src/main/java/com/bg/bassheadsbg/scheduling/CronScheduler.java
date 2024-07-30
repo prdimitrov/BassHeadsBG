@@ -33,7 +33,7 @@ public class CronScheduler {
         this.multiChannelAmplifierRepository = multiChannelAmplifierRepository;
     }
 
-    @Scheduled(cron = "30 * * * * *")
+    @Scheduled(cron = "0 0/30 * * * ?")
     public void onCron() {
         if (log.isInfoEnabled()) {
             StringBuilder logMessage = new StringBuilder();
