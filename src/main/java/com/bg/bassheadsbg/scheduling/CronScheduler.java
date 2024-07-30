@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -36,39 +35,36 @@ public class CronScheduler {
 
     @Scheduled(cron = "30 * * * * *")
     public void onCron() {
+        if (log.isInfoEnabled()) {
+            StringBuilder logMessage = new StringBuilder();
+            logMessage.append("*********************************************\n")
+                    .append("---------------------------------------------\n");
 
-        log.info("*********************************************");
-        log.info("---------------------------------------------");
-        List<UserEntity> usersList;
-        usersList = new ArrayList<>(userRepository.findAll());
-        log.info("Number of users: {}", usersList.size());
-        log.info("---------------------------------------------");
-        List<HighRange> highRangeList;
-        List<MidRange> midRangeList;
-        List<Subwoofer> subwoofersList;
-        highRangeList = new ArrayList<>(highRangeRepository.findAll());
-        midRangeList = new ArrayList<>(midRangeRepository.findAll());
-        subwoofersList = new ArrayList<>(subwooferRepository.findAll());
-        log.info("Number of HighRange Speakers: {}", highRangeList.size());
-        log.info("Number of MidRange Speakers: {}", midRangeList.size());
-        log.info("Number of Subwoofers: {}", subwoofersList.size());
-        log.info("Total speakers: {}", subwoofersList.size() + midRangeList.size() + highRangeList.size());
-        log.info("---------------------------------------------");
-        List<MonoAmplifier> monoAmplifiers;
-        monoAmplifiers = new ArrayList<>(monoAmplifierRepository.findAll());
-        List<MultiChannelAmplifier> multiChannelAmplifiers;
-        multiChannelAmplifiers = new ArrayList<>(multiChannelAmplifierRepository.findAll());
+            List<UserEntity> usersList = userRepository.findAll();
+            logMessage.append("Number of users: ").append(usersList.size()).append("\n")
+                    .append("---------------------------------------------\n");
 
-        log.info("Number of Mono-block Amps: {}", monoAmplifiers.size());
-        log.info("Number of Multi-Channel Amps: {}", multiChannelAmplifiers.size());
-        log.info("Total Amplifiers: {}", monoAmplifiers.size() + multiChannelAmplifiers.size());
-        log.info("---------------------------------------------");
-        log.info("*********************************************");
-        log.info("\n" +
-                "▒█▀▀█ █▀▀█ █▀▀ █▀▀ ▒█░▒█ █▀▀ █▀▀█ █▀▀▄ █▀▀ 　 ▒█▀▀█ ▒█▀▀█ \n" +
-                "▒█▀▀▄ █▄▄█ ▀▀█ ▀▀█ ▒█▀▀█ █▀▀ █▄▄█ █░░█ ▀▀█ 　 ▒█▀▀▄ ▒█░▄▄ \n" +
-                "▒█▄▄█ ▀░░▀ ▀▀▀ ▀▀▀ ▒█░▒█ ▀▀▀ ▀░░▀ ▀▀▀░ ▀▀▀ 　 ▒█▄▄█ ▒█▄▄█");
+            List<HighRange> highRangeList = highRangeRepository.findAll();
+            List<MidRange> midRangeList = midRangeRepository.findAll();
+            List<Subwoofer> subwoofersList = subwooferRepository.findAll();
+            logMessage.append("Number of HighRange Speakers: ").append(highRangeList.size()).append("\n")
+                    .append("Number of MidRange Speakers: ").append(midRangeList.size()).append("\n")
+                    .append("Number of Subwoofers: ").append(subwoofersList.size()).append("\n")
+                    .append("Total speakers: ").append(highRangeList.size() + midRangeList.size() + subwoofersList.size()).append("\n")
+                    .append("---------------------------------------------\n");
 
+            List<MonoAmplifier> monoAmplifiers = monoAmplifierRepository.findAll();
+            List<MultiChannelAmplifier> multiChannelAmplifiers = multiChannelAmplifierRepository.findAll();
+            logMessage.append("Number of Mono-block Amps: ").append(monoAmplifiers.size()).append("\n")
+                    .append("Number of Multi-Channel Amps: ").append(multiChannelAmplifiers.size()).append("\n")
+                    .append("Total Amplifiers: ").append(monoAmplifiers.size() + multiChannelAmplifiers.size()).append("\n")
+                    .append("---------------------------------------------\n")
+                    .append("*********************************************\n")
+                    .append("▒█▀▀█ █▀▀█ █▀▀ █▀▀ ▒█░▒█ █▀▀ █▀▀█ █▀▀▄ █▀▀ 　 ▒█▀▀█ ▒█▀▀█ \n" +
+                            "▒█▀▀▄ █▄▄█ ▀▀█ ▀▀█ ▒█▀▀█ █▀▀ █▄▄█ █░░█ ▀▀█ 　 ▒█▀▀▄ ▒█░▄▄ \n" +
+                            "▒█▄▄█ ▀░░▀ ▀▀▀ ▀▀▀ ▒█░▒█ ▀▀▀ ▀░░▀ ▀▀▀░ ▀▀▀ 　 ▒█▄▄█ ▒█▄▄█");
+
+            log.info(logMessage.toString());
+        }
     }
-
 }
