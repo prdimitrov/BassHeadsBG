@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.web.controller;
 
-import com.bg.bassheadsbg.model.dto.details.BassHeadsUserDetails;
+import com.bg.bassheadsbg.service.interfaces.WelcomeService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -10,18 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    public HomeController() {
+    private final WelcomeService welcomeService;
+
+    public HomeController(WelcomeService welcomeService) {
+        this.welcomeService = welcomeService;
     }
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal UserDetails userDetails,
                        Model model) {
-        if (userDetails instanceof BassHeadsUserDetails bassHeadsUserDetails) {
-            model.addAttribute("welcomeMessage", (", " + bassHeadsUserDetails.getUsername()));
-        } else {
-            model.addAttribute("welcomeMessage", " :)");
-        }
-
+        model.addAttribute("welcomeMessage", welcomeService.generateWelcomeMessage(userDetails));
         return "index";
     }
 }
