@@ -47,11 +47,8 @@ public class KafkaConsumer {
 
         ImageCreateResponse imageResponse = objectMapper.readValue(message, ImageCreateResponse.class);
 
-
-        log.info("Received Message: {}", message);
-        log.info("old url: {}", imageResponse.getOldUrl());
-        log.info("new link: {}", imageResponse.getUrl());
-        log.info("table name: {}", imageResponse.getTableName());
+        log.info("Received message: {}\nOld url: {}\nNew link: {}\nTable name: {}",
+                message, imageResponse.getOldUrl(), imageResponse.getUrl(), imageResponse.getTableName());
 
         switch (imageResponse.getTableName()) {
             case "high_range_images":

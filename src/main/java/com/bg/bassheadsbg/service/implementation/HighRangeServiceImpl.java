@@ -97,7 +97,7 @@ public class HighRangeServiceImpl implements HighRangeService {
      * @return the ID of the edited high-range speaker.
      */
     @Override
-    public long editDevice(AddHighRangeDTO addDeviceDTO) {
+    public long editDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
@@ -251,7 +251,8 @@ public class HighRangeServiceImpl implements HighRangeService {
      * @param addHighRangeDTO the DTO to map
      * @return the mapped HighRange entity
      */
-    private HighRange mapEditedDevice(AddHighRangeDTO addHighRangeDTO) {
+    private HighRange mapEditedDevice(AddHighRangeDTO addHighRangeDTO) throws JsonProcessingException {
+        createImageListDetailsDTO(addHighRangeDTO);
         return modelMapper.map(addHighRangeDTO, HighRange.class);
     }
 

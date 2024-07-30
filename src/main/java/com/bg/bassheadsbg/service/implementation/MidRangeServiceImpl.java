@@ -74,7 +74,7 @@ public class MidRangeServiceImpl implements MidRangeService {
     }
 
     @Override
-    public long editDevice(AddMidRangeDTO addDeviceDTO) {
+    public long editDevice(AddMidRangeDTO addDeviceDTO) throws JsonProcessingException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
@@ -181,7 +181,8 @@ public class MidRangeServiceImpl implements MidRangeService {
         return modelMapper.map(addDeviceDTO, MidRange.class);
     }
 
-    private MidRange mapEditedDevice(AddMidRangeDTO addMidRangeDTO) {
+    private MidRange mapEditedDevice(AddMidRangeDTO addMidRangeDTO) throws JsonProcessingException {
+        createImageListDetailsDTO(addMidRangeDTO);
         return modelMapper.map(addMidRangeDTO, MidRange.class);
     }
 
