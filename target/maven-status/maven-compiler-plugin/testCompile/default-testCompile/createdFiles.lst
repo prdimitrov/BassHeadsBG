@@ -22,7 +22,6 @@ com\bg\bassheadsbg\service\implementation\ExRateServiceImplTest$TestRates.class
 com\bg\bassheadsbg\init\RolesInitializationTest.class
 com\bg\bassheadsbg\BassheadsbgApplicationTests.class
 com\bg\bassheadsbg\service\implementation\MonoAmpServiceImplTest.class
-com\bg\bassheadsbg\web\controller\error\ErrorControllerTest.class
 com\bg\bassheadsbg\service\implementation\MultiChannelAmpServiceImplTest.class
 com\bg\bassheadsbg\web\controller\error\AccessDeniedControllerTest.class
 com\bg\bassheadsbg\web\controller\speakerControllers\SubwooferControllerIT.class

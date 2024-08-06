@@ -90,6 +90,7 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\im
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\RoleServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\SubwooferServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\UserServiceImpl.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\WelcomeServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\ExRateService.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\HighRangeService.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\MidRangeService.java
@@ -98,6 +99,7 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\in
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\RoleService.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\SubwooferService.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\UserService.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\WelcomeService.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\util\GlobalValuesAdvice.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\util\ValueFormatterUtil.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\fieldsMatcher\FieldsMatch.java

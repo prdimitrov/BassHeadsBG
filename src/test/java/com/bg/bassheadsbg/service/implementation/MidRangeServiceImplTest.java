@@ -153,7 +153,7 @@ public class MidRangeServiceImplTest {
     }
 
     @Test
-    void testEditDevice_withValidData() {
+    void testEditDevice_withValidData() throws JsonProcessingException {
         AddMidRangeDTO addMidRangeDTO = new AddMidRangeDTO();
         addMidRangeDTO.setBrand("TestBrand");
         addMidRangeDTO.setModel("TestModel");

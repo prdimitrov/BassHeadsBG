@@ -153,7 +153,7 @@ public class HighRangeServiceImplTest {
     }
 
     @Test
-    void testEditDevice_withValidData() {
+    void testEditDevice_withValidData() throws JsonProcessingException {
         AddHighRangeDTO addHighRangeDTO = new AddHighRangeDTO();
         addHighRangeDTO.setBrand("TestBrand");
         addHighRangeDTO.setModel("TestModel");

@@ -78,6 +78,7 @@ com\bg\bassheadsbg\service\interfaces\MonoAmpService.class
 com\bg\bassheadsbg\web\controller\userControllers\AllUsersController.class
 com\bg\bassheadsbg\config\RestConfig.class
 com\bg\bassheadsbg\init\ExchangeRateInitializer.class
+com\bg\bassheadsbg\service\implementation\WelcomeServiceImpl.class
 com\bg\bassheadsbg\kafka\KafkaConsumer.class
 com\bg\bassheadsbg\service\interfaces\UserService.class
 com\bg\bassheadsbg\service\interfaces\ExRateService.class
@@ -85,6 +86,7 @@ com\bg\bassheadsbg\config\SecurityConfig.class
 com\bg\bassheadsbg\model\dto\details\MonoAmpDetailsDTO.class
 com\bg\bassheadsbg\web\controller\userControllers\RegistrationController.class
 com\bg\bassheadsbg\service\interfaces\MidRangeService.class
+com\bg\bassheadsbg\service\interfaces\WelcomeService.class
 com\bg\bassheadsbg\validation\imagesUrlValidator\ListUrlsValidator.class
 com\bg\bassheadsbg\web\controller\AboutController.class
 com\bg\bassheadsbg\model\entity\base\BaseSpeaker.class
