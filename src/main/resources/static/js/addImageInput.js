@@ -1,6 +1,6 @@
 // Define imageIndex globally to track the number of image inputs
 let imageIndex = document.querySelectorAll('#image-inputs .input-group').length;
-
+let currLanguage = document.getElementById('language-advice');
 // Function to add a new image input field
 function addImageInput() {
     let imageInputsContainer = document.getElementById('image-inputs');
@@ -20,8 +20,12 @@ function addImageInput() {
     let removeButton = document.createElement('button');
     removeButton.setAttribute('type', 'button');
     removeButton.setAttribute('class', 'btn btn-danger');
-    removeButton.textContent = 'Remove';
-    removeButton.addEventListener('click', function() {
+    if (currLanguage.textContent == 'Език') {
+        removeButton.textContent = 'Премахни';
+    } else {
+        removeButton.textContent = 'Remove';
+    }
+    removeButton.addEventListener('click', function () {
         removeImageInput(removeButton); // Call the removeImageInput function properly
     });
 
@@ -49,10 +53,10 @@ function updateImageInputNames() {
 }
 
 // Add event listener to the "Add Image" button
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let addButton = document.getElementById('add-image-button');
     if (addButton) {
-        addButton.addEventListener('click', function() {
+        addButton.addEventListener('click', function () {
             addImageInput();
         });
     } else {

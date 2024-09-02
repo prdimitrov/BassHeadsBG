@@ -92,7 +92,7 @@
         <li class="nav-item dropdown align-self-end d-flex">
           <img src="/images/bgeuflag.jpg" alt="BG/EU Flag" width="40" height="25" class="mr-2">
           <form th:method="get">
-            <label class="text-white mr-2" for="lang" th:text="#{nav_bar_language}">Language</label>
+            <label class="text-white mr-2" id="language-advice" for="lang" th:text="#{nav_bar_language}">Language</label>
             <select id="lang" name="lang" onchange="this.form.submit()">
               <option th:value="eu_US" th:selected="${#locale.toString()} == 'en_US'"><span th:text="#{en_US}"></span></option>
               <option th:value="bg_BG" th:text="#{bg_BG}" th:selected="${#locale.toString()} == 'bg_BG'"><span th:text="#{bg_BG}"></span></option>
