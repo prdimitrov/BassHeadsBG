@@ -1,20 +1,18 @@
 package com.bg.bassheadsbg.service.implementation;
 
+import com.bg.bassheadsbg.model.dto.accuweather.CityDTO;
 import com.bg.bassheadsbg.model.entity.City;
 import com.bg.bassheadsbg.repository.CityRepository;
 import com.bg.bassheadsbg.service.interfaces.AccuWeatherService;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.naming.MalformedLinkException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -27,43 +25,40 @@ public class AccuWeatherServiceImpl implements AccuWeatherService {
 
     private final CityRepository cityRepository;
     private final RestTemplate restTemplate;
+    private final ModelMapper modelMapper;
 
-    public AccuWeatherServiceImpl(CityRepository cityRepository, RestTemplate restTemplate) {
+    public AccuWeatherServiceImpl(CityRepository cityRepository, RestTemplate restTemplate, ModelMapper modelMapper) {
         this.cityRepository = cityRepository;
         this.restTemplate = restTemplate;
+        this.modelMapper = modelMapper;
     }
 
     @Transactional
-    public List<String> getAllTownsInBulgaria() {
-        List<String> townsList = new ArrayList<>();
+    public void initializeAllCitiesInBulgaria() {
         try {
             URL url = new URL(BASE_URL + COUNTRY_CODE + "?apikey=" + API_KEY);
 
-            // Making an API call
+            // Making API call
             String jsonResponse = restTemplate.getForObject(url.toString(), String.class);
 
-            // Parsing the JSON response
+            // Parsing the JSON response into an CityDTOs array!
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode node = objectMapper.readTree(jsonResponse);
+            CityDTO[] cityDTOs = objectMapper.readValue(jsonResponse, CityDTO[].class);
 
-            for (JsonNode cityNode : node) {
-                String key = cityNode.get("Key").asText();
-                String localizedName = cityNode.get("LocalizedName").asText();
-
-                townsList.add(localizedName);
-
-                City city = new City();
-                city.setCityKey(key);
-                city.setLocalizedName(localizedName);
+            for (CityDTO cityDTO : cityDTOs) {
+                City city = modelMapper.map(cityDTO, City.class);
                 cityRepository.save(city);
             }
         } catch (Exception e) {
-            log.error("Failed to retrieve towns!\n----------------------------------" + e);
+            log.error("Failed to retrieve towns!\n----------------------------------{}", e.toString());
         }
-        return townsList;
     }
 
-    public boolean hasInitializedTowns() {
+    public boolean hasInitializedCities() {
         return cityRepository.count() > 0;
+    }
+
+    public List<String> getAllCitiesFromDb() {
+        return cityRepository.findAllByLocalizedNames();
     }
 }

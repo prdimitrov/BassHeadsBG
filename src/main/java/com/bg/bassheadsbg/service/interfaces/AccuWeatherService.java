@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface AccuWeatherService {
 
-    List<String> getAllTownsInBulgaria();
-    boolean hasInitializedTowns();
+    void initializeAllCitiesInBulgaria();
+    boolean hasInitializedCities();
+    List<String> getAllCitiesFromDb();
 }

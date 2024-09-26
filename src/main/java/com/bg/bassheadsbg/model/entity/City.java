@@ -1,37 +1,24 @@
 package com.bg.bassheadsbg.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "cities")
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "city_key", nullable = false, unique = true)
     private String cityKey;
+
+    @Column(name = "localized_name", nullable = false)
     private String localizedName;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCityKey() {
-        return cityKey;
-    }
-
-    public void setCityKey(String cityKey) {
-        this.cityKey = cityKey;
-    }
-
-    public String getLocalizedName() {
-        return localizedName;
-    }
-
-    public void setLocalizedName(String localizedName) {
-        this.localizedName = localizedName;
-    }
+    @Column(name = "administrative_area_localized_name")
+    private String administrativeAreaLocalizedName;
 }
