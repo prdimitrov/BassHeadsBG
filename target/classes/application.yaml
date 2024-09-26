@@ -56,3 +56,6 @@ admin:
   firstName: ${admin_firstName}
   lastName: ${admin_lastName}
   birthDate: ${admin_birthDate}
+
+accuweather:
+  accu_key: ${accu_key}
