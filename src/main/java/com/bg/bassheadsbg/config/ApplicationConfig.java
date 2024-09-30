@@ -20,24 +20,24 @@ public class ApplicationConfig {
         return new RestTemplate();
     }
 
-    @Bean(name = "cityModelMapper")
-    public ModelMapper cityModelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-
-        // Custom property mapping for the City class!!!!!!!!
-        modelMapper.addMappings(new PropertyMap<CityDTO, City>() {
-            @Override
-            protected void configure() {
-                map().setCityKey(source.getKey());
-                map().setLocalizedName(source.getLocalizedName());
-                if (source.getAdministrativeArea() != null) {
-                    map().setAdministrativeAreaLocalizedName(source.getAdministrativeArea().getLocalizedName());
-                } else {
-                    map().setAdministrativeAreaLocalizedName(null); // Handle null as needed
-                }
-            }
-        });
-
-        return modelMapper;
-    }
+//    @Bean(name = "cityModelMapper")
+//    public ModelMapper cityModelMapper() {
+//        ModelMapper modelMapper = new ModelMapper();
+//
+//        // Custom property mapping for the City class!!!!!!!!
+//        modelMapper.addMappings(new PropertyMap<CityDTO, City>() {
+//            @Override
+//            protected void configure() {
+//                map().setCityKey(source.getKey());
+//                map().setLocalizedName(source.getLocalizedName());
+//                if (source.getAdministrativeArea() != null) {
+//                    map().setAdministrativeAreaLocalizedName(source.getAdministrativeArea().getLocalizedName());
+//                } else {
+//                    map().setAdministrativeAreaLocalizedName(null); // Handle null as needed
+//                }
+//            }
+//        });
+//
+//        return modelMapper;
+//    }
 }

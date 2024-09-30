@@ -7,9 +7,6 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AdministrativeAreaDTO {
-    @JsonProperty("Key")
-    private String key;
-
     @JsonProperty("LocalizedName")
     private String localizedName;
 }
