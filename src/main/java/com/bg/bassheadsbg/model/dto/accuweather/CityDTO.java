@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true) // This will ignore all unknown properties?!
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CityDTO {
     @JsonProperty("Key")
     private String key;
