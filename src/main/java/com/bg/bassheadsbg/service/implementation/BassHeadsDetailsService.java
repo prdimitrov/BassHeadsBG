@@ -47,6 +47,7 @@ public class BassHeadsDetailsService implements UserDetailsService {
      */
     private static UserDetails mapUser(UserEntity userEntity) {
         return new BassHeadsUserDetails(
+                userEntity.getId(),
                 userEntity.getUsername(),
                 userEntity.getPassword(),
                 userEntity.getRoles().stream().map(UserRole::getRole).map(BassHeadsDetailsService::map).toList(),

@@ -5,6 +5,7 @@ import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.UserEntityEditDTO;
 import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
+import com.bg.bassheadsbg.model.dto.details.BassHeadsUserDetails;
 import com.bg.bassheadsbg.model.entity.City;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
@@ -18,7 +19,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -123,14 +123,19 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
-        // Check if the authenticated principal is a UserEntity
-        if (principal instanceof UserDetails userDetails) {
-            return userRepository.findById(id)
-                    .map(this::toUserEntityEditDTO)
-                    .orElseThrow(() -> new UserNotFoundException(id));
-        } else {
+        if (!(principal instanceof BassHeadsUserDetails userDetails)) {
             throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
         }
+
+        Long authenticatedUserId = userDetails.getId();
+
+        if (!authenticatedUserId.equals(id)) {
+            throw new AccessDeniedException("You are not authorized to edit this profile!");
+        }
+
+        return userRepository.findById(id)
+                .map(this::toUserEntityEditDTO)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private UserEntityEditDTO toUserEntityEditDTO(UserEntity userEntity) {
