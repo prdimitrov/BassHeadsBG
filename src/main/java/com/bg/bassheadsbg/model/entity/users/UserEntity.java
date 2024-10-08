@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.entity.users;
 
+import com.bg.bassheadsbg.model.entity.City;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -56,6 +57,10 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<UserRole> roles = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @Column(nullable = false)
     private boolean enabled = true;

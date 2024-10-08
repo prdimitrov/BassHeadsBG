@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.service.interfaces;
 
+import com.bg.bassheadsbg.model.dto.UserEntityEditDTO;
 import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 
@@ -24,4 +25,8 @@ public interface UserService {
     UserEntity disableUser(Long userId);
 
     boolean isAccountDisabled(String username);
+
+    void setCityToUserId(Long userId, Long cityId);
+
+    UserEntityEditDTO getUserDetails(Long id);
 }

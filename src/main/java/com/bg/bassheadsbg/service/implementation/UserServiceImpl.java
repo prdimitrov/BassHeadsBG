@@ -1,14 +1,24 @@
 package com.bg.bassheadsbg.service.implementation;
 
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
 import com.bg.bassheadsbg.exception.UserNotFoundException;
+import com.bg.bassheadsbg.messages.ExceptionMessages;
+import com.bg.bassheadsbg.model.dto.UserEntityEditDTO;
 import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
+import com.bg.bassheadsbg.model.entity.City;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.repository.UserRepository;
+import com.bg.bassheadsbg.service.interfaces.CityService;
 import com.bg.bassheadsbg.service.interfaces.RoleService;
 import com.bg.bassheadsbg.service.interfaces.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +31,14 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final CityService cityService;
 
-    public UserServiceImpl(ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRepository userRepository, RoleService roleService) {
+    public UserServiceImpl(ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRepository userRepository, RoleService roleService, CityService cityService) {
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.cityService = cityService;
     }
 
     @Override
@@ -96,4 +108,33 @@ public class UserServiceImpl implements UserService {
         mappedUserEntity.getRoles().add(userRole);
         return mappedUserEntity;
     }
+
+    @Override
+    @Transactional
+    public void setCityToUserId(Long userId, Long cityId) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        City city = cityService.getCityById(cityId);
+        userEntity.setCity(city);
+    }
+
+    @Override
+    public UserEntityEditDTO getUserDetails(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        // Check if the authenticated principal is a UserEntity
+        if (principal instanceof UserDetails userDetails) {
+            return userRepository.findById(id)
+                    .map(this::toUserEntityEditDTO)
+                    .orElseThrow(() -> new UserNotFoundException(id));
+        } else {
+            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        }
+    }
+
+    private UserEntityEditDTO toUserEntityEditDTO(UserEntity userEntity) {
+        return modelMapper.map(userEntity, UserEntityEditDTO.class);
+    }
+
 }
