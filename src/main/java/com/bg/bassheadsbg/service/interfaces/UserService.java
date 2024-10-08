@@ -26,7 +26,7 @@ public interface UserService {
 
     boolean isAccountDisabled(String username);
 
-    void setCityToUserId(Long userId, Long cityId);
+    void updateUser(UserEntityEditDTO userEntityEditDTO);
 
     UserEntityEditDTO getUserDetails(Long id);
 }

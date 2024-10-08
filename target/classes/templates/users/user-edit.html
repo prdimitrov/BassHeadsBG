@@ -36,7 +36,7 @@
                 <label th:for="birthDate" class="text-white font-weight-bold" th:text="#{dob}"></label>
                 <input th:field="*{birthDate}"
                        th:errorclass="'is-invalid alert bg-danger'"
-                       type="date"
+                       th:type="date"
                        class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{birthDate}"></small>
             </div>

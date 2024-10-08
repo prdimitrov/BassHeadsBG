@@ -44,6 +44,9 @@ public class EditUserController {
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "editDTO", bindingResult);
             return "redirect:/users/edit/" + userEntityEditDTO.getId();
         }
+
+        userService.updateUser(userEntityEditDTO);
+
         return "redirect:/users/edit/" + userEntityEditDTO.getId();
     }
 }
