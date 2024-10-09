@@ -21,11 +21,6 @@ public class EditUserController {
         this.cityService = cityService;
     }
 
-//    @ModelAttribute("editDTO")
-//    public UserEntityEditDTO editDTO() {
-//        return new UserEntityEditDTO();
-//    }
-
     @GetMapping("/edit/{userId}")
     public String getEditUser(@PathVariable("userId") Long userId, Model model) {
         if (!model.containsAttribute("editDTO")) {
