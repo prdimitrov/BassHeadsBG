@@ -23,6 +23,7 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\exception\
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\exception\UserNotAuthenticatedException.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\exception\UserNotFoundException.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\init\AdminInitialization.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\init\CityInitializer.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\init\ExchangeRateInitializer.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\init\RolesInitialization.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\kafka\ImageCreateResponse.java
@@ -30,6 +31,8 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\kafka\Imag
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\kafka\KafkaConsumer.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\kafka\KafkaConsumerConfig.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\messages\ExceptionMessages.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\accuweather\AdministrativeAreaDTO.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\accuweather\CityDTO.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\add\AddHighRangeDTO.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\add\AddMidRangeDTO.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\add\AddMonoAmpDTO.java
@@ -51,11 +54,13 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\summary\MonoAmpSummaryDTO.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\summary\MultiChannelAmpSummaryDTO.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\summary\SubwooferSummaryDTO.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\UserEntityEditDTO.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\amplifiers\MonoAmplifier.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\amplifiers\MultiChannelAmplifier.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\base\BaseAmplifier.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\base\BaseEntity.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\base\BaseSpeaker.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\City.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\ExRateEntity.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\speakers\HighRange.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\speakers\MidRange.java
@@ -70,6 +75,7 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\help
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\MonoAmpDetailsHelperDTO.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\MultiChannelAmpDetailsHelperDTO.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\SubwooferDetailsHelperDTO.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\CityRepository.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\CommonFindDevice.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\ExRateRepository.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\HighRangeRepository.java
@@ -80,7 +86,9 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\SubwooferRepository.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\UserRepository.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\scheduling\CronScheduler.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\BassHeadsDetailsService.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\CityServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\MessageStoreService.java
@@ -91,6 +99,8 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\im
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\SubwooferServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\UserServiceImpl.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\WelcomeServiceImpl.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\AccuWeatherService.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\CityService.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\ExRateService.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\HighRangeService.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\MidRangeService.java
@@ -124,6 +134,7 @@ C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\contro
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\speakerControllers\MidRangeController.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\speakerControllers\SubwooferController.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\userControllers\AllUsersController.java
+C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\userControllers\EditUserController.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\userControllers\LoginController.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\userControllers\RegistrationController.java
 C:\Users\DASKALA\Desktop\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\rest\CurrencyController.java

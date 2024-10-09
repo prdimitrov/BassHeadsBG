@@ -3,6 +3,7 @@ com\bg\bassheadsbg\web\controller\error\AccessDeniedController.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomDoubleEditor.class
 com\bg\bassheadsbg\exception\GlobalExceptionHandler.class
 com\bg\bassheadsbg\model\dto\auth\UserLoginDTO.class
+com\bg\bassheadsbg\repository\CityRepository.class
 com\bg\bassheadsbg\config\custom\CustomLogoutHandler.class
 com\bg\bassheadsbg\exception\UserNotAuthenticatedException.class
 com\bg\bassheadsbg\web\controller\speakerControllers\MidRangeController.class
@@ -29,16 +30,20 @@ com\bg\bassheadsbg\aop\InitializationAspect.class
 com\bg\bassheadsbg\model\helpers\SubwooferDetailsHelperDTO.class
 com\bg\bassheadsbg\service\implementation\BassHeadsDetailsService.class
 com\bg\bassheadsbg\validation\userExist\UserExistValidator.class
+com\bg\bassheadsbg\service\interfaces\AccuWeatherService.class
 com\bg\bassheadsbg\event\InitializationEvent.class
 com\bg\bassheadsbg\model\entity\base\BaseAmplifier.class
 com\bg\bassheadsbg\repository\RoleRepository.class
 com\bg\bassheadsbg\model\dto\details\BassHeadsUserDetails.class
 com\bg\bassheadsbg\model\entity\speakers\MidRange.class
 com\bg\bassheadsbg\model\dto\add\AddMidRangeDTO.class
+com\bg\bassheadsbg\model\dto\UserEntityEditDTO.class
 com\bg\bassheadsbg\service\interfaces\MultiChannelAmpService.class
 com\bg\bassheadsbg\config\I18NConfig.class
 com\bg\bassheadsbg\config\WebConfig.class
 com\bg\bassheadsbg\kafka\KafkaConsumerConfig.class
+com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.class
+com\bg\bassheadsbg\web\controller\userControllers\EditUserController.class
 com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.class
 com\bg\bassheadsbg\web\controller\userControllers\LoginController.class
 com\bg\bassheadsbg\model\dto\summary\SubwooferSummaryDTO.class
@@ -62,6 +67,7 @@ com\bg\bassheadsbg\model\helpers\MidRangeDetailsHelperDTO.class
 com\bg\bassheadsbg\repository\UserRepository.class
 com\bg\bassheadsbg\repository\SubwooferRepository.class
 com\bg\bassheadsbg\model\helpers\MonoAmpDetailsHelperDTO.class
+com\bg\bassheadsbg\service\interfaces\CityService.class
 com\bg\bassheadsbg\service\interfaces\RoleService.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomFloatEditor.class
 com\bg\bassheadsbg\model\dto\details\HighRangeDetailsDTO.class
@@ -76,9 +82,11 @@ com\bg\bassheadsbg\kafka\ImageCreateResponse.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomShortEditor.class
 com\bg\bassheadsbg\service\interfaces\MonoAmpService.class
 com\bg\bassheadsbg\web\controller\userControllers\AllUsersController.class
+com\bg\bassheadsbg\model\dto\accuweather\AdministrativeAreaDTO.class
 com\bg\bassheadsbg\config\RestConfig.class
 com\bg\bassheadsbg\init\ExchangeRateInitializer.class
 com\bg\bassheadsbg\service\implementation\WelcomeServiceImpl.class
+com\bg\bassheadsbg\model\dto\accuweather\CityDTO.class
 com\bg\bassheadsbg\kafka\KafkaConsumer.class
 com\bg\bassheadsbg\service\interfaces\UserService.class
 com\bg\bassheadsbg\service\interfaces\ExRateService.class
@@ -102,6 +110,7 @@ com\bg\bassheadsbg\model\entity\speakers\Subwoofer.class
 com\bg\bassheadsbg\model\dto\details\MidRangeDetailsDTO.class
 com\bg\bassheadsbg\web\rest\CurrencyController.class
 com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmailValidator.class
+com\bg\bassheadsbg\model\entity\City.class
 com\bg\bassheadsbg\repository\CommonFindDevice.class
 com\bg\bassheadsbg\repository\HighRangeRepository.class
 com\bg\bassheadsbg\service\implementation\MultiChannelAmpServiceImpl.class
@@ -120,6 +129,7 @@ com\bg\bassheadsbg\messages\ExceptionMessages.class
 com\bg\bassheadsbg\model\dto\add\AddHighRangeDTO.class
 com\bg\bassheadsbg\model\dto\add\AddMonoAmpDTO.class
 com\bg\bassheadsbg\service\implementation\SubwooferServiceImpl.class
+com\bg\bassheadsbg\init\CityInitializer.class
 com\bg\bassheadsbg\model\entity\users\UserRole.class
 com\bg\bassheadsbg\web\controller\ContactsController.class
 com\bg\bassheadsbg\repository\MonoAmplifierRepository.class
@@ -131,6 +141,7 @@ com\bg\bassheadsbg\scheduling\CronScheduler.class
 com\bg\bassheadsbg\model\enums\AmpClass.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice.class
 com\bg\bassheadsbg\exception\DeviceNotFoundException.class
+com\bg\bassheadsbg\service\implementation\CityServiceImpl.class
 com\bg\bassheadsbg\config\custom\CustomAccessDeniedHandler.class
 com\bg\bassheadsbg\exception\DeviceAlreadyExistsException.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomIntegerEditor.class

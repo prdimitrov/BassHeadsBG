@@ -22,7 +22,7 @@ spring:
     url: jdbc:mysql://localhost:3306/bassheads_bg?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     initialization-mode: never
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
     groupId: test
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.apache.kafka.common.serialization.StringSerializer
