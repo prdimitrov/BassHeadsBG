@@ -25,14 +25,17 @@ com\bg\bassheadsbg\model\helpers\HighRangeDetailsHelperDTO.class
 com\bg\bassheadsbg\model\entity\base\BaseEntity.class
 com\bg\bassheadsbg\validation\imagesUrlValidator\ValidUrlList.class
 com\bg\bassheadsbg\kafka\ImageProducer.class
+com\bg\bassheadsbg\model\entity\other\Cable.class
 com\bg\bassheadsbg\util\ValueFormatterUtil.class
 com\bg\bassheadsbg\aop\InitializationAspect.class
 com\bg\bassheadsbg\model\helpers\SubwooferDetailsHelperDTO.class
 com\bg\bassheadsbg\service\implementation\BassHeadsDetailsService.class
+com\bg\bassheadsbg\model\enums\CableMaterial.class
 com\bg\bassheadsbg\validation\userExist\UserExistValidator.class
 com\bg\bassheadsbg\service\interfaces\AccuWeatherService.class
 com\bg\bassheadsbg\event\InitializationEvent.class
 com\bg\bassheadsbg\model\entity\base\BaseAmplifier.class
+com\bg\bassheadsbg\repository\CableRepository.class
 com\bg\bassheadsbg\repository\RoleRepository.class
 com\bg\bassheadsbg\model\dto\details\BassHeadsUserDetails.class
 com\bg\bassheadsbg\model\entity\speakers\MidRange.class
@@ -42,6 +45,7 @@ com\bg\bassheadsbg\service\interfaces\MultiChannelAmpService.class
 com\bg\bassheadsbg\config\I18NConfig.class
 com\bg\bassheadsbg\config\WebConfig.class
 com\bg\bassheadsbg\kafka\KafkaConsumerConfig.class
+com\bg\bassheadsbg\model\enums\CableType.class
 com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.class
 com\bg\bassheadsbg\web\controller\userControllers\EditUserController.class
 com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.class
