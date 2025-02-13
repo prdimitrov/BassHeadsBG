@@ -33,6 +33,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\messages\ExceptionMessages.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\accuweather\AdministrativeAreaDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\accuweather\CityDTO.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\add\AddCableDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\add\AddHighRangeDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\add\AddMidRangeDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\add\AddMonoAmpDTO.java
@@ -41,6 +42,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\auth\UserLoginDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\auth\UserRegistrationDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\details\BassHeadsUserDetails.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\details\CableDetailsDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\details\HighRangeDetailsDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\details\ImageListDetailsDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\details\MidRangeDetailsDTO.java
@@ -49,6 +51,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\details\SubwooferDetailsDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\exchanges\ConversionResultDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\exchanges\ExRatesDTO.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\summary\CableSummaryDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\summary\HighRangeSummaryDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\summary\MidRangeSummaryDTO.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\dto\summary\MonoAmpSummaryDTO.java
@@ -92,6 +95,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\scheduling\CronScheduler.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\BassHeadsDetailsService.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\CableServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\CityServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.java
@@ -104,6 +108,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\UserServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\WelcomeServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\AccuWeatherService.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\CableService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\CityService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\ExRateService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\HighRangeService.java
@@ -134,6 +139,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\ContactsController.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\error\AccessDeniedController.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\HomeController.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\otherControllers\CableController.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\speakerControllers\HighRangeController.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\speakerControllers\MidRangeController.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\web\controller\speakerControllers\SubwooferController.java
