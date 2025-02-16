@@ -12,7 +12,7 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/addDeviceFloatInput.js"></script>
     <script src="/js/center-align-inputs.js"></script>
-<!--    <script src="/js/addImageInput.js" defer></script>-->
+    <script src="/js/max-file-size.js"></script>
     <script src="/js/chat.js"></script>
     <script src="/js/logout.js"></script>
     <script src="/js/websocket.js"></script>
@@ -30,9 +30,9 @@
         <h3 th:text="${errorMessage}"></h3>
     </div>
     <form
-            th:action="@{/cables/add}"
+            th:action="@{/cables/power-cables/add}"
             th:method="post"
-            th:object="${addCableDTO}"
+            th:object="${addPowerCableDTO}"
             enctype="multipart/form-data"
             class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
@@ -56,11 +56,24 @@
 
         <div class="row">
             <div class="form-group col-md-6 mb-3">
+                <label th:for="price" class="text-white font-weight-bold" th:text="#{price}"></label>
+                <input th:field="*{price}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       type="number"
+                       step="any"
+                       class="form-control"/>
+                <small class="text-danger invalid-feedback" th:errors="*{price}"></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
                 <label th:for="impedance" class="text-white font-weight-bold" th:text="#{length}"></label>
                 <input th:field="*{length}"
                        th:errorclass="'is-invalid bg-danger'"
                        type="number"
                        step="any"
+                       placeholder="m"
                        class="form-control"/>
                 <small class="text-danger invalid-feedback" th:errors="*{length}"></small>
             </div>
@@ -68,57 +81,47 @@
 
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="cableType" class="text-white font-weight-bold">Cable Material</label>
+                <label th:for="material" class="text-white font-weight-bold" th:text="#{cable_material}"></label>
                 <select th:field="*{material}" class="form-control" required
                         th:classappend="${#fields.hasErrors('material')} ? 'is-invalid' : ''">
                     <option value="">Material</option>
                     <option th:each="material : ${T(com.bg.bassheadsbg.model.enums.CableMaterial).values()}"
                             th:value="${material.name()}" th:text="${material.name()}"></option>
                 </select>
-                <small class="text-danger invalid-feedback" th:if="${#fields.hasErrors('cableType')}"
+                <small class="text-danger invalid-feedback" th:if="${#fields.hasErrors('material')}"
                        th:errors="*{material}"></small>
             </div>
-        </div>
-
-        <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="cableType" class="text-white font-weight-bold">Cable Type</label>
-                <select th:field="*{cableType}" class="form-control" required
-                        th:classappend="${#fields.hasErrors('cableType')} ? 'is-invalid' : ''">
-                    <option value="" th:text="Type"></option>
-                    <option th:each="cableType : ${T(com.bg.bassheadsbg.model.enums.CableType).values()}"
-                            th:value="${cableType.name()}" th:text="${cableType.name()}"></option>
-                </select>
-                <small class="text-danger invalid-feedback" th:if="${#fields.hasErrors('cableType')}"
-                       th:errors="*{cableType}"></small>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="form-group col-md-6 mb-3">
-                <label th:for="thickness" class="text-white font-weight-bold">Thickness</label>
+                <label th:for="thickness" class="text-white font-weight-bold" th:text="#{thickness}"></label>
                 <input th:field="*{thickness}"
                        th:errorclass="'is-invalid bg-danger'"
-                       type="text"
+                       type="number"
+                       step="any"
                        class="form-control"
-                       placeholder=""/>
+                       placeholder="mm2"/>
                 <small class="text-danger invalid-feedback" th:errors="*{thickness}"></small>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label th:for="description" class="text-white font-weight-bold">Description</label>
-                <input th:field="*{description}"
-                       th:errorclass="'is-invalid bg-danger'"
-                       type="text"
-                       class="form-control"
-                       placeholder=""/>
+                <label th:for="description" class="text-white font-weight-bold" th:text="#{description}"></label>
+                <textarea
+                        th:field="*{description}"
+                        th:errorclass="'is-invalid bg-danger'"
+                        class="form-control"
+                        rows="5"
+                        placeholder="Text..."
+                        style="resize: vertical;"
+                ></textarea>
                 <small class="text-danger invalid-feedback" th:errors="*{description}"></small>
             </div>
         </div>
 
-        <hr class="mt-3 mb-3" />
-        <h3 th:classappend="${#fields.hasErrors('imageFiles')} ? 'bg-danger' : ''" class="text-center text-white">
-            Images
+        <hr class="mt-3 mb-3"/>
+        <h3 th:classappend="${#fields.hasErrors('imageFiles')} ? 'bg-danger' : ''" class="text-center text-white"
+            th:text="#{images}">
+
         </h3>
         <div class="row device-images pb-1">
             <div class="col-md-12">
@@ -133,7 +136,7 @@
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" th:value="#{upload_amplifier}"/>
+                    <input type="submit" class="btn btn-info btn-lg" th:value="#{upload_cable}"/>
                 </div>
             </div>
         </div>

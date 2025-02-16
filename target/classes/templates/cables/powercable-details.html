@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BassHeadsBG</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/detailpages.css">
+    <link rel="stylesheet" type="text/css" href="/css/got-bass-bgrd.css">
+    <link rel="stylesheet" type="text/css" href="/css/omg.css">
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/deviceImageSlider.js"></script>
+    <script src="/js/currency.js"></script>
+    <script src="/js/chat.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/websocket.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar::navbar(activeLink=${'details'})}"></div>
+
+<div class="container-fluid">
+    <div th:object="${cableDetails}" class="specifications">
+        <div class="device-images  pb-2 pt-2 text-center">
+            <div class="device-body pb-2 pt-2  text-center">
+                <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
+                <img id="device-image" src="" alt="Device Image" class="img-fluid"/>
+            </div>
+            <!--            <div class="gallery">-->
+            <!--                <div th:each="image : ${cableDetails.imageFiles}">-->
+            <!--                    <img th:src="'data:image/jpeg;base64,' + ${image}" />-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <div class="gallery-buttons">
+                <button id="prev" class="gallery-button"><i class="fa-solid fa-arrow-left"></i></button>
+                <div id="thumbnails" class="d-flex justify-content-center align-items flex-wrap mt-2"></div>
+                <button id="next" class="gallery-button"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="device-body">
+                <h2 th:text="#{specifications}"></h2>
+                <div class="specs">
+                    <table class="table table-borderless device-details">
+                        <thead></thead>
+                        <tbody>
+                        <tr>
+                            <td><h4><i class="fas fa-tag"></i> <span class="spec-detail" th:text="#{brand}"></span></h4>
+                            </td>
+                            <td><span th:text="*{brand}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-mobile-alt"></i> <span class="spec-detail"
+                                                                            th:text="#{model}"></span></h4></td>
+                            <td><span th:text="*{model}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-music"></i> <span class="spec-detail">Material</span>
+                            </h4></td>
+                            <td><span th:text="*{material}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-music"></i> <span class="spec-detail">Thickness</span>
+                            </h4></td>
+                            <td><span th:text="${helperDTO.formattedThickness}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-music"></i> <span class="spec-detail">Length</span>
+                            </h4></td>
+                            <td><span th:text="${helperDTO.formattedLength}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><h4><i class="fas fa-music"></i> <span class="spec-detail">Description</span>
+                            </h4></td>
+                            <td><span th:text="*{description}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <hr>
+                    <h2><i class="fas fa-dollar-sign text-green"></i> <span class="spec-detail"
+                                                                            th:text="#{price}"></span></h2>
+                    <hr>
+
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-3">
+                            <div class="current_price">
+                                <h5 class="text-white align-self-end" th:text="#{approx}"></h5>
+                                <h3 class="text-white align-self-start" id="price" th:text="*{price}"></h3>
+                            </div>
+                            <div class="price-and-currency">
+                                <div class="card-text">
+                                    <select id="currency">
+                                        <option th:each="currency : *{allCurrencies}" th:value="${currency}"
+                                                th:selected="${currency} == 'BGN'" th:text="${currency}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <span th:text="#{currency}"></span>
+                                <input type="hidden" id="priceInBGN" th:value="*{price}">
+                            </div>
+                        </div>
+                        <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">
+                            <form th:action="@{/cables/power-cables/edit/{id}(id=${cableDetails.id})}"
+                                  th:object="${cableDetails}" method="get">
+                                <input type="hidden" th:field="*{id}"/>
+                                <input class="btn btn-info btn-lg" type="submit" th:value="#{update}"/>
+                            </form>
+                            <form th:method="delete"
+                                  th:action="@{/cables/power-cables/delete/{id}(id=${cableDetails.id})}">
+                                <input class="btn btn-info btn-lg" type="submit" th:value="#{delete}"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-cogs"></i> <span class="spec-detail" th:text="#{material}"></span>-->
+<!--              </h4></td>-->
+<!--              <td><span th:text="${helperDTO.formattedImpedance}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-wave-square"></i> <span class="spec-detail"-->
+<!--                                                               th:text="#{power}"></span></h4></td>-->
+<!--              <td><span th:text="${helperDTO.formattedPower}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-signal"></i> <span class="spec-detail" th:text="#{hpf}"></span>-->
+<!--              </h4></td>-->
+<!--              <td><span th:text="${helperDTO.formattedHighPassFilter}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-signal"></i> <span class="spec-detail" th:text="#{lpf}"></span>-->
+<!--              </h4></td>-->
+<!--              <td><span th:text="${helperDTO.formattedLowPassFilter}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-signal"></i> <span class="spec-detail"-->
+<!--                                                          th:text="#{subsonic}"></span></h4></td>-->
+<!--              <td><span th:text="${helperDTO.formattedSubsonicFilter}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-wifi"></i> <span class="spec-detail"-->
+<!--                                                        th:text="#{remote_control}"></span></h4></td>-->
+<!--              <td><span th:if="${helperDTO.remoteControl}">&#x2714;</span><span-->
+<!--                      th:unless="${helperDTO.remoteControl}">&#x274C;</span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-volume-up"></i> <span class="spec-detail"-->
+<!--                                                             th:text="#{bass_boost}"></span></h4></td>-->
+<!--              <td><span th:if="${helperDTO.bassBoost}">&#x2714;</span><span-->
+<!--                      th:unless="${helperDTO.bassBoost}">&#x274C;</span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-level-down-alt"></i> <span class="spec-detail"-->
+<!--                                                                  th:text="#{low_input_level}"></span>-->
+<!--              </h4></td>-->
+<!--              <td><span th:text="${helperDTO.formattedLowInputLevel}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-level-up-alt"></i> <span class="spec-detail"-->
+<!--                                                                th:text="#{high_input_level}"></span></h4>-->
+<!--              </td>-->
+<!--              <td><span th:text="${helperDTO.formattedHighInputLevel}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-exclamation-triangle text-orange"></i> <span class="spec-detail"-->
+<!--                                                                                    th:text="#{distortion}"></span>-->
+<!--              </h4></td>-->
+<!--              <td><span th:text="${helperDTO.formattedDistortion}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-bolt text-yellow"></i> <span class="spec-detail"-->
+<!--                                                                    th:text="#{current_draw}"></span></h4>-->
+<!--              </td>-->
+<!--              <td><span th:text="${helperDTO.formattedCurrentDraw}"></span></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td><h4><i class="fas fa-fire text-red"></i> <span class="spec-detail"-->
+<!--                                                                 th:text="#{fuse_rating}"></span></h4>-->
+<!--              </td>-->
+<!--              <td><span th:text="${helperDTO.formattedFuseRating}"></span></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+
+<!--          <hr>-->
+
+<!--          <h2><i class="fas fa-sliders-h"></i> <span class="spec-detail" th:text="#{dimensions}"></span></h2>-->
+<!--          <hr>-->
+
+<!--          <div class="row">-->
+<!--            <div class="form-group col-md-6 mb-3">-->
+<!--              <h4 th:text="#{height}"></h4>-->
+<!--              <span th:text="${helperDTO.formattedHeight}"></span>-->
+<!--              <h4 th:text="#{width}"></h4></td>-->
+<!--              <span th:text="${helperDTO.formattedWidth}"></span>-->
+<!--              <h4 th:text="#{height}"></h4></td>-->
+<!--              <span th:text="${helperDTO.formattedLength}"></span>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <hr>-->
+<!--          <h2><i class="fas fa-dollar-sign text-green"></i> <span class="spec-detail"-->
+<!--                                                                  th:text="#{price}"></span></h2>-->
+<!--          <hr>-->
+
+<!--          <div class="row">-->
+<!--            <div class="form-group col-md-6 mb-3">-->
+<!--              <div class="current_price">-->
+<!--                <h5 class="text-white align-self-end" th:text="#{approx}"></h5>-->
+<!--                <h3 class="text-white align-self-start" id="price" th:text="*{price}"></h3>-->
+<!--              </div>-->
+<!--              <div class="price-and-currency">-->
+<!--                <div class="card-text">-->
+<!--                  <select id="currency">-->
+<!--                    <option th:each="currency : *{allCurrencies}" th:value="${currency}"-->
+<!--                            th:selected="${currency} == 'BGN'" th:text="${currency}">-->
+<!--                    </option>-->
+<!--                  </select>-->
+<!--                </div>-->
+<!--                <span th:text="#{currency}"></span>-->
+<!--                <input type="hidden" id="priceInBGN" th:value="*{price}">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="row">-->
+<!--            <h2><i class="fas fa-sliders-h"></i> <span class="spec-detail" th:text="#{additional}"></span>-->
+<!--            </h2>-->
+<!--            <hr>-->
+<!--            <div class="form-group col-md-6 mb-3">-->
+<!--              <h4 th:text="#{rca}"></h4></td>-->
+<!--              <span th:text="${helperDTO.formattedNumberOfRca}"></span>-->
+<!--              <h4 th:text="#{outputs}"></h4></td>-->
+<!--              <span th:text="${helperDTO.formattedNumberOfSpeakerOutputs}"></span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div sec:authorize="hasRole('ADMIN')" class="device-body admin-buttons">-->
+<!--            <form th:action="@{/amplifiers/mono-amplifiers/edit/{id}(id=${monoAmpDetails.id})}"-->
+<!--                  th:object="${monoAmpDetails}" method="get">-->
+<!--              <input type="hidden" th:field="*{id}"/>-->
+<!--              <input class="btn btn-info btn-lg" type="submit" th:value="#{update}"/>-->
+<!--            </form>-->
+<!--            <form th:method="delete"-->
+<!--                  th:action="@{/amplifiers/mono-amplifiers/delete/{id}(id=${monoAmpDetails.id})}">-->
+<!--              <input class="btn btn-info btn-lg" type="submit" th:value="#{delete}"/>-->
+<!--            </form>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div th:replace="~{fragments/chat::chat}"></div>
+<div th:replace="~{fragments/footer::footer}"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    setupGallery([[${cableDetails.imageFiles}]]);
+    /*]]>*/
+</script>
+
+</body>
+</html>

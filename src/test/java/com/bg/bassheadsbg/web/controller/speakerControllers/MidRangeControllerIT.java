@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.web.controller.speakerControllers;
 
-import com.bg.bassheadsbg.kafka.KafkaConsumer;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MidRangeSummaryDTO;
@@ -39,8 +38,8 @@ public class MidRangeControllerIT {
     @MockBean
     private MidRangeService midRangeService;
 
-    @MockBean
-    private KafkaConsumer kafkaConsumer;
+//    @MockBean
+//    private KafkaConsumer kafkaConsumer;
 
     @Test
     @WithMockUser(username = "DASKALA", roles = {"ADMIN", "USER"})

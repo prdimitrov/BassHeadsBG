@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.web.controller.speakerControllers;
 
-import com.bg.bassheadsbg.kafka.KafkaConsumer;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.SubwooferSummaryDTO;
@@ -39,8 +38,9 @@ public class SubwooferControllerIT {
     @MockBean
     private SubwooferService subwooferService;
 
-    @MockBean
-    private KafkaConsumer kafkaConsumer;
+//    @MockBean
+//    private KafkaConsumer kafkaConsumer;
+    //FIXME: FIX FAILING TESTS OF MISSING KAFKA!!
 
     @Test
     @WithMockUser(username = "DASKALA", roles = {"ADMIN", "USER"})

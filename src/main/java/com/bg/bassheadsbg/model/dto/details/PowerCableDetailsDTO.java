@@ -4,16 +4,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class CableDetailsDTO {
+public class PowerCableDetailsDTO {
     private long id;
+    private int price;
+    List<String> allCurrencies;
     private String brand;
     private String model;
-    private double length;
+    private float length;
     private String material;
-    private String cableType;
-    private short thickness;
+    private float thickness;
     private String description;
+    private List<String> imageFiles;
 }
