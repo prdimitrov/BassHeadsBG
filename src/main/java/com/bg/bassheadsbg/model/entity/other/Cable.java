@@ -21,6 +21,7 @@ import java.util.List;
 @Entity
 @Table(name = "cables")
 public class Cable extends BaseEntity {
+    //TODO: Validations!!!!!
     @NotBlank
     @Column(name = "brand")
     private String brand;
