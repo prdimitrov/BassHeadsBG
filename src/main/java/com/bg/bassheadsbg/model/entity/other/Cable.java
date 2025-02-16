@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.model.entity.other;
 
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
+import com.bg.bassheadsbg.model.entity.images.CableImage;
 import com.bg.bassheadsbg.model.enums.CableMaterial;
 import com.bg.bassheadsbg.model.enums.CableType;
 import jakarta.persistence.*;
@@ -11,12 +12,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "cables")
 public class Cable extends BaseEntity {
+    //TODO: Validations!!!!!
     @NotBlank
     @Column(name = "brand")
     private String brand;
@@ -41,4 +46,7 @@ public class Cable extends BaseEntity {
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
+
+    @OneToMany(mappedBy = "cable", orphanRemoval = true)
+    private List<CableImage> imageFiles = new ArrayList<>();
 }
