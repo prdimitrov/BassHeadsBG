@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public final class CableSummaryDTO {
+public final class PowerCableSummaryDTO {
     private Long id;
     private String brand;
     private String model;

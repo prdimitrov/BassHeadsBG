@@ -1,16 +1,16 @@
 com\bg\bassheadsbg\config\custom\CustomAuthenticationFailureHandler.class
 com\bg\bassheadsbg\web\controller\error\AccessDeniedController.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomDoubleEditor.class
+com\bg\bassheadsbg\model\dto\summary\PowerCableSummaryDTO.class
 com\bg\bassheadsbg\exception\GlobalExceptionHandler.class
 com\bg\bassheadsbg\model\dto\auth\UserLoginDTO.class
 com\bg\bassheadsbg\repository\CityRepository.class
 com\bg\bassheadsbg\config\custom\CustomLogoutHandler.class
-com\bg\bassheadsbg\service\interfaces\CableService.class
 com\bg\bassheadsbg\exception\UserNotAuthenticatedException.class
 com\bg\bassheadsbg\web\controller\speakerControllers\MidRangeController.class
 com\bg\bassheadsbg\validation\userExist\UserExist.class
-com\bg\bassheadsbg\model\dto\details\CableDetailsDTO.class
 com\bg\bassheadsbg\config\KafkaProducerConfig.class
+com\bg\bassheadsbg\model\dto\details\PowerCableDetailsDTO.class
 com\bg\bassheadsbg\repository\ExRateRepository.class
 com\bg\bassheadsbg\exception\ApiNotFoundException.class
 com\bg\bassheadsbg\model\dto\summary\HighRangeSummaryDTO.class
@@ -22,14 +22,13 @@ com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.class
 com\bg\bassheadsbg\service\implementation\UserServiceImpl.class
 com\bg\bassheadsbg\model\entity\speakers\HighRange.class
 com\bg\bassheadsbg\validation\fieldsMatcher\FieldsMatch.class
-com\bg\bassheadsbg\model\dto\add\AddCableDTO.class
 com\bg\bassheadsbg\web\rest\CurrencyController$NotFoundErrorInfo.class
 com\bg\bassheadsbg\model\helpers\HighRangeDetailsHelperDTO.class
 com\bg\bassheadsbg\model\entity\base\BaseEntity.class
 com\bg\bassheadsbg\validation\imagesUrlValidator\ValidUrlList.class
 com\bg\bassheadsbg\kafka\ImageProducer.class
-com\bg\bassheadsbg\model\entity\other\Cable.class
 com\bg\bassheadsbg\util\ValueFormatterUtil.class
+com\bg\bassheadsbg\web\controller\cableControllers\PowerCableController.class
 com\bg\bassheadsbg\aop\InitializationAspect.class
 com\bg\bassheadsbg\model\helpers\SubwooferDetailsHelperDTO.class
 com\bg\bassheadsbg\service\implementation\BassHeadsDetailsService.class
@@ -38,7 +37,6 @@ com\bg\bassheadsbg\validation\userExist\UserExistValidator.class
 com\bg\bassheadsbg\service\interfaces\AccuWeatherService.class
 com\bg\bassheadsbg\event\InitializationEvent.class
 com\bg\bassheadsbg\model\entity\base\BaseAmplifier.class
-com\bg\bassheadsbg\repository\CableRepository.class
 com\bg\bassheadsbg\repository\RoleRepository.class
 com\bg\bassheadsbg\model\dto\details\BassHeadsUserDetails.class
 com\bg\bassheadsbg\model\entity\speakers\MidRange.class
@@ -47,12 +45,11 @@ com\bg\bassheadsbg\model\dto\UserEntityEditDTO.class
 com\bg\bassheadsbg\service\interfaces\MultiChannelAmpService.class
 com\bg\bassheadsbg\config\I18NConfig.class
 com\bg\bassheadsbg\config\WebConfig.class
-com\bg\bassheadsbg\kafka\KafkaConsumerConfig.class
-com\bg\bassheadsbg\model\enums\CableType.class
 com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.class
 com\bg\bassheadsbg\web\controller\userControllers\EditUserController.class
 com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.class
 com\bg\bassheadsbg\web\controller\userControllers\LoginController.class
+com\bg\bassheadsbg\model\entity\cables\PowerCable.class
 com\bg\bassheadsbg\model\dto\summary\SubwooferSummaryDTO.class
 com\bg\bassheadsbg\web\controller\ChatController.class
 com\bg\bassheadsbg\event\InitializationEventListener.class
@@ -64,6 +61,7 @@ com\bg\bassheadsbg\service\interfaces\HighRangeService.class
 com\bg\bassheadsbg\validation\uniqueUsername\UniqueUsername.class
 com\bg\bassheadsbg\model\entity\users\ChatMessage.class
 com\bg\bassheadsbg\model\enums\UserRoleEnum.class
+com\bg\bassheadsbg\model\helpers\PowerCableDetailsHelperDTO.class
 com\bg\bassheadsbg\config\ApplicationConfig.class
 com\bg\bassheadsbg\config\WebSocketConfig.class
 com\bg\bassheadsbg\web\rest\LogoutController.class
@@ -74,7 +72,6 @@ com\bg\bassheadsbg\model\helpers\MidRangeDetailsHelperDTO.class
 com\bg\bassheadsbg\repository\UserRepository.class
 com\bg\bassheadsbg\repository\SubwooferRepository.class
 com\bg\bassheadsbg\model\helpers\MonoAmpDetailsHelperDTO.class
-com\bg\bassheadsbg\web\controller\otherControllers\CableController.class
 com\bg\bassheadsbg\service\interfaces\CityService.class
 com\bg\bassheadsbg\service\interfaces\RoleService.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomFloatEditor.class
@@ -92,11 +89,10 @@ com\bg\bassheadsbg\service\interfaces\MonoAmpService.class
 com\bg\bassheadsbg\web\controller\userControllers\AllUsersController.class
 com\bg\bassheadsbg\model\dto\accuweather\AdministrativeAreaDTO.class
 com\bg\bassheadsbg\config\RestConfig.class
-com\bg\bassheadsbg\service\implementation\CableServiceImpl.class
+com\bg\bassheadsbg\service\implementation\PowerCableServiceImpl.class
 com\bg\bassheadsbg\init\ExchangeRateInitializer.class
 com\bg\bassheadsbg\service\implementation\WelcomeServiceImpl.class
 com\bg\bassheadsbg\model\dto\accuweather\CityDTO.class
-com\bg\bassheadsbg\kafka\KafkaConsumer.class
 com\bg\bassheadsbg\service\interfaces\UserService.class
 com\bg\bassheadsbg\service\interfaces\ExRateService.class
 com\bg\bassheadsbg\config\SecurityConfig.class
@@ -110,6 +106,7 @@ com\bg\bassheadsbg\model\entity\base\BaseSpeaker.class
 com\bg\bassheadsbg\init\RolesInitialization.class
 com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmail.class
 com\bg\bassheadsbg\web\controller\amplifierControllers\MonoChannelAmplifierController.class
+com\bg\bassheadsbg\repository\PowerCableRepository.class
 com\bg\bassheadsbg\model\entity\amplifiers\MultiChannelAmplifier.class
 com\bg\bassheadsbg\model\dto\details\SubwooferDetailsDTO.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomByteEditor.class
@@ -120,6 +117,7 @@ com\bg\bassheadsbg\model\dto\details\MidRangeDetailsDTO.class
 com\bg\bassheadsbg\web\rest\CurrencyController.class
 com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmailValidator.class
 com\bg\bassheadsbg\model\entity\City.class
+com\bg\bassheadsbg\service\interfaces\PowerCableService.class
 com\bg\bassheadsbg\repository\CommonFindDevice.class
 com\bg\bassheadsbg\repository\HighRangeRepository.class
 com\bg\bassheadsbg\service\implementation\MultiChannelAmpServiceImpl.class
@@ -129,7 +127,9 @@ com\bg\bassheadsbg\model\dto\summary\MultiChannelAmpSummaryDTO.class
 com\bg\bassheadsbg\model\entity\ExRateEntity.class
 com\bg\bassheadsbg\model\dto\details\MultiChannelAmpDetailsDTO.class
 com\bg\bassheadsbg\model\entity\amplifiers\MonoAmplifier.class
+com\bg\bassheadsbg\repository\PowerCableImageRepository.class
 com\bg\bassheadsbg\service\implementation\RoleServiceImpl.class
+com\bg\bassheadsbg\model\dto\add\AddPowerCableDTO.class
 com\bg\bassheadsbg\model\dto\add\AddSubwooferDTO.class
 com\bg\bassheadsbg\web\controller\speakerControllers\SubwooferController.class
 com\bg\bassheadsbg\init\AdminInitialization.class
@@ -145,7 +145,6 @@ com\bg\bassheadsbg\repository\MonoAmplifierRepository.class
 com\bg\bassheadsbg\model\dto\details\ImageListDetailsDTO.class
 com\bg\bassheadsbg\repository\MidRangeRepository.class
 com\bg\bassheadsbg\BassheadsbgApplication.class
-com\bg\bassheadsbg\model\dto\summary\CableSummaryDTO.class
 com\bg\bassheadsbg\repository\MultiChannelAmplifierRepository.class
 com\bg\bassheadsbg\scheduling\CronScheduler.class
 com\bg\bassheadsbg\model\enums\AmpClass.class
@@ -154,4 +153,5 @@ com\bg\bassheadsbg\exception\DeviceNotFoundException.class
 com\bg\bassheadsbg\service\implementation\CityServiceImpl.class
 com\bg\bassheadsbg\config\custom\CustomAccessDeniedHandler.class
 com\bg\bassheadsbg\exception\DeviceAlreadyExistsException.class
+com\bg\bassheadsbg\model\entity\images\PowerCableImage.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomIntegerEditor.class

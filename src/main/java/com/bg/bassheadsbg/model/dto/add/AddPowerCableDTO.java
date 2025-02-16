@@ -1,9 +1,9 @@
 package com.bg.bassheadsbg.model.dto.add;
 
 import com.bg.bassheadsbg.model.enums.CableMaterial;
-import com.bg.bassheadsbg.model.enums.CableType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,9 +18,13 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddCableDTO {
+public class AddPowerCableDTO {
     private long id;
 
+    @Positive(message = "{price.positive}")
+    @NotNull(message = "{price.positive}")
+    @Max(value = 50000, message = "{price.max50000}")
+    private String price;
 
     @NotBlank
     private String brand;
@@ -35,10 +39,6 @@ public class AddCableDTO {
     @NotNull
     @Enumerated(EnumType.STRING)
     private CableMaterial material;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private CableType cableType;
 
     private String thickness;
 

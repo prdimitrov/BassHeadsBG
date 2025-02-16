@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.web.controller.speakerControllers;
 
-import com.bg.bassheadsbg.kafka.KafkaConsumer;
 import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.HighRangeSummaryDTO;
@@ -39,8 +38,10 @@ public class HighRangeControllerIT {
     @MockBean
     private HighRangeService highRangeService;
 
-    @MockBean
-    private KafkaConsumer kafkaConsumer;
+//    @MockBean
+//    private KafkaConsumer kafkaConsumer;
+    //FIXME: FIX FAILING TESTS OF MISSING KAFKA!!
+
 
     @Test
     @WithMockUser(username = "DASKALA", roles = {"ADMIN", "USER"})

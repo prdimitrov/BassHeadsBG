@@ -2,27 +2,30 @@ function setupGallery(images) {
     document.addEventListener('DOMContentLoaded', function() {
         let currentIndex = 0;
 
-        const imgElement = document.getElementById('device-image');
+        const imgElement = document.getElementById('device-image');  // Make sure this matches the ID in HTML
         const prevButton = document.getElementById('prev');
         const nextButton = document.getElementById('next');
         const thumbnailsContainer = document.getElementById('thumbnails');
 
+        // Function to update the main image
         function updateImage() {
             if (images.length > 0) {
-                imgElement.src = images[currentIndex];
+                imgElement.src = 'data:image/jpeg;base64,' + images[currentIndex];
             } else {
-                imgElement.src = '/'; // Fallback image
+                imgElement.src = '/'; // Fallback image if no images
             }
         }
 
+        // Function to create the image thumbnails
         function createThumbnails() {
             images.forEach((image, index) => {
                 const thumbnail = document.createElement('img');
-                thumbnail.src = image;
+                thumbnail.src = 'data:image/jpeg;base64,' + image; // Add base64 prefix here
                 thumbnail.classList.add('img-thumbnail', 'm-1');
                 thumbnail.style.width = '100px';
                 thumbnail.style.cursor = 'pointer';
 
+                // Click event to change main image
                 thumbnail.addEventListener('click', function() {
                     currentIndex = index;
                     updateImage();
@@ -32,6 +35,7 @@ function setupGallery(images) {
             });
         }
 
+        // Event listeners for previous and next buttons
         prevButton.addEventListener('click', function() {
             currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
             updateImage();
@@ -42,7 +46,8 @@ function setupGallery(images) {
             updateImage();
         });
 
-        updateImage(); // Initial call to set the first image
-        createThumbnails(); // Create thumbnails
+        // Initialize the gallery
+        updateImage();
+        createThumbnails();
     });
 }

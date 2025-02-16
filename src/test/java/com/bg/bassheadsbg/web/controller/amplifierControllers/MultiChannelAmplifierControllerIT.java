@@ -1,6 +1,5 @@
 package com.bg.bassheadsbg.web.controller.amplifierControllers;
 
-import com.bg.bassheadsbg.kafka.KafkaConsumer;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MultiChannelAmpSummaryDTO;
@@ -40,8 +39,8 @@ public class MultiChannelAmplifierControllerIT {
     @MockBean
     private MultiChannelAmpService multiChannelAmpService;
 
-    @MockBean
-    private KafkaConsumer kafkaConsumer;
+//    @MockBean
+//    private KafkaConsumer kafkaConsumer;
 
     @Test
     @WithMockUser(username = "DASKALA", roles = {"ADMIN", "USER"})

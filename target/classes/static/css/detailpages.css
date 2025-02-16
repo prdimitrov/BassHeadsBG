@@ -32,6 +32,16 @@
     margin: 0 10px;
 }
 
+#device-image {
+    max-width: 500px;
+    max-height: 500px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
 h3 {
     color: #fff;
 }
@@ -172,8 +182,9 @@ span {
 
 .admin-buttons {
     display:flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 1em;
+    margin-bottom: 1em;
     align-items: center;
     justify-content: space-between;
     gap: 0.5em;

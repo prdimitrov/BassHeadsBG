@@ -1,10 +1,10 @@
-package com.bg.bassheadsbg.model.entity.other;
+package com.bg.bassheadsbg.model.entity.cables;
 
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
-import com.bg.bassheadsbg.model.entity.images.CableImage;
+import com.bg.bassheadsbg.model.entity.images.PowerCableImage;
 import com.bg.bassheadsbg.model.enums.CableMaterial;
-import com.bg.bassheadsbg.model.enums.CableType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,8 +19,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "cables")
-public class Cable extends BaseEntity {
+@Table(name = "power_cables")
+public class PowerCable extends BaseEntity {
     //TODO: Validations!!!!!
     @NotBlank
     @Column(name = "brand")
@@ -29,24 +29,24 @@ public class Cable extends BaseEntity {
     @NotBlank
     private String model;
 
+    @Positive(message = "{price.positive}")
+    @NotNull(message = "{price.positive}")
+    @Max(value = 50000, message = "{price.max50000}")
+    private int price;
+
     @NotNull
     @Positive
-    private double length;
+    private float length;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private CableMaterial material;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "cable_type", nullable = false)
-    private CableType cableType;
-
-    private short thickness;
+    private float thickness;
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(mappedBy = "cable", orphanRemoval = true)
-    private List<CableImage> imageFiles = new ArrayList<>();
+    @OneToMany(mappedBy = "powerCable", orphanRemoval = true)
+    private List<PowerCableImage> imageFiles = new ArrayList<>();
 }
