@@ -63,48 +63,35 @@ public class PowerCableServiceImpl implements PowerCableService {
 
     @Transactional
     public long addCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException {
-        Object principal = getPrincipal();
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
+        PowerCable powerCable = modelMapper.map(addPowerCableDTO, PowerCable.class);
+        checkEntityExists(powerCable.getBrand(), powerCable.getModel());
 
-            PowerCable powerCable = modelMapper.map(addPowerCableDTO, PowerCable.class);
-            checkEntityExists(powerCable.getBrand(), powerCable.getModel());
+        PowerCable savedPowerCable = powerCableRepository.save(powerCable);
 
-            PowerCable savedPowerCable = powerCableRepository.save(powerCable);
-
-            List<PowerCableImage> powerCableImages = new ArrayList<>();
-            for (MultipartFile file : multipartFiles) {
-                if (!file.isEmpty()) {
-                    PowerCableImage powerCableImage = new PowerCableImage();
-                    powerCableImage.setImageData(file.getBytes());
-                    powerCableImage.setPowerCable(savedPowerCable);
-                    powerCableImages.add(powerCableImage);
-                }
+        List<PowerCableImage> powerCableImages = new ArrayList<>();
+        for (MultipartFile file : multipartFiles) {
+            if (!file.isEmpty()) {
+                PowerCableImage powerCableImage = new PowerCableImage();
+                powerCableImage.setImageData(file.getBytes());
+                powerCableImage.setPowerCable(savedPowerCable);
+                powerCableImages.add(powerCableImage);
             }
-
-            powerCableImageRepository.saveAll(powerCableImages);
-
-            log.info("User with id ({}) and username ({}) added cable with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), savedPowerCable.getId(),
-                    savedPowerCable.getBrand(), savedPowerCable.getModel());
-
-            return savedPowerCable.getId();
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
         }
+
+        powerCableImageRepository.saveAll(powerCableImages);
+
+        logMessage(user, "added", savedPowerCable);
+
+        return savedPowerCable.getId();
     }
 
     @Transactional
     @Override
     public long editCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException {
-        Object principal = getPrincipal();
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (!(principal instanceof UserDetails userDetails)) {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
-
-        UserEntity user = getUserEntity(userDetails.getUsername());
         PowerCable entity = modelMapper.map(addPowerCableDTO, PowerCable.class);
 
         // Process images only, if new valid ones are provided!!
@@ -132,9 +119,7 @@ public class PowerCableServiceImpl implements PowerCableService {
 
         PowerCable savedPowerCable = powerCableRepository.save(entity);
 
-        log.info("User with id ({}) and username ({}) edited device with ID ({}), brand ({}) and model ({})",
-                user.getId(), user.getUsername(), entity.getId(),
-                entity.getBrand(), entity.getModel());
+        logMessage(user, "edited", savedPowerCable);
 
         return savedPowerCable.getId();
     }
@@ -161,24 +146,14 @@ public class PowerCableServiceImpl implements PowerCableService {
 
     @Override
     public void deleteCable(long cableId) {
-        Object principal = getPrincipal();
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            Optional<PowerCable> optCable = powerCableRepository.findById(cableId);
+        Optional<PowerCable> optCable = powerCableRepository.findById(cableId);
 
-            if (optCable.isPresent()) {
-                PowerCable powerCable = optCable.get();
-                powerCableRepository.deleteById(cableId);
-                log.info("User with id ({}) and username ({}) deleted cable with ID ({}), brand ({}) and model ({})",
-                        user.getId(),
-                        user.getUsername(),
-                        cableId,
-                        powerCable.getBrand(),
-                        powerCable.getModel());
-            }
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        if (optCable.isPresent()) {
+            PowerCable powerCable = optCable.get();
+            powerCableRepository.deleteById(cableId);
+            logMessage(user, "deleted", powerCable);
         }
     }
 
@@ -187,7 +162,7 @@ public class PowerCableServiceImpl implements PowerCableService {
         return powerCableRepository.findAll()
                 .stream()
                 .sorted()
-                .map(this::toSummaryDTO)
+                .map(powerCable -> modelMapper.map(powerCable, PowerCableSummaryDTO.class))
                 .toList();
     }
 
@@ -199,7 +174,15 @@ public class PowerCableServiceImpl implements PowerCableService {
 
         Hibernate.initialize(powerCable.getImageFiles());
 
-        return toDetailsDTO(powerCable);
+        PowerCableDetailsDTO powerCableDetailsDTO = modelMapper.map(powerCable, PowerCableDetailsDTO.class);
+
+        powerCableDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
+        powerCableDetailsDTO.setImageFiles(powerCable.getImageFiles()
+                .stream().map(image -> Base64
+                        .getEncoder().encodeToString(image.getImageData()))
+                .collect(Collectors.toList()));
+
+        return powerCableDetailsDTO;
     }
 
     @Override
@@ -208,11 +191,6 @@ public class PowerCableServiceImpl implements PowerCableService {
         PowerCableDetailsDTO powerCableDetails = getCableDetails(id);
 
         return new PowerCableDetailsHelperDTO(powerCableDetails);
-    }
-
-    private UserEntity getUserEntity(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
     }
 
     private void checkEntityExists(String brand, String model) {
@@ -230,25 +208,29 @@ public class PowerCableServiceImpl implements PowerCableService {
         return powerCableRepository.findByBrandAndModel(brand, model);
     }
 
-    private static Object getPrincipal() {
+    private UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+    }
+
+    private static UserDetails getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            return userDetails;
+        } else {
+            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        }
     }
 
-    private PowerCableSummaryDTO toSummaryDTO(PowerCable powerCable) {
-        PowerCableSummaryDTO powerCableSummaryDTO = modelMapper.map(powerCable, PowerCableSummaryDTO.class);
-        return powerCableSummaryDTO;
-    }
-
-    private PowerCableDetailsDTO toDetailsDTO(PowerCable powerCable) {
-        PowerCableDetailsDTO powerCableDetailsDTO = modelMapper.map(powerCable, PowerCableDetailsDTO.class);
-
-        powerCableDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
-        powerCableDetailsDTO.setImageFiles(powerCable.getImageFiles()
-                .stream().map(image -> Base64
-                        .getEncoder().encodeToString(image.getImageData()))
-                .collect(Collectors.toList()));
-
-        return powerCableDetailsDTO;
+    private static void logMessage(UserEntity userEntity, String action, PowerCable powerCableEntity) {
+        log.info("User with id ({}) and username ({}) {} PowerCable object with ID ({}), brand ({}) and model ({})",
+                userEntity.getId(),
+                userEntity.getUsername(),
+                action,
+                powerCableEntity.getId(),
+                powerCableEntity.getBrand(),
+                powerCableEntity.getModel());
     }
 }

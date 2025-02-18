@@ -2,6 +2,7 @@ package com.bg.bassheadsbg.model.entity.cables;
 
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import com.bg.bassheadsbg.model.entity.images.PowerCableImage;
+import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.enums.CableMaterial;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -49,4 +50,13 @@ public class PowerCable extends BaseEntity {
 
     @OneToMany(mappedBy = "powerCable", orphanRemoval = true)
     private List<PowerCableImage> imageFiles = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "power_cables_user_likes",
+            joinColumns = @JoinColumn(name = "power_cable_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_likes_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"power_cable_id", "user_likes_id"})
+    )
+    private List<UserEntity> userLikes = new ArrayList<>();
 }

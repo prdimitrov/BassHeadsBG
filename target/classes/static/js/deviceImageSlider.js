@@ -2,7 +2,7 @@ function setupGallery(images) {
     document.addEventListener('DOMContentLoaded', function() {
         let currentIndex = 0;
 
-        const imgElement = document.getElementById('device-image');
+        const imgElement = document.getElementById('device-image');  // Make sure this matches the ID in HTML
         const prevButton = document.getElementById('prev');
         const nextButton = document.getElementById('next');
         const thumbnailsContainer = document.getElementById('thumbnails');
