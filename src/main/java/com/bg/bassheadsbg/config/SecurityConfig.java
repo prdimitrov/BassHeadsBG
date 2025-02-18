@@ -64,7 +64,11 @@ public class SecurityConfig {
                                                 "/amplifiers/mono-amplifiers/delete/**",
                                                 "/amplifiers/multi-channel-amplifiers/add",
                                                 "/amplifiers/multi-channel-amplifiers/edit/**",
-                                                "/amplifiers/multi-channel-amplifiers/delete/**").hasRole("ADMIN")
+                                                "/amplifiers/multi-channel-amplifiers/delete/**",
+                                                "/cables/power-cables/add",
+                                                "/cables/power-cables/edit/**",
+                                                "/cables/power-cables/delete/**",
+                                                "/cables/*/images").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
