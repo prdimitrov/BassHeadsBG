@@ -62,6 +62,7 @@ public class PowerCableServiceImpl implements PowerCableService {
     }
 
     @Transactional
+    @Override
     public long addCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
@@ -124,7 +125,7 @@ public class PowerCableServiceImpl implements PowerCableService {
         return savedPowerCable.getId();
     }
 
-
+    @Override
     public List<byte[]> getCableImages(Long cableId) {
         Optional<PowerCable> optCable = getCable(cableId);
 

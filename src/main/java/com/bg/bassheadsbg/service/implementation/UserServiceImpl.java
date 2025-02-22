@@ -99,14 +99,6 @@ public class UserServiceImpl implements UserService {
         return !user.isEnabled();
     }
 
-    private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
-        UserEntity mappedUserEntity = modelMapper.map(userRegistrationDTO, UserEntity.class);
-        mappedUserEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
-        UserRole userRole = roleService.findByName(UserRoleEnum.USER);
-        mappedUserEntity.getRoles().add(userRole);
-        return mappedUserEntity;
-    }
-
     @Override
     public void updateUser(UserEntityEditDTO userEntityEditDTO) {
         UserEntity userEntity = userRepository.findById(userEntityEditDTO.getId())
@@ -141,4 +133,11 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(userEntity, UserEntityEditDTO.class);
     }
 
+    private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
+        UserEntity mappedUserEntity = modelMapper.map(userRegistrationDTO, UserEntity.class);
+        mappedUserEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+        UserRole userRole = roleService.findByName(UserRoleEnum.USER);
+        mappedUserEntity.getRoles().add(userRole);
+        return mappedUserEntity;
+    }
 }

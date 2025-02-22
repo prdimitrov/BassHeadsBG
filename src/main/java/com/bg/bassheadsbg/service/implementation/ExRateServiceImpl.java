@@ -103,6 +103,32 @@ public class ExRateServiceImpl implements ExRateService {
     }
 
     /**
+     * Converts an amount from one currency to another currency.
+     *
+     * @param from - the source currency
+     * @param to - the target currency
+     * @param amount - the amount that has to be converted
+     * @return the converted amount
+     * @throws ApiNotFoundException if the conversion is not possible
+     */
+    @Override
+    public BigDecimal convert(String from, String to, BigDecimal amount) {
+        return findExRate(from, to)
+                .orElseThrow(() -> new ApiNotFoundException("Conversion from " + from + " to " + to + " not possible!", from + "~" + to))
+                .multiply(amount);
+    }
+
+    /**
+     * Retrieves all exchange rates from the database.
+     *
+     * @return a list, containing all the ExRateEntity objects
+     */
+    @Override
+    public List<ExRateEntity> getAllExRates() {
+        return exRateRepository.findAll();
+    }
+
+    /**
      * Finds the exchange rate between two currencies.
      *
      * @param from - the source currency
@@ -134,31 +160,5 @@ public class ExRateServiceImpl implements ExRateService {
         } else {
             return Optional.of(toOpt.get().divide(fromOpt.get(), 2, RoundingMode.HALF_DOWN));
         }
-    }
-
-    /**
-     * Converts an amount from one currency to another currency.
-     *
-     * @param from - the source currency
-     * @param to - the target currency
-     * @param amount - the amount that has to be converted
-     * @return the converted amount
-     * @throws ApiNotFoundException if the conversion is not possible
-     */
-    @Override
-    public BigDecimal convert(String from, String to, BigDecimal amount) {
-        return findExRate(from, to)
-                .orElseThrow(() -> new ApiNotFoundException("Conversion from " + from + " to " + to + " not possible!", from + "~" + to))
-                .multiply(amount);
-    }
-
-    /**
-     * Retrieves all exchange rates from the database.
-     *
-     * @return a list, containing all of the ExRateEntity objects
-     */
-    @Override
-    public List<ExRateEntity> getAllExRates() {
-        return exRateRepository.findAll();
     }
 }

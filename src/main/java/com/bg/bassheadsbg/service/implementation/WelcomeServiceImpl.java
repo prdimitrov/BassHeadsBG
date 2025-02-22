@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WelcomeServiceImpl implements WelcomeService {
+
+    @Override
     public String generateWelcomeMessage(UserDetails userDetails) {
         if (userDetails instanceof BassHeadsUserDetails bassHeadsUserDetails) {
             return ", " + bassHeadsUserDetails.getUsername();

@@ -18,13 +18,13 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-public class MessageStoreServiceTest {
+public class MessageStoreServiceImplTest {
 
     @Mock
     private UserService userService;
 
     @InjectMocks
-    private MessageStoreService messageStoreService;
+    private MessageStoreServiceImpl messageStoreServiceImpl;
 
     @BeforeEach
     public void setUp() {
@@ -45,7 +45,7 @@ public class MessageStoreServiceTest {
         when(userService.findByUsername(username)).thenReturn(Optional.empty());
 
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            messageStoreService.storeMessage(username, content);
+            messageStoreServiceImpl.storeMessage(username, content);
         });
 
         assertEquals("User not found", thrown.getMessage());
@@ -62,7 +62,7 @@ public class MessageStoreServiceTest {
 
         when(userService.findByUsername(username)).thenReturn(Optional.of(adminUser));
 
-        ChatMessage message = messageStoreService.storeMessage(username, content);
+        ChatMessage message = messageStoreServiceImpl.storeMessage(username, content);
 
         assertNotNull(message);
         assertTrue(message.getContent().contains("(Admin)"));
@@ -82,7 +82,7 @@ public class MessageStoreServiceTest {
 
         when(userService.findByUsername(username)).thenReturn(Optional.of(normalUser));
 
-        ChatMessage message = messageStoreService.storeMessage(username, content);
+        ChatMessage message = messageStoreServiceImpl.storeMessage(username, content);
 
         assertNotNull(message);
         assertFalse(message.getContent().contains("(Admin)"));
@@ -94,7 +94,7 @@ public class MessageStoreServiceTest {
     public void testGetMessages_Empty() {
         String username = "newUser";
 
-        List<ChatMessage> messages = messageStoreService.getMessages(username);
+        List<ChatMessage> messages = messageStoreServiceImpl.getMessages(username);
 
         assertNotNull(messages);
         assertTrue(messages.isEmpty());
@@ -112,9 +112,9 @@ public class MessageStoreServiceTest {
 
         when(userService.findByUsername(username)).thenReturn(Optional.of(user));
 
-        messageStoreService.storeMessage(username, content);
+        messageStoreServiceImpl.storeMessage(username, content);
 
-        List<ChatMessage> messages = messageStoreService.getMessages(username);
+        List<ChatMessage> messages = messageStoreServiceImpl.getMessages(username);
 
         assertNotNull(messages);
         assertEquals(1, messages.size());
@@ -130,13 +130,13 @@ public class MessageStoreServiceTest {
 
         when(userService.findByUsername(username)).thenReturn(Optional.of(user));
 
-        messageStoreService.storeMessage(username, "Message to be cleared");
+        messageStoreServiceImpl.storeMessage(username, "Message to be cleared");
 
-        assertEquals(1, messageStoreService.getMessages(username).size());
+        assertEquals(1, messageStoreServiceImpl.getMessages(username).size());
 
-        messageStoreService.clearMessages(username);
+        messageStoreServiceImpl.clearMessages(username);
 
-        assertTrue(messageStoreService.getMessages(username).isEmpty());
+        assertTrue(messageStoreServiceImpl.getMessages(username).isEmpty());
     }
 
     @Test
@@ -149,10 +149,10 @@ public class MessageStoreServiceTest {
 
         when(userService.findByUsername(username)).thenReturn(Optional.of(user));
 
-        messageStoreService.storeMessage(username, "First message");
-        messageStoreService.storeMessage(username, "Second message");
+        messageStoreServiceImpl.storeMessage(username, "First message");
+        messageStoreServiceImpl.storeMessage(username, "Second message");
 
-        List<ChatMessage> messages = messageStoreService.getMessages(username);
+        List<ChatMessage> messages = messageStoreServiceImpl.getMessages(username);
 
         assertNotNull(messages);
         assertEquals(2, messages.size());

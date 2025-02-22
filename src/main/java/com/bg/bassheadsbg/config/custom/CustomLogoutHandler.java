@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.config.custom;
 
-import com.bg.bassheadsbg.service.implementation.MessageStoreService;
+import com.bg.bassheadsbg.service.interfaces.MessageStoreService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
