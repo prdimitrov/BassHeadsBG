@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.web.controller;
 
 import com.bg.bassheadsbg.model.entity.users.ChatMessage;
-import com.bg.bassheadsbg.service.implementation.MessageStoreService;
+import com.bg.bassheadsbg.service.interfaces.MessageStoreService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;

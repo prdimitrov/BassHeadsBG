@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.web.rest;
 
-import com.bg.bassheadsbg.service.implementation.MessageStoreService;
+import com.bg.bassheadsbg.service.interfaces.MessageStoreService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 

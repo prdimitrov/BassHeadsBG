@@ -1,9 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
-import com.bg.bassheadsbg.exception.UserNotFoundException;
+import com.bg.bassheadsbg.exception.*;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddPowerCableDTO;
 import com.bg.bassheadsbg.model.dto.details.PowerCableDetailsDTO;
@@ -62,6 +59,7 @@ public class PowerCableServiceImpl implements PowerCableService {
     }
 
     @Transactional
+    @Override
     public long addCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
@@ -124,7 +122,7 @@ public class PowerCableServiceImpl implements PowerCableService {
         return savedPowerCable.getId();
     }
 
-
+    @Override
     public List<byte[]> getCableImages(Long cableId) {
         Optional<PowerCable> optCable = getCable(cableId);
 
@@ -158,11 +156,20 @@ public class PowerCableServiceImpl implements PowerCableService {
     }
 
     @Override
+    @Transactional
     public List<PowerCableSummaryDTO> getAllCableSummary() {
         return powerCableRepository.findAll()
                 .stream()
                 .sorted()
-                .map(powerCable -> modelMapper.map(powerCable, PowerCableSummaryDTO.class))
+                .map(powerCable -> {
+                    PowerCableSummaryDTO summaryDTO = modelMapper.map(powerCable, PowerCableSummaryDTO.class);
+                    summaryDTO.setLikes(powerCable.getLikes());
+
+                    PowerCableImage firstImage = powerCable.getImageFiles().get(0);
+                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
+                    summaryDTO.setImageFile(base64Image);
+                    return summaryDTO;
+                })
                 .toList();
     }
 
@@ -191,6 +198,32 @@ public class PowerCableServiceImpl implements PowerCableService {
         PowerCableDetailsDTO powerCableDetails = getCableDetails(id);
 
         return new PowerCableDetailsHelperDTO(powerCableDetails);
+    }
+
+    @Override
+    public void likeCable(Long id) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
+
+        Optional<PowerCable> powerCable = powerCableRepository.findById(id);
+        if (powerCable.isPresent()) {
+            List<UserEntity> userLikes = powerCable.get().getUserLikes();
+
+            for (UserEntity userLike : userLikes) {
+                if (user.getId() == userLike.getId()) {
+                    String errorMessage = messageSource.getMessage(
+                            ExceptionMessages.DEVICE_ALREADY_LIKED,
+                            null,
+                            LocaleContextHolder.getLocale()
+                    );
+                    throw new DeviceAlreadyLikedException(errorMessage);
+                }
+            }
+
+            userLikes.add(user);
+
+            powerCableRepository.save(powerCable.get());
+            logMessage(user, "liked", powerCable.get());
+        }
     }
 
     private void checkEntityExists(String brand, String model) {

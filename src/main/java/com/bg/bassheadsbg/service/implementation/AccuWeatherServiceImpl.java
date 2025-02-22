@@ -34,6 +34,7 @@ public class AccuWeatherServiceImpl implements AccuWeatherService {
     }
 
     @Transactional
+    @Override
     public void initializeAllCitiesInBulgaria() {
         try {
             URL url = new URL(BASE_URL + COUNTRY_CODE + "?apikey=" + API_KEY);
@@ -54,10 +55,12 @@ public class AccuWeatherServiceImpl implements AccuWeatherService {
         }
     }
 
+    @Override
     public boolean hasInitializedCities() {
         return cityRepository.count() > 0;
     }
 
+    @Override
     public List<String> getAllCitiesFromDb() {
         return cityRepository.findAllByLocalizedNames();
     }

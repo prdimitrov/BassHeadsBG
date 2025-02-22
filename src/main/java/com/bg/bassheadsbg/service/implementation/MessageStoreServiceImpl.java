@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.service.implementation;
 import com.bg.bassheadsbg.model.entity.users.ChatMessage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
+import com.bg.bassheadsbg.service.interfaces.MessageStoreService;
 import com.bg.bassheadsbg.service.interfaces.UserService;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +15,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Service, thatis used for managing chat messages, storing, retrieving, and clearing messages for users.
+ * Service, that is used for managing chat messages, storing, retrieving, and clearing messages for users.
  * This class uses in-memory storage with thread-safe collections.
  */
 @Service
-public class MessageStoreService {
+public class MessageStoreServiceImpl implements MessageStoreService {
 
     private final ConcurrentHashMap<String, CopyOnWriteArrayList<ChatMessage>> userMessages = new ConcurrentHashMap<>();
     private final UserService userService;
     private final DateTimeFormatter dateTimeFormatter;
 
-    public MessageStoreService(UserService userService) {
+    public MessageStoreServiceImpl(UserService userService) {
         this.userService = userService;
         this.dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
@@ -37,6 +38,7 @@ public class MessageStoreService {
      * @return the stored ChatMessage
      * @throws IllegalArgumentException if the user with the given username is not found
      */
+    @Override
     public ChatMessage storeMessage(String username, String content) {
         UserEntity user = userService.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -64,6 +66,7 @@ public class MessageStoreService {
      * @param username the username of the user whose messages should be retrieved
      * @return a list of ChatMessage for the specified user
      */
+    @Override
     public List<ChatMessage> getMessages(String username) {
         return new ArrayList<>(userMessages.getOrDefault(username, new CopyOnWriteArrayList<>()));
     }
@@ -73,6 +76,7 @@ public class MessageStoreService {
      *
      * @param username the username of the user whose messages should be cleared
      */
+    @Override
     public void clearMessages(String username) {
         userMessages.remove(username);
     }
