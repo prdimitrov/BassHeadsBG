@@ -90,4 +90,16 @@ public class PowerCableController {
         powerCableService.deleteCable(id);
         return "redirect:/";
     }
+
+    @GetMapping("/rankings")
+    public String rankings(Model model) {
+        model.addAttribute("allCables", powerCableService.getAllCableSummary());
+        return "cables/powercable-all";
+    }
+
+    @PostMapping("/like/{id}")
+    public String likeCable(@PathVariable("id") Long id) {
+        powerCableService.likeCable(id);
+        return "redirect:/cables/power-cables/rankings";
+    }
 }

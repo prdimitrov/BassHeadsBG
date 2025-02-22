@@ -59,4 +59,8 @@ public class PowerCable extends BaseEntity {
             uniqueConstraints = @UniqueConstraint(columnNames = {"power_cable_id", "user_likes_id"})
     )
     private List<UserEntity> userLikes = new ArrayList<>();
+
+    public long getLikes() {
+        return userLikes.size();
+    }
 }
