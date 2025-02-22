@@ -20,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,38 +108,54 @@ public class UserServiceImpl implements UserService {
 
         modelMapper.map(userEntityEditDTO, userEntity);
 
+        if (userEntityEditDTO.getProfilePictureFile() != null && !userEntityEditDTO.getProfilePictureFile().isEmpty()) {
+            try {
+                byte[] profilePictureBytes = userEntityEditDTO.getProfilePictureFile().getBytes();
+                userEntity.setProfilePicture(profilePictureBytes);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to upload profile picture", e);
+            }
+        }
+
         userRepository.save(userEntity);
     }
 
-    @Override
-    public UserEntityEditDTO getUserDetails(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+@Override
+public UserEntityEditDTO getUserDetails(Long id) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    Object principal = authentication.getPrincipal();
 
-        if (!(principal instanceof BassHeadsUserDetails userDetails)) {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
-
-        Long authenticatedUserId = userDetails.getId();
-
-        if (!authenticatedUserId.equals(id)) {
-            throw new AccessDeniedException("You are not authorized to edit this profile!");
-        }
-
-        return userRepository.findById(id)
-                .map(this::toUserEntityEditDTO)
-                .orElseThrow(() -> new UserNotFoundException(id));
+    if (!(principal instanceof BassHeadsUserDetails userDetails)) {
+        throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
     }
 
-    private UserEntityEditDTO toUserEntityEditDTO(UserEntity userEntity) {
-        return modelMapper.map(userEntity, UserEntityEditDTO.class);
+    Long authenticatedUserId = userDetails.getId();
+    if (!authenticatedUserId.equals(id)) {
+        throw new AccessDeniedException("You are not authorized to edit this profile!");
     }
 
-    private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
-        UserEntity mappedUserEntity = modelMapper.map(userRegistrationDTO, UserEntity.class);
-        mappedUserEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
-        UserRole userRole = roleService.findByName(UserRoleEnum.USER);
-        mappedUserEntity.getRoles().add(userRole);
-        return mappedUserEntity;
+    UserEntity userEntity = userRepository.findById(id)
+            .orElseThrow(() -> new UserNotFoundException(id));
+
+    UserEntityEditDTO editDTO = toUserEntityEditDTO(userEntity);
+
+    if (userEntity.getProfilePicture() != null) {
+        String baseImage = Base64.getEncoder().encodeToString(userEntity.getProfilePicture());
+        editDTO.setProfilePictureBase64(baseImage);
     }
+
+    return editDTO;
+}
+
+private UserEntityEditDTO toUserEntityEditDTO(UserEntity userEntity) {
+    return modelMapper.map(userEntity, UserEntityEditDTO.class);
+}
+
+private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
+    UserEntity mappedUserEntity = modelMapper.map(userRegistrationDTO, UserEntity.class);
+    mappedUserEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+    UserRole userRole = roleService.findByName(UserRoleEnum.USER);
+    mappedUserEntity.getRoles().add(userRole);
+    return mappedUserEntity;
+}
 }

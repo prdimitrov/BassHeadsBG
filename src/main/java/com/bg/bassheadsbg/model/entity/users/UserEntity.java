@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -48,6 +49,7 @@ public class UserEntity extends BaseEntity {
 
     @Past(message = "{birthDate.mustBeBornInPast}")
     @NotNull(message = "{birthDate.notNull}")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -61,6 +63,10 @@ public class UserEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City city;
+
+    @Lob
+    @Column(name = "profile_picture", columnDefinition = "MEDIUMBLOB")
+    private byte[] profilePicture;
 
     @Column(nullable = false)
     private boolean enabled = true;

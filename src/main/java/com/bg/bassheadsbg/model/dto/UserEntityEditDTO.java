@@ -6,6 +6,8 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -38,7 +40,12 @@ public class UserEntityEditDTO {
 
     @Past(message = "{birthDate.mustBeBornInPast}")
     @NotNull(message = "{birthDate.notNull}")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
 
     private City city;
+
+    private MultipartFile profilePictureFile;
+
+    private String profilePictureBase64;
 }
