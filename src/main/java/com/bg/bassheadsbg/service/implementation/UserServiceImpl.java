@@ -120,44 +120,34 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
     }
 
-@Override
-public UserEntityEditDTO getUserDetails(Long id) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    Object principal = authentication.getPrincipal();
+    @Override
+    public UserEntityEditDTO getUserDetails(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
 
-    if (!(principal instanceof BassHeadsUserDetails userDetails)) {
-        throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        if (!(principal instanceof BassHeadsUserDetails userDetails)) {
+            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        }
+
+        Long authenticatedUserId = userDetails.getId();
+        if (!authenticatedUserId.equals(id)) {
+            throw new AccessDeniedException("You are not authorized to edit this profile!");
+        }
+
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        UserEntityEditDTO editDTO = toUserEntityEditDTO(userEntity);
+
+        editDTO.setProfilePictureBase64(userEntity.getProfilePictureBase64());
+
+        return editDTO;
     }
 
-    Long authenticatedUserId = userDetails.getId();
-    if (!authenticatedUserId.equals(id)) {
-        throw new AccessDeniedException("You are not authorized to edit this profile!");
+    private UserEntityEditDTO toUserEntityEditDTO(UserEntity userEntity) {
+        return modelMapper.map(userEntity, UserEntityEditDTO.class);
     }
 
-    UserEntity userEntity = userRepository.findById(id)
-            .orElseThrow(() -> new UserNotFoundException(id));
-
-    UserEntityEditDTO editDTO = toUserEntityEditDTO(userEntity);
-
-    if (userEntity.getProfilePicture() != null) {
-        String baseImage = Base64.getEncoder().encodeToString(userEntity.getProfilePicture());
-        editDTO.setProfilePictureBase64(baseImage);
-    }
-
-    return editDTO;
-}
-
-private UserEntityEditDTO toUserEntityEditDTO(UserEntity userEntity) {
-    return modelMapper.map(userEntity, UserEntityEditDTO.class);
-}
-
-private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
-    UserEntity mappedUserEntity = modelMapper.map(userRegistrationDTO, UserEntity.class);
-    mappedUserEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
-    UserRole userRole = roleService.findByName(UserRoleEnum.USER);
-    mappedUserEntity.getRoles().add(userRole);
-    return mappedUserEntity;
-}
     private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
         UserEntity mappedUserEntity = modelMapper.map(userRegistrationDTO, UserEntity.class);
         mappedUserEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));

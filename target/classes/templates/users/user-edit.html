@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css"/>
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/max-file-size.js"></script>
+    <script src="/js/center-align-inputs.js"></script>
 </head>
 
 <body>
@@ -20,6 +22,7 @@
     <form th:method="post"
           th:action="@{/users/edit/{userId}(userId=${editDTO.id})}"
           th:object="${editDTO}"
+          enctype="multipart/form-data"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <input type="hidden" th:field="*{id}"/>
 
@@ -35,6 +38,7 @@
             <div class="form-group col-md-6 mb-3">
                 <label th:for="birthDate" class="text-white font-weight-bold" th:text="#{dob}"></label>
                 <input th:field="*{birthDate}"
+                       th:value="*{birthDate}"
                        th:errorclass="'is-invalid alert bg-danger'"
                        type="date"
                        class="form-control"/>
@@ -84,9 +88,38 @@
             </div>
         </div>
 
+        <hr class="mt-3 mb-3"/>
+        <h3 class="text-center text-white" th:text="#{profile_picture}"></h3>
+        <hr class="mt-3 mb-3"/>
+
+        <div class="row">
+            <div class="row device-images pb-1">
+                <div class="col-md-12">
+                    <!-- Single image file input allowing single file selection -->
+                    <div class="input-group mb-3">
+                        <input type="file" th:field="*{profilePictureFile}" class="form-control" accept="image/*" >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <!-- Show the uploaded profile picture if it exists -->
+                <div th:if="${editDTO.profilePictureBase64 != null}">
+                    <img th:src="'data:image/jpeg;base64,' + ${editDTO.profilePictureBase64}" alt="Profile Image" class="img-fluid" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+                </div>
+                <div th:if="${editDTO.profilePictureBase64 == null}">
+                    <img src="/images/default-profile.png" alt="Default Profile Image" class="img-fluid" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+
+        <hr class="mt-3 mb-3"/>
+
         <div class="row">
             <div class="col col-md-4">
-                <div class="button-holder d-flex">
+                <div class="button-holder">
                     <input type="submit" class="btn btn-info btn-lg" th:value="#{update_user}"/>
                 </div>
             </div>

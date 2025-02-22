@@ -11,6 +11,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,6 +71,13 @@ public class UserEntity extends BaseEntity {
 
     @Column(nullable = false)
     private boolean enabled = true;
+
+    public String getProfilePictureBase64() {
+        if (profilePicture != null) {
+            return Base64.getEncoder().encodeToString(this.profilePicture);
+        }
+        return null;
+    }
 
     public UserEntity() {
         super();
