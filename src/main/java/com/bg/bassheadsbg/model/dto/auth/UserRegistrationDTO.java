@@ -7,6 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -48,5 +49,6 @@ public class UserRegistrationDTO {
 
     @Past(message = "{birthDate.mustBeBornInPast}")
     @NotNull(message = "{birthDate.notNull}")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
 }
