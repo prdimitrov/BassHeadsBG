@@ -158,4 +158,11 @@ private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
     mappedUserEntity.getRoles().add(userRole);
     return mappedUserEntity;
 }
+    private UserEntity mapUser(UserRegistrationDTO userRegistrationDTO) {
+        UserEntity mappedUserEntity = modelMapper.map(userRegistrationDTO, UserEntity.class);
+        mappedUserEntity.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+        UserRole userRole = roleService.findByName(UserRoleEnum.USER);
+        mappedUserEntity.getRoles().add(userRole);
+        return mappedUserEntity;
+    }
 }
