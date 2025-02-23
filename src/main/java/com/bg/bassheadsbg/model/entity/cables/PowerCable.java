@@ -5,10 +5,7 @@ import com.bg.bassheadsbg.model.entity.images.PowerCableImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.enums.CableMaterial;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,12 +19,12 @@ import java.util.List;
 @Entity
 @Table(name = "power_cables")
 public class PowerCable extends BaseEntity {
-    //TODO: Validations!!!!!
-    @NotBlank
-    @Column(name = "brand")
+    @NotBlank(message = "{brand.notBlank}")
+    @Size(min = 3, max = 20, message = "{brand.min3max20}")
     private String brand;
 
-    @NotBlank
+    @NotBlank(message = "{model.notBlank}")
+    @Size(min = 3, max = 30, message = "{model.min3max30}")
     private String model;
 
     @Positive(message = "{price.positive}")
@@ -35,17 +32,22 @@ public class PowerCable extends BaseEntity {
     @Max(value = 50000, message = "{price.max50000}")
     private int price;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "{length.positiveOrZero}")
+    @PositiveOrZero(message = "{length.positiveOrZero}")
+    @DecimalMax(value = "100", message = "{length.max100}")
     private float length;
 
-    @NotNull
+    @NotNull(message = "{cableMaterial.notNull}")
     @Enumerated(EnumType.STRING)
     private CableMaterial material;
 
+    @NotNull
+    @Positive(message = "{thickness.positive}")
+    @DecimalMax(value = "500", message = "{thickness.max500}")
     private float thickness;
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    @Size(max = 500, message = "{description.max500}")
     private String description;
 
     @OneToMany(mappedBy = "powerCable", orphanRemoval = true)

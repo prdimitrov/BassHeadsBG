@@ -15,9 +15,7 @@ public interface PowerCableService {
 
     AddPowerCableDTO createNewCableDTO();
 
-    long addCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException;
-
-    List<byte[]> getCableImages(Long cableId);
+    long addCable(AddPowerCableDTO addPowerCableDTO) throws IOException;
 
     Optional<PowerCable> getCable(Long id);
 

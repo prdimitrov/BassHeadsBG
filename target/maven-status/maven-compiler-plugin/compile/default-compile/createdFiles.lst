@@ -52,8 +52,10 @@ com\bg\bassheadsbg\web\controller\userControllers\LoginController.class
 com\bg\bassheadsbg\model\entity\cables\PowerCable.class
 com\bg\bassheadsbg\model\dto\summary\SubwooferSummaryDTO.class
 com\bg\bassheadsbg\web\controller\ChatController.class
+com\bg\bassheadsbg\validation\imagesValidator\NotEmptyImageFiles.class
 com\bg\bassheadsbg\event\InitializationEventListener.class
 com\bg\bassheadsbg\config\KafkaTopicConfig.class
+com\bg\bassheadsbg\validation\imagesValidator\NotEmptyImageFilesValidator.class
 com\bg\bassheadsbg\exception\UserNotFoundException.class
 com\bg\bassheadsbg\web\controller\amplifierControllers\MultiChannelAmplifierController.class
 com\bg\bassheadsbg\web\controller\HomeController.class
@@ -66,12 +68,12 @@ com\bg\bassheadsbg\config\ApplicationConfig.class
 com\bg\bassheadsbg\config\WebSocketConfig.class
 com\bg\bassheadsbg\web\rest\LogoutController.class
 com\bg\bassheadsbg\web\controller\amplifierControllers\ChooseAmplifierController.class
-com\bg\bassheadsbg\service\implementation\MessageStoreService.class
 com\bg\bassheadsbg\service\interfaces\SubwooferService.class
 com\bg\bassheadsbg\model\helpers\MidRangeDetailsHelperDTO.class
 com\bg\bassheadsbg\repository\UserRepository.class
 com\bg\bassheadsbg\repository\SubwooferRepository.class
 com\bg\bassheadsbg\model\helpers\MonoAmpDetailsHelperDTO.class
+com\bg\bassheadsbg\service\implementation\MessageStoreServiceImpl.class
 com\bg\bassheadsbg\service\interfaces\CityService.class
 com\bg\bassheadsbg\service\interfaces\RoleService.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomFloatEditor.class
@@ -130,6 +132,7 @@ com\bg\bassheadsbg\model\entity\amplifiers\MonoAmplifier.class
 com\bg\bassheadsbg\repository\PowerCableImageRepository.class
 com\bg\bassheadsbg\service\implementation\RoleServiceImpl.class
 com\bg\bassheadsbg\model\dto\add\AddPowerCableDTO.class
+com\bg\bassheadsbg\service\interfaces\MessageStoreService.class
 com\bg\bassheadsbg\model\dto\add\AddSubwooferDTO.class
 com\bg\bassheadsbg\web\controller\speakerControllers\SubwooferController.class
 com\bg\bassheadsbg\init\AdminInitialization.class

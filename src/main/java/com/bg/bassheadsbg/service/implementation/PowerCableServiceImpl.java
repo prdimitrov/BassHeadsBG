@@ -60,7 +60,7 @@ public class PowerCableServiceImpl implements PowerCableService {
 
     @Transactional
     @Override
-    public long addCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException {
+    public long addCable(AddPowerCableDTO addPowerCableDTO) throws IOException {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
         PowerCable powerCable = modelMapper.map(addPowerCableDTO, PowerCable.class);
@@ -69,16 +69,21 @@ public class PowerCableServiceImpl implements PowerCableService {
         PowerCable savedPowerCable = powerCableRepository.save(powerCable);
 
         List<PowerCableImage> powerCableImages = new ArrayList<>();
-        for (MultipartFile file : multipartFiles) {
-            if (!file.isEmpty()) {
-                PowerCableImage powerCableImage = new PowerCableImage();
-                powerCableImage.setImageData(file.getBytes());
-                powerCableImage.setPowerCable(savedPowerCable);
-                powerCableImages.add(powerCableImage);
+        if (addPowerCableDTO.getImageFiles() != null && !addPowerCableDTO.getImageFiles().isEmpty()) {
+            for (MultipartFile file : addPowerCableDTO.getImageFiles()) {
+                if (!file.isEmpty()) {
+                    PowerCableImage powerCableImage = new PowerCableImage();
+                    powerCableImage.setImageData(file.getBytes());
+                    powerCableImage.setPowerCable(savedPowerCable);
+                    powerCableImages.add(powerCableImage);
+                }
             }
-        }
 
-        powerCableImageRepository.saveAll(powerCableImages);
+            powerCableImageRepository.saveAll(powerCableImages);
+        } else {
+            //FIXME: This doesn't look good, fix it!
+            log.info("No images uploaded for power cable with ID: " + savedPowerCable.getId());
+        }
 
         logMessage(user, "added", savedPowerCable);
 
@@ -120,21 +125,6 @@ public class PowerCableServiceImpl implements PowerCableService {
         logMessage(user, "edited", savedPowerCable);
 
         return savedPowerCable.getId();
-    }
-
-    @Override
-    public List<byte[]> getCableImages(Long cableId) {
-        Optional<PowerCable> optCable = getCable(cableId);
-
-        if (optCable.isPresent()) {
-            PowerCable powerCable = optCable.get();
-            // Extract the byte[] data from the CableImage entities
-            return powerCable.getImageFiles().stream()
-                    .map(PowerCableImage::getImageData)  // Get the byte[] from each CableImage entity
-                    .toList();
-        }
-
-        return null;  // Return null if cable is not found
     }
 
     @Override

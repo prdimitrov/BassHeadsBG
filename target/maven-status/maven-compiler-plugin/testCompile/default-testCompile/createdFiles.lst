@@ -3,7 +3,6 @@ com\bg\bassheadsbg\util\GlobalValuesAdviceTest$CustomByteEditor.class
 com\bg\bassheadsbg\web\controller\ContactsControllerIT.class
 com\bg\bassheadsbg\util\GlobalValuesAdviceTest$CustomDoubleEditor.class
 com\bg\bassheadsbg\model\helpers\MidRangeDetailsHelperDTOTest.class
-com\bg\bassheadsbg\service\implementation\MessageStoreServiceTest.class
 com\bg\bassheadsbg\web\controller\amplifierControllers\MultiChannelAmplifierControllerIT.class
 com\bg\bassheadsbg\service\implementation\BassHeadsDetailsServiceTest.class
 com\bg\bassheadsbg\web\controller\HomeControllerIT.class
@@ -45,6 +44,7 @@ com\bg\bassheadsbg\model\dto\add\AddSubwooferDTOTest.class
 com\bg\bassheadsbg\kafka\ImageProducerTest.class
 com\bg\bassheadsbg\service\implementation\RoleServiceImplTest.class
 com\bg\bassheadsbg\util\ValueFormatterUtilTest.class
+com\bg\bassheadsbg\service\implementation\MessageStoreServiceImplTest.class
 com\bg\bassheadsbg\util\GlobalValuesAdviceTest$CustomShortEditor.class
 com\bg\bassheadsbg\model\dto\add\AddMonoAmpDTOTest.class
 com\bg\bassheadsbg\kafka\KafkaConsumerTest.class

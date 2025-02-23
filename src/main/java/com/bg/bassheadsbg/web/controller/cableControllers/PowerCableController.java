@@ -34,7 +34,6 @@ public class PowerCableController {
 
     @PostMapping("/add")
     public String addCable(@Valid @ModelAttribute("addPowerCableDTO") AddPowerCableDTO addPowerCableDTO,
-                           @RequestParam("imageFiles") List<MultipartFile> imageFiles,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
@@ -42,17 +41,7 @@ public class PowerCableController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addPowerCableDTO", bindingResult);
             return "redirect:/cables/power-cables/add";
         }
-        return "redirect:/cables/power-cables/" + powerCableService.addCable(addPowerCableDTO, imageFiles);
-    }
-
-    @GetMapping("/{cableId}/images")
-    public ResponseEntity<List<byte[]>> getCableImages(@PathVariable Long cableId) {
-        List<byte[]> imageFiles = powerCableService.getCableImages(cableId);
-        if (imageFiles != null) {
-            return new ResponseEntity<>(imageFiles, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return "redirect:/cables/power-cables/" + powerCableService.addCable(addPowerCableDTO);
     }
 
     @GetMapping("/edit/{id}")

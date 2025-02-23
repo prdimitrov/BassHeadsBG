@@ -100,7 +100,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\CityServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.java
-C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\MessageStoreService.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\MessageStoreServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\MidRangeServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\MonoAmpServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\MultiChannelAmpServiceImpl.java
@@ -113,6 +113,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\CityService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\ExRateService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\HighRangeService.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\MessageStoreService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\MidRangeService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\MonoAmpService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\MultiChannelAmpService.java
@@ -127,6 +128,8 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\fieldsMatcher\FieldsMatchValidator.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\imagesUrlValidator\ListUrlsValidator.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\imagesUrlValidator\ValidUrlList.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\imagesValidator\NotEmptyImageFiles.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\imagesValidator\NotEmptyImageFilesValidator.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmail.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmailValidator.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\validation\uniqueUsername\UniqueUsername.java

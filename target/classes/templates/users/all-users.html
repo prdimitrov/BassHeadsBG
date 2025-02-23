@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>BassHeadsBG</title>
@@ -24,6 +24,7 @@
     <table class="table table-dark table-striped mt-3 center-table">
         <thead>
         <tr>
+            <th th:text="#{profile_picture}"></th>
             <th th:text="#{username}"></th>
             <th th:text="#{email}"></th>
             <th th:text="#{roles}"></th>
@@ -36,6 +37,19 @@
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
+            <td>
+                <img th:if="${user.getProfilePictureBase64 != null}"
+                     th:src="'data:image/jpeg;base64,' + ${user.profilePictureBase64}"
+                     alt="Profile Picture"
+                     class="img-fluid"
+                     style="max-width: 100px; max-height: 100px; object-fit: cover;" />
+                <!-- If no profile picture, show a default image -->
+                <img th:if="${user.profilePictureBase64 == null}"
+                     src="/images/default-profile.png"
+                     alt="Default Profile Picture"
+                     class="img-fluid"
+                     style="max-width: 100px; max-height: 100px; object-fit: cover;" />
+            </td>
             <td class="font-weight-bold" th:text="${user.username}"></td>
             <td th:text="${user.email}"></td>
             <td>

@@ -121,10 +121,12 @@
         </div>
 
         <hr class="mt-3 mb-3"/>
-        <h3 th:classappend="${#fields.hasErrors('imageFiles')} ? 'bg-danger' : ''" class="text-center text-white"
-            th:text="#{images}">
+        <h3 class="text-center text-white" th:text="#{images}"></h3>
 
-        </h3>
+        <div class="text-center" th:if="${#fields.hasErrors('imageFiles')}">
+            <small class="text-danger" th:errors="*{imageFiles}"></small>
+        </div>
+
         <div class="row device-images pb-1">
             <div class="col-md-12">
                 <!-- Single image file input allowing multiple file selection -->
