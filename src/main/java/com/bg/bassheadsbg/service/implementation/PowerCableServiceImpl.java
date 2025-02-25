@@ -1,6 +1,10 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddPowerCableDTO;
 import com.bg.bassheadsbg.model.dto.details.PowerCableDetailsDTO;
@@ -14,8 +18,8 @@ import com.bg.bassheadsbg.repository.PowerCableRepository;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.PowerCableService;
+import com.bg.bassheadsbg.util.ObjectLogger;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
@@ -33,7 +37,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class PowerCableServiceImpl implements PowerCableService {
 
@@ -68,9 +71,14 @@ public class PowerCableServiceImpl implements PowerCableService {
 
         PowerCable savedPowerCable = powerCableRepository.save(powerCable);
 
-        updateCableImages(powerCable, addPowerCableDTO);
+        updateCableImages(user, powerCable, addPowerCableDTO);
 
-        logMessage(user, "added", savedPowerCable);
+        ObjectLogger.logMessage(user,
+                "added",
+                powerCable,
+                powerCable.getId(),
+                powerCable.getBrand(),
+                powerCable.getModel());
 
         return savedPowerCable.getId();
     }
@@ -80,17 +88,23 @@ public class PowerCableServiceImpl implements PowerCableService {
     public long editCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        PowerCable entity = powerCableRepository.findById(addPowerCableDTO.getId()).get();
+        PowerCable entity = powerCableRepository.findById(addPowerCableDTO.getId())
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, addPowerCableDTO.getId()));
         if (addPowerCableDTO.getImageFiles() != null) {
             entity.getImageFiles().clear();
-            updateCableImages(entity, addPowerCableDTO);
+            updateCableImages(user, entity, addPowerCableDTO);
         }
 
         entity = modelMapper.map(addPowerCableDTO, PowerCable.class);
 
         PowerCable savedPowerCable = powerCableRepository.saveAndFlush(entity);
 
-        logMessage(user, "edited", savedPowerCable);
+        ObjectLogger.logMessage(user,
+                "edited",
+                savedPowerCable,
+                savedPowerCable.getId(),
+                savedPowerCable.getBrand(),
+                savedPowerCable.getModel());
 
         return savedPowerCable.getId();
     }
@@ -109,7 +123,10 @@ public class PowerCableServiceImpl implements PowerCableService {
         if (optCable.isPresent()) {
             PowerCable powerCable = optCable.get();
             powerCableRepository.deleteById(cableId);
-            logMessage(user, "deleted", powerCable);
+            ObjectLogger.logDeleteMessage(user,
+                    powerCable,
+                    powerCable.getBrand(),
+                    powerCable.getModel());
         }
     }
 
@@ -162,26 +179,31 @@ public class PowerCableServiceImpl implements PowerCableService {
     public void likeCable(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        Optional<PowerCable> powerCable = powerCableRepository.findById(id);
-        if (powerCable.isPresent()) {
-            List<UserEntity> userLikes = powerCable.get().getUserLikes();
+        PowerCable powerCable = powerCableRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-            for (UserEntity userLike : userLikes) {
-                if (user.getId() == userLike.getId()) {
-                    String errorMessage = messageSource.getMessage(
-                            ExceptionMessages.DEVICE_ALREADY_LIKED,
-                            null,
-                            LocaleContextHolder.getLocale()
-                    );
-                    throw new DeviceAlreadyLikedException(errorMessage);
-                }
+        List<UserEntity> userLikes = powerCable.getUserLikes();
+
+        for (UserEntity userLike : userLikes) {
+            if (user.getId() == userLike.getId()) {
+                String errorMessage = messageSource.getMessage(
+                        ExceptionMessages.DEVICE_ALREADY_LIKED,
+                        null,
+                        LocaleContextHolder.getLocale()
+                );
+                throw new DeviceAlreadyLikedException(errorMessage);
             }
-
-            userLikes.add(user);
-
-            powerCableRepository.save(powerCable.get());
-            logMessage(user, "liked", powerCable.get());
         }
+
+        userLikes.add(user);
+
+        powerCableRepository.save(powerCable);
+
+        ObjectLogger.logMessage(user,
+                "liked",
+                powerCable,
+                id,
+                powerCable.getBrand(),
+                powerCable.getModel());
     }
 
     private void checkEntityExists(String brand, String model) {
@@ -204,7 +226,7 @@ public class PowerCableServiceImpl implements PowerCableService {
                 .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
     }
 
-    private void updateCableImages(PowerCable powerCable, AddPowerCableDTO addPowerCableDTO) throws IOException {
+    private void updateCableImages(UserEntity user, PowerCable powerCable, AddPowerCableDTO addPowerCableDTO) throws IOException {
         if (addPowerCableDTO.getImageFiles() != null && !addPowerCableDTO.getImageFiles().isEmpty()) {
 
             powerCableImageRepository.deleteByPowerCable(powerCable);
@@ -223,7 +245,12 @@ public class PowerCableServiceImpl implements PowerCableService {
             }
             powerCableImageRepository.saveAll(cableImages);
         } else {
-            log.info("No new images uploaded for power cable with ID: {}", powerCable.getId());
+            ObjectLogger.logMessageWithoutImages(user,
+                    "updated",
+                    powerCable,
+                    powerCable.getId(),
+                    powerCable.getBrand(),
+                    powerCable.getModel());
         }
     }
 
@@ -236,15 +263,5 @@ public class PowerCableServiceImpl implements PowerCableService {
         } else {
             throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
         }
-    }
-
-    private static void logMessage(UserEntity userEntity, String action, PowerCable powerCableEntity) {
-        log.info("User with id ({}) and username ({}) {} PowerCable object with ID ({}), brand ({}) and model ({})",
-                userEntity.getId(),
-                userEntity.getUsername(),
-                action,
-                powerCableEntity.getId(),
-                powerCableEntity.getBrand(),
-                powerCableEntity.getModel());
     }
 }
