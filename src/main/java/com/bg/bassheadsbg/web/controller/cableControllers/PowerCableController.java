@@ -3,8 +3,6 @@ package com.bg.bassheadsbg.web.controller.cableControllers;
 import com.bg.bassheadsbg.model.dto.add.AddPowerCableDTO;
 import com.bg.bassheadsbg.service.interfaces.PowerCableService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

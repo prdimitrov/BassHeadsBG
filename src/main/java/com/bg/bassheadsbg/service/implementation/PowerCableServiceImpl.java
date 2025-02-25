@@ -68,22 +68,7 @@ public class PowerCableServiceImpl implements PowerCableService {
 
         PowerCable savedPowerCable = powerCableRepository.save(powerCable);
 
-        List<PowerCableImage> powerCableImages = new ArrayList<>();
-        if (addPowerCableDTO.getImageFiles() != null && !addPowerCableDTO.getImageFiles().isEmpty()) {
-            for (MultipartFile file : addPowerCableDTO.getImageFiles()) {
-                if (!file.isEmpty()) {
-                    PowerCableImage powerCableImage = new PowerCableImage();
-                    powerCableImage.setImageData(file.getBytes());
-                    powerCableImage.setPowerCable(savedPowerCable);
-                    powerCableImages.add(powerCableImage);
-                }
-            }
-
-            powerCableImageRepository.saveAll(powerCableImages);
-        } else {
-            //FIXME: This doesn't look good, fix it!
-            log.info("No images uploaded for power cable with ID: " + savedPowerCable.getId());
-        }
+        updateCableImages(powerCable, addPowerCableDTO);
 
         logMessage(user, "added", savedPowerCable);
 
@@ -95,32 +80,15 @@ public class PowerCableServiceImpl implements PowerCableService {
     public long editCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        PowerCable entity = modelMapper.map(addPowerCableDTO, PowerCable.class);
-
-        // Process images only, if new valid ones are provided!!
-        if (multipartFiles != null && !multipartFiles.isEmpty()) {
-            // Filter out empty files or files with no filename!!
-            List<MultipartFile> validFiles = multipartFiles.stream()
-                    .filter(file -> !file.isEmpty() && file.getOriginalFilename() != null && !file.getOriginalFilename().isBlank())
-                    .toList();
-
-            if (!validFiles.isEmpty()) {
-                Optional<PowerCable> existingCable = getCable(entity.getId());
-                existingCable.ifPresent(powerCableImageRepository::deleteByPowerCable);
-
-                // Save new valid images
-                List<PowerCableImage> powerCableImages = new ArrayList<>();
-                for (MultipartFile file : validFiles) {
-                    PowerCableImage powerCableImage = new PowerCableImage();
-                    powerCableImage.setImageData(file.getBytes());
-                    powerCableImage.setPowerCable(entity);
-                    powerCableImages.add(powerCableImage);
-                }
-                powerCableImageRepository.saveAll(powerCableImages);
-            }
+        PowerCable entity = powerCableRepository.findById(addPowerCableDTO.getId()).get();
+        if (addPowerCableDTO.getImageFiles() != null) {
+            entity.getImageFiles().clear();
+            updateCableImages(entity, addPowerCableDTO);
         }
 
-        PowerCable savedPowerCable = powerCableRepository.save(entity);
+        entity = modelMapper.map(addPowerCableDTO, PowerCable.class);
+
+        PowerCable savedPowerCable = powerCableRepository.saveAndFlush(entity);
 
         logMessage(user, "edited", savedPowerCable);
 
@@ -234,6 +202,29 @@ public class PowerCableServiceImpl implements PowerCableService {
     private UserEntity getUserEntity(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+    }
+
+    private void updateCableImages(PowerCable powerCable, AddPowerCableDTO addPowerCableDTO) throws IOException {
+        if (addPowerCableDTO.getImageFiles() != null && !addPowerCableDTO.getImageFiles().isEmpty()) {
+
+            powerCableImageRepository.deleteByPowerCable(powerCable);
+
+            List<PowerCableImage> cableImages = new ArrayList<>();
+
+            List<MultipartFile> imageFiles = addPowerCableDTO.getImageFiles();
+            for (int i = 0; i < imageFiles.size(); i++) {
+                MultipartFile file = imageFiles.get(i);
+                if (!file.isEmpty()) {
+                    PowerCableImage powerCableImage = new PowerCableImage();
+                    powerCableImage.setImageData(file.getBytes());
+                    powerCableImage.setPowerCable(powerCable);
+                    cableImages.add(powerCableImage);
+                }
+            }
+            powerCableImageRepository.saveAll(cableImages);
+        } else {
+            log.info("No new images uploaded for power cable with ID: {}", powerCable.getId());
+        }
     }
 
     private static UserDetails getPrincipal() {

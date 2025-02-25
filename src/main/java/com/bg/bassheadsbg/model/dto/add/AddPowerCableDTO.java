@@ -5,13 +5,18 @@ import com.bg.bassheadsbg.validation.imagesValidator.NotEmptyImageFiles;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -51,6 +56,6 @@ public class AddPowerCableDTO {
     @Size(max = 500, message = "{description.max500}")
     private String description;
 
-    @NotEmptyImageFiles(message = "{imagefiles.notEmpty}")
+    @NotEmptyImageFiles(message = "{imageFiles.notEmpty}")
     private List<MultipartFile> imageFiles;
 }
