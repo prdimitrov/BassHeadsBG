@@ -17,8 +17,6 @@ public interface PowerCableService {
 
     long addCable(AddPowerCableDTO addPowerCableDTO) throws IOException;
 
-    Optional<PowerCable> getCable(Long id);
-
     long editCable(AddPowerCableDTO addPowerCableDTO, List<MultipartFile> multipartFiles) throws IOException;
 
     void deleteCable(long cableId);

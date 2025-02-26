@@ -33,11 +33,6 @@
                 <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
                 <img id="device-image" src="" alt="Device Image" class="img-fluid"/>
             </div>
-            <!--            <div class="gallery">-->
-            <!--                <div th:each="image : ${cableDetails.imageFiles}">-->
-            <!--                    <img th:src="'data:image/jpeg;base64,' + ${image}" />-->
-            <!--                </div>-->
-            <!--            </div>-->
             <div class="gallery-buttons">
                 <button id="prev" class="gallery-button"><i class="fa-solid fa-arrow-left"></i></button>
                 <div id="thumbnails" class="d-flex justify-content-center align-items flex-wrap mt-2"></div>

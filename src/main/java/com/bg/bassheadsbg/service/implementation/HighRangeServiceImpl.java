@@ -1,21 +1,28 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
-import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.HighRangeSummaryDTO;
+import com.bg.bassheadsbg.model.entity.images.HighRangeImage;
 import com.bg.bassheadsbg.model.entity.speakers.HighRange;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.helpers.HighRangeDetailsHelperDTO;
+import com.bg.bassheadsbg.repository.HighRangeImageRepository;
 import com.bg.bassheadsbg.repository.HighRangeRepository;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.HighRangeService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.bg.bassheadsbg.util.ObjectLogger;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,29 +30,36 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service implementation for managing high-range speakers.
  * This class provides methods for creating, editing, deleting, and retrieving high-range speakers,
- * also handling the likes and updating image URLs.
+ * also handling the likes and updating images.
  */
 @Slf4j
 @Service
 public class HighRangeServiceImpl implements HighRangeService {
 
-    private final HighRangeRepository repository;
+    private final HighRangeRepository highRangeRepository;
+    private final HighRangeImageRepository highRangeImageRepository;
     private final ModelMapper modelMapper;
     private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public HighRangeServiceImpl(HighRangeRepository repository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
-        this.repository = repository;
+    public HighRangeServiceImpl(HighRangeRepository highRangeRepository, HighRangeImageRepository highRangeImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+        this.highRangeRepository = highRangeRepository;
+        this.highRangeImageRepository = highRangeImageRepository;
         this.modelMapper = modelMapper;
         this.imageProducer = imageProducer;
         this.exRateService = exRateService;
@@ -59,86 +73,118 @@ public class HighRangeServiceImpl implements HighRangeService {
      * @return a new AddHighRangeDTO object
      */
     @Override
-    public AddHighRangeDTO createNewAddHighRangeDTO() {
+    public AddHighRangeDTO createNewSpeaker() {
         return new AddHighRangeDTO();
     }
 
     /**
      * Adds a new high-range device.
      *
-     * @param addDeviceDTO the DTO containing device information
+     * @param addHighRangeDTO the DTO containing device information
      * @return the ID of the newly added device
-     * @throws JsonProcessingException if an error occurs while processing JSON data (the images)
+     * @throws IOException if an error occurs while processing the images.
      */
+    @Transactional
     @Override
-    public long addDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public long addSpeaker(AddHighRangeDTO addHighRangeDTO) throws IOException {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            checkEntityExists(getBrand(addDeviceDTO), getModel(addDeviceDTO));
-            HighRange entity = mapToDevice(addDeviceDTO);
-            long deviceId = repository.save(entity).getId();
+        HighRange highRange = modelMapper.map(addHighRangeDTO, HighRange.class);
+        checkEntityExists(highRange.getBrand(), highRange.getModel());
 
-            log.info("User with id ({}) and username ({}) added device with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), deviceId, getBrand(addDeviceDTO), getModel(addDeviceDTO));
+        HighRange savedHighRange = highRangeRepository.save(highRange);
 
-            return deviceId;
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
+        updateSpeakerImages(user, highRange, addHighRangeDTO);
+
+        ObjectLogger.logMessage(user,
+                "added",
+                highRange,
+                highRange.getId(),
+                highRange.getBrand(),
+                highRange.getModel());
+
+        return savedHighRange.getId();
     }
 
     /**
      * This method is used for editing an already existing high-range speaker.
      *
-     * @param addDeviceDTO the DTO, that should contain information about the updated speaker.
+     * @param addHighRangeDTO the DTO, that should contain information about the updated speaker.
      * @return the ID of the edited high-range speaker.
+     * @throws IOException if an error occurs while processing the images.
      */
+    @Transactional
     @Override
-    public long editDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public long editSpeaker(AddHighRangeDTO addHighRangeDTO, List<MultipartFile> multipartFiles) throws IOException {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            HighRange entity = mapEditedDevice(addDeviceDTO);
-            long deviceId = repository.save(entity).getId();
-
-            log.info("User with id ({}) and username ({}) edited device with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), deviceId, getBrand(addDeviceDTO), getModel(addDeviceDTO));
-
-            return deviceId;
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        HighRange entity = highRangeRepository.findById(addHighRangeDTO.getId())
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, addHighRangeDTO.getId()));
+        if (addHighRangeDTO.getImageFiles() != null) {
+            entity.getImageFiles().clear();
+            updateSpeakerImages(user, entity, addHighRangeDTO);
         }
+
+        entity = modelMapper.map(addHighRangeDTO, HighRange.class);
+
+        HighRange savedHighRange = highRangeRepository.saveAndFlush(entity);
+
+        ObjectLogger.logMessage(user,
+                "edited",
+                savedHighRange,
+                savedHighRange.getId(),
+                savedHighRange.getBrand(),
+                savedHighRange.getModel());
+
+        return savedHighRange.getId();
     }
 
     /**
      * Deletes a high-range speaker by ID.
      *
-     * @param deviceId the ID of the speaker, that has to be deleted
+     * @param speakerId the ID of the speaker, that has to be deleted.
      */
     @Override
-    public void deleteDevice(long deviceId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public void deleteSpeaker(long speakerId) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            Optional<HighRange> deviceOptional = repository.findById(deviceId);
+        Optional<HighRange> optHighRange = highRangeRepository.findById(speakerId);
 
-            if (deviceOptional.isPresent()) {
-                HighRange device = deviceOptional.get();
-                repository.deleteById(deviceId);
-
-                log.info("User with id ({}) and username ({}) deleted device with ID ({}), brand ({}), and model ({}).",
-                        user.getId(), user.getUsername(), deviceId, device.getBrand(), device.getModel());
-            }
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        if (optHighRange.isPresent()) {
+            HighRange highRange = optHighRange.get();
+            highRangeRepository.deleteById(speakerId);
+            ObjectLogger.logDeleteMessage(user,
+                    highRange,
+                    highRange.getBrand(),
+                    highRange.getModel());
         }
+    }
+
+    /**
+     * The method is used for retrieving a summary of all high-range speakers.
+     *
+     * @return a list of summaries of high-range speakers.
+     */
+    @Transactional
+    @Override
+    public List<HighRangeSummaryDTO> getAllSpeakerSummary() {
+        return highRangeRepository.findAll()
+                .stream()
+                .sorted(Comparator
+                        .comparingLong(HighRange::getLikes)
+                        .reversed()
+                        .thenComparing(a -> a.getBrand().toLowerCase())
+                        .thenComparing(a -> a.getModel().toLowerCase()))
+                .map(highrange -> {
+                    HighRangeSummaryDTO summaryDTO = modelMapper.map(highrange, HighRangeSummaryDTO.class);
+                    summaryDTO.setLikes(highrange.getLikes());
+
+                    HighRangeImage firstImage = highrange.getImageFiles().get(0);
+                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
+                    summaryDTO.setImageFile(base64Image);
+                    return summaryDTO;
+                })
+                .toList();
     }
 
     /**
@@ -148,11 +194,23 @@ public class HighRangeServiceImpl implements HighRangeService {
      * @return the details of the speaker
      * @throws DeviceNotFoundException if the speaker with the given ID is not found
      */
+    @Transactional
     @Override
-    public HighRangeDetailsDTO getDeviceDetails(Long id) {
-        return repository.findById(id)
-                .map(this::toDetailsDTO)
-                .orElseThrow(() -> new DeviceNotFoundException("Device with id " + id + " not found!", id));
+    public HighRangeDetailsDTO getSpeakerDetails(Long id) {
+        HighRange highRange = highRangeRepository.findById(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+
+        Hibernate.initialize(highRange.getImageFiles());
+
+        HighRangeDetailsDTO highRangeDetailsDTO = modelMapper.map(highRange, HighRangeDetailsDTO.class);
+
+        highRangeDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
+        highRangeDetailsDTO.setImageFiles(highRange.getImageFiles()
+                .stream().map(image -> Base64
+                        .getEncoder().encodeToString(image.getImageData()))
+                .collect(Collectors.toList()));
+
+        return highRangeDetailsDTO;
     }
 
     /**
@@ -161,163 +219,29 @@ public class HighRangeServiceImpl implements HighRangeService {
      * @param id the ID of the high-range speaker
      * @return the helper details of the speaker
      */
+    @Transactional
     @Override
-    public HighRangeDetailsHelperDTO getDeviceDetailsHelper(Long id) {
-        HighRangeDetailsDTO deviceDetails = getDeviceDetails(id);
-        return new HighRangeDetailsHelperDTO(deviceDetails);
-    }
+    public HighRangeDetailsHelperDTO getSpeakerDetailsHelper(Long id) {
+        HighRangeDetailsDTO highRangeDetailsDTO = getSpeakerDetails(id);
 
-    /**
-     * The method is used for retrieving a summary of all high-range speakers.
-     *
-     * @return a list of summaries of high-range speakers.
-     */
-    @Override
-    public List<HighRangeSummaryDTO> getAllDeviceSummary() {
-        return repository.findAll()
-                .stream()
-                .sorted(Comparator.comparingLong(HighRange::getLikes)
-                        .reversed()
-                        .thenComparing(a -> a.getBrand().toLowerCase())
-                        .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(this::toSummaryDTO)
-                .toList();
+        return new HighRangeDetailsHelperDTO(highRangeDetailsDTO);
     }
 
     /**
      * Method for liking a high-range speaker.
      *
-     * @param id the ID of the speaker, that should be liked
+     * @param id the ID of the speaker, that should be liked.
      */
     @Override
-    public void likeDevice(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public void likeSpeaker(Long id) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        UserEntity user;
-        if (principal instanceof UserDetails userDetails) {
-            user = getUserEntity(userDetails.getUsername());
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
+        HighRange highRange = highRangeRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        Optional<HighRange> optionalEntity = repository.findById(id);
-        if (optionalEntity.isPresent()) {
-            HighRange entity = optionalEntity.get();
-            addLikeToEntity(entity, user);
-            repository.save(entity);
-        } else {
-            throw new DeviceNotFoundException("Device with id " + id + " not found!", id);
-        }
-    }
+        List<UserEntity> userLikes = highRange.getUserLikes();
 
-    /**
-     * Updates image URLs for high-range devices that contain the old URL.
-     *
-     * @param oldUrl the old image URL
-     * @param newUrl the new image URL
-     */
-    @Override
-    public void updateDeviceImageUrls(String oldUrl, String newUrl) {
-        List<HighRange> highRanges = repository.findByImagesContaining(oldUrl);
-
-        for (HighRange highRange : highRanges) {
-            List<String> images = highRange.getImages();
-            for (int i = 0; i < images.size(); i++) {
-                if (images.get(i).equals(oldUrl)) {
-                    images.set(i, newUrl);
-                }
-            }
-            highRange.setImages(images);
-            repository.save(highRange);
-        }
-    }
-
-    /**
-     * Maps an AddHighRangeDTO to a HighRange entity.
-     *
-     * @param addDeviceDTO the add DTO, that should be mapped
-     * @return the mapped HighRange entity
-     * @throws JsonProcessingException if an error occurs while processing the JSON data
-     */
-    private HighRange mapToDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addDeviceDTO);
-        return modelMapper.map(addDeviceDTO, HighRange.class);
-    }
-
-    /**
-     * Maps an AddHighRangeDTO to an edited HighRange entity.
-     *
-     * @param addHighRangeDTO the DTO to map
-     * @return the mapped HighRange entity
-     */
-    private HighRange mapEditedDevice(AddHighRangeDTO addHighRangeDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addHighRangeDTO);
-        return modelMapper.map(addHighRangeDTO, HighRange.class);
-    }
-
-    /**
-     * Creates and sends an ImageListDetailsDTO message to update image.
-     *
-     * @param addDeviceDTO the data transfer object, that contains image URLs
-     * @throws JsonProcessingException if an error occurs while processing the JSON data
-     */
-    private void createImageListDetailsDTO(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException {
-        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
-        imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
-        imageListDetailsDTO.setTableName("high_range_images");
-        imageProducer.sendMessage(imageListDetailsDTO);
-    }
-
-    /**
-     * The method is used to map a HighRange entity to a HighRangeDetailsDTO.
-     *
-     * @param highRange the HighRange entity
-     * @return the HighRangeDetailsDTO
-     */
-    private HighRangeDetailsDTO toDetailsDTO(HighRange highRange) {
-        HighRangeDetailsDTO highRangeDetailsDTO = modelMapper.map(highRange, HighRangeDetailsDTO.class);
-        highRangeDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
-        return highRangeDetailsDTO;
-    }
-
-    /**
-     * This method is used to map a HighRange entity to a HighRangeSummaryDTO.
-     *
-     * @param highRange the HighRange entity
-     * @return the HighRangeSummaryDTO
-     */
-    private HighRangeSummaryDTO toSummaryDTO(HighRange highRange) {
-        HighRangeSummaryDTO highRangeSummaryDTO = modelMapper.map(highRange, HighRangeSummaryDTO.class);
-        highRangeSummaryDTO.setLikes(highRange.getLikes());
-        return highRangeSummaryDTO;
-    }
-
-    /**
-     * The method retrieves a UserEntity by username.
-     *
-     * @param username the username of the user
-     * @return the UserEntity
-     * @throws UserNotFoundException if the user is not found
-     */
-    private UserEntity getUserEntity(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
-    }
-
-    /**
-     * Adds a like to a HighRange speaker's List<UserEntity> from a UserEntity.
-     *
-     * @param entity the HighRange entity
-     * @param user the UserEntity liking the device, that will be added in the list
-     * @throws DeviceAlreadyLikedException if the user has already liked the device
-     */
-    private void addLikeToEntity(HighRange entity, UserEntity user) {
-        List<UserEntity> userLikes = entity.getUserLikes();
-        long userId = user.getId();
-
-        for (UserEntity existingUser : userLikes) {
-            if (existingUser.getId() == userId) {
+        for (UserEntity userLike : userLikes) {
+            if (user.getId() == userLike.getId()) {
                 String errorMessage = messageSource.getMessage(
                         ExceptionMessages.DEVICE_ALREADY_LIKED,
                         null,
@@ -328,6 +252,15 @@ public class HighRangeServiceImpl implements HighRangeService {
         }
 
         userLikes.add(user);
+
+        highRangeRepository.save(highRange);
+
+        ObjectLogger.logMessage(user,
+                "liked",
+                highRange,
+                id,
+                highRange.getBrand(),
+                highRange.getModel());
     }
 
     /**
@@ -343,8 +276,7 @@ public class HighRangeServiceImpl implements HighRangeService {
             String errorMessage = messageSource.getMessage(
                     ExceptionMessages.DEVICE_ALREADY_EXISTS,
                     null,
-                    LocaleContextHolder.getLocale()
-            );
+                    LocaleContextHolder.getLocale());
             throw new DeviceAlreadyExistsException(errorMessage);
         }
     }
@@ -354,29 +286,70 @@ public class HighRangeServiceImpl implements HighRangeService {
      *
      * @param brand the brand of the device
      * @param model the model of the device
-     * @return an Optional containing the HighRange entity if found
+     * @return an Optional, containing the HighRange entity if found.
      */
     private Optional<HighRange> findByBrandAndModel(String brand, String model) {
-        return repository.findByBrandAndModel(brand, model);
+        return highRangeRepository.findByBrandAndModel(brand, model);
+    }
+
+    private UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
     }
 
     /**
-     * This method retrieves the brand from an AddHighRangeDTO.
+     * This method is used to update the images of a high-range speakers.
      *
-     * @param addDeviceDTO the DTO containing information of the speaker
-     * @return the brand of the speaker
+     * @param user            is used to pass user data to ObjectLogger class, that is used
+     *                        to log messages in the console.
+     * @param highRange       the high-range speaker, whose images will be set.
+     * @param addHighRangeDTO the add high-range speaker dto, whose images
+     *                        will be mapped to the high-range speaker.
+     * @throws IOException if an error occurs while processing the images.
      */
-    private String getBrand(AddHighRangeDTO addDeviceDTO) {
-        return addDeviceDTO.getBrand();
+    private void updateSpeakerImages(UserEntity user, HighRange highRange, AddHighRangeDTO addHighRangeDTO) throws IOException {
+        if (addHighRangeDTO.getImageFiles() != null && !addHighRangeDTO.getImageFiles().isEmpty()) {
+
+            highRangeImageRepository.deleteByHighRange(highRange);
+
+            List<HighRangeImage> highRangeImages = new ArrayList<>();
+
+            List<MultipartFile> imageFiles = addHighRangeDTO.getImageFiles();
+            for (int i = 0; i < imageFiles.size(); i++) {
+                MultipartFile file = imageFiles.get(i);
+                if (!file.isEmpty()) {
+                    HighRangeImage highRangeImage = new HighRangeImage();
+                    highRangeImage.setImageData(file.getBytes());
+                    highRangeImage.setHighRange(highRange);
+                    highRangeImages.add(highRangeImage);
+                }
+            }
+            highRangeImageRepository.saveAll(highRangeImages);
+        } else {
+            ObjectLogger.logMessageWithoutImages(user,
+                    "updated",
+                    highRange,
+                    highRange.getId(),
+                    highRange.getBrand(),
+                    highRange.getModel());
+        }
     }
 
     /**
-     * This method retrieves the model from an AddHighRangeDTO.
+     * This static method returns the UserDetails, by using the Authentication interface
+     * provided by spring security core.
      *
-     * @param addDeviceDTO the DTO containing information of the speaker
-     * @return the model of the speaker
+     * @return userDetails, if the user is authenticated
+     * @throws UserNotAuthenticatedException, if the user is not authenticated.
      */
-    private String getModel(AddHighRangeDTO addDeviceDTO) {
-        return addDeviceDTO.getModel();
+    private static UserDetails getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            return userDetails;
+        } else {
+            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        }
     }
 }

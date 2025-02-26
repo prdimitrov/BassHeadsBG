@@ -32,15 +32,5 @@ public final class MultiChannelAmpDetailsDTO {
     private short width;
     private short length;
     private byte numberOfChannels;
-    private List<String> images;
-    private String imagesString;
-
-    public void setImages(List<String> images) {
-        this.images = images;
-        if (images != null && !images.isEmpty()) {
-            this.imagesString = String.join(", ", images);
-        } else {
-            this.imagesString = "";
-        }
-    }
+    private List<String> imageFiles;
 }

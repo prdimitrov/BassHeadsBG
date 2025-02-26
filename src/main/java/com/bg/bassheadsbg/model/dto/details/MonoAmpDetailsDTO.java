@@ -33,15 +33,5 @@ public final class MonoAmpDetailsDTO {
     private Short length;
     private byte numberOfRca;
     private byte numberOfSpeakerOutputs;
-    private List<String> images;
-    private String imagesString;
-
-    public void setImages(List<String> images) {
-        this.images = images;
-        if (images != null && !images.isEmpty()) {
-            this.imagesString = String.join(", ", images);
-        } else {
-            this.imagesString = "";
-        }
-    }
+    private List<String> imageFiles;
 }

@@ -32,7 +32,7 @@
                 th:object="${device}" class="device">
             <div class="device-specs">
                 <div class="card-img-top-wrapper">
-                    <img class="card-img-top" alt="NO IMAGE" th:src="*{images.get(0)}"/>
+                    <img class="card-img-top" alt="NO IMAGE" th:src="'data:image/jpeg;base64,' + *{imageFile}"/>
                 </div>
                 <div class="device-details">
                     <h4 th:text="*{brand} + ' ' + *{model}"></h4>

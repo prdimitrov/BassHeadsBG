@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -110,11 +111,6 @@ public class PowerCableServiceImpl implements PowerCableService {
     }
 
     @Override
-    public Optional<PowerCable> getCable(Long id) {
-        return powerCableRepository.findById(id);
-    }
-
-    @Override
     public void deleteCable(long cableId) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
@@ -133,9 +129,15 @@ public class PowerCableServiceImpl implements PowerCableService {
     @Override
     @Transactional
     public List<PowerCableSummaryDTO> getAllCableSummary() {
+
         return powerCableRepository.findAll()
                 .stream()
-                .sorted()
+                .sorted(Comparator
+                        .comparingLong(PowerCable::getLikes)
+                        .reversed()
+                        .thenComparing(a -> a.getBrand().toLowerCase())
+                        .thenComparing(a -> a.getModel().toLowerCase())
+                )
                 .map(powerCable -> {
                     PowerCableSummaryDTO summaryDTO = modelMapper.map(powerCable, PowerCableSummaryDTO.class);
                     summaryDTO.setLikes(powerCable.getLikes());
@@ -147,6 +149,7 @@ public class PowerCableServiceImpl implements PowerCableService {
                 })
                 .toList();
     }
+
 
     @Override
     @Transactional

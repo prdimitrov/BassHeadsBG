@@ -1,17 +1,15 @@
 package com.bg.bassheadsbg.scheduling;
 
-import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
-import com.bg.bassheadsbg.model.entity.amplifiers.MultiChannelAmplifier;
-import com.bg.bassheadsbg.model.entity.speakers.HighRange;
-import com.bg.bassheadsbg.model.entity.speakers.MidRange;
-import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
-import com.bg.bassheadsbg.model.entity.users.UserEntity;
-import com.bg.bassheadsbg.repository.*;
+import com.bg.bassheadsbg.repository.HighRangeRepository;
+import com.bg.bassheadsbg.repository.MidRangeRepository;
+import com.bg.bassheadsbg.repository.MonoAmplifierRepository;
+import com.bg.bassheadsbg.repository.MultiChannelAmplifierRepository;
+import com.bg.bassheadsbg.repository.PowerCableRepository;
+import com.bg.bassheadsbg.repository.SubwooferRepository;
+import com.bg.bassheadsbg.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @Slf4j
@@ -22,8 +20,9 @@ public class CronScheduler {
     private final SubwooferRepository subwooferRepository;
     private final MonoAmplifierRepository monoAmplifierRepository;
     private final MultiChannelAmplifierRepository multiChannelAmplifierRepository;
+    private final PowerCableRepository powerCableRepository;
 
-    public CronScheduler(UserRepository userRepository, HighRangeRepository highRangeRepository, MidRangeRepository midRangeRepository, SubwooferRepository subwooferRepository, MonoAmplifierRepository monoAmplifierRepository, MultiChannelAmplifierRepository multiChannelAmplifierRepository) {
+    public CronScheduler(UserRepository userRepository, HighRangeRepository highRangeRepository, MidRangeRepository midRangeRepository, SubwooferRepository subwooferRepository, MonoAmplifierRepository monoAmplifierRepository, MultiChannelAmplifierRepository multiChannelAmplifierRepository, PowerCableRepository powerCableRepository) {
         this.userRepository = userRepository;
         this.highRangeRepository = highRangeRepository;
         this.midRangeRepository = midRangeRepository;
@@ -31,6 +30,7 @@ public class CronScheduler {
 
         this.monoAmplifierRepository = monoAmplifierRepository;
         this.multiChannelAmplifierRepository = multiChannelAmplifierRepository;
+        this.powerCableRepository = powerCableRepository;
     }
 
     @Scheduled(cron = "0 0/30 * * * ?")
@@ -40,25 +40,36 @@ public class CronScheduler {
             logMessage.append("*********************************************\n")
                     .append("---------------------------------------------\n");
 
-            List<UserEntity> usersList = userRepository.findAll();
-            logMessage.append("Number of users: ").append(usersList.size()).append("\n")
-                    .append("---------------------------------------------\n");
+            long totalUsers = userRepository.count();
 
-            List<HighRange> highRangeList = highRangeRepository.findAll();
-            List<MidRange> midRangeList = midRangeRepository.findAll();
-            List<Subwoofer> subwoofersList = subwooferRepository.findAll();
-            logMessage.append("Number of HighRange Speakers: ").append(highRangeList.size()).append("\n")
-                    .append("Number of MidRange Speakers: ").append(midRangeList.size()).append("\n")
-                    .append("Number of Subwoofers: ").append(subwoofersList.size()).append("\n")
-                    .append("Total speakers: ").append(highRangeList.size() + midRangeList.size() + subwoofersList.size()).append("\n")
-                    .append("---------------------------------------------\n");
-
-            List<MonoAmplifier> monoAmplifiers = monoAmplifierRepository.findAll();
-            List<MultiChannelAmplifier> multiChannelAmplifiers = multiChannelAmplifierRepository.findAll();
-            logMessage.append("Number of Mono-block Amps: ").append(monoAmplifiers.size()).append("\n")
-                    .append("Number of Multi-Channel Amps: ").append(multiChannelAmplifiers.size()).append("\n")
-                    .append("Total Amplifiers: ").append(monoAmplifiers.size() + multiChannelAmplifiers.size()).append("\n")
+            logMessage.append("Number of users: ").append(totalUsers).append("\n")
                     .append("---------------------------------------------\n")
+                    .append("__SPEAKERS__");
+
+            long totalHighRangeSpeakers = highRangeRepository.count();
+            long totalMidRangeSpeakers = midRangeRepository.count();
+            long totalSubwoofers = subwooferRepository.count();
+
+            logMessage.append("Number of HighRange Speakers: ").append(totalHighRangeSpeakers).append("\n")
+                    .append("Number of MidRange Speakers: ").append(totalMidRangeSpeakers).append("\n")
+                    .append("Number of Subwoofers: ").append(totalSubwoofers).append("\n")
+                    .append("Total speakers: ").append(totalHighRangeSpeakers + totalMidRangeSpeakers + totalSubwoofers).append("\n")
+                    .append("---------------------------------------------\n")
+                    .append("__AMPLIFIERS__");
+
+            long totalMonoChannelAmps = monoAmplifierRepository.count();
+            long totalMultiChannelAmps = multiChannelAmplifierRepository.count();
+
+            logMessage.append("Number of Mono-block Amps: ").append(totalMonoChannelAmps).append("\n")
+                    .append("Number of Multi-Channel Amps: ").append(totalMultiChannelAmps).append("\n")
+                    .append("Total Amplifiers: ").append(totalMonoChannelAmps + totalMultiChannelAmps).append("\n")
+                    .append("---------------------------------------------\n")
+                    .append("__CABLES__");
+
+            long totalPowerCables = powerCableRepository.count();
+
+            logMessage.append("Number of Power Cables: ").append(totalPowerCables).append("\n")
+                    .append("Total Cables: ").append(totalPowerCables)
                     .append("*********************************************\n")
                     .append("▒█▀▀█ █▀▀█ █▀▀ █▀▀ ▒█░▒█ █▀▀ █▀▀█ █▀▀▄ █▀▀ 　 ▒█▀▀█ ▒█▀▀█ \n" +
                             "▒█▀▀▄ █▄▄█ ▀▀█ ▀▀█ ▒█▀▀█ █▀▀ █▄▄█ █░░█ ▀▀█ 　 ▒█▀▀▄ ▒█░▄▄ \n" +

@@ -1,21 +1,27 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
-import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MultiChannelAmpSummaryDTO;
+import com.bg.bassheadsbg.model.entity.images.MultiChannelAmplifierImage;
 import com.bg.bassheadsbg.model.entity.amplifiers.MultiChannelAmplifier;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
+import com.bg.bassheadsbg.repository.MultiChannelAmplifierImageRepository;
 import com.bg.bassheadsbg.repository.MultiChannelAmplifierRepository;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MultiChannelAmpService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.extern.slf4j.Slf4j;
+import com.bg.bassheadsbg.util.ObjectLogger;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,24 +29,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
 
-    private final MultiChannelAmplifierRepository repository;
+    private final MultiChannelAmplifierRepository multiChannelAmplifierRepository;
+    private final MultiChannelAmplifierImageRepository multiChannelAmplifierImageRepository;
     private final ModelMapper modelMapper;
     private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public MultiChannelAmpServiceImpl(MultiChannelAmplifierRepository repository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
-        this.repository = repository;
+    public MultiChannelAmpServiceImpl(MultiChannelAmplifierRepository multiChannelAmplifierRepository, MultiChannelAmplifierImageRepository multiChannelAmplifierImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+        this.multiChannelAmplifierRepository = multiChannelAmplifierRepository;
+        this.multiChannelAmplifierImageRepository = multiChannelAmplifierImageRepository;
         this.modelMapper = modelMapper;
         this.imageProducer = imageProducer;
         this.exRateService = exRateService;
@@ -49,173 +61,133 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
     }
 
     @Override
-    public AddMultiChannelAmpDTO createNewAddMultiChannelAmpDTO() {
+    public AddMultiChannelAmpDTO createNewAmplifier() {
         return new AddMultiChannelAmpDTO();
     }
 
+    @Transactional
     @Override
-    public long addDevice(AddMultiChannelAmpDTO addDeviceDTO) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public long addAmplifier(AddMultiChannelAmpDTO addMultiChannelAmpDTO) throws IOException {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            checkEntityExists(getBrand(addDeviceDTO), getModel(addDeviceDTO));
-            MultiChannelAmplifier entity = mapToDevice(addDeviceDTO);
-            long deviceId = repository.save(entity).getId();
+        MultiChannelAmplifier multiChannelAmplifier = modelMapper.map(addMultiChannelAmpDTO, MultiChannelAmplifier.class);
+        checkEntityExists(multiChannelAmplifier.getBrand(), multiChannelAmplifier.getModel());
 
-            log.info("User with id ({}) and username ({}) added device with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), deviceId, getBrand(addDeviceDTO), getModel(addDeviceDTO));
+        MultiChannelAmplifier savedMultiChannelAmplifier = multiChannelAmplifierRepository.save(multiChannelAmplifier);
 
-            return deviceId;
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        updateAmplifierImages(user, multiChannelAmplifier, addMultiChannelAmpDTO);
+
+        ObjectLogger.logMessage(user,
+                "added",
+                multiChannelAmplifier,
+                multiChannelAmplifier.getId(),
+                multiChannelAmplifier.getBrand(),
+                multiChannelAmplifier.getModel());
+
+        return savedMultiChannelAmplifier.getId();
+    }
+
+    @Transactional
+    @Override
+    public long editAmplifier(AddMultiChannelAmpDTO addMultiChannelAmpDTO, List<MultipartFile> multipartFiles) throws IOException {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
+
+        MultiChannelAmplifier entity = multiChannelAmplifierRepository.findById(addMultiChannelAmpDTO.getId())
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, addMultiChannelAmpDTO.getId()));
+        if (addMultiChannelAmpDTO.getImageFiles() != null) {
+            entity.getImageFiles().clear();
+            updateAmplifierImages(user, entity, addMultiChannelAmpDTO);
+        }
+
+        entity = modelMapper.map(addMultiChannelAmpDTO, MultiChannelAmplifier.class);
+
+        MultiChannelAmplifier savedMultiChannelAmplifier = multiChannelAmplifierRepository.saveAndFlush(entity);
+
+        ObjectLogger.logMessage(user,
+                "edited",
+                savedMultiChannelAmplifier,
+                savedMultiChannelAmplifier.getId(),
+                savedMultiChannelAmplifier.getBrand(),
+                savedMultiChannelAmplifier.getModel());
+
+        return savedMultiChannelAmplifier.getId();
+    }
+
+    @Override
+    public void deleteAmplifier(long amplifierId) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
+
+        Optional<MultiChannelAmplifier> optMultiChannelAmplifier = multiChannelAmplifierRepository.findById(amplifierId);
+
+        if (optMultiChannelAmplifier.isPresent()) {
+            MultiChannelAmplifier multiChannelAmplifier = optMultiChannelAmplifier.get();
+            multiChannelAmplifierRepository.deleteById(amplifierId);
+            ObjectLogger.logDeleteMessage(user,
+                    multiChannelAmplifier,
+                    multiChannelAmplifier.getBrand(),
+                    multiChannelAmplifier.getModel());
         }
     }
 
+    @Transactional
     @Override
-    public long editDevice(AddMultiChannelAmpDTO addDeviceDTO) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            MultiChannelAmplifier entity = mapEditedDevice(addDeviceDTO);
-            long deviceId = repository.save(entity).getId();
-
-            log.info("User with id ({}) and username ({}) edited device with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), deviceId, getBrand(addDeviceDTO), getModel(addDeviceDTO));
-
-            return deviceId;
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
-    }
-
-    @Override
-    public void deleteDevice(long deviceId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            Optional<MultiChannelAmplifier> deviceOptional = repository.findById(deviceId);
-
-            if (deviceOptional.isPresent()) {
-                MultiChannelAmplifier device = deviceOptional.get();
-                repository.deleteById(deviceId);
-
-                log.info("User with id ({}) and username ({}) deleted device with ID ({}), brand ({}), and model ({}).",
-                        user.getId(), user.getUsername(), deviceId, device.getBrand(), device.getModel());
-            }
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
-    }
-
-    @Override
-    public MultiChannelAmpDetailsDTO getDeviceDetails(Long id) {
-        return repository.findById(id)
-                .map(this::toDetailsDTO)
-                .orElseThrow(() -> new DeviceNotFoundException("Device with id " + id + " not found!", id));
-    }
-
-    @Override
-    public MultiChannelAmpDetailsHelperDTO getDeviceDetailsHelper(Long id) {
-        MultiChannelAmpDetailsDTO deviceDetails = getDeviceDetails(id);
-        return new MultiChannelAmpDetailsHelperDTO(deviceDetails);
-    }
-
-    @Override
-    public List<MultiChannelAmpSummaryDTO> getAllDeviceSummary() {
-        return repository.findAll()
+    public List<MultiChannelAmpSummaryDTO> getAllAmplifierSummary() {
+        return multiChannelAmplifierRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparingLong(MultiChannelAmplifier::getLikes)
+                .sorted(Comparator
+                        .comparingLong(MultiChannelAmplifier::getLikes)
                         .reversed()
                         .thenComparing(a -> a.getBrand().toLowerCase())
                         .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(this::toSummaryDTO)
+                .map(multiChannelAmplifier -> {
+                    MultiChannelAmpSummaryDTO summaryDTO = modelMapper.map(multiChannelAmplifier, MultiChannelAmpSummaryDTO.class);
+                    summaryDTO.setLikes(multiChannelAmplifier.getLikes());
+
+                    MultiChannelAmplifierImage firstImage = multiChannelAmplifier.getImageFiles().get(0);
+                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
+                    summaryDTO.setImageFile(base64Image);
+                    return summaryDTO;
+                })
                 .toList();
     }
 
+    @Transactional
     @Override
-    public void likeDevice(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public MultiChannelAmpDetailsDTO getAmplifierDetails(Long id) {
+        MultiChannelAmplifier multiChannelAmplifier = multiChannelAmplifierRepository.findById(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        UserEntity user;
-        if (principal instanceof UserDetails userDetails) {
-            user = getUserEntity(userDetails.getUsername());
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
+        Hibernate.initialize(multiChannelAmplifier.getImageFiles());
 
-        Optional<MultiChannelAmplifier> optionalEntity = repository.findById(id);
-        if (optionalEntity.isPresent()) {
-            MultiChannelAmplifier entity = optionalEntity.get();
-            addLikeToEntity(entity, user);
-            repository.save(entity);
-        } else {
-            throw new DeviceNotFoundException("Device with id " + id + " not found!", id);
-        }
+        MultiChannelAmpDetailsDTO multiChannelAmplifierDetailsDTO = modelMapper.map(multiChannelAmplifier, MultiChannelAmpDetailsDTO.class);
+
+        multiChannelAmplifierDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
+        multiChannelAmplifierDetailsDTO.setImageFiles(multiChannelAmplifier.getImageFiles()
+                .stream().map(image -> Base64
+                        .getEncoder().encodeToString(image.getImageData()))
+                .collect(Collectors.toList()));
+
+        return multiChannelAmplifierDetailsDTO;
+    }
+
+    @Transactional
+    @Override
+    public MultiChannelAmpDetailsHelperDTO getAmplifierDetailsHelper(Long id) {
+        MultiChannelAmpDetailsDTO multiChannelAmplifierDetailsDTO = getAmplifierDetails(id);
+
+        return new MultiChannelAmpDetailsHelperDTO(multiChannelAmplifierDetailsDTO);
     }
 
     @Override
-    public void updateDeviceImageUrls(String oldUrl, String newUrl) {
-        List<MultiChannelAmplifier> multiChannelAmplifiers = repository.findByImagesContaining(oldUrl);
+    public void likeAmplifier(Long id) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        for (MultiChannelAmplifier multiChannelAmplifier : multiChannelAmplifiers) {
-            List<String> images = multiChannelAmplifier.getImages();
-            for (int i = 0; i < images.size(); i++) {
-                if (images.get(i).equals(oldUrl)) {
-                    images.set(i, newUrl);
-                }
-            }
-            multiChannelAmplifier.setImages(images);
-            repository.save(multiChannelAmplifier);
-        }
-    }
+        MultiChannelAmplifier multiChannelAmplifier = multiChannelAmplifierRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-    private MultiChannelAmplifier mapToDevice(AddMultiChannelAmpDTO addDeviceDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addDeviceDTO);
-        return modelMapper.map(addDeviceDTO, MultiChannelAmplifier.class);
-    }
+        List<UserEntity> userLikes = multiChannelAmplifier.getUserLikes();
 
-    private MultiChannelAmplifier mapEditedDevice(AddMultiChannelAmpDTO addMultiChannelAmpDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addMultiChannelAmpDTO);
-        return modelMapper.map(addMultiChannelAmpDTO, MultiChannelAmplifier.class);
-    }
-
-    private void createImageListDetailsDTO(AddMultiChannelAmpDTO addMultiChannelAmpDTO) throws JsonProcessingException {
-        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
-        imageListDetailsDTO.setImageUrls(addMultiChannelAmpDTO.getImages());
-        imageListDetailsDTO.setTableName("multi_channel_amplifier_images");
-        imageProducer.sendMessage(imageListDetailsDTO);
-    }
-
-    private MultiChannelAmpDetailsDTO toDetailsDTO(MultiChannelAmplifier multiChannelAmplifier) {
-        MultiChannelAmpDetailsDTO multiChannelAmpDetailsDTO = modelMapper.map(multiChannelAmplifier, MultiChannelAmpDetailsDTO.class);
-        multiChannelAmpDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
-        return multiChannelAmpDetailsDTO;
-    }
-
-    private MultiChannelAmpSummaryDTO toSummaryDTO(MultiChannelAmplifier multiChannelAmplifier) {
-        MultiChannelAmpSummaryDTO multiChannelAmpSummaryDTO = modelMapper.map(multiChannelAmplifier, MultiChannelAmpSummaryDTO.class);
-        multiChannelAmpSummaryDTO.setLikes(multiChannelAmplifier.getLikes());
-        return multiChannelAmpSummaryDTO;
-    }
-
-    private UserEntity getUserEntity(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
-    }
-
-    private void addLikeToEntity(MultiChannelAmplifier entity, UserEntity user) {
-        List<UserEntity> userLikes = entity.getUserLikes();
-        long userId = user.getId();
-
-        for (UserEntity existingUser : userLikes) {
-            if (existingUser.getId() == userId) {
+        for (UserEntity userLike : userLikes) {
+            if (user.getId() == userLike.getId()) {
                 String errorMessage = messageSource.getMessage(
                         ExceptionMessages.DEVICE_ALREADY_LIKED,
                         null,
@@ -226,6 +198,15 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
         }
 
         userLikes.add(user);
+
+        multiChannelAmplifierRepository.save(multiChannelAmplifier);
+
+        ObjectLogger.logMessage(user,
+                "liked",
+                multiChannelAmplifier,
+                id,
+                multiChannelAmplifier.getBrand(),
+                multiChannelAmplifier.getModel());
     }
 
     private void checkEntityExists(String brand, String model) {
@@ -234,21 +215,56 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
             String errorMessage = messageSource.getMessage(
                     ExceptionMessages.DEVICE_ALREADY_EXISTS,
                     null,
-                    LocaleContextHolder.getLocale()
-            );
+                    LocaleContextHolder.getLocale());
             throw new DeviceAlreadyExistsException(errorMessage);
         }
     }
 
     private Optional<MultiChannelAmplifier> findByBrandAndModel(String brand, String model) {
-        return repository.findByBrandAndModel(brand, model);
+        return multiChannelAmplifierRepository.findByBrandAndModel(brand, model);
     }
 
-    private String getBrand(AddMultiChannelAmpDTO addDeviceDTO) {
-        return addDeviceDTO.getBrand();
+    private UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
     }
 
-    private String getModel(AddMultiChannelAmpDTO addDeviceDTO) {
-        return addDeviceDTO.getModel();
+    private void updateAmplifierImages(UserEntity user, MultiChannelAmplifier multiChannelAmplifier, AddMultiChannelAmpDTO addMultiChannelAmpDTO) throws IOException {
+        if (addMultiChannelAmpDTO.getImageFiles() != null && !addMultiChannelAmpDTO.getImageFiles().isEmpty()) {
+
+            multiChannelAmplifierImageRepository.deleteByMultiChannelAmplifier(multiChannelAmplifier);
+
+            List<MultiChannelAmplifierImage> multiChannelAmplifierImages = new ArrayList<>();
+
+            List<MultipartFile> imageFiles = addMultiChannelAmpDTO.getImageFiles();
+            for (int i = 0; i < imageFiles.size(); i++) {
+                MultipartFile file = imageFiles.get(i);
+                if (!file.isEmpty()) {
+                    MultiChannelAmplifierImage multiChannelAmplifierImage = new MultiChannelAmplifierImage();
+                    multiChannelAmplifierImage.setImageData(file.getBytes());
+                    multiChannelAmplifierImage.setMultiChannelAmplifier(multiChannelAmplifier);
+                    multiChannelAmplifierImages.add(multiChannelAmplifierImage);
+                }
+            }
+            multiChannelAmplifierImageRepository.saveAll(multiChannelAmplifierImages);
+        } else {
+            ObjectLogger.logMessageWithoutImages(user,
+                    "updated",
+                    multiChannelAmplifier,
+                    multiChannelAmplifier.getId(),
+                    multiChannelAmplifier.getBrand(),
+                    multiChannelAmplifier.getModel());
+        }
+    }
+
+    private static UserDetails getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            return userDetails;
+        } else {
+            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        }
     }
 }

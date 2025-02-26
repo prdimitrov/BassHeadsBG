@@ -1,30 +1,29 @@
 package com.bg.bassheadsbg.service.interfaces;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MonoAmpSummaryDTO;
 import com.bg.bassheadsbg.model.helpers.MonoAmpDetailsHelperDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MonoAmpService {
-    AddMonoAmpDTO createNewAddMonoAmpDTO();
 
-    long addDevice(AddMonoAmpDTO addDeviceDTO) throws JsonProcessingException, DeviceAlreadyExistsException;
+    AddMonoAmpDTO createNewAmplifier();
 
-    long editDevice(AddMonoAmpDTO addDeviceDTO) throws JsonProcessingException;
+    long addAmplifier(AddMonoAmpDTO addMonoAmpDTO) throws IOException;
 
-    void deleteDevice(long deviceId);
+    long editAmplifier(AddMonoAmpDTO addMonoAmpDTO, List<MultipartFile> multipartFiles) throws IOException;
 
-    MonoAmpDetailsDTO getDeviceDetails(Long id);
+    void deleteAmplifier(long amplifierId);
 
-    MonoAmpDetailsHelperDTO getDeviceDetailsHelper(Long id);
+    List<MonoAmpSummaryDTO> getAllAmplifierSummary();
 
-    List<MonoAmpSummaryDTO> getAllDeviceSummary();
+    MonoAmpDetailsDTO getAmplifierDetails(Long id);
 
-    void likeDevice(Long id);
+    MonoAmpDetailsHelperDTO getAmplifierDetailsHelper(Long id);
 
-    void updateDeviceImageUrls(String oldUrl, String newUrl);
+    void likeAmplifier(Long id);
 }

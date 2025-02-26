@@ -1,8 +1,16 @@
 package com.bg.bassheadsbg.model.entity.speakers;
 
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
+import com.bg.bassheadsbg.model.entity.images.MidRangeImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -27,6 +35,9 @@ public class MidRange extends BaseSpeaker {
     @NotNull(message = "{frequencyRangeTo.positiveOrZero}")
     @Max(value = 80000, message = "{frequencyRangeTo.max80000}")
     private int frequencyRangeTo;
+
+    @OneToMany(mappedBy = "midRange", orphanRemoval = true)
+    private List<MidRangeImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

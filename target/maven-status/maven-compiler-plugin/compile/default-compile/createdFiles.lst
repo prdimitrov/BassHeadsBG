@@ -17,8 +17,10 @@ com\bg\bassheadsbg\model\dto\summary\HighRangeSummaryDTO.class
 com\bg\bassheadsbg\model\dto\auth\UserRegistrationDTO.class
 com\bg\bassheadsbg\model\dto\exchanges\ExRatesDTO.class
 com\bg\bassheadsbg\model\helpers\MultiChannelAmpDetailsHelperDTO.class
+com\bg\bassheadsbg\model\entity\images\MonoAmplifierImage.class
 com\bg\bassheadsbg\web\controller\speakerControllers\HighRangeController.class
 com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.class
+com\bg\bassheadsbg\model\entity\images\MultiChannelAmplifierImage.class
 com\bg\bassheadsbg\service\implementation\UserServiceImpl.class
 com\bg\bassheadsbg\model\entity\speakers\HighRange.class
 com\bg\bassheadsbg\validation\fieldsMatcher\FieldsMatch.class
@@ -31,7 +33,9 @@ com\bg\bassheadsbg\util\ValueFormatterUtil.class
 com\bg\bassheadsbg\web\controller\cableControllers\PowerCableController.class
 com\bg\bassheadsbg\aop\InitializationAspect.class
 com\bg\bassheadsbg\model\helpers\SubwooferDetailsHelperDTO.class
+com\bg\bassheadsbg\repository\MonoAmplifierImageRepository.class
 com\bg\bassheadsbg\service\implementation\BassHeadsDetailsService.class
+com\bg\bassheadsbg\model\entity\images\MidRangeImage.class
 com\bg\bassheadsbg\model\enums\CableMaterial.class
 com\bg\bassheadsbg\validation\userExist\UserExistValidator.class
 com\bg\bassheadsbg\service\interfaces\AccuWeatherService.class
@@ -50,6 +54,7 @@ com\bg\bassheadsbg\web\controller\userControllers\EditUserController.class
 com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.class
 com\bg\bassheadsbg\web\controller\userControllers\LoginController.class
 com\bg\bassheadsbg\model\entity\cables\PowerCable.class
+com\bg\bassheadsbg\repository\MultiChannelAmplifierImageRepository.class
 com\bg\bassheadsbg\model\dto\summary\SubwooferSummaryDTO.class
 com\bg\bassheadsbg\web\controller\ChatController.class
 com\bg\bassheadsbg\validation\imagesValidator\NotEmptyImageFiles.class
@@ -76,9 +81,11 @@ com\bg\bassheadsbg\model\helpers\MonoAmpDetailsHelperDTO.class
 com\bg\bassheadsbg\service\implementation\MessageStoreServiceImpl.class
 com\bg\bassheadsbg\service\interfaces\CityService.class
 com\bg\bassheadsbg\service\interfaces\RoleService.class
+com\bg\bassheadsbg\repository\HighRangeImageRepository.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomFloatEditor.class
 com\bg\bassheadsbg\model\dto\details\HighRangeDetailsDTO.class
 com\bg\bassheadsbg\model\entity\users\UserEntity.class
+com\bg\bassheadsbg\model\entity\images\SubwooferImage.class
 com\bg\bassheadsbg\model\dto\exchanges\ConversionResultDTO.class
 com\bg\bassheadsbg\service\implementation\MonoAmpServiceImpl.class
 com\bg\bassheadsbg\config\ForexApiConfig.class
@@ -102,6 +109,7 @@ com\bg\bassheadsbg\model\dto\details\MonoAmpDetailsDTO.class
 com\bg\bassheadsbg\web\controller\userControllers\RegistrationController.class
 com\bg\bassheadsbg\service\interfaces\MidRangeService.class
 com\bg\bassheadsbg\service\interfaces\WelcomeService.class
+com\bg\bassheadsbg\repository\SubwooferImageRepository.class
 com\bg\bassheadsbg\validation\imagesUrlValidator\ListUrlsValidator.class
 com\bg\bassheadsbg\web\controller\AboutController.class
 com\bg\bassheadsbg\model\entity\base\BaseSpeaker.class
@@ -117,6 +125,7 @@ com\bg\bassheadsbg\config\JacksonConfig.class
 com\bg\bassheadsbg\model\entity\speakers\Subwoofer.class
 com\bg\bassheadsbg\model\dto\details\MidRangeDetailsDTO.class
 com\bg\bassheadsbg\web\rest\CurrencyController.class
+com\bg\bassheadsbg\util\ObjectLogger.class
 com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmailValidator.class
 com\bg\bassheadsbg\model\entity\City.class
 com\bg\bassheadsbg\service\interfaces\PowerCableService.class
@@ -130,6 +139,7 @@ com\bg\bassheadsbg\model\entity\ExRateEntity.class
 com\bg\bassheadsbg\model\dto\details\MultiChannelAmpDetailsDTO.class
 com\bg\bassheadsbg\model\entity\amplifiers\MonoAmplifier.class
 com\bg\bassheadsbg\repository\PowerCableImageRepository.class
+com\bg\bassheadsbg\repository\MidRangeImageRepository.class
 com\bg\bassheadsbg\service\implementation\RoleServiceImpl.class
 com\bg\bassheadsbg\model\dto\add\AddPowerCableDTO.class
 com\bg\bassheadsbg\service\interfaces\MessageStoreService.class
@@ -140,6 +150,7 @@ com\bg\bassheadsbg\validation\fieldsMatcher\FieldsMatchValidator.class
 com\bg\bassheadsbg\messages\ExceptionMessages.class
 com\bg\bassheadsbg\model\dto\add\AddHighRangeDTO.class
 com\bg\bassheadsbg\model\dto\add\AddMonoAmpDTO.class
+com\bg\bassheadsbg\model\entity\images\HighRangeImage.class
 com\bg\bassheadsbg\service\implementation\SubwooferServiceImpl.class
 com\bg\bassheadsbg\init\CityInitializer.class
 com\bg\bassheadsbg\model\entity\users\UserRole.class

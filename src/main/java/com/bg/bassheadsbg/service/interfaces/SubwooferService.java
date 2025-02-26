@@ -1,30 +1,28 @@
 package com.bg.bassheadsbg.service.interfaces;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.SubwooferSummaryDTO;
 import com.bg.bassheadsbg.model.helpers.SubwooferDetailsHelperDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface SubwooferService {
-    AddSubwooferDTO createNewSubwooferDTO();
+    AddSubwooferDTO createNewSpeaker();
 
-    long addDevice(AddSubwooferDTO addDeviceDTO) throws JsonProcessingException, DeviceAlreadyExistsException;
+    long addSpeaker(AddSubwooferDTO addSubwooferDTO) throws IOException;
 
-    long editDevice(AddSubwooferDTO addDeviceDTO) throws JsonProcessingException;
+    long editSpeaker(AddSubwooferDTO addSubwooferDTO, List<MultipartFile> multipartFiles) throws IOException;
 
-    void deleteDevice(long deviceId);
+    void deleteSpeaker(long speakerId);
 
-    SubwooferDetailsDTO getDeviceDetails(Long id);
+    List<SubwooferSummaryDTO> getAllSpeakerSummary();
 
-    SubwooferDetailsHelperDTO getDeviceDetailsHelper(Long id);
+    SubwooferDetailsDTO getSpeakerDetails(Long id);
 
-    List<SubwooferSummaryDTO> getAllDeviceSummary();
+    SubwooferDetailsHelperDTO getSpeakerDetailsHelper(Long id);
 
-    void likeDevice(Long id);
-
-    void updateDeviceImageUrls(String oldUrl, String newUrl);
+    void likeSpeaker(Long id);
 }

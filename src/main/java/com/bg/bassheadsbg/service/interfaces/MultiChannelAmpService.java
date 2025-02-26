@@ -1,30 +1,30 @@
 package com.bg.bassheadsbg.service.interfaces;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MultiChannelAmpSummaryDTO;
 import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.transaction.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MultiChannelAmpService {
-    AddMultiChannelAmpDTO createNewAddMultiChannelAmpDTO();
 
-    long addDevice(AddMultiChannelAmpDTO addDeviceDTO) throws JsonProcessingException, DeviceAlreadyExistsException;
+    AddMultiChannelAmpDTO createNewAmplifier();
 
-    long editDevice(AddMultiChannelAmpDTO addDeviceDTO) throws JsonProcessingException;
+    long addAmplifier(AddMultiChannelAmpDTO addMultiChannelAmpDTO) throws IOException;
 
-    void deleteDevice(long deviceId);
+    long editAmplifier(AddMultiChannelAmpDTO addMultiChannelAmpDTO, List<MultipartFile> multipartFiles) throws IOException;
 
-    MultiChannelAmpDetailsDTO getDeviceDetails(Long id);
+    void deleteAmplifier(long amplifierId);
 
-    MultiChannelAmpDetailsHelperDTO getDeviceDetailsHelper(Long id);
+    List<MultiChannelAmpSummaryDTO> getAllAmplifierSummary();
 
-    List<MultiChannelAmpSummaryDTO> getAllDeviceSummary();
+    MultiChannelAmpDetailsDTO getAmplifierDetails(Long id);
 
-    void likeDevice(Long id);
+    MultiChannelAmpDetailsHelperDTO getAmplifierDetailsHelper(Long id);
 
-    void updateDeviceImageUrls(String oldUrl, String newUrl);
+    void likeAmplifier(Long id);
 }

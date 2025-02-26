@@ -33,7 +33,7 @@
                 <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
             </div>
             <div class="gallery">
-                <img id="device-image" src="/" class="card-img-top img-thumbnail" alt="Device Image">
+                <img id="device-image" src="" class="card-img-top img-thumbnail" alt="Device Image">
             </div>
             <div class="gallery-buttons">
                 <button id="prev" class="gallery-button"><i class="fa-solid fa-arrow-left"></i></button>
@@ -205,7 +205,7 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    setupGallery([[${monoAmpDetails.images}]]);
+    setupGallery([[${monoAmpDetails.imageFiles}]]);
     /*]]>*/
 </script>
 

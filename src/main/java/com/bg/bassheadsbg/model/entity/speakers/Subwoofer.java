@@ -1,9 +1,21 @@
 package com.bg.bassheadsbg.model.entity.speakers;
 
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
+import com.bg.bassheadsbg.model.entity.images.SubwooferImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -70,6 +82,9 @@ public class Subwoofer extends BaseSpeaker {
     @NotNull(message = "{mms.positive}")
     @DecimalMax(value = "3000", message = "{mms.max3000}")
     private float mms;
+
+    @OneToMany(mappedBy = "subwoofer", orphanRemoval = true)
+    private List<SubwooferImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

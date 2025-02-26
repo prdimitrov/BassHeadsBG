@@ -8,7 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/speakers/high-range")
@@ -22,7 +26,7 @@ public class HighRangeController {
     @GetMapping("/add")
     public String addHighRange(Model model) {
         if (!model.containsAttribute("addHighRangeDTO")) {
-            model.addAttribute("addHighRangeDTO", highRangeService.createNewAddHighRangeDTO());
+            model.addAttribute("addHighRangeDTO", highRangeService.createNewSpeaker());
         }
         return "speakers/highrange-add";
     }
@@ -30,19 +34,19 @@ public class HighRangeController {
     @PostMapping("/add")
     public String addHighRange(@Valid @ModelAttribute("addHighRangeDTO") AddHighRangeDTO addHighRangeDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                               RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addHighRangeDTO", addHighRangeDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addHighRangeDTO", bindingResult);
             return "redirect:/speakers/high-range/add";
         }
-        return "redirect:/speakers/high-range/" + highRangeService.addDevice(addHighRangeDTO);
+        return "redirect:/speakers/high-range/" + highRangeService.addSpeaker(addHighRangeDTO);
     }
 
     @GetMapping("/edit/{id}")
     public String getEditHighRange(@PathVariable("id") Long id, Model model) {
         if (!model.containsAttribute("highRangeDetails")) {
-            model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
+            model.addAttribute("highRangeDetails", highRangeService.getSpeakerDetails(id));
         }
         return "speakers/highrange-edit";
     }
@@ -50,37 +54,38 @@ public class HighRangeController {
     @PostMapping("/edit/{id}")
     public String postEditHighRange(@Valid @ModelAttribute("highRangeDetails") AddHighRangeDTO addHighRangeDTO,
                                     BindingResult bindingResult,
-                                    RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                                    @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageFiles,
+                                    RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("highRangeDetails", addHighRangeDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "highRangeDetails", bindingResult);
             return "redirect:/speakers/high-range/edit/" + addHighRangeDTO.getId();
         }
-        return "redirect:/speakers/high-range/" + highRangeService.editDevice(addHighRangeDTO);
+        return "redirect:/speakers/high-range/" + highRangeService.editSpeaker(addHighRangeDTO, imageFiles);
     }
 
     @GetMapping("/{id}")
     public String highRangeDetails(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("highRangeDetails", highRangeService.getDeviceDetails(id));
-        model.addAttribute("helperDTO", highRangeService.getDeviceDetailsHelper(id));
+        model.addAttribute("highRangeDetails", highRangeService.getSpeakerDetails(id));
+        model.addAttribute("helperDTO", highRangeService.getSpeakerDetailsHelper(id));
         return "speakers/highrange-details";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteHighRange(@PathVariable("id") Long id) {
-        highRangeService.deleteDevice(id);
+        highRangeService.deleteSpeaker(id);
         return "redirect:/";
     }
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allDevices", highRangeService.getAllDeviceSummary());
+        model.addAttribute("allDevices", highRangeService.getAllSpeakerSummary());
         return "speakers/highrange-all";
     }
 
     @PostMapping("/like/{id}")
     public String like(@PathVariable("id") Long id) {
-        highRangeService.likeDevice(id);
+        highRangeService.likeSpeaker(id);
         return "redirect:/speakers/high-range/rankings";
     }
 }

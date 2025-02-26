@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,7 +14,7 @@ public final class MidRangeSummaryDTO {
     private String model;
     private float size;
     private short powerHandling;
-    private List<String> images;
+    private String imageFile;
     private long likes;
 
     public String getSize() {

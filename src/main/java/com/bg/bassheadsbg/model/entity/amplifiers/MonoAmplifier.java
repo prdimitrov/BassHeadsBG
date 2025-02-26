@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.model.entity.amplifiers;
 
 import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
+import com.bg.bassheadsbg.model.entity.images.MonoAmplifierImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -26,6 +27,9 @@ public class MonoAmplifier extends BaseAmplifier {
     @Positive(message = "{numberOfSpeakerOutputs.positive}")
     @Max(value = 16, message = "{numberOfSpeakerOutputs.max16}")
     private byte numberOfSpeakerOutputs;
+
+    @OneToMany(mappedBy = "monoAmplifier", orphanRemoval = true)
+    private List<MonoAmplifierImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

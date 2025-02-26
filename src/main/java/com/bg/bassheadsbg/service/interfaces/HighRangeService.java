@@ -1,30 +1,28 @@
 package com.bg.bassheadsbg.service.interfaces;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.HighRangeSummaryDTO;
 import com.bg.bassheadsbg.model.helpers.HighRangeDetailsHelperDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface HighRangeService {
-    AddHighRangeDTO createNewAddHighRangeDTO();
+    AddHighRangeDTO createNewSpeaker();
 
-    long addDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException, DeviceAlreadyExistsException;
+    long addSpeaker(AddHighRangeDTO addHighRangeDTO) throws IOException;
 
-    long editDevice(AddHighRangeDTO addDeviceDTO) throws JsonProcessingException;
+    long editSpeaker(AddHighRangeDTO addHighRangeDTO, List<MultipartFile> multipartFiles) throws IOException;
 
-    void deleteDevice(long deviceId);
+    void deleteSpeaker(long speakerId);
 
-    HighRangeDetailsDTO getDeviceDetails(Long id);
+    List<HighRangeSummaryDTO> getAllSpeakerSummary();
 
-    HighRangeDetailsHelperDTO getDeviceDetailsHelper(Long id);
+    HighRangeDetailsDTO getSpeakerDetails(Long id);
 
-    List<HighRangeSummaryDTO> getAllDeviceSummary();
+    HighRangeDetailsHelperDTO getSpeakerDetailsHelper(Long id);
 
-    void likeDevice(Long id);
-
-    void updateDeviceImageUrls(String oldUrl, String newUrl);
+    void likeSpeaker(Long id);
 }

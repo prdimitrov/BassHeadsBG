@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Service implementation for managing exchange rates from www.exchangerates.org.
+ * Service implementation for managing exchange rates from www.openexchangerates.org.
  * This class provides methods for fetching, updating, and converting the exchange rates.
  */
 @Service

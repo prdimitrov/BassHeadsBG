@@ -1,21 +1,28 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
-import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.SubwooferSummaryDTO;
+import com.bg.bassheadsbg.model.entity.images.SubwooferImage;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.helpers.SubwooferDetailsHelperDTO;
+import com.bg.bassheadsbg.repository.SubwooferImageRepository;
 import com.bg.bassheadsbg.repository.SubwooferRepository;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.bg.bassheadsbg.util.ObjectLogger;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,24 +30,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class SubwooferServiceImpl implements SubwooferService {
 
-    private final SubwooferRepository repository;
+    private final SubwooferRepository subwooferRepository;
+    private final SubwooferImageRepository subwooferImageRepository;
     private final ModelMapper modelMapper;
     private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public SubwooferServiceImpl(SubwooferRepository repository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
-        this.repository = repository;
+    public SubwooferServiceImpl(SubwooferRepository subwooferRepository, SubwooferImageRepository subwooferImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+        this.subwooferRepository = subwooferRepository;
+        this.subwooferImageRepository = subwooferImageRepository;
         this.modelMapper = modelMapper;
         this.imageProducer = imageProducer;
         this.exRateService = exRateService;
@@ -49,173 +62,133 @@ public class SubwooferServiceImpl implements SubwooferService {
     }
 
     @Override
-    public AddSubwooferDTO createNewSubwooferDTO() {
+    public AddSubwooferDTO createNewSpeaker() {
         return new AddSubwooferDTO();
     }
 
+    @Transactional
     @Override
-    public long addDevice(AddSubwooferDTO addDeviceDTO) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public long addSpeaker(AddSubwooferDTO addSubwooferDTO) throws IOException {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            checkEntityExists(getBrand(addDeviceDTO), getModel(addDeviceDTO));
-            Subwoofer entity = mapToDevice(addDeviceDTO);
-            long deviceId = repository.save(entity).getId();
+        Subwoofer subwoofer = modelMapper.map(addSubwooferDTO, Subwoofer.class);
+        checkEntityExists(subwoofer.getBrand(), subwoofer.getModel());
 
-            log.info("User with id ({}) and username ({}) added device with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), deviceId, getBrand(addDeviceDTO), getModel(addDeviceDTO));
+        Subwoofer savedSubwoofer = subwooferRepository.save(subwoofer);
 
-            return deviceId;
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        updateSpeakerImages(user, subwoofer, addSubwooferDTO);
+
+        ObjectLogger.logMessage(user,
+                "added",
+                subwoofer,
+                subwoofer.getId(),
+                subwoofer.getBrand(),
+                subwoofer.getModel());
+
+        return savedSubwoofer.getId();
+    }
+
+    @Transactional
+    @Override
+    public long editSpeaker(AddSubwooferDTO addSubwooferDTO, List<MultipartFile> multipartFiles) throws IOException {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
+
+        Subwoofer entity = subwooferRepository.findById(addSubwooferDTO.getId())
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, addSubwooferDTO.getId()));
+        if (addSubwooferDTO.getImageFiles() != null) {
+            entity.getImageFiles().clear();
+            updateSpeakerImages(user, entity, addSubwooferDTO);
+        }
+
+        entity = modelMapper.map(addSubwooferDTO, Subwoofer.class);
+
+        Subwoofer savedSubwoofer = subwooferRepository.saveAndFlush(entity);
+
+        ObjectLogger.logMessage(user,
+                "edited",
+                savedSubwoofer,
+                savedSubwoofer.getId(),
+                savedSubwoofer.getBrand(),
+                savedSubwoofer.getModel());
+
+        return savedSubwoofer.getId();
+    }
+
+    @Override
+    public void deleteSpeaker(long speakerId) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
+
+        Optional<Subwoofer> optSubwoofer = subwooferRepository.findById(speakerId);
+
+        if (optSubwoofer.isPresent()) {
+            Subwoofer subwoofer = optSubwoofer.get();
+            subwooferRepository.deleteById(speakerId);
+            ObjectLogger.logDeleteMessage(user,
+                    subwoofer,
+                    subwoofer.getBrand(),
+                    subwoofer.getModel());
         }
     }
 
+    @Transactional
     @Override
-    public long editDevice(AddSubwooferDTO addDeviceDTO) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            Subwoofer entity = mapEditedDevice(addDeviceDTO);
-            long deviceId = repository.save(entity).getId();
-
-            log.info("User with id ({}) and username ({}) edited device with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), deviceId, getBrand(addDeviceDTO), getModel(addDeviceDTO));
-
-            return deviceId;
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
-    }
-
-    @Override
-    public void deleteDevice(long deviceId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            Optional<Subwoofer> deviceOptional = repository.findById(deviceId);
-
-            if (deviceOptional.isPresent()) {
-                Subwoofer device = deviceOptional.get();
-                repository.deleteById(deviceId);
-
-                log.info("User with id ({}) and username ({}) deleted device with ID ({}), brand ({}), and model ({}).",
-                        user.getId(), user.getUsername(), deviceId, device.getBrand(), device.getModel());
-            }
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
-    }
-
-    @Override
-    public SubwooferDetailsDTO getDeviceDetails(Long id) {
-        return repository.findById(id)
-                .map(this::toDetailsDTO)
-                .orElseThrow(() -> new DeviceNotFoundException("Device with id " + id + " not found!", id));
-    }
-
-    @Override
-    public SubwooferDetailsHelperDTO getDeviceDetailsHelper(Long id) {
-        SubwooferDetailsDTO deviceDetails = getDeviceDetails(id);
-        return new SubwooferDetailsHelperDTO(deviceDetails);
-    }
-
-    @Override
-    public List<SubwooferSummaryDTO> getAllDeviceSummary() {
-        return repository.findAll()
+    public List<SubwooferSummaryDTO> getAllSpeakerSummary() {
+        return subwooferRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparingLong(Subwoofer::getLikes)
+                .sorted(Comparator
+                        .comparingLong(Subwoofer::getLikes)
                         .reversed()
                         .thenComparing(a -> a.getBrand().toLowerCase())
                         .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(this::toSummaryDTO)
+                .map(subwoofer -> {
+                    SubwooferSummaryDTO summaryDTO = modelMapper.map(subwoofer, SubwooferSummaryDTO.class);
+                    summaryDTO.setLikes(subwoofer.getLikes());
+
+                    SubwooferImage firstImage = subwoofer.getImageFiles().get(0);
+                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
+                    summaryDTO.setImageFile(base64Image);
+                    return summaryDTO;
+                })
                 .toList();
     }
 
+    @Transactional
     @Override
-    public void likeDevice(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public SubwooferDetailsDTO getSpeakerDetails(Long id) {
+        Subwoofer subwoofer = subwooferRepository.findById(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        UserEntity user;
-        if (principal instanceof UserDetails userDetails) {
-            user = getUserEntity(userDetails.getUsername());
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
+        Hibernate.initialize(subwoofer.getImageFiles());
 
-        Optional<Subwoofer> optionalEntity = repository.findById(id);
-        if (optionalEntity.isPresent()) {
-            Subwoofer entity = optionalEntity.get();
-            addLikeToEntity(entity, user);
-            repository.save(entity);
-        } else {
-            throw new DeviceNotFoundException("Device with id " + id + " not found!", id);
-        }
-    }
-
-    @Override
-    public void updateDeviceImageUrls(String oldUrl, String newUrl) {
-        List<Subwoofer> subwoofers = repository.findByImagesContaining(oldUrl);
-
-        for (Subwoofer subwoofer : subwoofers) {
-            List<String> images = subwoofer.getImages();
-            for (int i = 0; i < images.size(); i++) {
-                if (images.get(i).equals(oldUrl)) {
-                    images.set(i, newUrl);
-                }
-            }
-            subwoofer.setImages(images);
-            repository.save(subwoofer);
-        }
-    }
-
-    private Subwoofer mapToDevice(AddSubwooferDTO addDeviceDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addDeviceDTO);
-        return modelMapper.map(addDeviceDTO, Subwoofer.class);
-    }
-
-    private Subwoofer mapEditedDevice(AddSubwooferDTO addSubwooferDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addSubwooferDTO);
-        return modelMapper.map(addSubwooferDTO, Subwoofer.class);
-    }
-
-    private void createImageListDetailsDTO(AddSubwooferDTO addDeviceDTO) throws JsonProcessingException {
-        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
-        imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
-        imageListDetailsDTO.setTableName("subwoofer_images");
-        imageProducer.sendMessage(imageListDetailsDTO);
-    }
-
-    private SubwooferDetailsDTO toDetailsDTO(Subwoofer subwoofer) {
         SubwooferDetailsDTO subwooferDetailsDTO = modelMapper.map(subwoofer, SubwooferDetailsDTO.class);
+
         subwooferDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
+        subwooferDetailsDTO.setImageFiles(subwoofer.getImageFiles()
+                .stream().map(image -> Base64
+                        .getEncoder().encodeToString(image.getImageData()))
+                .collect(Collectors.toList()));
+
         return subwooferDetailsDTO;
     }
 
-    private SubwooferSummaryDTO toSummaryDTO(Subwoofer subwoofer) {
-        SubwooferSummaryDTO subwooferSummaryDTO = modelMapper.map(subwoofer, SubwooferSummaryDTO.class);
-        subwooferSummaryDTO.setLikes(subwoofer.getLikes());
-        return subwooferSummaryDTO;
+    @Transactional
+    @Override
+    public SubwooferDetailsHelperDTO getSpeakerDetailsHelper(Long id) {
+        SubwooferDetailsDTO subwooferDetailsDTO = getSpeakerDetails(id);
+
+        return new SubwooferDetailsHelperDTO(subwooferDetailsDTO);
     }
 
-    private UserEntity getUserEntity(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
-    }
+    @Override
+    public void likeSpeaker(Long id) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-    private void addLikeToEntity(Subwoofer entity, UserEntity user) {
-        List<UserEntity> userLikes = entity.getUserLikes();
-        long userId = user.getId();
+        Subwoofer subwoofer = subwooferRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        for (UserEntity existingUser : userLikes) {
-            if (existingUser.getId() == userId) {
+        List<UserEntity> userLikes = subwoofer.getUserLikes();
+
+        for (UserEntity userLike : userLikes) {
+            if (user.getId() == userLike.getId()) {
                 String errorMessage = messageSource.getMessage(
                         ExceptionMessages.DEVICE_ALREADY_LIKED,
                         null,
@@ -226,6 +199,15 @@ public class SubwooferServiceImpl implements SubwooferService {
         }
 
         userLikes.add(user);
+
+        subwooferRepository.save(subwoofer);
+
+        ObjectLogger.logMessage(user,
+                "liked",
+                subwoofer,
+                id,
+                subwoofer.getBrand(),
+                subwoofer.getModel());
     }
 
     private void checkEntityExists(String brand, String model) {
@@ -234,21 +216,56 @@ public class SubwooferServiceImpl implements SubwooferService {
             String errorMessage = messageSource.getMessage(
                     ExceptionMessages.DEVICE_ALREADY_EXISTS,
                     null,
-                    LocaleContextHolder.getLocale()
-            );
+                    LocaleContextHolder.getLocale());
             throw new DeviceAlreadyExistsException(errorMessage);
         }
     }
 
     private Optional<Subwoofer> findByBrandAndModel(String brand, String model) {
-        return repository.findByBrandAndModel(brand, model);
+        return subwooferRepository.findByBrandAndModel(brand, model);
     }
 
-    private String getBrand(AddSubwooferDTO addDeviceDTO) {
-        return addDeviceDTO.getBrand();
+    private UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
     }
 
-    private String getModel(AddSubwooferDTO addDeviceDTO) {
-        return addDeviceDTO.getModel();
+    private void updateSpeakerImages(UserEntity user, Subwoofer subwoofer, AddSubwooferDTO addSubwooferDTO) throws IOException {
+        if (addSubwooferDTO.getImageFiles() != null && !addSubwooferDTO.getImageFiles().isEmpty()) {
+
+            subwooferImageRepository.deleteBySubwoofer(subwoofer);
+
+            List<SubwooferImage> subwooferImages = new ArrayList<>();
+
+            List<MultipartFile> imageFiles = addSubwooferDTO.getImageFiles();
+            for (int i = 0; i < imageFiles.size(); i++) {
+                MultipartFile file = imageFiles.get(i);
+                if (!file.isEmpty()) {
+                    SubwooferImage subwooferImage = new SubwooferImage();
+                    subwooferImage.setImageData(file.getBytes());
+                    subwooferImage.setSubwoofer(subwoofer);
+                    subwooferImages.add(subwooferImage);
+                }
+            }
+            subwooferImageRepository.saveAll(subwooferImages);
+        } else {
+            ObjectLogger.logMessageWithoutImages(user,
+                    "updated",
+                    subwoofer,
+                    subwoofer.getId(),
+                    subwoofer.getBrand(),
+                    subwoofer.getModel());
+        }
+    }
+
+    private static UserDetails getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            return userDetails;
+        } else {
+            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        }
     }
 }

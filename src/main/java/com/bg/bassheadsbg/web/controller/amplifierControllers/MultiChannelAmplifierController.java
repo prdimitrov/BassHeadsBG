@@ -8,7 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/amplifiers/multi-channel-amplifiers")
@@ -22,7 +26,7 @@ public class MultiChannelAmplifierController {
     @GetMapping("/add")
     public String addMultiChannelAmp(Model model) {
         if (!model.containsAttribute("addMultiChannelAmpDTO")) {
-            model.addAttribute("addMultiChannelAmpDTO", multiChannelAmpService.createNewAddMultiChannelAmpDTO());
+            model.addAttribute("addMultiChannelAmpDTO", multiChannelAmpService.createNewAmplifier());
         }
         return "amplifiers/multichannel-amp-add";
     }
@@ -30,19 +34,19 @@ public class MultiChannelAmplifierController {
     @PostMapping("/add")
     public String addMultiChannelAmp(@Valid @ModelAttribute("addMultiChannelAmpDTO") AddMultiChannelAmpDTO addMultiChannelAmpDTO,
                                      BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                                     RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addMultiChannelAmpDTO", addMultiChannelAmpDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addMultiChannelAmpDTO", bindingResult);
             return "redirect:/amplifiers/multi-channel-amplifiers/add";
         }
-        return "redirect:/amplifiers/multi-channel-amplifiers/" + multiChannelAmpService.addDevice(addMultiChannelAmpDTO);
+        return "redirect:/amplifiers/multi-channel-amplifiers/" + multiChannelAmpService.addAmplifier(addMultiChannelAmpDTO);
     }
 
     @GetMapping("/edit/{id}")
     public String getEditMultiChannelAmp(@PathVariable("id") Long id, Model model) {
         if (!model.containsAttribute("multiChannelAmpDetails")) {
-            model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
+            model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getAmplifierDetails(id));
         }
         return "amplifiers/multichannel-amp-edit";
     }
@@ -50,37 +54,38 @@ public class MultiChannelAmplifierController {
     @PostMapping("/edit/{id}")
     public String postEditMultiChannelAmp(@Valid @ModelAttribute("multiChannelAmpDetails") AddMultiChannelAmpDTO addMultiChannelAmpDTO,
                                           BindingResult bindingResult,
-                                          RedirectAttributes redirectAttributes) throws JsonProcessingException {
+                                          @RequestParam(required = false) List<MultipartFile> multipartFiles,
+                                          RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("multiChannelAmpDetails", addMultiChannelAmpDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "multiChannelAmpDetails", bindingResult);
             return "redirect:/amplifiers/multi-channel-amplifiers/edit/" + addMultiChannelAmpDTO.getId();
         }
-        return "redirect:/amplifiers/multi-channel-amplifiers/" + multiChannelAmpService.editDevice(addMultiChannelAmpDTO);
+        return "redirect:/amplifiers/multi-channel-amplifiers/" + multiChannelAmpService.editAmplifier(addMultiChannelAmpDTO, multipartFiles);
     }
 
     @GetMapping("/{id}")
     public String multiChannelAmpDetails(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getDeviceDetails(id));
-        model.addAttribute("helperDTO", multiChannelAmpService.getDeviceDetailsHelper(id));
+        model.addAttribute("multiChannelAmpDetails", multiChannelAmpService.getAmplifierDetails(id));
+        model.addAttribute("helperDTO", multiChannelAmpService.getAmplifierDetailsHelper(id));
         return "amplifiers/multichannel-amp-details";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteMultiChannelAmp(@PathVariable("id") Long id) {
-        multiChannelAmpService.deleteDevice(id);
+        multiChannelAmpService.deleteAmplifier(id);
         return "redirect:/";
     }
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allDevices", multiChannelAmpService.getAllDeviceSummary());
+        model.addAttribute("allDevices", multiChannelAmpService.getAllAmplifierSummary());
         return "amplifiers/multichannel-amp-all";
     }
 
     @PostMapping("/like/{id}")
     public String like(@PathVariable("id") Long id) {
-        multiChannelAmpService.likeDevice(id);
+        multiChannelAmpService.likeAmplifier(id);
         return "redirect:/amplifiers/multi-channel-amplifiers/rankings";
     }
 }

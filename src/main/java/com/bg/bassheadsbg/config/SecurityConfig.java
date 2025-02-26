@@ -68,7 +68,9 @@ public class SecurityConfig {
                                                 "/cables/power-cables/add",
                                                 "/cables/power-cables/edit/**",
                                                 "/cables/power-cables/delete/**",
-                                                "/cables/*/images").hasRole("ADMIN")
+                                                "/cables/*/images",
+                                                "/speakers/*/images",
+                                                "/amplifiers/*/images").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->

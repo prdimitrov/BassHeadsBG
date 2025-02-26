@@ -1,13 +1,18 @@
 package com.bg.bassheadsbg.model.dto.add;
 
-import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
-import jakarta.validation.constraints.*;
+import com.bg.bassheadsbg.validation.imagesValidator.NotEmptyImageFiles;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -70,9 +75,6 @@ public class AddMidRangeDTO {
     @Max(value = 80000, message = "{frequencyRangeTo.max80000}")
     private String frequencyRangeTo;
 
-    @ValidUrlList(message = "{images.validUrlList}")
-    private List<@URL(message = "{images.url}")
-    @NotBlank(message = "{images.notBlank}")
-            String> images = new ArrayList<>();
-
+    @NotEmptyImageFiles(message = "{imageFiles.notEmpty}")
+    private List<MultipartFile> imageFiles;
 }

@@ -1,21 +1,27 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
-import com.bg.bassheadsbg.model.dto.details.ImageListDetailsDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MidRangeSummaryDTO;
+import com.bg.bassheadsbg.model.entity.images.MidRangeImage;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.helpers.MidRangeDetailsHelperDTO;
+import com.bg.bassheadsbg.repository.MidRangeImageRepository;
 import com.bg.bassheadsbg.repository.MidRangeRepository;
 import com.bg.bassheadsbg.repository.UserRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.MidRangeService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.extern.slf4j.Slf4j;
+import com.bg.bassheadsbg.util.ObjectLogger;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,24 +29,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class MidRangeServiceImpl implements MidRangeService {
 
-    private final MidRangeRepository repository;
+    private final MidRangeRepository midRangeRepository;
+    private final MidRangeImageRepository midRangeImageRepository;
     private final ModelMapper modelMapper;
     private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public MidRangeServiceImpl(MidRangeRepository repository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
-        this.repository = repository;
+    public MidRangeServiceImpl(MidRangeRepository midRangeRepository, MidRangeImageRepository midRangeImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+        this.midRangeRepository = midRangeRepository;
+        this.midRangeImageRepository = midRangeImageRepository;
         this.modelMapper = modelMapper;
         this.imageProducer = imageProducer;
         this.exRateService = exRateService;
@@ -49,173 +61,133 @@ public class MidRangeServiceImpl implements MidRangeService {
     }
 
     @Override
-    public AddMidRangeDTO createNewAddMidRangeDTO() {
+    public AddMidRangeDTO createNewSpeaker() {
         return new AddMidRangeDTO();
     }
 
+    @Transactional
     @Override
-    public long addDevice(AddMidRangeDTO addDeviceDTO) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public long addSpeaker(AddMidRangeDTO addMidRangeDTO) throws IOException {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            checkEntityExists(getBrand(addDeviceDTO), getModel(addDeviceDTO));
-            MidRange entity = mapToDevice(addDeviceDTO);
-            long deviceId = repository.save(entity).getId();
+        MidRange midRange = modelMapper.map(addMidRangeDTO, MidRange.class);
+        checkEntityExists(midRange.getBrand(), midRange.getModel());
 
-            log.info("User with id ({}) and username ({}) added device with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), deviceId, getBrand(addDeviceDTO), getModel(addDeviceDTO));
+        MidRange savedMidRange = midRangeRepository.save(midRange);
 
-            return deviceId;
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        updateSpeakerImages(user, midRange, addMidRangeDTO);
+
+        ObjectLogger.logMessage(user,
+                "added",
+                midRange,
+                midRange.getId(),
+                midRange.getBrand(),
+                midRange.getModel());
+
+        return savedMidRange.getId();
+    }
+
+    @Transactional
+    @Override
+    public long editSpeaker(AddMidRangeDTO addMidRangeDTO, List<MultipartFile> multipartFiles) throws IOException {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
+
+        MidRange entity = midRangeRepository.findById(addMidRangeDTO.getId())
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, addMidRangeDTO.getId()));
+        if (addMidRangeDTO.getImageFiles() != null) {
+            entity.getImageFiles().clear();
+            updateSpeakerImages(user, entity, addMidRangeDTO);
+        }
+
+        entity = modelMapper.map(addMidRangeDTO, MidRange.class);
+
+        MidRange savedMidRange = midRangeRepository.saveAndFlush(entity);
+
+        ObjectLogger.logMessage(user,
+                "edited",
+                savedMidRange,
+                savedMidRange.getId(),
+                savedMidRange.getBrand(),
+                savedMidRange.getModel());
+
+        return savedMidRange.getId();
+    }
+
+    @Override
+    public void deleteSpeaker(long speakerId) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
+
+        Optional<MidRange> optMidRange = midRangeRepository.findById(speakerId);
+
+        if (optMidRange.isPresent()) {
+            MidRange midRange = optMidRange.get();
+            midRangeRepository.deleteById(speakerId);
+            ObjectLogger.logDeleteMessage(user,
+                    midRange,
+                    midRange.getBrand(),
+                    midRange.getModel());
         }
     }
 
+    @Transactional
     @Override
-    public long editDevice(AddMidRangeDTO addDeviceDTO) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            MidRange entity = mapEditedDevice(addDeviceDTO);
-            long deviceId = repository.save(entity).getId();
-
-            log.info("User with id ({}) and username ({}) edited device with ID ({}), brand ({}), and model ({}).",
-                    user.getId(), user.getUsername(), deviceId, getBrand(addDeviceDTO), getModel(addDeviceDTO));
-
-            return deviceId;
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
-    }
-
-    @Override
-    public void deleteDevice(long deviceId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof UserDetails userDetails) {
-            UserEntity user = getUserEntity(userDetails.getUsername());
-            Optional<MidRange> deviceOptional = repository.findById(deviceId);
-
-            if (deviceOptional.isPresent()) {
-                MidRange device = deviceOptional.get();
-                repository.deleteById(deviceId);
-
-                log.info("User with id ({}) and username ({}) deleted device with ID ({}), brand ({}), and model ({}).",
-                        user.getId(), user.getUsername(), deviceId, device.getBrand(), device.getModel());
-            }
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
-    }
-
-    @Override
-    public MidRangeDetailsDTO getDeviceDetails(Long id) {
-        return repository.findById(id)
-                .map(this::toDetailsDTO)
-                .orElseThrow(() -> new DeviceNotFoundException("Device with id " + id + " not found!", id));
-    }
-
-    @Override
-    public MidRangeDetailsHelperDTO getDeviceDetailsHelper(Long id) {
-        MidRangeDetailsDTO deviceDetails = getDeviceDetails(id);
-        return new MidRangeDetailsHelperDTO(deviceDetails);
-    }
-
-    @Override
-    public List<MidRangeSummaryDTO> getAllDeviceSummary() {
-        return repository.findAll()
+    public List<MidRangeSummaryDTO> getAllSpeakerSummary() {
+        return midRangeRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparingLong(MidRange::getLikes)
+                .sorted(Comparator
+                        .comparingLong(MidRange::getLikes)
                         .reversed()
                         .thenComparing(a -> a.getBrand().toLowerCase())
                         .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(this::toSummaryDTO)
+                .map(midrange -> {
+                    MidRangeSummaryDTO summaryDTO = modelMapper.map(midrange, MidRangeSummaryDTO.class);
+                    summaryDTO.setLikes(midrange.getLikes());
+
+                    MidRangeImage firstImage = midrange.getImageFiles().get(0);
+                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
+                    summaryDTO.setImageFile(base64Image);
+                    return summaryDTO;
+                })
                 .toList();
     }
 
+    @Transactional
     @Override
-    public void likeDevice(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
+    public MidRangeDetailsDTO getSpeakerDetails(Long id) {
+        MidRange midRange = midRangeRepository.findById(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        UserEntity user;
-        if (principal instanceof UserDetails userDetails) {
-            user = getUserEntity(userDetails.getUsername());
-        } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
-        }
+        Hibernate.initialize(midRange.getImageFiles());
 
-        Optional<MidRange> optionalEntity = repository.findById(id);
-        if (optionalEntity.isPresent()) {
-            MidRange entity = optionalEntity.get();
-            addLikeToEntity(entity, user);
-            repository.save(entity);
-        } else {
-            throw new DeviceNotFoundException("Device with id " + id + " not found!", id);
-        }
-    }
-
-    @Override
-    public void updateDeviceImageUrls(String oldUrl, String newUrl) {
-        List<MidRange> midRanges = repository.findByImagesContaining(oldUrl);
-
-        for (MidRange midRange : midRanges) {
-            List<String> images = midRange.getImages();
-            for (int i = 0; i < images.size(); i++) {
-                if (images.get(i).equals(oldUrl)) {
-                    images.set(i, newUrl);
-                }
-            }
-            midRange.setImages(images);
-            repository.save(midRange);
-        }
-    }
-
-    private MidRange mapToDevice(AddMidRangeDTO addDeviceDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addDeviceDTO);
-        return modelMapper.map(addDeviceDTO, MidRange.class);
-    }
-
-    private MidRange mapEditedDevice(AddMidRangeDTO addMidRangeDTO) throws JsonProcessingException {
-        createImageListDetailsDTO(addMidRangeDTO);
-        return modelMapper.map(addMidRangeDTO, MidRange.class);
-    }
-
-    private void createImageListDetailsDTO(AddMidRangeDTO addDeviceDTO) throws JsonProcessingException {
-        ImageListDetailsDTO imageListDetailsDTO = new ImageListDetailsDTO();
-        imageListDetailsDTO.setImageUrls(addDeviceDTO.getImages());
-        imageListDetailsDTO.setTableName("mid_range_images");
-        imageProducer.sendMessage(imageListDetailsDTO);
-    }
-
-    private MidRangeDetailsDTO toDetailsDTO(MidRange midRange) {
         MidRangeDetailsDTO midRangeDetailsDTO = modelMapper.map(midRange, MidRangeDetailsDTO.class);
+
         midRangeDetailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
+        midRangeDetailsDTO.setImageFiles(midRange.getImageFiles()
+                .stream().map(image -> Base64
+                        .getEncoder().encodeToString(image.getImageData()))
+                .collect(Collectors.toList()));
+
         return midRangeDetailsDTO;
     }
 
-    private MidRangeSummaryDTO toSummaryDTO(MidRange midRange) {
-        MidRangeSummaryDTO midRangeSummaryDTO = modelMapper.map(midRange, MidRangeSummaryDTO.class);
-        midRangeSummaryDTO.setLikes(midRange.getLikes());
-        return midRangeSummaryDTO;
+    @Transactional
+    @Override
+    public MidRangeDetailsHelperDTO getSpeakerDetailsHelper(Long id) {
+        MidRangeDetailsDTO midRangeDetailsDTO = getSpeakerDetails(id);
+
+        return new MidRangeDetailsHelperDTO(midRangeDetailsDTO);
     }
 
-    private UserEntity getUserEntity(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
-    }
+    @Override
+    public void likeSpeaker(Long id) {
+        UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-    private void addLikeToEntity(MidRange entity, UserEntity user) {
-        List<UserEntity> userLikes = entity.getUserLikes();
-        long userId = user.getId();
+        MidRange midRange = midRangeRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        for (UserEntity existingUser : userLikes) {
-            if (existingUser.getId() == userId) {
+        List<UserEntity> userLikes = midRange.getUserLikes();
+
+        for (UserEntity userLike : userLikes) {
+            if (user.getId() == userLike.getId()) {
                 String errorMessage = messageSource.getMessage(
                         ExceptionMessages.DEVICE_ALREADY_LIKED,
                         null,
@@ -226,6 +198,15 @@ public class MidRangeServiceImpl implements MidRangeService {
         }
 
         userLikes.add(user);
+
+        midRangeRepository.save(midRange);
+
+        ObjectLogger.logMessage(user,
+                "liked",
+                midRange,
+                id,
+                midRange.getBrand(),
+                midRange.getModel());
     }
 
     private void checkEntityExists(String brand, String model) {
@@ -234,21 +215,56 @@ public class MidRangeServiceImpl implements MidRangeService {
             String errorMessage = messageSource.getMessage(
                     ExceptionMessages.DEVICE_ALREADY_EXISTS,
                     null,
-                    LocaleContextHolder.getLocale()
-            );
+                    LocaleContextHolder.getLocale());
             throw new DeviceAlreadyExistsException(errorMessage);
         }
     }
 
     private Optional<MidRange> findByBrandAndModel(String brand, String model) {
-        return repository.findByBrandAndModel(brand, model);
+        return midRangeRepository.findByBrandAndModel(brand, model);
     }
 
-    private String getBrand(AddMidRangeDTO addDeviceDTO) {
-        return addDeviceDTO.getBrand();
+    private UserEntity getUserEntity(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
     }
 
-    private String getModel(AddMidRangeDTO addDeviceDTO) {
-        return addDeviceDTO.getModel();
+    private void updateSpeakerImages(UserEntity user, MidRange midRange, AddMidRangeDTO addMidRangeDTO) throws IOException {
+        if (addMidRangeDTO.getImageFiles() != null && !addMidRangeDTO.getImageFiles().isEmpty()) {
+
+            midRangeImageRepository.deleteByMidRange(midRange);
+
+            List<MidRangeImage> midRangeImages = new ArrayList<>();
+
+            List<MultipartFile> imageFiles = addMidRangeDTO.getImageFiles();
+            for (int i = 0; i < imageFiles.size(); i++) {
+                MultipartFile file = imageFiles.get(i);
+                if (!file.isEmpty()) {
+                    MidRangeImage midRangeImage = new MidRangeImage();
+                    midRangeImage.setImageData(file.getBytes());
+                    midRangeImage.setMidRange(midRange);
+                    midRangeImages.add(midRangeImage);
+                }
+            }
+            midRangeImageRepository.saveAll(midRangeImages);
+        } else {
+            ObjectLogger.logMessageWithoutImages(user,
+                    "updated",
+                    midRange,
+                    midRange.getId(),
+                    midRange.getBrand(),
+                    midRange.getModel());
+        }
+    }
+
+    private static UserDetails getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            return userDetails;
+        } else {
+            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+        }
     }
 }

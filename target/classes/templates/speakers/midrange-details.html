@@ -31,15 +31,14 @@
         <div class="device-images  pb-2 pt-2 text-center">
             <div class="device-body pb-2 pt-2  text-center">
                 <h2><span th:text="*{brand} + ' ' + *{model}"></span></h2>
-            </div>
-            <div class="gallery">
-                <img id="device-image" src="/" class="card-img-top img-thumbnail" alt="Device Image">
+                <img id="device-image" src="" alt="Device Image" class="img-fluid"/>
             </div>
             <div class="gallery-buttons">
                 <button id="prev" class="gallery-button"><i class="fa-solid fa-arrow-left"></i></button>
                 <div id="thumbnails" class="d-flex justify-content-center align-items flex-wrap mt-2"></div>
                 <button id="next" class="gallery-button"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
+
             <div class="device-body">
                 <h2 th:text="#{specifications}"></h2>
                 <div class="specs">
@@ -139,7 +138,7 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    setupGallery([[${midRangeDetails.images}]]);
+    setupGallery([[${midRangeDetails.imageFiles}]]);
     /*]]>*/
 </script>
 

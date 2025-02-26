@@ -1,30 +1,28 @@
 package com.bg.bassheadsbg.service.interfaces;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MidRangeSummaryDTO;
 import com.bg.bassheadsbg.model.helpers.MidRangeDetailsHelperDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MidRangeService {
-    AddMidRangeDTO createNewAddMidRangeDTO();
+    AddMidRangeDTO createNewSpeaker();
 
-    long addDevice(AddMidRangeDTO addDeviceDTO) throws JsonProcessingException, DeviceAlreadyExistsException;
+    long addSpeaker(AddMidRangeDTO addMidRangeDTO) throws IOException;
 
-    long editDevice(AddMidRangeDTO addDeviceDTO) throws JsonProcessingException;
+    long editSpeaker(AddMidRangeDTO addMidRangeDTO, List<MultipartFile> multipartFiles) throws IOException;
 
-    void deleteDevice(long deviceId);
+    void deleteSpeaker(long speakerId);
 
-    MidRangeDetailsDTO getDeviceDetails(Long id);
+    List<MidRangeSummaryDTO> getAllSpeakerSummary();
 
-    MidRangeDetailsHelperDTO getDeviceDetailsHelper(Long id);
+    MidRangeDetailsDTO getSpeakerDetails(Long id);
 
-    List<MidRangeSummaryDTO> getAllDeviceSummary();
+    MidRangeDetailsHelperDTO getSpeakerDetailsHelper(Long id);
 
-    void likeDevice(Long id);
-
-    void updateDeviceImageUrls(String oldUrl, String newUrl);
+    void likeSpeaker(Long id);
 }
