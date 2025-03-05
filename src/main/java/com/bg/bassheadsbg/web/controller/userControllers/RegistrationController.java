@@ -2,6 +2,7 @@ package com.bg.bassheadsbg.web.controller.userControllers;
 
 import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
 import com.bg.bassheadsbg.service.interfaces.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -33,15 +35,20 @@ public class RegistrationController {
     @PostMapping("/register")
     public String register(@Valid UserRegistrationDTO registerDTO,
                            BindingResult bindingResult,
-                           RedirectAttributes redirectAttributes) {
+                           RedirectAttributes redirectAttributes,
+                           HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("registerDTO", registerDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerDTO", bindingResult);
             return "redirect:/users/register";
         }
 
-        userService.registerUser(registerDTO);
-
+        userService.registerUser(registerDTO, request);
         return "redirect:/";
+    }
+
+    @GetMapping("/registrationConfirm")
+    public String confirmRegistration(@RequestParam("token") String token) {
+        return userService.confirmRegistration(token);
     }
 }

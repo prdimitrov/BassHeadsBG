@@ -1,19 +1,25 @@
 package com.bg.bassheadsbg.service.implementation;
 
+import com.bg.bassheadsbg.event.OnRegistrationCompleteEvent;
 import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
 import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.UserEntityEditDTO;
 import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
 import com.bg.bassheadsbg.model.dto.details.BassHeadsUserDetails;
+import com.bg.bassheadsbg.model.entity.other.VerificationToken;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.entity.users.UserRole;
 import com.bg.bassheadsbg.model.enums.UserRoleEnum;
 import com.bg.bassheadsbg.repository.UserRepository;
+import com.bg.bassheadsbg.repository.VerificationTokenRepository;
 import com.bg.bassheadsbg.service.interfaces.CityService;
 import com.bg.bassheadsbg.service.interfaces.RoleService;
 import com.bg.bassheadsbg.service.interfaces.UserService;
+import com.bg.bassheadsbg.service.interfaces.VerificationTokenService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +27,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,18 +39,58 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final CityService cityService;
+    private final VerificationTokenRepository tokenRepository;
+    private final VerificationTokenService tokenService;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UserServiceImpl(ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRepository userRepository, RoleService roleService, CityService cityService) {
+    public UserServiceImpl(ModelMapper modelMapper,
+                           PasswordEncoder passwordEncoder,
+                           UserRepository userRepository,
+                           RoleService roleService,
+                           CityService cityService,
+                           VerificationTokenRepository tokenRepository, VerificationTokenService tokenService, ApplicationEventPublisher eventPublisher) {
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.cityService = cityService;
+        this.tokenRepository = tokenRepository;
+        this.tokenService = tokenService;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
-    public void registerUser(UserRegistrationDTO userRegistrationDTO) {
-        userRepository.save(mapUser(userRegistrationDTO));
+    public void registerUser(UserRegistrationDTO userRegistrationDTO, HttpServletRequest request) {
+        UserEntity registeredUser = userRepository.save(mapUser(userRegistrationDTO));
+
+        String token = tokenService.createVerificationToken(registeredUser);
+
+        String appUrl = request.getContextPath();
+
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
+                registeredUser,
+                request.getLocale(),
+                appUrl,
+                token));
+    }
+
+    @Override
+    public String confirmRegistration(String token) {
+        VerificationToken verificationToken = tokenService.findByToken(token);
+
+        if (verificationToken == null) {
+            return "error/went-wrong";  // Invalid token
+        }
+
+        if (tokenService.isTokenExpired(verificationToken)) {
+            return "error/token-expired";
+        }
+
+        UserEntity user = verificationToken.getUser();
+        user.setEnabled(true);
+        userRepository.save(user);
+
+        return "index";
     }
 
     @Override

@@ -39,6 +39,7 @@ com\bg\bassheadsbg\model\entity\images\MidRangeImage.class
 com\bg\bassheadsbg\model\enums\CableMaterial.class
 com\bg\bassheadsbg\validation\userExist\UserExistValidator.class
 com\bg\bassheadsbg\service\interfaces\AccuWeatherService.class
+com\bg\bassheadsbg\service\interfaces\VerificationTokenService.class
 com\bg\bassheadsbg\event\InitializationEvent.class
 com\bg\bassheadsbg\model\entity\base\BaseAmplifier.class
 com\bg\bassheadsbg\repository\RoleRepository.class
@@ -69,6 +70,7 @@ com\bg\bassheadsbg\validation\uniqueUsername\UniqueUsername.class
 com\bg\bassheadsbg\model\entity\users\ChatMessage.class
 com\bg\bassheadsbg\model\enums\UserRoleEnum.class
 com\bg\bassheadsbg\model\helpers\PowerCableDetailsHelperDTO.class
+com\bg\bassheadsbg\event\RegistrationListener.class
 com\bg\bassheadsbg\config\ApplicationConfig.class
 com\bg\bassheadsbg\config\WebSocketConfig.class
 com\bg\bassheadsbg\web\rest\LogoutController.class
@@ -95,6 +97,7 @@ com\bg\bassheadsbg\validation\uniqueUsername\UniqueUsernameValidator.class
 com\bg\bassheadsbg\kafka\ImageCreateResponse.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomShortEditor.class
 com\bg\bassheadsbg\service\interfaces\MonoAmpService.class
+com\bg\bassheadsbg\model\entity\other\VerificationToken.class
 com\bg\bassheadsbg\web\controller\userControllers\AllUsersController.class
 com\bg\bassheadsbg\model\dto\accuweather\AdministrativeAreaDTO.class
 com\bg\bassheadsbg\config\RestConfig.class
@@ -111,6 +114,7 @@ com\bg\bassheadsbg\service\interfaces\MidRangeService.class
 com\bg\bassheadsbg\service\interfaces\WelcomeService.class
 com\bg\bassheadsbg\repository\SubwooferImageRepository.class
 com\bg\bassheadsbg\validation\imagesUrlValidator\ListUrlsValidator.class
+com\bg\bassheadsbg\repository\VerificationTokenRepository.class
 com\bg\bassheadsbg\web\controller\AboutController.class
 com\bg\bassheadsbg\model\entity\base\BaseSpeaker.class
 com\bg\bassheadsbg\init\RolesInitialization.class
@@ -123,6 +127,7 @@ com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomByteEditor.class
 com\bg\bassheadsbg\exception\DeviceAlreadyLikedException.class
 com\bg\bassheadsbg\config\JacksonConfig.class
 com\bg\bassheadsbg\model\entity\speakers\Subwoofer.class
+com\bg\bassheadsbg\config\MailConfiguration.class
 com\bg\bassheadsbg\model\dto\details\MidRangeDetailsDTO.class
 com\bg\bassheadsbg\web\rest\CurrencyController.class
 com\bg\bassheadsbg\util\ObjectLogger.class
@@ -162,10 +167,12 @@ com\bg\bassheadsbg\BassheadsbgApplication.class
 com\bg\bassheadsbg\repository\MultiChannelAmplifierRepository.class
 com\bg\bassheadsbg\scheduling\CronScheduler.class
 com\bg\bassheadsbg\model\enums\AmpClass.class
+com\bg\bassheadsbg\event\OnRegistrationCompleteEvent.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice.class
 com\bg\bassheadsbg\exception\DeviceNotFoundException.class
 com\bg\bassheadsbg\service\implementation\CityServiceImpl.class
 com\bg\bassheadsbg\config\custom\CustomAccessDeniedHandler.class
 com\bg\bassheadsbg\exception\DeviceAlreadyExistsException.class
 com\bg\bassheadsbg\model\entity\images\PowerCableImage.class
+com\bg\bassheadsbg\service\implementation\VerificationTokenServiceImpl.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomIntegerEditor.class

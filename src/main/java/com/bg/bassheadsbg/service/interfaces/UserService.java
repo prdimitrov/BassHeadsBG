@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.service.interfaces;
 import com.bg.bassheadsbg.model.dto.UserEntityEditDTO;
 import com.bg.bassheadsbg.model.dto.auth.UserRegistrationDTO;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,9 @@ import java.util.Optional;
 
 public interface UserService {
 
-    void registerUser(UserRegistrationDTO userRegistrationDTO);
+    void registerUser(UserRegistrationDTO userRegistrationDTO, HttpServletRequest request);
+
+    String confirmRegistration(String token);
 
     List<UserEntity> findAllUsers();
 

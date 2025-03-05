@@ -44,7 +44,8 @@ public class SecurityConfig {
                                                 "/error",
                                                 "/api/convert",
                                                 "/about",
-                                                "/contacts").permitAll()
+                                                "/contacts",
+                                                "/users/registrationConfirm").permitAll()
                                         .requestMatchers("/users/all",
                                                 "/users/add-role/**",
                                                 "/users/remove-role/**",

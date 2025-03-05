@@ -44,7 +44,7 @@ public class CronScheduler {
 
             logMessage.append("Number of users: ").append(totalUsers).append("\n")
                     .append("---------------------------------------------\n")
-                    .append("__SPEAKERS__");
+                    .append("__SPEAKERS__\n");
 
             long totalHighRangeSpeakers = highRangeRepository.count();
             long totalMidRangeSpeakers = midRangeRepository.count();
@@ -55,7 +55,7 @@ public class CronScheduler {
                     .append("Number of Subwoofers: ").append(totalSubwoofers).append("\n")
                     .append("Total speakers: ").append(totalHighRangeSpeakers + totalMidRangeSpeakers + totalSubwoofers).append("\n")
                     .append("---------------------------------------------\n")
-                    .append("__AMPLIFIERS__");
+                    .append("__AMPLIFIERS__\n");
 
             long totalMonoChannelAmps = monoAmplifierRepository.count();
             long totalMultiChannelAmps = multiChannelAmplifierRepository.count();
@@ -64,7 +64,7 @@ public class CronScheduler {
                     .append("Number of Multi-Channel Amps: ").append(totalMultiChannelAmps).append("\n")
                     .append("Total Amplifiers: ").append(totalMonoChannelAmps + totalMultiChannelAmps).append("\n")
                     .append("---------------------------------------------\n")
-                    .append("__CABLES__");
+                    .append("__CABLES__\n");
 
             long totalPowerCables = powerCableRepository.count();
 

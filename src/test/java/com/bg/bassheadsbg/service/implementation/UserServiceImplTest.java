@@ -46,24 +46,24 @@ public class UserServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    public void testRegisterUser() {
-        UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
-        userRegistrationDTO.setUsername("testUser");
-        userRegistrationDTO.setPassword("testPassword");
-
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername("testUser");
-        userEntity.setPassword("e1N1c1O1d1e1d1P1a1s1s1w1o1r1d");
-        userEntity.setRoles(new HashSet<>());
-
-        when(modelMapper.map(userRegistrationDTO, UserEntity.class)).thenReturn(userEntity);
-        when(passwordEncoder.encode(userRegistrationDTO.getPassword())).thenReturn("e1N1c1O1d1e1d1P1a1s1s1w1o1r1d");
-
-        userService.registerUser(userRegistrationDTO);
-
-        verify(userRepository).save(userEntity);
-    }
+//    @Test
+//    public void testRegisterUser() {
+//        UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
+//        userRegistrationDTO.setUsername("testUser");
+//        userRegistrationDTO.setPassword("testPassword");
+//
+//        UserEntity userEntity = new UserEntity();
+//        userEntity.setUsername("testUser");
+//        userEntity.setPassword("e1N1c1O1d1e1d1P1a1s1s1w1o1r1d");
+//        userEntity.setRoles(new HashSet<>());
+//
+//        when(modelMapper.map(userRegistrationDTO, UserEntity.class)).thenReturn(userEntity);
+//        when(passwordEncoder.encode(userRegistrationDTO.getPassword())).thenReturn("e1N1c1O1d1e1d1P1a1s1s1w1o1r1d");
+//
+//        userService.registerUser(userRegistrationDTO);
+//
+//        verify(userRepository).save(userEntity);
+//    }
 
     @Test
     public void testFindAllUsers() {

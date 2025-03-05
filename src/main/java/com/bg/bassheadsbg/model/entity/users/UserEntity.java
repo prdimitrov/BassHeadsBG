@@ -2,8 +2,20 @@ package com.bg.bassheadsbg.model.entity.users;
 
 import com.bg.bassheadsbg.model.entity.City;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,7 +62,7 @@ public class UserEntity extends BaseEntity {
 
     @Past(message = "{birthDate.mustBeBornInPast}")
     @NotNull(message = "{birthDate.notNull}")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -69,8 +81,8 @@ public class UserEntity extends BaseEntity {
     @Column(name = "profile_picture", columnDefinition = "MEDIUMBLOB")
     private byte[] profilePicture;
 
-    @Column(nullable = false)
-    private boolean enabled = true;
+    @Column(name = "enabled")
+    private boolean enabled;
 
     public String getProfilePictureBase64() {
         if (profilePicture != null) {
@@ -81,6 +93,7 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity() {
         super();
+        this.enabled = false;
     }
 
 }

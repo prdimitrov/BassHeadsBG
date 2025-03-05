@@ -9,12 +9,15 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\config\JacksonConfig.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\config\KafkaProducerConfig.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\config\KafkaTopicConfig.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\config\MailConfiguration.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\config\RestConfig.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\config\SecurityConfig.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\config\WebConfig.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\config\WebSocketConfig.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\event\InitializationEvent.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\event\InitializationEventListener.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\event\OnRegistrationCompleteEvent.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\event\RegistrationListener.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\exception\ApiNotFoundException.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\exception\DeviceAlreadyExistsException.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\exception\DeviceAlreadyLikedException.java
@@ -72,6 +75,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\images\MultiChannelAmplifierImage.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\images\PowerCableImage.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\images\SubwooferImage.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\other\VerificationToken.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\speakers\HighRange.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\speakers\MidRange.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\speakers\Subwoofer.java
@@ -104,6 +108,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\SubwooferImageRepository.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\SubwooferRepository.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\UserRepository.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\VerificationTokenRepository.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\scheduling\CronScheduler.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\BassHeadsDetailsService.java
@@ -118,6 +123,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\RoleServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\SubwooferServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\UserServiceImpl.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\VerificationTokenServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\WelcomeServiceImpl.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\AccuWeatherService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\CityService.java
@@ -131,6 +137,7 @@ C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassh
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\RoleService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\SubwooferService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\UserService.java
+C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\VerificationTokenService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\WelcomeService.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\util\GlobalValuesAdvice.java
 C:\Users\DASKALA\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\util\ObjectLogger.java
