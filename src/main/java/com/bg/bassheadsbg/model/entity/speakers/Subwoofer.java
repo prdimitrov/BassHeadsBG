@@ -43,6 +43,11 @@ public class Subwoofer extends BaseSpeaker {
     @Max(value = 5000, message = "{magnetSize.max5000}")
     private short magnetSize;
 
+    @Positive(message = "{weight.positive}")
+    @NotNull(message = "{weight.positive}")
+    @DecimalMax(value = "200", message = "{weight.max200}")
+    private float weight;
+
     @PositiveOrZero(message = "{vas.positiveOrZero}")
     @NotNull(message = "{vas.positiveOrZero}")
     @DecimalMax(value = "1000", message = "{vas.max1000}")

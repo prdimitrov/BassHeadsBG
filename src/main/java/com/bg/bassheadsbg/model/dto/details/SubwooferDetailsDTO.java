@@ -24,6 +24,7 @@ public final class SubwooferDetailsDTO {
     private float coilHeight;
     private byte coilLayers;
     private short magnetSize;
+    private float weight;
     private float vas;
     private byte xmax;
     private float qms;

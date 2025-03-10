@@ -54,6 +54,10 @@ public final class SubwooferDetailsHelperDTO {
         return subwooferDetails.getMagnetSize() + "oz";
     }
 
+    public String formattedWeight() {
+        return ValueFormatterUtil.formatValue(subwooferDetails.getWeight() + "kg");
+    }
+
     public String formattedVas() {
         Float vas = subwooferDetails.getVas();
         if (vas == null || ValueFormatterUtil.formatValue(vas).equals("---")) {
