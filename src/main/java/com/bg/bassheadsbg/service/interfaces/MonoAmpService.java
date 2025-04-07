@@ -19,7 +19,7 @@ public interface MonoAmpService {
 
     void deleteAmplifier(long amplifierId);
 
-    List<MonoAmpSummaryDTO> getAllAmplifierSummary();
+    List<MonoAmpSummaryDTO> getAllAmplifiersSummarySorted();
 
     MonoAmpDetailsDTO getAmplifierDetails(Long id);
 
