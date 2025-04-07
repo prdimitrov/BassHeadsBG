@@ -131,23 +131,11 @@ public class MonoAmpServiceImpl implements MonoAmpService {
 
     @Transactional
     @Override
-    public List<MonoAmpSummaryDTO> getAllAmplifierSummary() {
-        return monoAmplifierRepository.findAll()
-                .stream()
-                .sorted(Comparator
-                        .comparingLong(MonoAmplifier::getLikes)
-                        .reversed()
-                        .thenComparing(a -> a.getBrand().toLowerCase())
-                        .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(monoAmplifier -> {
-                    MonoAmpSummaryDTO summaryDTO = modelMapper.map(monoAmplifier, MonoAmpSummaryDTO.class);
-                    summaryDTO.setLikes(monoAmplifier.getLikes());
+    public List<MonoAmpSummaryDTO> getAllAmplifiersSummarySorted() {
+        List<MonoAmplifier> monoAmplifiersList = monoAmplifierRepository.findAllMonoAmplifiersCountUserLikesOrderByBrandAndModel();
 
-                    MonoAmplifierImage firstImage = monoAmplifier.getImageFiles().get(0);
-                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
-                    summaryDTO.setImageFile(base64Image);
-                    return summaryDTO;
-                })
+        return monoAmplifiersList.stream()
+                .map(this::mapMonoAmpToMonoAmpSummaryDTO)
                 .toList();
     }
 
@@ -255,6 +243,14 @@ public class MonoAmpServiceImpl implements MonoAmpService {
                     monoAmplifier.getBrand(),
                     monoAmplifier.getModel());
         }
+    }
+
+    private MonoAmpSummaryDTO mapMonoAmpToMonoAmpSummaryDTO(MonoAmplifier monoAmplifier) {
+        MonoAmpSummaryDTO monoAmpSummaryDTO = modelMapper.map(monoAmplifier, MonoAmpSummaryDTO.class);
+        monoAmpSummaryDTO.setLikes(monoAmplifier.getLikes());
+        byte[] image = monoAmplifier.getImageFiles().get(0).getImageData();
+        monoAmpSummaryDTO.setImageFile(Base64.getEncoder().encodeToString(image));
+        return monoAmpSummaryDTO;
     }
 
     private static UserDetails getPrincipal() {

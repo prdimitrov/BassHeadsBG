@@ -85,7 +85,7 @@ public class MonoChannelAmplifierController {
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allDevices", monoAmpService.getAllAmplifierSummary());
+        model.addAttribute("allDevices", monoAmpService.getAllAmplifiersSummarySorted());
         return "amplifiers/monoamp-all";
     }
 
