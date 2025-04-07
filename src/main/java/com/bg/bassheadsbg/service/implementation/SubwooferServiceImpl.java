@@ -1,10 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
-import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
-import com.bg.bassheadsbg.exception.UserNotFoundException;
+import com.bg.bassheadsbg.exception.*;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
@@ -21,7 +17,6 @@ import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
 import com.bg.bassheadsbg.util.ObjectLogger;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
@@ -35,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -132,23 +126,9 @@ public class SubwooferServiceImpl implements SubwooferService {
 
     @Transactional
     @Override
-    public List<SubwooferSummaryDTO> getAllSpeakerSummary() {
-        return subwooferRepository.findAll()
-                .stream()
-                .sorted(Comparator
-                        .comparingLong(Subwoofer::getLikes)
-                        .reversed()
-                        .thenComparing(a -> a.getBrand().toLowerCase())
-                        .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(subwoofer -> {
-                    SubwooferSummaryDTO summaryDTO = modelMapper.map(subwoofer, SubwooferSummaryDTO.class);
-                    summaryDTO.setLikes(subwoofer.getLikes());
-
-                    SubwooferImage firstImage = subwoofer.getImageFiles().get(0);
-                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
-                    summaryDTO.setImageFile(base64Image);
-                    return summaryDTO;
-                })
+    public List<SubwooferSummaryDTO> getAllSpeakersSummarySorted() {
+        List<Subwoofer> subwooferList = subwooferRepository.findAllSubwoofersWithUserLikesCountOrderByBrandAndModel();
+        return subwooferList.stream().map(this::mapSubwooferToSubwooferSummaryDTO)
                 .toList();
     }
 
@@ -256,6 +236,15 @@ public class SubwooferServiceImpl implements SubwooferService {
                     subwoofer.getBrand(),
                     subwoofer.getModel());
         }
+    }
+
+    private SubwooferSummaryDTO mapSubwooferToSubwooferSummaryDTO(Subwoofer subwoofer) {
+        SubwooferSummaryDTO subwooferSummaryDTO = modelMapper.map(subwoofer, SubwooferSummaryDTO.class);
+        subwooferSummaryDTO.setLikes(subwoofer.getLikes());
+        SubwooferImage subwooferImage = subwoofer.getImageFiles().get(0);
+       subwooferSummaryDTO.setImageFile(Base64.getEncoder().encodeToString(subwooferImage.getImageData()));
+
+        return subwooferSummaryDTO;
     }
 
     private static UserDetails getPrincipal() {

@@ -79,7 +79,7 @@ public class SubwooferController {
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allDevices", subwooferService.getAllSpeakerSummary());
+        model.addAttribute("allDevices", subwooferService.getAllSpeakersSummarySorted());
         return "speakers/subwoofers-all";
     }
 

@@ -1,0 +1,58 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: 'FALSE'
+    hibernate:
+      ddl-auto: update
+    open-in-view: 'false'
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: 'true'
+    throw-exception-if-no-handler-found: true
+    web:
+      resources:
+        add-mappings: false
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: ${db_password}
+    username: ${db_username}
+    url: jdbc:mysql://localhost:3306/bassheads_bg_test?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    initialization-mode: never
+  kafka:
+    bootstrap-servers: localhost:9092
+    groupId: test
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor: TRACE
+        #        SQL: DEBUG
+        SQL:
+      nodeValue: WARN
+    blog: WARN
+
+forex:
+  api:
+    key: ${forex_api_key}
+    url: "https://openexchangerates.org/api/latest.json?app_id={FOREX_API_KEY}"
+    base: "USD"
+
+server:
+  port: 8080
+
+admin:
+  username: ${admin_username}
+  password: ${admin_password}
+  email: ${admin_email}
+  firstName: ${admin_firstName}
+  lastName: ${admin_lastName}
+  birthDate: ${admin_birthDate}
