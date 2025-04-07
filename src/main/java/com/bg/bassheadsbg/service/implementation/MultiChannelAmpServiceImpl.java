@@ -1,17 +1,13 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
-import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
-import com.bg.bassheadsbg.exception.UserNotFoundException;
+import com.bg.bassheadsbg.exception.*;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MultiChannelAmpSummaryDTO;
-import com.bg.bassheadsbg.model.entity.images.MultiChannelAmplifierImage;
 import com.bg.bassheadsbg.model.entity.amplifiers.MultiChannelAmplifier;
+import com.bg.bassheadsbg.model.entity.images.MultiChannelAmplifierImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.repository.MultiChannelAmplifierImageRepository;
@@ -34,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -131,24 +126,11 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
 
     @Transactional
     @Override
-    public List<MultiChannelAmpSummaryDTO> getAllAmplifierSummary() {
-        return multiChannelAmplifierRepository.findAll()
-                .stream()
-                .sorted(Comparator
-                        .comparingLong(MultiChannelAmplifier::getLikes)
-                        .reversed()
-                        .thenComparing(a -> a.getBrand().toLowerCase())
-                        .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(multiChannelAmplifier -> {
-                    MultiChannelAmpSummaryDTO summaryDTO = modelMapper.map(multiChannelAmplifier, MultiChannelAmpSummaryDTO.class);
-                    summaryDTO.setLikes(multiChannelAmplifier.getLikes());
-
-                    MultiChannelAmplifierImage firstImage = multiChannelAmplifier.getImageFiles().get(0);
-                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
-                    summaryDTO.setImageFile(base64Image);
-                    return summaryDTO;
-                })
-                .toList();
+    public List<MultiChannelAmpSummaryDTO> getAllAmplifiersSummarySorted() {
+       List<MultiChannelAmplifier> multiChannelAmplifiersList = multiChannelAmplifierRepository.findAllMultiChannelAmpsUserLikesCountOrderByBrandAndModel();
+       return multiChannelAmplifiersList.stream()
+               .map(this::mapMultiChannelAmpToMultiChannelAmpSummaryDTO)
+               .toList();
     }
 
     @Transactional
@@ -255,6 +237,14 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
                     multiChannelAmplifier.getBrand(),
                     multiChannelAmplifier.getModel());
         }
+    }
+
+    private MultiChannelAmpSummaryDTO mapMultiChannelAmpToMultiChannelAmpSummaryDTO(MultiChannelAmplifier multiChannelAmp) {
+        MultiChannelAmpSummaryDTO multiChannelAmpSummaryDTO = modelMapper.map(multiChannelAmp, MultiChannelAmpSummaryDTO.class);
+        multiChannelAmpSummaryDTO.setLikes(multiChannelAmp.getLikes());
+        byte[] image = multiChannelAmp.getImageFiles().get(0).getImageData();
+        multiChannelAmpSummaryDTO.setImageFile(Base64.getEncoder().encodeToString(image));
+        return multiChannelAmpSummaryDTO;
     }
 
     private static UserDetails getPrincipal() {
