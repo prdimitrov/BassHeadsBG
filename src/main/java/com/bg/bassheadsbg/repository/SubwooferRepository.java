@@ -13,7 +13,7 @@ public interface SubwooferRepository
         extends JpaRepository<Subwoofer, Long> {
     Optional<Subwoofer> findByBrandAndModel(String brand, String model);
 
-    @Query("SELECT s FROM  Subwoofer s " +
+    @Query("SELECT s FROM Subwoofer s " +
             "LEFT JOIN s.userLikes sul " +
             "GROUP BY s.id " +
             "ORDER BY COUNT(sul.id) DESC, " +
