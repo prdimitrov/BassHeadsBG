@@ -18,7 +18,7 @@ public interface MidRangeService {
 
     void deleteSpeaker(long speakerId);
 
-    List<MidRangeSummaryDTO> getAllSpeakerSummary();
+    List<MidRangeSummaryDTO> getAllSpeakersSummarySorted();
 
     MidRangeDetailsDTO getSpeakerDetails(Long id);
 

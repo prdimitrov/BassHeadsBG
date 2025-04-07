@@ -1,10 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
-import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
-import com.bg.bassheadsbg.exception.UserNotFoundException;
+import com.bg.bassheadsbg.exception.*;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
@@ -34,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -131,23 +126,10 @@ public class MidRangeServiceImpl implements MidRangeService {
 
     @Transactional
     @Override
-    public List<MidRangeSummaryDTO> getAllSpeakerSummary() {
-        return midRangeRepository.findAll()
-                .stream()
-                .sorted(Comparator
-                        .comparingLong(MidRange::getLikes)
-                        .reversed()
-                        .thenComparing(a -> a.getBrand().toLowerCase())
-                        .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(midrange -> {
-                    MidRangeSummaryDTO summaryDTO = modelMapper.map(midrange, MidRangeSummaryDTO.class);
-                    summaryDTO.setLikes(midrange.getLikes());
-
-                    MidRangeImage firstImage = midrange.getImageFiles().get(0);
-                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
-                    summaryDTO.setImageFile(base64Image);
-                    return summaryDTO;
-                })
+    public List<MidRangeSummaryDTO> getAllSpeakersSummarySorted() {
+        List<MidRange> midRangesList = midRangeRepository.findAllMidRangesWithUserLikesCountOrderByBrandAndModel();
+        return midRangesList.stream()
+                .map(this::mapMidRangeToMidRangeSummaryDTO)
                 .toList();
     }
 
@@ -196,11 +178,8 @@ public class MidRangeServiceImpl implements MidRangeService {
                 throw new DeviceAlreadyLikedException(errorMessage);
             }
         }
-
         userLikes.add(user);
-
         midRangeRepository.save(midRange);
-
         ObjectLogger.logMessage(user,
                 "liked",
                 midRange,
@@ -255,6 +234,14 @@ public class MidRangeServiceImpl implements MidRangeService {
                     midRange.getBrand(),
                     midRange.getModel());
         }
+    }
+
+    private MidRangeSummaryDTO mapMidRangeToMidRangeSummaryDTO(MidRange midRange) {
+        MidRangeSummaryDTO midRangeSummaryDTO = modelMapper.map(midRange, MidRangeSummaryDTO.class);
+        midRangeSummaryDTO.setLikes(midRange.getLikes());
+        byte[] image = midRange.getImageFiles().get(0).getImageData();
+        midRangeSummaryDTO.setImageFile(Base64.getEncoder().encodeToString(image));
+        return midRangeSummaryDTO;
     }
 
     private static UserDetails getPrincipal() {
