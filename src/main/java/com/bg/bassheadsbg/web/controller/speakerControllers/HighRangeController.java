@@ -2,7 +2,6 @@ package com.bg.bassheadsbg.web.controller.speakerControllers;
 
 import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
 import com.bg.bassheadsbg.service.interfaces.HighRangeService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +78,7 @@ public class HighRangeController {
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allDevices", highRangeService.getAllSpeakerSummary());
+        model.addAttribute("allDevices", highRangeService.getAllSpeakersSummarySorted());
         return "speakers/highrange-all";
     }
 

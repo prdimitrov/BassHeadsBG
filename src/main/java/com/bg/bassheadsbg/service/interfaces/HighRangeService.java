@@ -18,7 +18,7 @@ public interface HighRangeService {
 
     void deleteSpeaker(long speakerId);
 
-    List<HighRangeSummaryDTO> getAllSpeakerSummary();
+    List<HighRangeSummaryDTO> getAllSpeakersSummarySorted();
 
     HighRangeDetailsDTO getSpeakerDetails(Long id);
 
