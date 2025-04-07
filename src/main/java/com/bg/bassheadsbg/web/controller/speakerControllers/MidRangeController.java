@@ -84,7 +84,7 @@ public class MidRangeController {
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allDevices", midRangeService.getAllSpeakerSummary());
+        model.addAttribute("allDevices", midRangeService.getAllSpeakersSummarySorted());
         return "speakers/midrange-all";
     }
 
