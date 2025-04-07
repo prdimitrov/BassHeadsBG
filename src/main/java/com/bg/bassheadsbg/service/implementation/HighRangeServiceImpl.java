@@ -35,7 +35,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -167,24 +166,10 @@ public class HighRangeServiceImpl implements HighRangeService {
      */
     @Transactional
     @Override
-    public List<HighRangeSummaryDTO> getAllSpeakerSummary() {
-        return highRangeRepository.findAll()
-                .stream()
-                .sorted(Comparator
-                        .comparingLong(HighRange::getLikes)
-                        .reversed()
-                        .thenComparing(a -> a.getBrand().toLowerCase())
-                        .thenComparing(a -> a.getModel().toLowerCase()))
-                .map(highrange -> {
-                    HighRangeSummaryDTO summaryDTO = modelMapper.map(highrange, HighRangeSummaryDTO.class);
-                    summaryDTO.setLikes(highrange.getLikes());
+    public List<HighRangeSummaryDTO> getAllSpeakersSummarySorted() {
+        List<HighRange> highRangesList = highRangeRepository.findAllHighRangesWithUserLikesCountOrderByBrandAndModel();
 
-                    HighRangeImage firstImage = highrange.getImageFiles().get(0);
-                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
-                    summaryDTO.setImageFile(base64Image);
-                    return summaryDTO;
-                })
-                .toList();
+        return highRangesList.stream().map(this::mapHighRangeToHighRangeSummaryDTO).toList();
     }
 
     /**
@@ -333,6 +318,20 @@ public class HighRangeServiceImpl implements HighRangeService {
                     highRange.getBrand(),
                     highRange.getModel());
         }
+    }
+
+    /**
+     * This method is used to map HighRange to HighRangeSummaryDTO.
+     * @param highRange is used as a method parameter, that will be converted to a SummaryDTO.
+     * @return HighRangeSummaryDTO with the needed image and user likes set properly.
+     */
+
+    private HighRangeSummaryDTO mapHighRangeToHighRangeSummaryDTO(HighRange highRange) {
+        HighRangeSummaryDTO highRangeSummaryDTO = modelMapper.map(highRange, HighRangeSummaryDTO.class);
+        highRangeSummaryDTO.setLikes(highRange.getLikes());
+        byte[] image = highRange.getImageFiles().get(0).getImageData();
+        highRangeSummaryDTO.setImageFile(Base64.getEncoder().encodeToString(image));
+        return highRangeSummaryDTO;
     }
 
     /**

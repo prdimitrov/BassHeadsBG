@@ -241,9 +241,8 @@ public class SubwooferServiceImpl implements SubwooferService {
     private SubwooferSummaryDTO mapSubwooferToSubwooferSummaryDTO(Subwoofer subwoofer) {
         SubwooferSummaryDTO subwooferSummaryDTO = modelMapper.map(subwoofer, SubwooferSummaryDTO.class);
         subwooferSummaryDTO.setLikes(subwoofer.getLikes());
-        SubwooferImage subwooferImage = subwoofer.getImageFiles().get(0);
-       subwooferSummaryDTO.setImageFile(Base64.getEncoder().encodeToString(subwooferImage.getImageData()));
-
+        byte[] image = subwoofer.getImageFiles().get(0).getImageData();
+        subwooferSummaryDTO.setImageFile(Base64.getEncoder().encodeToString(image));
         return subwooferSummaryDTO;
     }
 
