@@ -127,8 +127,8 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
     @Transactional
     @Override
     public List<MultiChannelAmpSummaryDTO> getAllAmplifiersSummarySorted() {
-       List<MultiChannelAmplifier> multiChannelAmplifiersList = multiChannelAmplifierRepository.findAllMultiChannelAmpsUserLikesCountOrderByBrandAndModel();
-       return multiChannelAmplifiersList.stream()
+       return multiChannelAmplifierRepository.findAllMultiChannelAmpsUserLikesCountOrderByBrandAndModel()
+               .stream()
                .map(this::mapMultiChannelAmpToMultiChannelAmpSummaryDTO)
                .toList();
     }

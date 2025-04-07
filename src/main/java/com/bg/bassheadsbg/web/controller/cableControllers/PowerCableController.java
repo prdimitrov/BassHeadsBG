@@ -80,7 +80,7 @@ public class PowerCableController {
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allCables", powerCableService.getAllCableSummary());
+        model.addAttribute("allCables", powerCableService.getAllPowerCablesSummarySorted());
         return "cables/powercable-all";
     }
 

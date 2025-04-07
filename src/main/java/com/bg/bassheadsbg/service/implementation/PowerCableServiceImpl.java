@@ -1,10 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
-import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
-import com.bg.bassheadsbg.exception.UserNotFoundException;
+import com.bg.bassheadsbg.exception.*;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddPowerCableDTO;
 import com.bg.bassheadsbg.model.dto.details.PowerCableDetailsDTO;
@@ -31,11 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -128,25 +120,10 @@ public class PowerCableServiceImpl implements PowerCableService {
 
     @Override
     @Transactional
-    public List<PowerCableSummaryDTO> getAllCableSummary() {
-
-        return powerCableRepository.findAll()
+    public List<PowerCableSummaryDTO> getAllPowerCablesSummarySorted() {
+        return powerCableRepository.findAllPowerCablesUserLikesCountOrderByBrandAndModel()
                 .stream()
-                .sorted(Comparator
-                        .comparingLong(PowerCable::getLikes)
-                        .reversed()
-                        .thenComparing(a -> a.getBrand().toLowerCase())
-                        .thenComparing(a -> a.getModel().toLowerCase())
-                )
-                .map(powerCable -> {
-                    PowerCableSummaryDTO summaryDTO = modelMapper.map(powerCable, PowerCableSummaryDTO.class);
-                    summaryDTO.setLikes(powerCable.getLikes());
-
-                    PowerCableImage firstImage = powerCable.getImageFiles().get(0);
-                    String base64Image = Base64.getEncoder().encodeToString(firstImage.getImageData());
-                    summaryDTO.setImageFile(base64Image);
-                    return summaryDTO;
-                })
+                .map(this::mapPowerCableToPowerCableSummaryDTO)
                 .toList();
     }
 
@@ -255,6 +232,14 @@ public class PowerCableServiceImpl implements PowerCableService {
                     powerCable.getBrand(),
                     powerCable.getModel());
         }
+    }
+
+    private PowerCableSummaryDTO mapPowerCableToPowerCableSummaryDTO(PowerCable powerCable) {
+        PowerCableSummaryDTO powerCableSummaryDTO = modelMapper.map(powerCable, PowerCableSummaryDTO.class);
+        powerCableSummaryDTO.setLikes(powerCable.getLikes());
+        byte[] image = powerCable.getImageFiles().get(0).getImageData();
+        powerCableSummaryDTO.setImageFile(Base64.getEncoder().encodeToString(image));
+        return powerCableSummaryDTO;
     }
 
     private static UserDetails getPrincipal() {
