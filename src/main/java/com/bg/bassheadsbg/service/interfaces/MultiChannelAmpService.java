@@ -4,7 +4,6 @@ import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MultiChannelAmpSummaryDTO;
 import com.bg.bassheadsbg.model.helpers.MultiChannelAmpDetailsHelperDTO;
-import jakarta.transaction.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,7 +19,7 @@ public interface MultiChannelAmpService {
 
     void deleteAmplifier(long amplifierId);
 
-    List<MultiChannelAmpSummaryDTO> getAllAmplifierSummary();
+    List<MultiChannelAmpSummaryDTO> getAllAmplifiersSummarySorted();
 
     MultiChannelAmpDetailsDTO getAmplifierDetails(Long id);
 

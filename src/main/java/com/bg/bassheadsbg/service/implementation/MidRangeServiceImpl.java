@@ -127,8 +127,8 @@ public class MidRangeServiceImpl implements MidRangeService {
     @Transactional
     @Override
     public List<MidRangeSummaryDTO> getAllSpeakersSummarySorted() {
-        List<MidRange> midRangesList = midRangeRepository.findAllMidRangesWithUserLikesCountOrderByBrandAndModel();
-        return midRangesList.stream()
+        return midRangeRepository.findAllMidRangesWithUserLikesCountOrderByBrandAndModel()
+                .stream()
                 .map(this::mapMidRangeToMidRangeSummaryDTO)
                 .toList();
     }

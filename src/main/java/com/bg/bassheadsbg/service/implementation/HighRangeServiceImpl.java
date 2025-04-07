@@ -1,10 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
-import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
-import com.bg.bassheadsbg.exception.DeviceNotFoundException;
-import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
-import com.bg.bassheadsbg.exception.UserNotFoundException;
+import com.bg.bassheadsbg.exception.*;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
@@ -167,9 +163,10 @@ public class HighRangeServiceImpl implements HighRangeService {
     @Transactional
     @Override
     public List<HighRangeSummaryDTO> getAllSpeakersSummarySorted() {
-        List<HighRange> highRangesList = highRangeRepository.findAllHighRangesWithUserLikesCountOrderByBrandAndModel();
-
-        return highRangesList.stream().map(this::mapHighRangeToHighRangeSummaryDTO).toList();
+        return highRangeRepository.findAllHighRangesWithUserLikesCountOrderByBrandAndModel()
+                .stream()
+                .map(this::mapHighRangeToHighRangeSummaryDTO)
+                .toList();
     }
 
     /**

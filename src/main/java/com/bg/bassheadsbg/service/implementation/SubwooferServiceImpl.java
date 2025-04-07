@@ -127,8 +127,9 @@ public class SubwooferServiceImpl implements SubwooferService {
     @Transactional
     @Override
     public List<SubwooferSummaryDTO> getAllSpeakersSummarySorted() {
-        List<Subwoofer> subwooferList = subwooferRepository.findAllSubwoofersWithUserLikesCountOrderByBrandAndModel();
-        return subwooferList.stream().map(this::mapSubwooferToSubwooferSummaryDTO)
+        return subwooferRepository.findAllSubwoofersWithUserLikesCountOrderByBrandAndModel()
+                .stream()
+                .map(this::mapSubwooferToSubwooferSummaryDTO)
                 .toList();
     }
 

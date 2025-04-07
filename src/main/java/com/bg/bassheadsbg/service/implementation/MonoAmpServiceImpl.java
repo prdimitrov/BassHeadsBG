@@ -132,9 +132,8 @@ public class MonoAmpServiceImpl implements MonoAmpService {
     @Transactional
     @Override
     public List<MonoAmpSummaryDTO> getAllAmplifiersSummarySorted() {
-        List<MonoAmplifier> monoAmplifiersList = monoAmplifierRepository.findAllMonoAmplifiersCountUserLikesOrderByBrandAndModel();
-
-        return monoAmplifiersList.stream()
+        return monoAmplifierRepository.findAllMonoAmplifiersCountUserLikesOrderByBrandAndModel()
+                .stream()
                 .map(this::mapMonoAmpToMonoAmpSummaryDTO)
                 .toList();
     }

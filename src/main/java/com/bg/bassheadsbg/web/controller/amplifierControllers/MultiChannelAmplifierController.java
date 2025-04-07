@@ -2,7 +2,6 @@ package com.bg.bassheadsbg.web.controller.amplifierControllers;
 
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.service.interfaces.MultiChannelAmpService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +78,7 @@ public class MultiChannelAmplifierController {
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allDevices", multiChannelAmpService.getAllAmplifierSummary());
+        model.addAttribute("allDevices", multiChannelAmpService.getAllAmplifiersSummarySorted());
         return "amplifiers/multichannel-amp-all";
     }
 
