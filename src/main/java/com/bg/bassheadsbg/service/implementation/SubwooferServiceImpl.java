@@ -1,6 +1,9 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
@@ -161,26 +164,22 @@ public class SubwooferServiceImpl implements SubwooferService {
     }
 
     @Override
-    public void likeSpeaker(Long id) {
+    @Transactional
+    public boolean likeSpeaker(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        Subwoofer subwoofer = subwooferRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+        Subwoofer subwoofer = subwooferRepository.findSubwooferByUserLikes(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        List<UserEntity> userLikes = subwoofer.getUserLikes();
+        boolean alreadyLiked = subwoofer.getUserLikes()
+                .stream()
+                .anyMatch(userLike -> userLike.getUsername().equals(user.getUsername()));
 
-        for (UserEntity userLike : userLikes) {
-            if (user.getId() == userLike.getId()) {
-                String errorMessage = messageSource.getMessage(
-                        ExceptionMessages.DEVICE_ALREADY_LIKED,
-                        null,
-                        LocaleContextHolder.getLocale()
-                );
-                throw new DeviceAlreadyLikedException(errorMessage);
-            }
+        if (alreadyLiked) {
+            return false;
         }
 
-        userLikes.add(user);
-
+        subwoofer.getUserLikes().add(user);
         subwooferRepository.save(subwoofer);
 
         ObjectLogger.logMessage(user,
@@ -189,6 +188,8 @@ public class SubwooferServiceImpl implements SubwooferService {
                 id,
                 subwoofer.getBrand(),
                 subwoofer.getModel());
+
+        return true;
     }
 
     private void checkEntityExists(String brand, String model) {

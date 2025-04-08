@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.repository;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,9 @@ public interface SubwooferRepository
             "LOWER(s.brand) ASC, " +
             "LOWER(s.model) ASC")
     List<Subwoofer> findAllSubwoofersWithUserLikesCountOrderByBrandAndModel();
+
+    @Query("SELECT s FROM Subwoofer s " +
+            "LEFT JOIN s.userLikes u " +
+            "WHERE s.id = :subwooferId")
+    Optional<Subwoofer> findSubwooferByUserLikes(@Param("subwooferId") Long id);
 }
