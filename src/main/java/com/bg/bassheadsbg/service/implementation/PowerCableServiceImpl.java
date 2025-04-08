@@ -1,6 +1,9 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddPowerCableDTO;
 import com.bg.bassheadsbg.model.dto.details.PowerCableDetailsDTO;
@@ -27,7 +30,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -156,26 +162,21 @@ public class PowerCableServiceImpl implements PowerCableService {
     }
 
     @Override
-    public void likeCable(Long id) {
+    public boolean likeCable(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        PowerCable powerCable = powerCableRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+        PowerCable powerCable = powerCableRepository.findPowerCableByUserLikes(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        List<UserEntity> userLikes = powerCable.getUserLikes();
+        boolean alreadyLiked = powerCable.getUserLikes()
+                .stream()
+                .anyMatch(userLike -> userLike.getUsername().equals(user.getUsername()));
 
-        for (UserEntity userLike : userLikes) {
-            if (user.getId() == userLike.getId()) {
-                String errorMessage = messageSource.getMessage(
-                        ExceptionMessages.DEVICE_ALREADY_LIKED,
-                        null,
-                        LocaleContextHolder.getLocale()
-                );
-                throw new DeviceAlreadyLikedException(errorMessage);
-            }
+        if (alreadyLiked) {
+            return false;
         }
 
-        userLikes.add(user);
-
+        powerCable.getUserLikes().add(user);
         powerCableRepository.save(powerCable);
 
         ObjectLogger.logMessage(user,
@@ -184,6 +185,8 @@ public class PowerCableServiceImpl implements PowerCableService {
                 id,
                 powerCable.getBrand(),
                 powerCable.getModel());
+
+        return true;
     }
 
     private void checkEntityExists(String brand, String model) {

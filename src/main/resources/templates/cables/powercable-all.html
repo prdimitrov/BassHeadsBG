@@ -49,6 +49,12 @@
           <form th:action="@{/cables/power-cables/like/{id}(id=*{id})}" method="post">
             <button type="submit" class="fa fa-thumbs-up like-btn" style="background: none; border: none; cursor: pointer;"></button>
           </form>
+
+          <div class="alert alert-danger mt-2"
+               th:if="${powerCableAlreadyLikedId != null} and (${powerCableAlreadyLikedId} == *{id})"
+               th:text="#{already_liked}">
+          </div>
+
           <p class="total-likes" th:text="*{likes}"></p>
         </div>
         <a class="detail-btn" th:href="@{/cables/power-cables/{id}(id=*{id})}" th:text="#{details}"></a>

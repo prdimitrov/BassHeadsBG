@@ -25,5 +25,5 @@ public interface PowerCableService {
 
     PowerCableDetailsHelperDTO getPowerCableDetailsHelper(Long id);
 
-    void likeCable(Long id);
+    boolean likeCable(Long id);
 }
