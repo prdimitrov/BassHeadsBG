@@ -85,8 +85,12 @@ public class PowerCableController {
     }
 
     @PostMapping("/like/{id}")
-    public String likeCable(@PathVariable("id") Long id) {
-        powerCableService.likeCable(id);
+    public String likeCable(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean likePowerCableSuccess = powerCableService.likeCable(id);
+
+        if (!likePowerCableSuccess) {
+            redirectAttributes.addFlashAttribute("powerCableAlreadyLikedId", id);
+        }
         return "redirect:/cables/power-cables/rankings";
     }
 }

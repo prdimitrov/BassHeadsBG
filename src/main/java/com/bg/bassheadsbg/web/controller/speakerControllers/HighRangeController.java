@@ -83,8 +83,12 @@ public class HighRangeController {
     }
 
     @PostMapping("/like/{id}")
-    public String like(@PathVariable("id") Long id) {
-        highRangeService.likeSpeaker(id);
+    public String like(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean likeSpeakerSuccess = highRangeService.likeSpeaker(id);
+
+        if (!likeSpeakerSuccess) {
+            redirectAttributes.addFlashAttribute("highRangeAlreadyLikedId", id);
+        }
         return "redirect:/speakers/high-range/rankings";
     }
 }

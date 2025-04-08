@@ -1,7 +1,6 @@
 package com.bg.bassheadsbg.service.implementation;
 
 import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
-import com.bg.bassheadsbg.exception.DeviceAlreadyLikedException;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
 import com.bg.bassheadsbg.exception.UserNotFoundException;
@@ -10,8 +9,8 @@ import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.MonoAmpSummaryDTO;
-import com.bg.bassheadsbg.model.entity.images.MonoAmplifierImage;
 import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
+import com.bg.bassheadsbg.model.entity.images.MonoAmplifierImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.helpers.MonoAmpDetailsHelperDTO;
 import com.bg.bassheadsbg.repository.MonoAmplifierImageRepository;
@@ -34,7 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -166,26 +164,21 @@ public class MonoAmpServiceImpl implements MonoAmpService {
     }
 
     @Override
-    public void likeAmplifier(Long id) {
+    public boolean likeAmplifier(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        MonoAmplifier monoAmplifier = monoAmplifierRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+        MonoAmplifier monoAmplifier = monoAmplifierRepository.findMonoAmplifierByUserLikes(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        List<UserEntity> userLikes = monoAmplifier.getUserLikes();
+        boolean alreadyLiked = monoAmplifier.getUserLikes()
+                .stream()
+                .anyMatch(userLike -> userLike.getUsername().equals(user.getUsername()));
 
-        for (UserEntity userLike : userLikes) {
-            if (user.getId() == userLike.getId()) {
-                String errorMessage = messageSource.getMessage(
-                        ExceptionMessages.DEVICE_ALREADY_LIKED,
-                        null,
-                        LocaleContextHolder.getLocale()
-                );
-                throw new DeviceAlreadyLikedException(errorMessage);
-            }
+        if (alreadyLiked) {
+            return false;
         }
 
-        userLikes.add(user);
-
+        monoAmplifier.getUserLikes().add(user);
         monoAmplifierRepository.save(monoAmplifier);
 
         ObjectLogger.logMessage(user,
@@ -194,6 +187,8 @@ public class MonoAmpServiceImpl implements MonoAmpService {
                 id,
                 monoAmplifier.getBrand(),
                 monoAmplifier.getModel());
+
+        return true;
     }
 
     private void checkEntityExists(String brand, String model) {

@@ -161,31 +161,32 @@ public class MidRangeServiceImpl implements MidRangeService {
     }
 
     @Override
-    public void likeSpeaker(Long id) {
+    @Transactional
+    public boolean likeSpeaker(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        MidRange midRange = midRangeRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+        MidRange midRange = midRangeRepository.findHighRangeByUserLikes(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        List<UserEntity> userLikes = midRange.getUserLikes();
+        boolean alreadyLiked = midRange.getUserLikes()
+                .stream()
+                .anyMatch(userLike -> userLike.getUsername().equals(user.getUsername()));
 
-        for (UserEntity userLike : userLikes) {
-            if (user.getId() == userLike.getId()) {
-                String errorMessage = messageSource.getMessage(
-                        ExceptionMessages.DEVICE_ALREADY_LIKED,
-                        null,
-                        LocaleContextHolder.getLocale()
-                );
-                throw new DeviceAlreadyLikedException(errorMessage);
-            }
+        if (alreadyLiked) {
+            return false;
         }
-        userLikes.add(user);
+
+        midRange.getUserLikes().add(user);
         midRangeRepository.save(midRange);
+
         ObjectLogger.logMessage(user,
                 "liked",
                 midRange,
                 id,
                 midRange.getBrand(),
                 midRange.getModel());
+
+        return true;
     }
 
     private void checkEntityExists(String brand, String model) {

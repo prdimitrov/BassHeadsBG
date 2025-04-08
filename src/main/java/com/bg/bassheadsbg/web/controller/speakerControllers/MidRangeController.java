@@ -89,8 +89,12 @@ public class MidRangeController {
     }
 
     @PostMapping("/like/{id}")
-    public String like(@PathVariable("id") Long id) {
-        midRangeService.likeSpeaker(id);
+    public String like(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean likeSpeakerSuccess = midRangeService.likeSpeaker(id);
+
+        if (!likeSpeakerSuccess) {
+            redirectAttributes.addFlashAttribute("midRangeAlreadyLikedId", id);
+        }
         return "redirect:/speakers/mid-range/rankings";
     }
 }

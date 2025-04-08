@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.repository;
 import com.bg.bassheadsbg.model.entity.speakers.HighRange;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,9 @@ public interface HighRangeRepository
             "LOWER(hr.brand) ASC, " +
             "LOWER(hr.model) ASC")
     List<HighRange> findAllHighRangesWithUserLikesCountOrderByBrandAndModel();
+
+    @Query("SELECT hr FROM HighRange hr " +
+            "LEFT JOIN hr.userLikes AS u " +
+            "WHERE hr.id = :highRangeId")
+    Optional<HighRange> findHighRangeByUserLikes(@Param("highRangeId") Long id);
 }

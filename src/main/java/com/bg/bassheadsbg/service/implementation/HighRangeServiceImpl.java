@@ -213,28 +213,25 @@ public class HighRangeServiceImpl implements HighRangeService {
      * Method for liking a high-range speaker.
      *
      * @param id the ID of the speaker, that should be liked.
+     * @return
      */
     @Override
-    public void likeSpeaker(Long id) {
+    @Transactional
+    public boolean likeSpeaker(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        HighRange highRange = highRangeRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+        HighRange highRange = highRangeRepository.findHighRangeByUserLikes(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        List<UserEntity> userLikes = highRange.getUserLikes();
+        boolean alreadyLiked = highRange.getUserLikes()
+                .stream()
+                .anyMatch(userLike -> userLike.getUsername().equals(user.getUsername()));
 
-        for (UserEntity userLike : userLikes) {
-            if (user.getId() == userLike.getId()) {
-                String errorMessage = messageSource.getMessage(
-                        ExceptionMessages.DEVICE_ALREADY_LIKED,
-                        null,
-                        LocaleContextHolder.getLocale()
-                );
-                throw new DeviceAlreadyLikedException(errorMessage);
-            }
+        if (alreadyLiked) {
+            return false;
         }
 
-        userLikes.add(user);
-
+        highRange.getUserLikes().add(user);
         highRangeRepository.save(highRange);
 
         ObjectLogger.logMessage(user,
@@ -243,6 +240,8 @@ public class HighRangeServiceImpl implements HighRangeService {
                 id,
                 highRange.getBrand(),
                 highRange.getModel());
+
+        return true;
     }
 
     /**

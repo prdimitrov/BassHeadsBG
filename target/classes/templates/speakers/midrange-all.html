@@ -47,8 +47,15 @@
             <div class="device-buttons">
                 <div class="device-likes">
                     <form th:action="@{/speakers/mid-range/like/{id}(id=*{id})}" method="post">
-                        <button type="submit" class="fa fa-thumbs-up like-btn" style="background: none; border: none; cursor: pointer;"></button>
+                        <button type="submit" class="fa fa-thumbs-up like-btn"
+                                style="background: none; border: none; cursor: pointer;"></button>
                     </form>
+
+                    <div class="alert alert-danger mt-2"
+                         th:if="${midRangeAlreadyLikedId != null} and (${midRangeAlreadyLikedId} == *{id})"
+                         th:text="#{already_liked}">
+                    </div>
+
                     <p class="total-likes" th:text="*{likes}"></p>
                 </div>
                 <a class="detail-btn" th:href="@{/speakers/mid-range/{id}(id=*{id})}" th:text="#{details}"></a>

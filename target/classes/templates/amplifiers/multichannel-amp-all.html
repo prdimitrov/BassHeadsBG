@@ -47,11 +47,19 @@
             <div class="device-buttons">
                 <div class="device-likes">
                     <form th:action="@{/amplifiers/multi-channel-amplifiers/like/{id}(id=*{id})}" method="post">
-                        <button type="submit" class="fa fa-thumbs-up like-btn" style="background: none; border: none; cursor: pointer;"></button>
+                        <button type="submit" class="fa fa-thumbs-up like-btn"
+                                style="background: none; border: none; cursor: pointer;"></button>
                     </form>
+
+                    <div class="alert alert-danger mt-2"
+                         th:if="${multiChannelAmplifierAlreadyLikedId != null} and (${multiChannelAmplifierAlreadyLikedId} == *{id})"
+                         th:text="#{already_liked}">
+                    </div>
+
                     <p class="total-likes" th:text="*{likes}"></p>
                 </div>
-                <a class="detail-btn" th:href="@{/amplifiers/multi-channel-amplifiers/{id}(id=*{id})}" th:text="#{details}"></a>
+                <a class="detail-btn" th:href="@{/amplifiers/multi-channel-amplifiers/{id}(id=*{id})}"
+                   th:text="#{details}"></a>
             </div>
         </div>
     </div>

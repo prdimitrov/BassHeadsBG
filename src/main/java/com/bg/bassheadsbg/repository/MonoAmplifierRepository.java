@@ -3,6 +3,7 @@ package com.bg.bassheadsbg.repository;
 import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,9 @@ public interface MonoAmplifierRepository
             "LOWER(ma.brand) ASC, " +
             "LOWER(ma.model) ASC")
     List<MonoAmplifier> findAllMonoAmplifiersCountUserLikesOrderByBrandAndModel();
+
+    @Query("SELECT ma FROM MonoAmplifier ma " +
+            "LEFT JOIN ma.userLikes ul " +
+            "WHERE ma.id = :monoAmplifierId")
+    Optional<MonoAmplifier> findMonoAmplifierByUserLikes(@Param("monoAmplifierId") Long id);
 }

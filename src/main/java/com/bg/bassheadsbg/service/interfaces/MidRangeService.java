@@ -24,5 +24,5 @@ public interface MidRangeService {
 
     MidRangeDetailsHelperDTO getSpeakerDetailsHelper(Long id);
 
-    void likeSpeaker(Long id);
+    boolean likeSpeaker(Long id);
 }
