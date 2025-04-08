@@ -90,8 +90,12 @@ public class MonoChannelAmplifierController {
     }
 
     @PostMapping("/like/{id}")
-    public String like(@PathVariable("id") Long id) {
-        monoAmpService.likeAmplifier(id);
+    public String like(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean likeAmplifierSuccess = monoAmpService.likeAmplifier(id);
+
+        if (!likeAmplifierSuccess) {
+            redirectAttributes.addFlashAttribute("monoAmplifierAlreadyLikedId", id);
+        }
         return "redirect:/amplifiers/mono-amplifiers/rankings";
     }
 }
