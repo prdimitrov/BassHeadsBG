@@ -3,7 +3,6 @@ package com.bg.bassheadsbg.service.interfaces;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
 import com.bg.bassheadsbg.model.dto.summary.SubwooferSummaryDTO;
-import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import com.bg.bassheadsbg.model.helpers.SubwooferDetailsHelperDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,5 +24,5 @@ public interface SubwooferService {
 
     SubwooferDetailsHelperDTO getSpeakerDetailsHelper(Long id);
 
-    void likeSpeaker(Long id);
+    boolean likeSpeaker(Long id);
 }
