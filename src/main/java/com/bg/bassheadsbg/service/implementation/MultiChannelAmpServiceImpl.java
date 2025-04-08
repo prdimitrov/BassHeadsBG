@@ -1,6 +1,9 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
@@ -127,10 +130,10 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
     @Transactional
     @Override
     public List<MultiChannelAmpSummaryDTO> getAllAmplifiersSummarySorted() {
-       return multiChannelAmplifierRepository.findAllMultiChannelAmpsUserLikesCountOrderByBrandAndModel()
-               .stream()
-               .map(this::mapMultiChannelAmpToMultiChannelAmpSummaryDTO)
-               .toList();
+        return multiChannelAmplifierRepository.findAllMultiChannelAmpsUserLikesCountOrderByBrandAndModel()
+                .stream()
+                .map(this::mapMultiChannelAmpToMultiChannelAmpSummaryDTO)
+                .toList();
     }
 
     @Transactional
@@ -161,26 +164,21 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
     }
 
     @Override
-    public void likeAmplifier(Long id) {
+    public boolean likeAmplifier(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        MultiChannelAmplifier multiChannelAmplifier = multiChannelAmplifierRepository.findById(id).orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+        MultiChannelAmplifier multiChannelAmplifier = multiChannelAmplifierRepository.findMultiChannelAmplifierByUserLikes(id)
+                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
-        List<UserEntity> userLikes = multiChannelAmplifier.getUserLikes();
+        boolean alreadyLiked = multiChannelAmplifier.getUserLikes()
+                .stream()
+                .anyMatch(userLike -> userLike.getUsername().equals(user.getUsername()));
 
-        for (UserEntity userLike : userLikes) {
-            if (user.getId() == userLike.getId()) {
-                String errorMessage = messageSource.getMessage(
-                        ExceptionMessages.DEVICE_ALREADY_LIKED,
-                        null,
-                        LocaleContextHolder.getLocale()
-                );
-                throw new DeviceAlreadyLikedException(errorMessage);
-            }
+        if (alreadyLiked) {
+            return false;
         }
 
-        userLikes.add(user);
-
+        multiChannelAmplifier.getUserLikes().add(user);
         multiChannelAmplifierRepository.save(multiChannelAmplifier);
 
         ObjectLogger.logMessage(user,
@@ -189,6 +187,8 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
                 id,
                 multiChannelAmplifier.getBrand(),
                 multiChannelAmplifier.getModel());
+
+        return true;
     }
 
     private void checkEntityExists(String brand, String model) {

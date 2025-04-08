@@ -25,5 +25,5 @@ public interface MultiChannelAmpService {
 
     MultiChannelAmpDetailsHelperDTO getAmplifierDetailsHelper(Long id);
 
-    void likeAmplifier(Long id);
+    boolean likeAmplifier(Long id);
 }
