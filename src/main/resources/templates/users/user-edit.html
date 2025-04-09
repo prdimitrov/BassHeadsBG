@@ -79,7 +79,7 @@
                 <select th:field="*{city.id}"
                         th:errorclass="'is-invalid alert bg-danger'"
                         class="form-control">
-                    <option value="" disabled selected>Select your city</option>
+                    <option th:value="0" selected>Select your city</option>
                     <option th:each="city : ${cities}"
                             th:value="${city.id}"
                             th:text="${city.localizedName} + ', ' + ${city.administrativeAreaLocalizedName}"></option>

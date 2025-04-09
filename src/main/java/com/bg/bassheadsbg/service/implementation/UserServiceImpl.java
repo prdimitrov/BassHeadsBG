@@ -154,6 +154,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException(userEntityEditDTO.getId()));
 
         modelMapper.map(userEntityEditDTO, userEntity);
+        if (userEntityEditDTO.getCity().getId() == 0) {
+            userEntity.setCity(null);
+        }
 
         if (userEntityEditDTO.getProfilePictureFile() != null && !userEntityEditDTO.getProfilePictureFile().isEmpty()) {
             try {
