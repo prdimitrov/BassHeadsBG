@@ -11,6 +11,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
+    private static final String REGISTRATION_CONFIRMATION = "Registration Confirmation";
+    private static final String HTTP = "http://";
+    private static final String COLON = ":";
+    private static final String USERS_REGISTRATION_CONFIRM_TOKEN = "/users/registrationConfirm?token=";
+    private static final String MESSAGE_REG_SUCCESS = "message_regSuccess";
+    private static final String CRLF = "\r\n";
     private final MessageSource messages;
     private final JavaMailSender mailSender;
     @Value("${myserver.address}")
@@ -33,14 +39,14 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         String token = event.getToken();
 
         String recipientAddress = user.getEmail();
-        String subject = "Registration Confirmation";
-        String confirmationUrl = "http://" + serverIp + ":" + serverPort + "/users/registrationConfirm?token=" + token;
-        String message = messages.getMessage("message_regSuccess", null, event.getLocale());
+        String subject = REGISTRATION_CONFIRMATION;
+        String confirmationUrl = HTTP + serverIp + COLON + serverPort + USERS_REGISTRATION_CONFIRM_TOKEN + token;
+        String message = messages.getMessage(MESSAGE_REG_SUCCESS, null, event.getLocale());
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + "\r\n" + confirmationUrl);
+        email.setText(message + CRLF + confirmationUrl);
         mailSender.send(email);
     }
 }

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class CityInitializer implements CommandLineRunner {
 
+    private static final String CITY_INITIALIZATION_COMPLETED = "City initialization completed.";
+    private static final String ERROR_DURING_CITY_INITIALIZATION = "Error during city initialization: ";
+    private static final String CITIES_INITIALIZED = "Cities initialized:\n";
     private final AccuWeatherService accuWeatherService;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -24,11 +27,11 @@ public class CityInitializer implements CommandLineRunner {
         if (!accuWeatherService.hasInitializedCities()) {
             try {
                 accuWeatherService.initializeAllCitiesInBulgaria();
-                log.info("City initialization completed.");
+                log.info(CITY_INITIALIZATION_COMPLETED);
             } catch (Exception e) {
-                log.error("Error during city initialization: ", e);
+                log.error(ERROR_DURING_CITY_INITIALIZATION, e);
             } finally {
-                eventPublisher.publishEvent(new InitializationEvent(this, "Cities initialized:\n" + accuWeatherService.getAllCitiesFromDb()));
+                eventPublisher.publishEvent(new InitializationEvent(this, CITIES_INITIALIZED + accuWeatherService.getAllCitiesFromDb()));
             }
         }
     }

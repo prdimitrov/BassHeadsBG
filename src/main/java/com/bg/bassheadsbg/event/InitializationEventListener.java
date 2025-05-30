@@ -8,8 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class InitializationEventListener {
 
+    private static final String TARGET = "{}";
+    private static final String INITIALIZATION_EVENT = "Initialization Event: " + TARGET;
+
     @EventListener
     public void handleInitializationEvent(InitializationEvent event) {
-        log.info("Initialization Event: {}", event.getMessage());
+        log.info(INITIALIZATION_EVENT, event.getMessage());
     }
 }
