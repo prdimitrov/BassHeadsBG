@@ -11,15 +11,19 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 @Configuration
 public class I18NConfig {
 
+    private static final String LANG = "lang";
+    private static final String CLASSPATH_I_18_N_MESSAGES = "classpath:i18n/messages";
+    private static final String UTF_8 = "UTF-8";
+
     @Bean
     public LocaleResolver localeResolver() {
-        return new CookieLocaleResolver("lang");
+        return new CookieLocaleResolver(LANG);
     }
 
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("lang");
+        localeChangeInterceptor.setParamName(LANG);
         return localeChangeInterceptor;
     }
 
@@ -27,8 +31,8 @@ public class I18NConfig {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:i18n/messages");
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setBasename(CLASSPATH_I_18_N_MESSAGES);
+        messageSource.setDefaultEncoding(UTF_8);
         messageSource.setFallbackToSystemLocale(false);
         return messageSource;
     }

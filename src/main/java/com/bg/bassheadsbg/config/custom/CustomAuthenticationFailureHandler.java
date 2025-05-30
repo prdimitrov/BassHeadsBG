@@ -10,12 +10,18 @@ import java.io.IOException;
 
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+    private static final String USER_IS_DISABLED = "User is disabled";
+    private static final String USERS_LOGIN_ERROR_DISABLED = "/users/login-error?error=disabled";
+    private static final String USERS_LOGIN_ERROR_TRUE = "/users/login-error?error=true";
+
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        if (exception.getMessage().equalsIgnoreCase("User is disabled")) {
-            response.sendRedirect("/users/login-error?error=disabled");
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+                                        AuthenticationException exception) throws IOException, ServletException {
+        if (exception.getMessage().equalsIgnoreCase(USER_IS_DISABLED)) {
+            response.sendRedirect(USERS_LOGIN_ERROR_DISABLED);
         } else {
-            response.sendRedirect("/users/login-error?error=true");
+            response.sendRedirect(USERS_LOGIN_ERROR_TRUE)
+            ;
         }
     }
 }

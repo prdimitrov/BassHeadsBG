@@ -10,9 +10,12 @@ import java.io.IOException;
 
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
+    private static final String STRING = "/access-denied";
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
             throws IOException {
-        response.sendRedirect(request.getContextPath() + "/access-denied");
+        response.sendRedirect(request.getContextPath() + STRING);
     }
 }

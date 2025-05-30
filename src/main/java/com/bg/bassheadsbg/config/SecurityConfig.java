@@ -19,6 +19,38 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 @Configuration
 public class SecurityConfig {
 
+    private static final String SLASH = "/";
+    private static final String USERS = "/users";
+    private static final String LOGIN = "/login";
+    private static final String REGISTER = "/register";
+    private static final String LOGIN_ERROR = "/login-error";
+    private static final String ERROR = "/error";
+    private static final String API_CONVERT = "/api/convert";
+    private static final String ABOUT = "/about";
+    private static final String CONTACTS = "/contacts";
+    private static final String REGISTRATION_CONFIRM = "/registrationConfirm";
+    private static final String ALL = "/all";
+    private static final String ADD_ROLE = "/add-role/**";
+    private static final String REMOVE_ROLE = "/remove-role/**";
+    private static final String ENABLE = "/enable/**";
+    private static final String DISABLE = "/disable/**";
+    private static final String SPEAKERS = "/speakers";
+    private static final String HIGH_RANGE = "/high-range";
+    private static final String MID_RANGE = "/mid-range";
+    private static final String SUBWOOFERS = "/subwoofers";
+    private static final String AMPLIFIERS = "/amplifiers";
+    private static final String MONO_AMPLIFIERS = "/mono-amplifiers";
+    private static final String MULTI_CHANNEL_AMPLIFIERS = "/multi-channel-amplifiers";
+    private static final String ADD = "/add";
+    private static final String EDIT = "/edit/**";
+    private static final String DELETE = "/delete/**";
+    private static final String CABLES = "/cables";
+    private static final String POWER_CABLES = "/power-cables";
+    private static final String IMAGES = "/*/images";
+    private static final String ADMIN = "ADMIN";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String LOGOUT = "/logout";
     private final CustomLogoutHandler customLogoutHandler;
 
     public SecurityConfig(@Lazy CustomLogoutHandler customLogoutHandler) {
@@ -37,56 +69,56 @@ public class SecurityConfig {
                         authorizeRequests ->
                                 authorizeRequests
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                        .requestMatchers("/",
-                                                "/users/login",
-                                                "/users/register",
-                                                "/users/login-error",
-                                                "/error",
-                                                "/api/convert",
-                                                "/about",
-                                                "/contacts",
-                                                "/users/registrationConfirm").permitAll()
-                                        .requestMatchers("/users/all",
-                                                "/users/add-role/**",
-                                                "/users/remove-role/**",
-                                                "/users/enable/**",
-                                                "/users/disable/**",
-                                                "/speakers/high-range/add",
-                                                "/speakers/high-range/edit/**",
-                                                "/speakers/high-range/delete/**",
-                                                "/speakers/mid-range/add",
-                                                "/speakers/mid-range/edit/**",
-                                                "/speakers/mid-range/delete/**",
-                                                "/speakers/subwoofers/add",
-                                                "/speakers/subwoofers/edit/**",
-                                                "/speakers/subwoofers/delete/**",
-                                                "/amplifiers/mono-amplifiers/add",
-                                                "/amplifiers/mono-amplifiers/edit/**",
-                                                "/amplifiers/mono-amplifiers/delete/**",
-                                                "/amplifiers/multi-channel-amplifiers/add",
-                                                "/amplifiers/multi-channel-amplifiers/edit/**",
-                                                "/amplifiers/multi-channel-amplifiers/delete/**",
-                                                "/cables/power-cables/add",
-                                                "/cables/power-cables/edit/**",
-                                                "/cables/power-cables/delete/**",
-                                                "/cables/*/images",
-                                                "/speakers/*/images",
-                                                "/amplifiers/*/images").hasRole("ADMIN")
+                                        .requestMatchers(SLASH,
+                                                USERS + LOGIN,
+                                                USERS + REGISTER,
+                                                USERS + LOGIN_ERROR,
+                                                ERROR,
+                                                API_CONVERT,
+                                                ABOUT,
+                                                CONTACTS,
+                                                USERS + REGISTRATION_CONFIRM).permitAll()
+                                        .requestMatchers(USERS + ALL,
+                                                USERS + ADD_ROLE,
+                                                USERS + REMOVE_ROLE,
+                                                USERS + ENABLE,
+                                                USERS + DISABLE,
+                                                SPEAKERS + HIGH_RANGE + ADD,
+                                                SPEAKERS + HIGH_RANGE + EDIT,
+                                                SPEAKERS + HIGH_RANGE + DELETE,
+                                                SPEAKERS + MID_RANGE + ADD,
+                                                SPEAKERS + MID_RANGE + EDIT,
+                                                SPEAKERS + MID_RANGE + DELETE,
+                                                SPEAKERS + SUBWOOFERS + ADD,
+                                                SPEAKERS + SUBWOOFERS + EDIT,
+                                                SPEAKERS + SUBWOOFERS + DELETE,
+                                                AMPLIFIERS + MONO_AMPLIFIERS + ADD,
+                                                AMPLIFIERS + MONO_AMPLIFIERS + EDIT,
+                                                AMPLIFIERS + MONO_AMPLIFIERS + DELETE,
+                                                AMPLIFIERS + MULTI_CHANNEL_AMPLIFIERS + ADD,
+                                                AMPLIFIERS + MULTI_CHANNEL_AMPLIFIERS + EDIT,
+                                                AMPLIFIERS + MULTI_CHANNEL_AMPLIFIERS + DELETE,
+                                                CABLES + POWER_CABLES + ADD,
+                                                CABLES + POWER_CABLES + EDIT,
+                                                CABLES + POWER_CABLES + DELETE,
+                                                CABLES + IMAGES,
+                                                SPEAKERS + IMAGES,
+                                                AMPLIFIERS + IMAGES).hasRole(ADMIN)
                                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/users/login")
-                                .usernameParameter("username")
-                                .passwordParameter("password")
-                                .defaultSuccessUrl("/", true)
+                                .loginPage(USERS + LOGIN)
+                                .usernameParameter(USERNAME)
+                                .passwordParameter(PASSWORD)
+                                .defaultSuccessUrl(SLASH, true)
                                 .failureHandler(authenticationFailureHandler())
                 )
                 .logout(
                         logout ->
                                 logout
-                                        .logoutUrl("/users/logout")
-                                        .logoutSuccessUrl("/")
+                                        .logoutUrl(USERS + LOGOUT)
+                                        .logoutSuccessUrl(SLASH)
                                         .invalidateHttpSession(true)
                                         .addLogoutHandler(customLogoutHandler)
                 )

@@ -8,6 +8,14 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "forex.api")
 public class ForexApiConfig {
 
+    private static final String KEY = "key";
+    private static final String BASE = "base";
+    private static final String URL = "url";
+    private static final String USD = "USD";
+    private static final String SORRY_FREE_API = "Sorry, but the free API does not support base, "
+            + "currencies different than " + USD + ".";
+    private static final String PROPERTY = "Property ";
+    private static final String CANNOT_BE_EMPTY = " cannot be empty.";
     private String key;
 
     private String url;
@@ -44,20 +52,19 @@ public class ForexApiConfig {
     @PostConstruct
     public void checkConfiguration() {
 
-        verifyNotNullOrEmpty("key", key);
-        verifyNotNullOrEmpty("base", base);
-        verifyNotNullOrEmpty("url", url);
+        verifyNotNullOrEmpty(KEY, key);
+        verifyNotNullOrEmpty(BASE, base);
+        verifyNotNullOrEmpty(URL, url);
 
-        if (!"USD".equals(base)) {
-            throw new IllegalStateException("Sorry, but the free API does not support base, "
-                    + "currencies different than USD.");
+        if (!USD.equals(base)) {
+            throw new IllegalStateException(SORRY_FREE_API);
         }
 
     }
 
     private static void verifyNotNullOrEmpty(String name, String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("Property " + name + " cannot be empty.");
+            throw new IllegalArgumentException(PROPERTY + name + CANNOT_BE_EMPTY);
         }
     }
 

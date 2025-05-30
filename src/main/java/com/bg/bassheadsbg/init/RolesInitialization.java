@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @Component
 public class RolesInitialization implements CommandLineRunner {
 
+    private static final String LINE_BREAK = "\n";
+    private static final String ROLES_INITIALIZED = "Roles initialized:" + LINE_BREAK;
     private final RoleRepository roleRepository;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -48,9 +50,9 @@ public class RolesInitialization implements CommandLineRunner {
             List<UserRole> roles = roleRepository.findAll();
             String roleDetails = roles.stream()
                     .map(role -> role.getRole().toString())
-                    .collect(Collectors.joining("\n"));
+                    .collect(Collectors.joining(LINE_BREAK));
 
-            eventPublisher.publishEvent(new InitializationEvent(this, "Roles initialized:\n" + roleDetails));
+            eventPublisher.publishEvent(new InitializationEvent(this, ROLES_INITIALIZED + roleDetails));
         }
     }
 }
