@@ -9,6 +9,9 @@ import java.util.List;
 
 @Service
 public class CityServiceImpl implements CityService {
+
+    private static final String CITY_WITH_ID_NOT_FOUND = "City with ID: {} was not found!";
+    private static final String TARGET = "{}";
     private final CityRepository cityRepository;
 
     public CityServiceImpl(CityRepository cityRepository) {
@@ -17,7 +20,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public City getCityById(Long id) {
-        return cityRepository.findById(id).orElseThrow(() -> new NullPointerException("City with ID: " + id + " was not found!"));
+        return cityRepository.findById(id).orElseThrow(() -> new NullPointerException(CITY_WITH_ID_NOT_FOUND.replace(TARGET, id.toString())));
     }
 
     @Override

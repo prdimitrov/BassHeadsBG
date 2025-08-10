@@ -26,6 +26,10 @@ import java.util.Optional;
 @Service
 public class ExRateServiceImpl implements ExRateService {
 
+    private static final String UPDATING_RATES = "Updating {} rates.";
+    private static final String EXCHANGE_RATE_ERROR = "The exchange rates that should be updated are not based on %s but rather on %s";
+    private static final String CONVERSION_NOT_POSSIBLE = "Conversion from %s to %s not possible!";
+    private static final String EXCHANGE_TYPES = "%s~%s";
     private final Logger LOGGER = LoggerFactory.getLogger(ExRateServiceImpl.class);
     private final ExRateRepository exRateRepository;
     private final RestClient restClient;
@@ -85,11 +89,10 @@ public class ExRateServiceImpl implements ExRateService {
      */
     @Override
     public void updateRates(ExRatesDTO exRatesDTO) {
-        LOGGER.info("Updating {} rates.", exRatesDTO.rates().size());
+        LOGGER.info(UPDATING_RATES, exRatesDTO.rates().size());
 
         if (!forexApiConfig.getBase().equals(exRatesDTO.base())) {
-            throw new IllegalArgumentException("The exchange rates that should be updated are not based on " +
-                    forexApiConfig.getBase() + " but rather on " + exRatesDTO.base());
+            throw new IllegalArgumentException(String.format(EXCHANGE_RATE_ERROR, forexApiConfig.getBase(), exRatesDTO.base()));
         }
 
         exRatesDTO.rates().forEach((currency, rate) -> {
@@ -105,8 +108,8 @@ public class ExRateServiceImpl implements ExRateService {
     /**
      * Converts an amount from one currency to another currency.
      *
-     * @param from - the source currency
-     * @param to - the target currency
+     * @param from   - the source currency
+     * @param to     - the target currency
      * @param amount - the amount that has to be converted
      * @return the converted amount
      * @throws ApiNotFoundException if the conversion is not possible
@@ -114,7 +117,8 @@ public class ExRateServiceImpl implements ExRateService {
     @Override
     public BigDecimal convert(String from, String to, BigDecimal amount) {
         return findExRate(from, to)
-                .orElseThrow(() -> new ApiNotFoundException("Conversion from " + from + " to " + to + " not possible!", from + "~" + to))
+                .orElseThrow(() -> new ApiNotFoundException(String.format(CONVERSION_NOT_POSSIBLE, from, to),
+                        String.format(EXCHANGE_TYPES, from, to)))
                 .multiply(amount);
     }
 
@@ -132,7 +136,7 @@ public class ExRateServiceImpl implements ExRateService {
      * Finds the exchange rate between two currencies.
      *
      * @param from - the source currency
-     * @param to - the target currency
+     * @param to   - the target currency
      * @return an Optional containing the exchange rate if it's found, or empty if the exchange rate is not found
      */
     private Optional<BigDecimal> findExRate(String from, String to) {

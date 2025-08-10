@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.entity.images;
 
+import com.bg.bassheadsbg.model.entity.DeviceImageEntity;
 import com.bg.bassheadsbg.model.entity.amplifiers.MonoAmplifier;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import jakarta.persistence.Column;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MonoAmplifierImage extends BaseEntity {
+public class MonoAmplifierImage extends BaseEntity implements DeviceImageEntity<MonoAmplifier> {
 
     @Lob
     @Column(name = "image_data", columnDefinition = "MEDIUMBLOB", nullable = false)
@@ -26,5 +27,10 @@ public class MonoAmplifierImage extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mono_amplifier_id", nullable = false)
-    private MonoAmplifier monoAmplifier;
+    private MonoAmplifier device;
+
+    @Override
+    public void setDevice(MonoAmplifier device) {
+        this.device = device;
+    }
 }

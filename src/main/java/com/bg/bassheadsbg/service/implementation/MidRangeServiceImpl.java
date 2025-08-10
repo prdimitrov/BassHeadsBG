@@ -1,7 +1,9 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
-import com.bg.bassheadsbg.kafka.ImageProducer;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMidRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.MidRangeDetailsDTO;
@@ -40,16 +42,14 @@ public class MidRangeServiceImpl implements MidRangeService {
     private final MidRangeRepository midRangeRepository;
     private final MidRangeImageRepository midRangeImageRepository;
     private final ModelMapper modelMapper;
-    private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public MidRangeServiceImpl(MidRangeRepository midRangeRepository, MidRangeImageRepository midRangeImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+    public MidRangeServiceImpl(MidRangeRepository midRangeRepository, MidRangeImageRepository midRangeImageRepository, ModelMapper modelMapper, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
         this.midRangeRepository = midRangeRepository;
         this.midRangeImageRepository = midRangeImageRepository;
         this.modelMapper = modelMapper;
-        this.imageProducer = imageProducer;
         this.exRateService = exRateService;
         this.userRepository = userRepository;
         this.messageSource = messageSource;
@@ -127,7 +127,7 @@ public class MidRangeServiceImpl implements MidRangeService {
     @Transactional
     @Override
     public List<MidRangeSummaryDTO> getAllSpeakersSummarySorted() {
-        return midRangeRepository.findAllMidRangesWithUserLikesCountOrderByBrandAndModel()
+        return midRangeRepository.findAllDevicesWithUserLikesCountOrderByBrandAndModel()
                 .stream()
                 .map(this::mapMidRangeToMidRangeSummaryDTO)
                 .toList();
@@ -165,7 +165,7 @@ public class MidRangeServiceImpl implements MidRangeService {
     public boolean likeSpeaker(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        MidRange midRange = midRangeRepository.findHighRangeByUserLikes(id)
+        MidRange midRange = midRangeRepository.findDeviceByUserLikes(id)
                 .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
         boolean alreadyLiked = midRange.getUserLikes()
@@ -212,7 +212,7 @@ public class MidRangeServiceImpl implements MidRangeService {
     private void updateSpeakerImages(UserEntity user, MidRange midRange, AddMidRangeDTO addMidRangeDTO) throws IOException {
         if (addMidRangeDTO.getImageFiles() != null && !addMidRangeDTO.getImageFiles().isEmpty()) {
 
-            midRangeImageRepository.deleteByMidRange(midRange);
+            midRangeImageRepository.deleteByDevice(midRange);
 
             List<MidRangeImage> midRangeImages = new ArrayList<>();
 
@@ -222,7 +222,7 @@ public class MidRangeServiceImpl implements MidRangeService {
                 if (!file.isEmpty()) {
                     MidRangeImage midRangeImage = new MidRangeImage();
                     midRangeImage.setImageData(file.getBytes());
-                    midRangeImage.setMidRange(midRange);
+                    midRangeImage.setDevice(midRange);
                     midRangeImages.add(midRangeImage);
                 }
             }

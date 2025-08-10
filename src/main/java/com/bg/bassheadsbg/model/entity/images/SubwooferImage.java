@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.entity.images;
 
+import com.bg.bassheadsbg.model.entity.DeviceImageEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import com.bg.bassheadsbg.model.entity.speakers.Subwoofer;
 import jakarta.persistence.Column;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SubwooferImage extends BaseEntity {
+public class SubwooferImage extends BaseEntity implements DeviceImageEntity<Subwoofer> {
 
     @Lob
     @Column(name = "image_data", columnDefinition = "MEDIUMBLOB", nullable = false)
@@ -26,5 +27,10 @@ public class SubwooferImage extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subwoofer_id", nullable = false)
-    private Subwoofer subwoofer;
+    private Subwoofer device;
+
+    @Override
+    public void setDevice(Subwoofer device) {
+        this.device = device;
+    }
 }

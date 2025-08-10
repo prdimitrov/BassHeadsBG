@@ -20,6 +20,8 @@ import java.util.List;
 public class AccuWeatherServiceImpl implements AccuWeatherService {
     private static final String BASE_URL = "http://dataservice.accuweather.com/locations/v1/cities/";
     private static final String COUNTRY_CODE = "BG";
+    private static final String APIKEY = "?apikey=";
+    private static final String FAILED_TO_RETRIEVE_TOWNS = "Failed to retrieve towns!\n----------------------------------{}";
     @Value("${accuweather.accu_key}")
     private String API_KEY;
 
@@ -37,7 +39,7 @@ public class AccuWeatherServiceImpl implements AccuWeatherService {
     @Override
     public void initializeAllCitiesInBulgaria() {
         try {
-            URL url = new URL(BASE_URL + COUNTRY_CODE + "?apikey=" + API_KEY);
+            URL url = new URL(BASE_URL + COUNTRY_CODE + APIKEY + API_KEY);
 
             // Making API call
             String jsonResponse = restTemplate.getForObject(url.toString(), String.class);
@@ -51,7 +53,7 @@ public class AccuWeatherServiceImpl implements AccuWeatherService {
                 cityRepository.save(city);
             }
         } catch (Exception e) {
-            log.error("Failed to retrieve towns!\n----------------------------------{}", e.toString());
+            log.error(FAILED_TO_RETRIEVE_TOWNS, e.toString());
         }
     }
 

@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.entity.speakers;
 
+import com.bg.bassheadsbg.model.entity.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.images.HighRangeImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
@@ -18,6 +19,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -25,9 +27,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "high_range")
-public class HighRange extends BaseSpeaker {
+public class HighRange extends BaseSpeaker implements DeviceEntity<HighRangeImage> {
     @NotBlank(message = "{material.notBlank}")
     @Size(max = 100, message = "{material.max100}")
     @Column(nullable = false)
@@ -48,7 +51,7 @@ public class HighRange extends BaseSpeaker {
     @Column(nullable = false)
     private String crossover;
 
-    @OneToMany(mappedBy = "highRange", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", orphanRemoval = true)
     private List<HighRangeImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -60,10 +63,7 @@ public class HighRange extends BaseSpeaker {
     )
     private List<UserEntity> userLikes = new ArrayList<>();
 
-    public HighRange() {
-        super();
-    }
-
+    @Override
     public long getLikes() {
         return this.userLikes.size();
     }

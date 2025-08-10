@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.entity.speakers;
 
+import com.bg.bassheadsbg.model.entity.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.images.SubwooferImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -24,9 +26,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "subwoofers")
-public class Subwoofer extends BaseSpeaker {
+public class Subwoofer extends BaseSpeaker implements DeviceEntity<SubwooferImage> {
 
     @Positive(message = "{coilHeight.positive}")
     @NotNull(message = "{coilHeight.positive}")
@@ -88,7 +91,7 @@ public class Subwoofer extends BaseSpeaker {
     @DecimalMax(value = "3000", message = "{mms.max3000}")
     private float mms;
 
-    @OneToMany(mappedBy = "subwoofer", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", orphanRemoval = true)
     private List<SubwooferImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -100,10 +103,7 @@ public class Subwoofer extends BaseSpeaker {
     )
     private List<UserEntity> userLikes = new ArrayList<>();
 
-    public Subwoofer() {
-        super();
-    }
-
+    @Override
     public long getLikes() {
         return this.userLikes.size();
     }

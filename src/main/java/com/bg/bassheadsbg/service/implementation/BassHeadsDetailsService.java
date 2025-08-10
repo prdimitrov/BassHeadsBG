@@ -17,6 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class BassHeadsDetailsService implements UserDetailsService {
 
+    private static final String USER_WITH_USERNAME_NOT_FOUND = "User with username {} not found!";
+    private static final String TARGET = "{}";
+    private static final String ROLE = "ROLE_";
     private final UserRepository userRepository;
 
     public BassHeadsDetailsService(UserRepository userRepository) {
@@ -36,7 +39,7 @@ public class BassHeadsDetailsService implements UserDetailsService {
                 .findByUsername(username)
                 .map(BassHeadsDetailsService::mapUser)
                 .orElseThrow(
-                        () -> new UsernameNotFoundException("User with username " + username + " not found!"));
+                        () -> new UsernameNotFoundException(USER_WITH_USERNAME_NOT_FOUND.replace(TARGET, username)));
     }
 
     /**
@@ -57,7 +60,7 @@ public class BassHeadsDetailsService implements UserDetailsService {
 
     private static GrantedAuthority map(UserRoleEnum role) {
         return new SimpleGrantedAuthority(
-                "ROLE_" + role
+                ROLE + role
         );
     }
 }

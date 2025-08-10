@@ -14,6 +14,23 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class CronScheduler {
+    protected static final String ASTERIX_BREAKER = "*********************************************\n";
+    protected static final String MINUS_BREAKER = "---------------------------------------------\n";
+    protected static final String CRON_EXPRESSION = "0 0/30 * * * ?";
+    protected static final String NUMBER_OF_USERS = "Number of users: ";
+    protected static final String SPEAKERS_BREAKER = "__SPEAKERS__\n";
+    protected static final String NUMBER_OF_HIGH_RANGE_SPEAKERS = "Number of HighRange Speakers: ";
+    protected static final String NUMBER_OF_MID_RANGE_SPEAKERS = "Number of MidRange Speakers: ";
+    protected static final String NUMBER_OF_SUBWOOFERS = "Number of Subwoofers: ";
+    protected static final String TOTAL_SPEAKERS = "Total speakers: ";
+    protected static final String AMPLIFIERS_BREAKER = "__AMPLIFIERS__\n";
+    protected static final String NUMBER_OF_MONO_BLOCK_AMPS = "Number of Mono-block Amps: ";
+    protected static final String NUMBER_OF_MULTI_CHANNEL_AMPS = "Number of Multi-Channel Amps: ";
+    protected static final String TOTAL_AMPLIFIERS = "Total Amplifiers: ";
+    protected static final String CABLES_BREAKER = "__CABLES__\n";
+    protected static final String NUMBER_OF_POWER_CABLES = "Number of Power Cables: ";
+    protected static final String TOTAL_CABLES = "Total Cables: ";
+    protected static final String LINE_BREAKER = "\n";
     private final UserRepository userRepository;
     private final HighRangeRepository highRangeRepository;
     private final MidRangeRepository midRangeRepository;
@@ -33,44 +50,43 @@ public class CronScheduler {
         this.powerCableRepository = powerCableRepository;
     }
 
-    @Scheduled(cron = "0 0/30 * * * ?")
+    @Scheduled(cron = CRON_EXPRESSION)
     public void onCron() {
         if (log.isInfoEnabled()) {
             StringBuilder logMessage = new StringBuilder();
-            logMessage.append("*********************************************\n")
-                    .append("---------------------------------------------\n");
+            logMessage.append(ASTERIX_BREAKER)
+                    .append(MINUS_BREAKER);
 
             long totalUsers = userRepository.count();
 
-            logMessage.append("Number of users: ").append(totalUsers).append("\n")
-                    .append("---------------------------------------------\n")
-                    .append("__SPEAKERS__\n");
+            logMessage.append(NUMBER_OF_USERS).append(totalUsers).append(LINE_BREAKER)
+                    .append(MINUS_BREAKER)
+                    .append(SPEAKERS_BREAKER);
 
             long totalHighRangeSpeakers = highRangeRepository.count();
             long totalMidRangeSpeakers = midRangeRepository.count();
             long totalSubwoofers = subwooferRepository.count();
 
-            logMessage.append("Number of HighRange Speakers: ").append(totalHighRangeSpeakers).append("\n")
-                    .append("Number of MidRange Speakers: ").append(totalMidRangeSpeakers).append("\n")
-                    .append("Number of Subwoofers: ").append(totalSubwoofers).append("\n")
-                    .append("Total speakers: ").append(totalHighRangeSpeakers + totalMidRangeSpeakers + totalSubwoofers).append("\n")
-                    .append("---------------------------------------------\n")
-                    .append("__AMPLIFIERS__\n");
+            logMessage.append(NUMBER_OF_HIGH_RANGE_SPEAKERS).append(totalHighRangeSpeakers).append(LINE_BREAKER)
+                    .append(NUMBER_OF_MID_RANGE_SPEAKERS).append(totalMidRangeSpeakers).append(LINE_BREAKER)
+                    .append(NUMBER_OF_SUBWOOFERS).append(totalSubwoofers).append(LINE_BREAKER)
+                    .append(TOTAL_SPEAKERS).append(totalHighRangeSpeakers + totalMidRangeSpeakers + totalSubwoofers).append(LINE_BREAKER)
+                    .append(MINUS_BREAKER)
+                    .append(AMPLIFIERS_BREAKER);
 
             long totalMonoChannelAmps = monoAmplifierRepository.count();
             long totalMultiChannelAmps = multiChannelAmplifierRepository.count();
 
-            logMessage.append("Number of Mono-block Amps: ").append(totalMonoChannelAmps).append("\n")
-                    .append("Number of Multi-Channel Amps: ").append(totalMultiChannelAmps).append("\n")
-                    .append("Total Amplifiers: ").append(totalMonoChannelAmps + totalMultiChannelAmps).append("\n")
-                    .append("---------------------------------------------\n")
-                    .append("__CABLES__\n");
+            logMessage.append(NUMBER_OF_MONO_BLOCK_AMPS).append(totalMonoChannelAmps).append(LINE_BREAKER)
+                    .append(NUMBER_OF_MULTI_CHANNEL_AMPS).append(totalMultiChannelAmps).append(LINE_BREAKER)
+                    .append(TOTAL_AMPLIFIERS).append(totalMonoChannelAmps + totalMultiChannelAmps).append(LINE_BREAKER)
+                    .append(MINUS_BREAKER)
+                    .append(CABLES_BREAKER);
 
             long totalPowerCables = powerCableRepository.count();
 
-            logMessage.append("Number of Power Cables: ").append(totalPowerCables).append("\n")
-                    .append("Total Cables: ").append(totalPowerCables)
-                    .append("*********************************************\n")
+            logMessage.append(NUMBER_OF_POWER_CABLES).append(totalPowerCables).append(LINE_BREAKER)
+                    .append(TOTAL_CABLES).append(totalPowerCables).append(LINE_BREAKER).append(ASTERIX_BREAKER)
                     .append("▒█▀▀█ █▀▀█ █▀▀ █▀▀ ▒█░▒█ █▀▀ █▀▀█ █▀▀▄ █▀▀ 　 ▒█▀▀█ ▒█▀▀█ \n" +
                             "▒█▀▀▄ █▄▄█ ▀▀█ ▀▀█ ▒█▀▀█ █▀▀ █▄▄█ █░░█ ▀▀█ 　 ▒█▀▀▄ ▒█░▄▄ \n" +
                             "▒█▄▄█ ▀░░▀ ▀▀▀ ▀▀▀ ▒█░▒█ ▀▀▀ ▀░░▀ ▀▀▀░ ▀▀▀ 　 ▒█▄▄█ ▒█▄▄█");

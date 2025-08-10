@@ -1,7 +1,7 @@
 package com.bg.bassheadsbg.model.entity.amplifiers;
 
+import com.bg.bassheadsbg.model.entity.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
-import com.bg.bassheadsbg.model.entity.images.MonoAmplifierImage;
 import com.bg.bassheadsbg.model.entity.images.MultiChannelAmplifierImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import jakarta.persistence.Entity;
@@ -16,6 +16,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -23,15 +24,16 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "multi_channel_amplifiers")
-public class MultiChannelAmplifier extends BaseAmplifier {
+public class MultiChannelAmplifier extends BaseAmplifier implements DeviceEntity<MultiChannelAmplifierImage> {
     @Positive(message = "{numberOfChannels.positive}")
     @NotNull(message = "{numberOfChannels.positive}")
     @Max(value = 16, message = "{numberOfChannels.max16}")
     private byte numberOfChannels;
 
-    @OneToMany(mappedBy = "multiChannelAmplifier", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", orphanRemoval = true)
     private List<MultiChannelAmplifierImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -43,12 +45,8 @@ public class MultiChannelAmplifier extends BaseAmplifier {
     )
     private List<UserEntity> userLikes = new ArrayList<>();
 
-    public MultiChannelAmplifier() {
-        super();
-    }
-
+    @Override
     public long getLikes() {
         return this.userLikes.size();
     }
-
 }

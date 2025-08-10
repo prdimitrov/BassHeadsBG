@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.entity.speakers;
 
+import com.bg.bassheadsbg.model.entity.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.images.MidRangeImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
@@ -15,6 +16,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -22,9 +24,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "mid_range")
-public class MidRange extends BaseSpeaker {
+public class MidRange extends BaseSpeaker implements DeviceEntity<MidRangeImage> {
 
     @PositiveOrZero(message = "{frequencyRangeFrom.positiveOrZero}")
     @NotNull(message = "{frequencyRangeFrom.positiveOrZero}")
@@ -36,7 +39,7 @@ public class MidRange extends BaseSpeaker {
     @Max(value = 80000, message = "{frequencyRangeTo.max80000}")
     private int frequencyRangeTo;
 
-    @OneToMany(mappedBy = "midRange", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", orphanRemoval = true)
     private List<MidRangeImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -48,10 +51,7 @@ public class MidRange extends BaseSpeaker {
     )
     private List<UserEntity> userLikes = new ArrayList<>();
 
-    public MidRange() {
-        super();
-    }
-
+    @Override
     public long getLikes() {
         return this.userLikes.size();
     }
