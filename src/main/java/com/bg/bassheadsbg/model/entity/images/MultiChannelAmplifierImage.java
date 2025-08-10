@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.entity.images;
 
-import com.bg.bassheadsbg.model.entity.DeviceImageEntity;
+import com.bg.bassheadsbg.model.interfaces.DeviceImageEntity;
 import com.bg.bassheadsbg.model.entity.amplifiers.MultiChannelAmplifier;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import jakarta.persistence.Column;

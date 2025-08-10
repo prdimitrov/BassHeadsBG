@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.entity.amplifiers;
 
-import com.bg.bassheadsbg.model.entity.DeviceEntity;
+import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
 import com.bg.bassheadsbg.model.entity.images.MonoAmplifierImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;

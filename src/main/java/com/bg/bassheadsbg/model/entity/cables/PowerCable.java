@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.entity.cables;
 
-import com.bg.bassheadsbg.model.entity.DeviceEntity;
+import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import com.bg.bassheadsbg.model.entity.images.PowerCableImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
