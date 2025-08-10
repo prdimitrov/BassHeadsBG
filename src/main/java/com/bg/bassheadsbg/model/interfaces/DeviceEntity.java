@@ -1,4 +1,4 @@
-package com.bg.bassheadsbg.model.entity;
+package com.bg.bassheadsbg.model.interfaces;
 
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 

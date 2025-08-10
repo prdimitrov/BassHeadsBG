@@ -1,9 +1,10 @@
 package com.bg.bassheadsbg.model.entity.speakers;
 
-import com.bg.bassheadsbg.model.entity.DeviceEntity;
+import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.images.HighRangeImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -51,7 +52,7 @@ public class HighRange extends BaseSpeaker implements DeviceEntity<HighRangeImag
     @Column(nullable = false)
     private String crossover;
 
-    @OneToMany(mappedBy = "device", orphanRemoval = true)
+    @OneToMany(mappedBy = "device")
     private List<HighRangeImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

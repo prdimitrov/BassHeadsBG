@@ -1,6 +1,6 @@
 package com.bg.bassheadsbg.model.entity.speakers;
 
-import com.bg.bassheadsbg.model.entity.DeviceEntity;
+import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.images.SubwooferImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
