@@ -1,11 +1,28 @@
 package com.bg.bassheadsbg.model.entity.cables;
 
+import com.bg.bassheadsbg.model.entity.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import com.bg.bassheadsbg.model.entity.images.PowerCableImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.enums.CableMaterial;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +35,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "power_cables")
-public class PowerCable extends BaseEntity {
+public class PowerCable extends BaseEntity implements DeviceEntity<PowerCableImage> {
     @NotBlank(message = "{brand.notBlank}")
     @Size(min = 3, max = 20, message = "{brand.min3max20}")
     private String brand;
@@ -50,7 +67,7 @@ public class PowerCable extends BaseEntity {
     @Size(max = 500, message = "{description.max500}")
     private String description;
 
-    @OneToMany(mappedBy = "powerCable", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", orphanRemoval = true)
     private List<PowerCableImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -62,6 +79,7 @@ public class PowerCable extends BaseEntity {
     )
     private List<UserEntity> userLikes = new ArrayList<>();
 
+    @Override
     public long getLikes() {
         return userLikes.size();
     }

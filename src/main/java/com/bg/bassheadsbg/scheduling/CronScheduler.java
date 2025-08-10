@@ -86,8 +86,7 @@ public class CronScheduler {
             long totalPowerCables = powerCableRepository.count();
 
             logMessage.append(NUMBER_OF_POWER_CABLES).append(totalPowerCables).append(LINE_BREAKER)
-                    .append(TOTAL_CABLES).append(totalPowerCables)
-                    .append(ASTERIX_BREAKER)
+                    .append(TOTAL_CABLES).append(totalPowerCables).append(LINE_BREAKER).append(ASTERIX_BREAKER)
                     .append("▒█▀▀█ █▀▀█ █▀▀ █▀▀ ▒█░▒█ █▀▀ █▀▀█ █▀▀▄ █▀▀ 　 ▒█▀▀█ ▒█▀▀█ \n" +
                             "▒█▀▀▄ █▄▄█ ▀▀█ ▀▀█ ▒█▀▀█ █▀▀ █▄▄█ █░░█ ▀▀█ 　 ▒█▀▀▄ ▒█░▄▄ \n" +
                             "▒█▄▄█ ▀░░▀ ▀▀▀ ▀▀▀ ▒█░▒█ ▀▀▀ ▀░░▀ ▀▀▀░ ▀▀▀ 　 ▒█▄▄█ ▒█▄▄█");

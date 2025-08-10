@@ -95,5 +95,4 @@ public class UserEntity extends BaseEntity {
         super();
         this.enabled = false;
     }
-
 }

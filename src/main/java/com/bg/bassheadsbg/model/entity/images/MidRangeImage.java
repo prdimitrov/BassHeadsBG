@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.entity.images;
 
+import com.bg.bassheadsbg.model.entity.DeviceImageEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import com.bg.bassheadsbg.model.entity.speakers.MidRange;
 import jakarta.persistence.Column;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MidRangeImage extends BaseEntity {
+public class MidRangeImage extends BaseEntity implements DeviceImageEntity<MidRange> {
 
     @Lob
     @Column(name = "image_data", columnDefinition = "MEDIUMBLOB", nullable = false)
@@ -26,5 +27,11 @@ public class MidRangeImage extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mid_range_id", nullable = false)
-    private MidRange midRange;
+    private MidRange device;
+
+
+    @Override
+    public void setDevice(MidRange device) {
+        this.device = device;
+    }
 }

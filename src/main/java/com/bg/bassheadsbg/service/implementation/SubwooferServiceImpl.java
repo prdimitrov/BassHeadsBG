@@ -4,7 +4,6 @@ import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
 import com.bg.bassheadsbg.exception.UserNotFoundException;
-import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddSubwooferDTO;
 import com.bg.bassheadsbg.model.dto.details.SubwooferDetailsDTO;
@@ -43,16 +42,14 @@ public class SubwooferServiceImpl implements SubwooferService {
     private final SubwooferRepository subwooferRepository;
     private final SubwooferImageRepository subwooferImageRepository;
     private final ModelMapper modelMapper;
-    private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public SubwooferServiceImpl(SubwooferRepository subwooferRepository, SubwooferImageRepository subwooferImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+    public SubwooferServiceImpl(SubwooferRepository subwooferRepository, SubwooferImageRepository subwooferImageRepository, ModelMapper modelMapper, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
         this.subwooferRepository = subwooferRepository;
         this.subwooferImageRepository = subwooferImageRepository;
         this.modelMapper = modelMapper;
-        this.imageProducer = imageProducer;
         this.exRateService = exRateService;
         this.userRepository = userRepository;
         this.messageSource = messageSource;
@@ -130,7 +127,7 @@ public class SubwooferServiceImpl implements SubwooferService {
     @Transactional
     @Override
     public List<SubwooferSummaryDTO> getAllSpeakersSummarySorted() {
-        return subwooferRepository.findAllSubwoofersWithUserLikesCountOrderByBrandAndModel()
+        return subwooferRepository.findAllDevicesWithUserLikesCountOrderByBrandAndModel()
                 .stream()
                 .map(this::mapSubwooferToSubwooferSummaryDTO)
                 .toList();
@@ -168,7 +165,7 @@ public class SubwooferServiceImpl implements SubwooferService {
     public boolean likeSpeaker(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        Subwoofer subwoofer = subwooferRepository.findSubwooferByUserLikes(id)
+        Subwoofer subwoofer = subwooferRepository.findDeviceByUserLikes(id)
                 .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
         boolean alreadyLiked = subwoofer.getUserLikes()
@@ -215,7 +212,7 @@ public class SubwooferServiceImpl implements SubwooferService {
     private void updateSpeakerImages(UserEntity user, Subwoofer subwoofer, AddSubwooferDTO addSubwooferDTO) throws IOException {
         if (addSubwooferDTO.getImageFiles() != null && !addSubwooferDTO.getImageFiles().isEmpty()) {
 
-            subwooferImageRepository.deleteBySubwoofer(subwoofer);
+            subwooferImageRepository.deleteByDevice(subwoofer);
 
             List<SubwooferImage> subwooferImages = new ArrayList<>();
 
@@ -225,7 +222,7 @@ public class SubwooferServiceImpl implements SubwooferService {
                 if (!file.isEmpty()) {
                     SubwooferImage subwooferImage = new SubwooferImage();
                     subwooferImage.setImageData(file.getBytes());
-                    subwooferImage.setSubwoofer(subwoofer);
+                    subwooferImage.setDevice(subwoofer);
                     subwooferImages.add(subwooferImage);
                 }
             }

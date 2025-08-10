@@ -4,7 +4,6 @@ import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
 import com.bg.bassheadsbg.exception.UserNotFoundException;
-import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMonoAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MonoAmpDetailsDTO;
@@ -43,16 +42,14 @@ public class MonoAmpServiceImpl implements MonoAmpService {
     private final MonoAmplifierRepository monoAmplifierRepository;
     private final MonoAmplifierImageRepository monoAmplifierImageRepository;
     private final ModelMapper modelMapper;
-    private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public MonoAmpServiceImpl(MonoAmplifierRepository monoAmplifierRepository, MonoAmplifierImageRepository monoAmplifierImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+    public MonoAmpServiceImpl(MonoAmplifierRepository monoAmplifierRepository, MonoAmplifierImageRepository monoAmplifierImageRepository, ModelMapper modelMapper, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
         this.monoAmplifierRepository = monoAmplifierRepository;
         this.monoAmplifierImageRepository = monoAmplifierImageRepository;
         this.modelMapper = modelMapper;
-        this.imageProducer = imageProducer;
         this.exRateService = exRateService;
         this.userRepository = userRepository;
         this.messageSource = messageSource;
@@ -130,7 +127,7 @@ public class MonoAmpServiceImpl implements MonoAmpService {
     @Transactional
     @Override
     public List<MonoAmpSummaryDTO> getAllAmplifiersSummarySorted() {
-        return monoAmplifierRepository.findAllMonoAmplifiersCountUserLikesOrderByBrandAndModel()
+        return monoAmplifierRepository.findAllDevicesWithUserLikesCountOrderByBrandAndModel()
                 .stream()
                 .map(this::mapMonoAmpToMonoAmpSummaryDTO)
                 .toList();
@@ -167,7 +164,7 @@ public class MonoAmpServiceImpl implements MonoAmpService {
     public boolean likeAmplifier(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        MonoAmplifier monoAmplifier = monoAmplifierRepository.findMonoAmplifierByUserLikes(id)
+        MonoAmplifier monoAmplifier = monoAmplifierRepository.findDeviceByUserLikes(id)
                 .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
         boolean alreadyLiked = monoAmplifier.getUserLikes()
@@ -214,7 +211,7 @@ public class MonoAmpServiceImpl implements MonoAmpService {
     private void updateAmplifierImages(UserEntity user, MonoAmplifier monoAmplifier, AddMonoAmpDTO addMonoAmpDTO) throws IOException {
         if (addMonoAmpDTO.getImageFiles() != null && !addMonoAmpDTO.getImageFiles().isEmpty()) {
 
-            monoAmplifierImageRepository.deleteByMonoAmplifier(monoAmplifier);
+            monoAmplifierImageRepository.deleteByDevice(monoAmplifier);
 
             List<MonoAmplifierImage> monoAmplifierImages = new ArrayList<>();
 
@@ -224,7 +221,7 @@ public class MonoAmpServiceImpl implements MonoAmpService {
                 if (!file.isEmpty()) {
                     MonoAmplifierImage monoAmplifierImage = new MonoAmplifierImage();
                     monoAmplifierImage.setImageData(file.getBytes());
-                    monoAmplifierImage.setMonoAmplifier(monoAmplifier);
+                    monoAmplifierImage.setDevice(monoAmplifier);
                     monoAmplifierImages.add(monoAmplifierImage);
                 }
             }

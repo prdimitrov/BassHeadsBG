@@ -1,9 +1,5 @@
 package com.bg.bassheadsbg.model.entity.base;
 
-import com.bg.bassheadsbg.validation.imagesUrlValidator.ValidUrlList;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Max;
@@ -15,10 +11,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -68,11 +60,4 @@ public abstract class BaseSpeaker extends BaseEntity {
     @NotNull(message = "{powerHandling.positive}")
     @Max(value = 32000, message = "{powerHandling.max32000}")
     private short powerHandling;
-
-//    @ValidUrlList(message = "{images.validUrlList}")
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @Column(name = "images")
-//    private List<@URL(message = "{images.url}") @NotBlank(message = "{images.notBlank}")
-//            String> images = new ArrayList<>();
-
 }

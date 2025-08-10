@@ -21,6 +21,7 @@ com\bg\bassheadsbg\model\entity\images\MonoAmplifierImage.class
 com\bg\bassheadsbg\web\controller\speakerControllers\HighRangeController.class
 com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.class
 com\bg\bassheadsbg\model\entity\images\MultiChannelAmplifierImage.class
+com\bg\bassheadsbg\repository\DeviceRepository.class
 com\bg\bassheadsbg\service\implementation\UserServiceImpl.class
 com\bg\bassheadsbg\model\entity\speakers\HighRange.class
 com\bg\bassheadsbg\validation\fieldsMatcher\FieldsMatch.class
@@ -122,6 +123,7 @@ com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmail.class
 com\bg\bassheadsbg\web\controller\amplifierControllers\MonoChannelAmplifierController.class
 com\bg\bassheadsbg\repository\PowerCableRepository.class
 com\bg\bassheadsbg\model\entity\amplifiers\MultiChannelAmplifier.class
+com\bg\bassheadsbg\model\entity\DeviceImageEntity.class
 com\bg\bassheadsbg\model\dto\details\SubwooferDetailsDTO.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomByteEditor.class
 com\bg\bassheadsbg\exception\DeviceAlreadyLikedException.class
@@ -134,7 +136,6 @@ com\bg\bassheadsbg\util\ObjectLogger.class
 com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmailValidator.class
 com\bg\bassheadsbg\model\entity\City.class
 com\bg\bassheadsbg\service\interfaces\PowerCableService.class
-com\bg\bassheadsbg\repository\CommonFindDevice.class
 com\bg\bassheadsbg\repository\HighRangeRepository.class
 com\bg\bassheadsbg\service\implementation\MultiChannelAmpServiceImpl.class
 com\bg\bassheadsbg\service\implementation\MidRangeServiceImpl.class
@@ -151,6 +152,7 @@ com\bg\bassheadsbg\service\interfaces\MessageStoreService.class
 com\bg\bassheadsbg\model\dto\add\AddSubwooferDTO.class
 com\bg\bassheadsbg\web\controller\speakerControllers\SubwooferController.class
 com\bg\bassheadsbg\init\AdminInitialization.class
+com\bg\bassheadsbg\model\entity\DeviceEntity.class
 com\bg\bassheadsbg\validation\fieldsMatcher\FieldsMatchValidator.class
 com\bg\bassheadsbg\messages\ExceptionMessages.class
 com\bg\bassheadsbg\model\dto\add\AddHighRangeDTO.class
@@ -169,6 +171,7 @@ com\bg\bassheadsbg\scheduling\CronScheduler.class
 com\bg\bassheadsbg\model\enums\AmpClass.class
 com\bg\bassheadsbg\event\OnRegistrationCompleteEvent.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice.class
+com\bg\bassheadsbg\repository\DeviceImageRepository.class
 com\bg\bassheadsbg\exception\DeviceNotFoundException.class
 com\bg\bassheadsbg\service\implementation\CityServiceImpl.class
 com\bg\bassheadsbg\config\custom\CustomAccessDeniedHandler.class

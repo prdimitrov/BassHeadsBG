@@ -4,7 +4,6 @@ import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
 import com.bg.bassheadsbg.exception.DeviceNotFoundException;
 import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
 import com.bg.bassheadsbg.exception.UserNotFoundException;
-import com.bg.bassheadsbg.kafka.ImageProducer;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddMultiChannelAmpDTO;
 import com.bg.bassheadsbg.model.dto.details.MultiChannelAmpDetailsDTO;
@@ -43,16 +42,14 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
     private final MultiChannelAmplifierRepository multiChannelAmplifierRepository;
     private final MultiChannelAmplifierImageRepository multiChannelAmplifierImageRepository;
     private final ModelMapper modelMapper;
-    private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public MultiChannelAmpServiceImpl(MultiChannelAmplifierRepository multiChannelAmplifierRepository, MultiChannelAmplifierImageRepository multiChannelAmplifierImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+    public MultiChannelAmpServiceImpl(MultiChannelAmplifierRepository multiChannelAmplifierRepository, MultiChannelAmplifierImageRepository multiChannelAmplifierImageRepository, ModelMapper modelMapper, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
         this.multiChannelAmplifierRepository = multiChannelAmplifierRepository;
         this.multiChannelAmplifierImageRepository = multiChannelAmplifierImageRepository;
         this.modelMapper = modelMapper;
-        this.imageProducer = imageProducer;
         this.exRateService = exRateService;
         this.userRepository = userRepository;
         this.messageSource = messageSource;
@@ -130,7 +127,7 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
     @Transactional
     @Override
     public List<MultiChannelAmpSummaryDTO> getAllAmplifiersSummarySorted() {
-        return multiChannelAmplifierRepository.findAllMultiChannelAmpsUserLikesCountOrderByBrandAndModel()
+        return multiChannelAmplifierRepository.findAllDevicesWithUserLikesCountOrderByBrandAndModel()
                 .stream()
                 .map(this::mapMultiChannelAmpToMultiChannelAmpSummaryDTO)
                 .toList();
@@ -167,7 +164,7 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
     public boolean likeAmplifier(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        MultiChannelAmplifier multiChannelAmplifier = multiChannelAmplifierRepository.findMultiChannelAmplifierByUserLikes(id)
+        MultiChannelAmplifier multiChannelAmplifier = multiChannelAmplifierRepository.findDeviceByUserLikes(id)
                 .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
         boolean alreadyLiked = multiChannelAmplifier.getUserLikes()
@@ -214,7 +211,7 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
     private void updateAmplifierImages(UserEntity user, MultiChannelAmplifier multiChannelAmplifier, AddMultiChannelAmpDTO addMultiChannelAmpDTO) throws IOException {
         if (addMultiChannelAmpDTO.getImageFiles() != null && !addMultiChannelAmpDTO.getImageFiles().isEmpty()) {
 
-            multiChannelAmplifierImageRepository.deleteByMultiChannelAmplifier(multiChannelAmplifier);
+            multiChannelAmplifierImageRepository.deleteByDevice(multiChannelAmplifier);
 
             List<MultiChannelAmplifierImage> multiChannelAmplifierImages = new ArrayList<>();
 
@@ -224,7 +221,7 @@ public class MultiChannelAmpServiceImpl implements MultiChannelAmpService {
                 if (!file.isEmpty()) {
                     MultiChannelAmplifierImage multiChannelAmplifierImage = new MultiChannelAmplifierImage();
                     multiChannelAmplifierImage.setImageData(file.getBytes());
-                    multiChannelAmplifierImage.setMultiChannelAmplifier(multiChannelAmplifier);
+                    multiChannelAmplifierImage.setDevice(multiChannelAmplifier);
                     multiChannelAmplifierImages.add(multiChannelAmplifierImage);
                 }
             }

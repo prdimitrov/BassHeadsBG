@@ -68,6 +68,8 @@ C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsb
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\base\BaseSpeaker.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\cables\PowerCable.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\City.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\DeviceEntity.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\DeviceImageEntity.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\ExRateEntity.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\images\HighRangeImage.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\images\MidRangeImage.java
@@ -92,7 +94,8 @@ C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsb
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\PowerCableDetailsHelperDTO.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\SubwooferDetailsHelperDTO.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\CityRepository.java
-C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\CommonFindDevice.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\DeviceImageRepository.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\DeviceRepository.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\ExRateRepository.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\HighRangeImageRepository.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\HighRangeRepository.java

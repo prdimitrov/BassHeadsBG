@@ -127,7 +127,7 @@ public class PowerCableServiceImpl implements PowerCableService {
     @Override
     @Transactional
     public List<PowerCableSummaryDTO> getAllPowerCablesSummarySorted() {
-        return powerCableRepository.findAllPowerCablesUserLikesCountOrderByBrandAndModel()
+        return powerCableRepository.findAllDevicesWithUserLikesCountOrderByBrandAndModel()
                 .stream()
                 .map(this::mapPowerCableToPowerCableSummaryDTO)
                 .toList();
@@ -165,7 +165,7 @@ public class PowerCableServiceImpl implements PowerCableService {
     public boolean likeCable(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        PowerCable powerCable = powerCableRepository.findPowerCableByUserLikes(id)
+        PowerCable powerCable = powerCableRepository.findDeviceByUserLikes(id)
                 .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
         boolean alreadyLiked = powerCable.getUserLikes()
@@ -212,7 +212,7 @@ public class PowerCableServiceImpl implements PowerCableService {
     private void updateCableImages(UserEntity user, PowerCable powerCable, AddPowerCableDTO addPowerCableDTO) throws IOException {
         if (addPowerCableDTO.getImageFiles() != null && !addPowerCableDTO.getImageFiles().isEmpty()) {
 
-            powerCableImageRepository.deleteByPowerCable(powerCable);
+            powerCableImageRepository.deleteByDevice(powerCable);
 
             List<PowerCableImage> cableImages = new ArrayList<>();
 
@@ -222,7 +222,7 @@ public class PowerCableServiceImpl implements PowerCableService {
                 if (!file.isEmpty()) {
                     PowerCableImage powerCableImage = new PowerCableImage();
                     powerCableImage.setImageData(file.getBytes());
-                    powerCableImage.setPowerCable(powerCable);
+                    powerCableImage.setDevice(powerCable);
                     cableImages.add(powerCableImage);
                 }
             }

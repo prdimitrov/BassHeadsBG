@@ -1,7 +1,9 @@
 package com.bg.bassheadsbg.service.implementation;
 
-import com.bg.bassheadsbg.exception.*;
-import com.bg.bassheadsbg.kafka.ImageProducer;
+import com.bg.bassheadsbg.exception.DeviceAlreadyExistsException;
+import com.bg.bassheadsbg.exception.DeviceNotFoundException;
+import com.bg.bassheadsbg.exception.UserNotAuthenticatedException;
+import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.dto.add.AddHighRangeDTO;
 import com.bg.bassheadsbg.model.dto.details.HighRangeDetailsDTO;
@@ -47,16 +49,14 @@ public class HighRangeServiceImpl implements HighRangeService {
     private final HighRangeRepository highRangeRepository;
     private final HighRangeImageRepository highRangeImageRepository;
     private final ModelMapper modelMapper;
-    private final ImageProducer imageProducer;
     private final ExRateService exRateService;
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public HighRangeServiceImpl(HighRangeRepository highRangeRepository, HighRangeImageRepository highRangeImageRepository, ModelMapper modelMapper, ImageProducer imageProducer, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
+    public HighRangeServiceImpl(HighRangeRepository highRangeRepository, HighRangeImageRepository highRangeImageRepository, ModelMapper modelMapper, ExRateService exRateService, UserRepository userRepository, MessageSource messageSource) {
         this.highRangeRepository = highRangeRepository;
         this.highRangeImageRepository = highRangeImageRepository;
         this.modelMapper = modelMapper;
-        this.imageProducer = imageProducer;
         this.exRateService = exRateService;
         this.userRepository = userRepository;
         this.messageSource = messageSource;
@@ -163,7 +163,7 @@ public class HighRangeServiceImpl implements HighRangeService {
     @Transactional
     @Override
     public List<HighRangeSummaryDTO> getAllSpeakersSummarySorted() {
-        return highRangeRepository.findAllHighRangesWithUserLikesCountOrderByBrandAndModel()
+        return highRangeRepository.findAllDevicesWithUserLikesCountOrderByBrandAndModel()
                 .stream()
                 .map(this::mapHighRangeToHighRangeSummaryDTO)
                 .toList();
@@ -220,7 +220,7 @@ public class HighRangeServiceImpl implements HighRangeService {
     public boolean likeSpeaker(Long id) {
         UserEntity user = getUserEntity(getPrincipal().getUsername());
 
-        HighRange highRange = highRangeRepository.findHighRangeByUserLikes(id)
+        HighRange highRange = highRangeRepository.findDeviceByUserLikes(id)
                 .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
 
         boolean alreadyLiked = highRange.getUserLikes()
@@ -291,7 +291,7 @@ public class HighRangeServiceImpl implements HighRangeService {
     private void updateSpeakerImages(UserEntity user, HighRange highRange, AddHighRangeDTO addHighRangeDTO) throws IOException {
         if (addHighRangeDTO.getImageFiles() != null && !addHighRangeDTO.getImageFiles().isEmpty()) {
 
-            highRangeImageRepository.deleteByHighRange(highRange);
+            highRangeImageRepository.deleteByDevice(highRange);
 
             List<HighRangeImage> highRangeImages = new ArrayList<>();
 
@@ -301,7 +301,7 @@ public class HighRangeServiceImpl implements HighRangeService {
                 if (!file.isEmpty()) {
                     HighRangeImage highRangeImage = new HighRangeImage();
                     highRangeImage.setImageData(file.getBytes());
-                    highRangeImage.setHighRange(highRange);
+                    highRangeImage.setDevice(highRange);
                     highRangeImages.add(highRangeImage);
                 }
             }
@@ -318,6 +318,7 @@ public class HighRangeServiceImpl implements HighRangeService {
 
     /**
      * This method is used to map HighRange to HighRangeSummaryDTO.
+     *
      * @param highRange is used as a method parameter, that will be converted to a SummaryDTO.
      * @return HighRangeSummaryDTO with the needed image and user likes set properly.
      */

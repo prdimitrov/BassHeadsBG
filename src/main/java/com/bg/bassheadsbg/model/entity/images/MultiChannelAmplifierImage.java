@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.entity.images;
 
+import com.bg.bassheadsbg.model.entity.DeviceImageEntity;
 import com.bg.bassheadsbg.model.entity.amplifiers.MultiChannelAmplifier;
 import com.bg.bassheadsbg.model.entity.base.BaseEntity;
 import jakarta.persistence.Column;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MultiChannelAmplifierImage extends BaseEntity {
+public class MultiChannelAmplifierImage extends BaseEntity implements DeviceImageEntity<MultiChannelAmplifier> {
 
     @Lob
     @Column(name = "image_data", columnDefinition = "MEDIUMBLOB", nullable = false)
@@ -26,5 +27,10 @@ public class MultiChannelAmplifierImage extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "multi_channel_amplifier_id", nullable = false)
-    private MultiChannelAmplifier multiChannelAmplifier;
+    private MultiChannelAmplifier device;
+
+    @Override
+    public void setDevice(MultiChannelAmplifier device) {
+        this.device = device;
+    }
 }
