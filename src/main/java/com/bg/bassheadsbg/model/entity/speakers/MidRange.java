@@ -1,9 +1,10 @@
 package com.bg.bassheadsbg.model.entity.speakers;
 
-import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.images.MidRangeImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
+import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -39,7 +40,7 @@ public class MidRange extends BaseSpeaker implements DeviceEntity<MidRangeImage>
     @Max(value = 80000, message = "{frequencyRangeTo.max80000}")
     private int frequencyRangeTo;
 
-    @OneToMany(mappedBy = "device", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MidRangeImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

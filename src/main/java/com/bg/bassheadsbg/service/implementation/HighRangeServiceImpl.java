@@ -6,7 +6,6 @@ import com.bg.bassheadsbg.model.dto.summary.HighRangeSummaryDTO;
 import com.bg.bassheadsbg.model.entity.images.HighRangeImage;
 import com.bg.bassheadsbg.model.entity.speakers.HighRange;
 import com.bg.bassheadsbg.model.helpers.HighRangeDetailsHelperDTO;
-import com.bg.bassheadsbg.repository.DeviceImageRepository;
 import com.bg.bassheadsbg.repository.DeviceRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.HighRangeService;
@@ -30,20 +29,14 @@ public class HighRangeServiceImpl extends DeviceServiceImpl<
         HighRangeSummaryDTO,
         HighRangeDetailsHelperDTO,
         HighRangeImage,
-        HighRange
-        > implements HighRangeService {
+        HighRange> implements HighRangeService {
 
-    public HighRangeServiceImpl(
-            DeviceRepository<HighRange> deviceRepository,
-            DeviceImageRepository<HighRangeImage, HighRange> deviceImageRepository,
-            ModelMapper modelMapper,
-            ExRateService exRateService,
-            UserService userService,
-            MessageSource messageSource
-    ) {
-        super(
-                deviceRepository,
-                deviceImageRepository,
+    public HighRangeServiceImpl(DeviceRepository<HighRange> deviceRepository,
+                                ModelMapper modelMapper,
+                                ExRateService exRateService,
+                                UserService userService,
+                                MessageSource messageSource) {
+        super(deviceRepository,
                 modelMapper,
                 exRateService,
                 userService,
@@ -53,7 +46,6 @@ public class HighRangeServiceImpl extends DeviceServiceImpl<
                 HighRangeDetailsDTO.class,
                 HighRangeSummaryDTO.class,
                 HighRangeDetailsHelperDTO::new,
-                HighRangeImage::new
-        );
+                HighRangeImage::new);
     }
 }

@@ -11,7 +11,6 @@ import com.bg.bassheadsbg.model.interfaces.DetailsDeviceDTO;
 import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.interfaces.DeviceImageEntity;
 import com.bg.bassheadsbg.model.interfaces.DeviceSummaryDTO;
-import com.bg.bassheadsbg.repository.DeviceImageRepository;
 import com.bg.bassheadsbg.repository.DeviceRepository;
 import com.bg.bassheadsbg.service.interfaces.DeviceService;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
@@ -29,10 +28,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -42,25 +39,27 @@ import java.util.function.Supplier;
  * also handling the likes and updating images.
  */
 @RequiredArgsConstructor
-public abstract class DeviceServiceImpl<
-        AddDTO extends AddDeviceDTO,
+public abstract class DeviceServiceImpl<AddDTO extends AddDeviceDTO,
         DetailsDTO extends DetailsDeviceDTO,
         SummaryDTO extends DeviceSummaryDTO,
         HelperDTO,
         Image extends DeviceImageEntity<Device>,
         Device extends DeviceEntity<Image>>
         implements DeviceService<AddDTO, DetailsDTO, SummaryDTO, HelperDTO> {
+    private static final int ZERO = 0;
+    private static final String DEVICE_ALREADY_EXISTS = ExceptionMessages.DEVICE_ALREADY_EXISTS;
+    private static final String DEVICE_NOT_FOUND = ExceptionMessages.DEVICE_NOT_FOUND;
+    private static final String USER_NOT_FOUND = ExceptionMessages.USER_NOT_FOUND;
+    private static final String USER_NOT_AUTH = ExceptionMessages.USER_NOT_AUTH;
+    private static final String DELETED = "deleted";
+    private static final String EDITED = "edited";
     private static final String ADDED = "added";
     private static final String LIKED = "liked";
-    private static final String UPDATED = "updated";
-    private static final int ZERO = 0;
-    protected final DeviceRepository<Device> deviceRepository;
-    protected final DeviceImageRepository<Image, Device> deviceImageRepository;
-    protected final ModelMapper modelMapper;
-    protected final ExRateService exRateService;
-    protected final UserService userService;
-    protected final MessageSource messageSource;
-
+    private final DeviceRepository<Device> deviceRepository;
+    private final ModelMapper modelMapper;
+    private final ExRateService exRateService;
+    private final UserService userService;
+    private final MessageSource messageSource;
     private final Supplier<AddDTO> addDtoSupplier;
     private final Class<Device> deviceClass;
     private final Class<DetailsDTO> detailsClass;
@@ -81,10 +80,10 @@ public abstract class DeviceServiceImpl<
         String model = addDTO.getModel().trim();
         assertUniqueForAddDevice(brand, model);
         Device device = modelMapper.map(addDTO, deviceClass);
+        updateDeviceImages(device, addDTO.getImageFiles());
         device = deviceRepository.save(device);
-        updateDeviceImages(user, device, addDTO);
         long deviceId = device.getId();
-        ObjectLogger.logMessage(user, ADDED, device, deviceId, brand, model);
+        logMessage(user, ADDED, device, deviceId, brand, model);
         return deviceId;
     }
 
@@ -92,28 +91,28 @@ public abstract class DeviceServiceImpl<
     @Transactional
     public long editDevice(final AddDTO addDTO) throws IOException {
         UserEntity user = getUserEntity(getUserDetails());
-        Device existing = deviceRepository.findById(addDTO.getId())
-                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, addDTO.getId()));
+        long id = addDTO.getId();
+        Device existingDevice = deviceRepository.findById(id)
+                .orElseThrow(() -> new DeviceNotFoundException(DEVICE_NOT_FOUND, id));
         String brand = addDTO.getBrand().trim();
         String model = addDTO.getModel().trim();
-        assertUniqueForEditDevice(existing.getId(), brand, model);
-        modelMapper.map(addDTO, existing);
+        assertUniqueForEditDevice(existingDevice.getId(), brand, model);
+        modelMapper.map(addDTO, existingDevice);
         if (addDTO.getImageFiles() != null) {
-            existing.getImageFiles().clear();
-            updateDeviceImages(user, existing, addDTO);
+            updateDeviceImages(existingDevice, addDTO.getImageFiles());
         }
-        Device saved = deviceRepository.saveAndFlush(existing);
-        ObjectLogger.logMessage(user, "edited", saved, saved.getId(), brand, model);
-        return saved.getId();
+        Device saved = deviceRepository.saveAndFlush(existingDevice);
+        logMessage(user, EDITED, saved, id, brand, model);
+        return id;
     }
 
     @Override
     public void deleteDevice(final long id) {
         UserEntity user = getUserEntity(getUserDetails());
         Device device = deviceRepository.findById(id)
-                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+                .orElseThrow(() -> new DeviceNotFoundException(DEVICE_NOT_FOUND, id));
         deviceRepository.delete(device);
-        ObjectLogger.logDeleteMessage(user, device, device.getBrand(), device.getModel());
+        logMessage(user, DELETED, device, id, device.getBrand(), device.getModel());
     }
 
     @Override
@@ -129,7 +128,7 @@ public abstract class DeviceServiceImpl<
     @Transactional
     public DetailsDTO getDeviceDetails(final Long id) throws DeviceNotFoundException {
         Device device = deviceRepository.findById(id)
-                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
+                .orElseThrow(() -> new DeviceNotFoundException(DEVICE_NOT_FOUND, id));
         Hibernate.initialize(device.getImageFiles());
         DetailsDTO detailsDTO = modelMapper.map(device, detailsClass);
         detailsDTO.setAllCurrencies(exRateService.allSupportedCurrencies());
@@ -150,18 +149,17 @@ public abstract class DeviceServiceImpl<
     public boolean likeDevice(final Long id) {
         UserEntity user = getUserEntity(getUserDetails());
         Device device = deviceRepository.findDeviceByUserLikes(id)
-                .orElseThrow(() -> new DeviceNotFoundException(ExceptionMessages.DEVICE_NOT_FOUND, id));
-        if (device.getUserLikes().stream().anyMatch(userLike ->
-                userLike.getUsername().equals(user.getUsername()))) return false;
+                .orElseThrow(() -> new DeviceNotFoundException(DEVICE_NOT_FOUND, id));
+        if (device.getUserLikes().stream().anyMatch(userLike -> userLike.equals(user))) return false;
         device.getUserLikes().add(user);
         deviceRepository.save(device);
-        ObjectLogger.logMessage(user, LIKED, device, id, device.getBrand(), device.getModel());
+        logMessage(user, LIKED, device, id, device.getBrand(), device.getModel());
         return true;
     }
 
     private UserEntity getUserEntity(final String username) {
         return userService.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(ExceptionMessages.USER_NOT_FOUND));
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
     }
 
     /**
@@ -178,55 +176,41 @@ public abstract class DeviceServiceImpl<
         if (principal instanceof UserDetails userDetails) {
             return userDetails.getUsername();
         } else {
-            throw new UserNotAuthenticatedException(ExceptionMessages.USER_NOT_AUTH);
+            throw new UserNotAuthenticatedException(USER_NOT_AUTH);
         }
     }
 
-    private Optional<Device> findByBrandAndModel(final String brand, final String model) {
-        return deviceRepository.findByBrandAndModel(brand, model);
-    }
-
     /**
-     * This method is used to update the images of devices.
+     * This method is used to add or update the images of devices.
      *
-     * @param user   is used to pass user data to ObjectLogger class, that is used
-     *               to log messages in the console.
      * @param device the device, whose images will be set.
-     * @param addDTO the addDTO, whose images will be mapped to the device.
+     * @param files  the addDTO.getImageFiles(), whose images will be mapped to the device.
      * @throws IOException if an error occurs while processing the images.
      */
-    private void updateDeviceImages(final UserEntity user, final Device device, final AddDTO addDTO) throws IOException {
-        List<MultipartFile> files = addDTO.getImageFiles();
-        if (files != null && !files.isEmpty()) {
-            deviceImageRepository.deleteByDevice(device);
-            List<Image> images = new ArrayList<>();
-            for (MultipartFile f : files) {
-                if (!f.isEmpty()) {
-                    Image img = imageFactory.get();
-                    img.setImageData(f.getBytes());
-                    img.setDevice(device);
-                    images.add(img);
-                }
-            }
-            deviceImageRepository.saveAll(images);
-        } else {
-            ObjectLogger.logMessageWithoutImages(user, UPDATED, device, device.getId(), device.getBrand(), device.getModel());
+
+    private void updateDeviceImages(final Device device, final List<MultipartFile> files) throws IOException {
+        device.getImageFiles().clear();
+        if (files == null || files.isEmpty()) return;
+        for (MultipartFile f : files) {
+            if (f.isEmpty()) continue;
+            Image img = imageFactory.get();
+            img.setImageData(f.getBytes());
+            img.setDevice(device);
+            device.getImageFiles().add(img);
         }
     }
 
     private void assertUniqueForAddDevice(final String brand, final String model) {
         if (deviceRepository.findByBrandAndModel(brand, model).isPresent()) {
-            String msg = messageSource.getMessage(
-                    ExceptionMessages.DEVICE_ALREADY_EXISTS, null, LocaleContextHolder.getLocale());
-            throw new DeviceAlreadyExistsException(msg);
+            throw new DeviceAlreadyExistsException(
+                    messageSource.getMessage(DEVICE_ALREADY_EXISTS, null, LocaleContextHolder.getLocale()));
         }
     }
 
     private void assertUniqueForEditDevice(final long id, final String brand, final String model) {
         if (deviceRepository.findOtherByBrandAndModel(brand, model, id).isPresent()) {
-            String msg = messageSource.getMessage(
-                    ExceptionMessages.DEVICE_ALREADY_EXISTS, null, LocaleContextHolder.getLocale());
-            throw new DeviceAlreadyExistsException(msg);
+            throw new DeviceAlreadyExistsException(
+                    messageSource.getMessage(DEVICE_ALREADY_EXISTS, null, LocaleContextHolder.getLocale()));
         }
     }
 
@@ -241,5 +225,10 @@ public abstract class DeviceServiceImpl<
         summaryDTO.setLikes(device.getLikes());
         summaryDTO.setImageFile(Base64.getEncoder().encodeToString(device.getImageFiles().get(ZERO).getImageData()));
         return summaryDTO;
+    }
+
+    private void logMessage(UserEntity user, String message, Device device, long deviceId,
+                            String brand, String model) {
+        ObjectLogger.logMessage(user, message, device, deviceId, brand, model);
     }
 }
