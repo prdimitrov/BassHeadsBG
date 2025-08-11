@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.model.dto.summary;
 
 import com.bg.bassheadsbg.model.entity.images.PowerCableImage;
+import com.bg.bassheadsbg.model.interfaces.DeviceSummaryDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public final class PowerCableSummaryDTO {
+public final class PowerCableSummaryDTO implements DeviceSummaryDTO {
     private Long id;
     private String brand;
     private String model;

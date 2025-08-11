@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.model.dto.add;
 
 import com.bg.bassheadsbg.model.enums.AmpClass;
+import com.bg.bassheadsbg.model.interfaces.AddDeviceDTO;
 import com.bg.bassheadsbg.validation.imagesValidator.NotEmptyImageFiles;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,7 +22,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddMonoAmpDTO {
+public class AddMonoAmpDTO implements AddDeviceDTO {
 
     private long id;
 

@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/speakers/subwoofers")
@@ -31,7 +28,7 @@ public class SubwooferController {
     @GetMapping("/add")
     public String addSubwoofer(Model model) {
         if (!model.containsAttribute("addSubwooferDTO")) {
-            model.addAttribute("addSubwooferDTO", subwooferService.createNewSpeaker());
+            model.addAttribute("addSubwooferDTO", subwooferService.createNewDevice());
         }
         return "speakers/subwoofer-add";
     }
@@ -45,13 +42,13 @@ public class SubwooferController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addSubwooferDTO", bindingResult);
             return "redirect:/speakers/subwoofers/add";
         }
-        return "redirect:/speakers/subwoofers/" + subwooferService.addSpeaker(addSubwooferDTO);
+        return "redirect:/speakers/subwoofers/" + subwooferService.addDevice(addSubwooferDTO);
     }
 
     @GetMapping("/edit/{id}")
     public String getEditSubwoofer(@PathVariable("id") Long id, Model model) {
         if (!model.containsAttribute("subwooferDetails")) {
-            model.addAttribute("subwooferDetails", subwooferService.getSpeakerDetails(id));
+            model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
         }
         return "speakers/subwoofer-edit";
     }
@@ -59,44 +56,43 @@ public class SubwooferController {
     @PostMapping("/edit/{id}")
     public String postEditSubwoofer(@Valid @ModelAttribute("subwooferDetails") AddSubwooferDTO addSubwooferDTO,
                                     BindingResult bindingResult,
-                                    @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageFiles,
                                     RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("subwooferDetails", addSubwooferDTO);
             redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "subwooferDetails", bindingResult);
             return "redirect:/speakers/subwoofers/edit/" + addSubwooferDTO.getId();
         }
-        return "redirect:/speakers/subwoofers/" + subwooferService.editSpeaker(addSubwooferDTO, imageFiles);
+        return "redirect:/speakers/subwoofers/" + subwooferService.editDevice(addSubwooferDTO);
     }
 
     @GetMapping("/{id}")
     public String subwooferDetails(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("subwooferDetails", subwooferService.getSpeakerDetails(id));
-        model.addAttribute("helperDTO", subwooferService.getSpeakerDetailsHelper(id));
+        model.addAttribute("subwooferDetails", subwooferService.getDeviceDetails(id));
+        model.addAttribute("helperDTO", subwooferService.getDeviceDetailsHelper(id));
         return "speakers/subwoofer-details";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteSubwoofer(@PathVariable("id") Long id) {
-        subwooferService.deleteSpeaker(id);
+        subwooferService.deleteDevice(id);
         return "redirect:/";
     }
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allDevices", subwooferService.getAllSpeakersSummarySorted());
+        model.addAttribute("allDevices", subwooferService.getAllDeviceSummarySorted());
         return "speakers/subwoofers-all";
     }
 
-        @PostMapping("/like/{id}")
-        public String like(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-            boolean likeSpeakerSuccess = subwooferService.likeSpeaker(id);
+    @PostMapping("/like/{id}")
+    public String like(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean likeSpeakerSuccess = subwooferService.likeDevice(id);
 
-            if (!likeSpeakerSuccess) {
-                redirectAttributes.addFlashAttribute("subwooferAlreadyLikedId", id);
-            }
-
-            return "redirect:/speakers/subwoofers/rankings";
-
+        if (!likeSpeakerSuccess) {
+            redirectAttributes.addFlashAttribute("subwooferAlreadyLikedId", id);
         }
+
+        return "redirect:/speakers/subwoofers/rankings";
+
+    }
 }

@@ -25,7 +25,7 @@ public class SubwooferImage extends BaseEntity implements DeviceImageEntity<Subw
     @Column(name = "image_data", columnDefinition = "MEDIUMBLOB", nullable = false)
     private byte[] imageData;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "subwoofer_id", nullable = false)
     private Subwoofer device;
 

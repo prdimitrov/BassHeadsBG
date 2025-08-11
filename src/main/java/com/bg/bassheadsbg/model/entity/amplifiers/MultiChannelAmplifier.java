@@ -4,6 +4,7 @@ import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
 import com.bg.bassheadsbg.model.entity.images.MultiChannelAmplifierImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -33,7 +34,7 @@ public class MultiChannelAmplifier extends BaseAmplifier implements DeviceEntity
     @Max(value = 16, message = "{numberOfChannels.max16}")
     private byte numberOfChannels;
 
-    @OneToMany(mappedBy = "device", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MultiChannelAmplifierImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

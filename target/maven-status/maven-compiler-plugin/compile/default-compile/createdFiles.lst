@@ -21,7 +21,6 @@ com\bg\bassheadsbg\model\entity\images\MonoAmplifierImage.class
 com\bg\bassheadsbg\web\controller\speakerControllers\HighRangeController.class
 com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.class
 com\bg\bassheadsbg\model\entity\images\MultiChannelAmplifierImage.class
-com\bg\bassheadsbg\model\interfaces\DetailsDeviceDTO.class
 com\bg\bassheadsbg\repository\DeviceRepository.class
 com\bg\bassheadsbg\service\implementation\UserServiceImpl.class
 com\bg\bassheadsbg\model\entity\speakers\HighRange.class
@@ -52,6 +51,7 @@ com\bg\bassheadsbg\model\dto\UserEntityEditDTO.class
 com\bg\bassheadsbg\service\interfaces\MultiChannelAmpService.class
 com\bg\bassheadsbg\config\I18NConfig.class
 com\bg\bassheadsbg\config\WebConfig.class
+com\bg\bassheadsbg\model\interfaces\DeviceDetailsDTO.class
 com\bg\bassheadsbg\service\interfaces\DeviceService.class
 com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.class
 com\bg\bassheadsbg\model\interfaces\DeviceEntity.class

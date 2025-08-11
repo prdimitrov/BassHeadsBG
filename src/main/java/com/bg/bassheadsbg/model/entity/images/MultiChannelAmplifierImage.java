@@ -25,7 +25,7 @@ public class MultiChannelAmplifierImage extends BaseEntity implements DeviceImag
     @Column(name = "image_data", columnDefinition = "MEDIUMBLOB", nullable = false)
     private byte[] imageData;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "multi_channel_amplifier_id", nullable = false)
     private MultiChannelAmplifier device;
 

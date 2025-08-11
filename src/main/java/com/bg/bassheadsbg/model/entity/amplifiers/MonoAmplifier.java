@@ -4,6 +4,7 @@ import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseAmplifier;
 import com.bg.bassheadsbg.model.entity.images.MonoAmplifierImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -38,7 +39,7 @@ public class MonoAmplifier extends BaseAmplifier implements DeviceEntity<MonoAmp
     @Max(value = 16, message = "{numberOfSpeakerOutputs.max16}")
     private byte numberOfSpeakerOutputs;
 
-    @OneToMany(mappedBy = "device", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MonoAmplifierImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

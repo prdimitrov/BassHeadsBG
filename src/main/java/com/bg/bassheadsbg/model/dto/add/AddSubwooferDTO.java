@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.dto.add;
 
+import com.bg.bassheadsbg.model.interfaces.AddDeviceDTO;
 import com.bg.bassheadsbg.validation.imagesValidator.NotEmptyImageFiles;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Max;
@@ -18,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddSubwooferDTO {
+public class AddSubwooferDTO implements AddDeviceDTO {
 
     private long id;
 
