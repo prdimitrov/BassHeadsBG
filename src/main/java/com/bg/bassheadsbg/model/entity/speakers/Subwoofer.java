@@ -4,6 +4,7 @@ import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.entity.base.BaseSpeaker;
 import com.bg.bassheadsbg.model.entity.images.SubwooferImage;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -91,7 +92,7 @@ public class Subwoofer extends BaseSpeaker implements DeviceEntity<SubwooferImag
     @DecimalMax(value = "3000", message = "{mms.max3000}")
     private float mms;
 
-    @OneToMany(mappedBy = "device", orphanRemoval = true)
+    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubwooferImage> imageFiles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

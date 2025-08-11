@@ -92,7 +92,7 @@ C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsb
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\PowerCableDetailsHelperDTO.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\SubwooferDetailsHelperDTO.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\AddDeviceDTO.java
-C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DetailsDeviceDTO.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DeviceDetailsDTO.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DeviceEntity.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DeviceImageEntity.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DeviceSummaryDTO.java

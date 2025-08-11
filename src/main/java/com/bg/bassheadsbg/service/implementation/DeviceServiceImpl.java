@@ -7,7 +7,7 @@ import com.bg.bassheadsbg.exception.UserNotFoundException;
 import com.bg.bassheadsbg.messages.ExceptionMessages;
 import com.bg.bassheadsbg.model.entity.users.UserEntity;
 import com.bg.bassheadsbg.model.interfaces.AddDeviceDTO;
-import com.bg.bassheadsbg.model.interfaces.DetailsDeviceDTO;
+import com.bg.bassheadsbg.model.interfaces.DeviceDetailsDTO;
 import com.bg.bassheadsbg.model.interfaces.DeviceEntity;
 import com.bg.bassheadsbg.model.interfaces.DeviceImageEntity;
 import com.bg.bassheadsbg.model.interfaces.DeviceSummaryDTO;
@@ -40,7 +40,7 @@ import java.util.function.Supplier;
  */
 @RequiredArgsConstructor
 public abstract class DeviceServiceImpl<AddDTO extends AddDeviceDTO,
-        DetailsDTO extends DetailsDeviceDTO,
+        DetailsDTO extends DeviceDetailsDTO,
         SummaryDTO extends DeviceSummaryDTO,
         HelperDTO,
         Image extends DeviceImageEntity<Device>,
