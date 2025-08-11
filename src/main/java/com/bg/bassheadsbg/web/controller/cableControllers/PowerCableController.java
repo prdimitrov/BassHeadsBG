@@ -6,12 +6,15 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/cables/power-cables")
@@ -25,7 +28,7 @@ public class PowerCableController {
     @GetMapping("/add")
     public String addCable(Model model) {
         if (!model.containsAttribute("addPowerCableDTO")) {
-            model.addAttribute("addPowerCableDTO", powerCableService.createNewCableDTO());
+            model.addAttribute("addPowerCableDTO", powerCableService.createNewDevice());
         }
         return "cables/powercable-add";
     }
@@ -39,13 +42,13 @@ public class PowerCableController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addPowerCableDTO", bindingResult);
             return "redirect:/cables/power-cables/add";
         }
-        return "redirect:/cables/power-cables/" + powerCableService.addCable(addPowerCableDTO);
+        return "redirect:/cables/power-cables/" + powerCableService.addDevice(addPowerCableDTO);
     }
 
     @GetMapping("/edit/{id}")
     public String getEditCable(@PathVariable("id") Long id, Model model) {
         if (!model.containsAttribute("cableDetails")) {
-            model.addAttribute("cableDetails", powerCableService.getCableDetails(id));
+            model.addAttribute("cableDetails", powerCableService.getDeviceDetails(id));
         }
         return "cables/powercable-edit";
     }
@@ -53,7 +56,6 @@ public class PowerCableController {
     @PostMapping("/edit/{id}")
     public String postEditCable(@Valid @ModelAttribute("cableDetails") AddPowerCableDTO addPowerCableDTO,
                                 BindingResult bindingResult,
-                                @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageFiles,
                                 RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("cableDetails", addPowerCableDTO);
@@ -61,32 +63,32 @@ public class PowerCableController {
             return "redirect:/cables/power-cables/edit/" + addPowerCableDTO.getId();
         }
 
-        long cableId = powerCableService.editCable(addPowerCableDTO, imageFiles);
+        long cableId = powerCableService.editDevice(addPowerCableDTO);
         return "redirect:/cables/power-cables/" + cableId;
     }
 
     @GetMapping("/{id}")
     public String cableDetails(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("cableDetails", powerCableService.getCableDetails(id));
-        model.addAttribute("helperDTO", powerCableService.getPowerCableDetailsHelper(id));
+        model.addAttribute("cableDetails", powerCableService.getDeviceDetails(id));
+        model.addAttribute("helperDTO", powerCableService.getDeviceDetailsHelper(id));
         return "cables/powercable-details";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteCable(@PathVariable("id") Long id) {
-        powerCableService.deleteCable(id);
+        powerCableService.deleteDevice(id);
         return "redirect:/";
     }
 
     @GetMapping("/rankings")
     public String rankings(Model model) {
-        model.addAttribute("allCables", powerCableService.getAllPowerCablesSummarySorted());
+        model.addAttribute("allCables", powerCableService.getAllDeviceSummarySorted());
         return "cables/powercable-all";
     }
 
     @PostMapping("/like/{id}")
     public String likeCable(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        boolean likePowerCableSuccess = powerCableService.likeCable(id);
+        boolean likePowerCableSuccess = powerCableService.likeDevice(id);
 
         if (!likePowerCableSuccess) {
             redirectAttributes.addFlashAttribute("powerCableAlreadyLikedId", id);

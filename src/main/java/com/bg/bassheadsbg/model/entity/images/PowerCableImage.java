@@ -25,7 +25,7 @@ public class PowerCableImage extends BaseEntity implements DeviceImageEntity<Pow
     @Column(name = "image_data", columnDefinition = "MEDIUMBLOB", nullable = false)
     private byte[] imageData;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "power_cable_id", nullable = false)
     private PowerCable device;
 

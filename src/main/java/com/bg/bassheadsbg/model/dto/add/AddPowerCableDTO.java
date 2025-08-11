@@ -1,6 +1,7 @@
 package com.bg.bassheadsbg.model.dto.add;
 
 import com.bg.bassheadsbg.model.enums.CableMaterial;
+import com.bg.bassheadsbg.model.interfaces.AddDeviceDTO;
 import com.bg.bassheadsbg.validation.imagesValidator.NotEmptyImageFiles;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
@@ -22,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddPowerCableDTO {
+public class AddPowerCableDTO implements AddDeviceDTO {
     private long id;
 
     @NotBlank(message = "{brand.notBlank}")
