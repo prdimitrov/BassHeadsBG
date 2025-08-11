@@ -10,13 +10,11 @@ import com.bg.bassheadsbg.repository.DeviceRepository;
 import com.bg.bassheadsbg.service.interfaces.ExRateService;
 import com.bg.bassheadsbg.service.interfaces.SubwooferService;
 import com.bg.bassheadsbg.service.interfaces.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 public class SubwooferServiceImpl extends DeviceServiceImpl<
         AddSubwooferDTO,
         SubwooferDetailsDTO,

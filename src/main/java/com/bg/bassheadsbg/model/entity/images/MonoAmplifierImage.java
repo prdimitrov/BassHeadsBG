@@ -25,7 +25,7 @@ public class MonoAmplifierImage extends BaseEntity implements DeviceImageEntity<
     @Column(name = "image_data", columnDefinition = "MEDIUMBLOB", nullable = false)
     private byte[] imageData;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "mono_amplifier_id", nullable = false)
     private MonoAmplifier device;
 
