@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.dto.summary;
 
+import com.bg.bassheadsbg.model.interfaces.DeviceSummaryDTO;
 import com.bg.bassheadsbg.util.ValueFormatterUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public final class MidRangeSummaryDTO {
+public final class MidRangeSummaryDTO implements DeviceSummaryDTO {
     private Long id;
     private String brand;
     private String model;

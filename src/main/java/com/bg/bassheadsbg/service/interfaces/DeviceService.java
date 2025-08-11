@@ -13,14 +13,14 @@ import java.util.List;
 public interface DeviceService<AddDTO, DetailsDTO, SummaryDTO, HelperDTO> {
 
     /**
-     * Creates a new instance of AddHighRangeDTO.
+     * Creates a new instance of AddDTO.
      *
-     * @return a new AddHighRangeDTO object
+     * @return a new AddDTO object
      */
     AddDTO createNewDevice();
 
     /**
-     * Adds a new high-range device.
+     * Adds a new device.
      *
      * @param dto the DTO containing device information
      * @return the ID of the newly added device

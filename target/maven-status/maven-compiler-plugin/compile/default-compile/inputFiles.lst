@@ -68,8 +68,6 @@ C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsb
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\base\BaseSpeaker.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\cables\PowerCable.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\City.java
-C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\DeviceEntity.java
-C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\DeviceImageEntity.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\ExRateEntity.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\images\HighRangeImage.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\entity\images\MidRangeImage.java
@@ -93,6 +91,11 @@ C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsb
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\MultiChannelAmpDetailsHelperDTO.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\PowerCableDetailsHelperDTO.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\helpers\SubwooferDetailsHelperDTO.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\AddDeviceDTO.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DetailsDeviceDTO.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DeviceEntity.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DeviceImageEntity.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\model\interfaces\DeviceSummaryDTO.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\CityRepository.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\DeviceImageRepository.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\repository\DeviceRepository.java
@@ -116,6 +119,7 @@ C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsb
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\BassHeadsDetailsService.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\CityServiceImpl.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\DeviceServiceImpl.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\MessageStoreServiceImpl.java
@@ -130,6 +134,7 @@ C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsb
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\implementation\WelcomeServiceImpl.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\AccuWeatherService.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\CityService.java
+C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\DeviceService.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\ExRateService.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\HighRangeService.java
 C:\Users\ME\IdeaProjects\bassheadsbg\BassHeadsBG\src\main\java\com\bg\bassheadsbg\service\interfaces\MessageStoreService.java

@@ -21,6 +21,7 @@ com\bg\bassheadsbg\model\entity\images\MonoAmplifierImage.class
 com\bg\bassheadsbg\web\controller\speakerControllers\HighRangeController.class
 com\bg\bassheadsbg\service\implementation\ExRateServiceImpl.class
 com\bg\bassheadsbg\model\entity\images\MultiChannelAmplifierImage.class
+com\bg\bassheadsbg\model\interfaces\DetailsDeviceDTO.class
 com\bg\bassheadsbg\repository\DeviceRepository.class
 com\bg\bassheadsbg\service\implementation\UserServiceImpl.class
 com\bg\bassheadsbg\model\entity\speakers\HighRange.class
@@ -51,10 +52,13 @@ com\bg\bassheadsbg\model\dto\UserEntityEditDTO.class
 com\bg\bassheadsbg\service\interfaces\MultiChannelAmpService.class
 com\bg\bassheadsbg\config\I18NConfig.class
 com\bg\bassheadsbg\config\WebConfig.class
+com\bg\bassheadsbg\service\interfaces\DeviceService.class
 com\bg\bassheadsbg\service\implementation\AccuWeatherServiceImpl.class
+com\bg\bassheadsbg\model\interfaces\DeviceEntity.class
 com\bg\bassheadsbg\web\controller\userControllers\EditUserController.class
 com\bg\bassheadsbg\service\implementation\HighRangeServiceImpl.class
 com\bg\bassheadsbg\web\controller\userControllers\LoginController.class
+com\bg\bassheadsbg\service\implementation\DeviceServiceImpl.class
 com\bg\bassheadsbg\model\entity\cables\PowerCable.class
 com\bg\bassheadsbg\repository\MultiChannelAmplifierImageRepository.class
 com\bg\bassheadsbg\model\dto\summary\SubwooferSummaryDTO.class
@@ -123,7 +127,6 @@ com\bg\bassheadsbg\validation\uniqueEmail\UniqueUserEmail.class
 com\bg\bassheadsbg\web\controller\amplifierControllers\MonoChannelAmplifierController.class
 com\bg\bassheadsbg\repository\PowerCableRepository.class
 com\bg\bassheadsbg\model\entity\amplifiers\MultiChannelAmplifier.class
-com\bg\bassheadsbg\model\entity\DeviceImageEntity.class
 com\bg\bassheadsbg\model\dto\details\SubwooferDetailsDTO.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice$CustomByteEditor.class
 com\bg\bassheadsbg\exception\DeviceAlreadyLikedException.class
@@ -139,6 +142,7 @@ com\bg\bassheadsbg\service\interfaces\PowerCableService.class
 com\bg\bassheadsbg\repository\HighRangeRepository.class
 com\bg\bassheadsbg\service\implementation\MultiChannelAmpServiceImpl.class
 com\bg\bassheadsbg\service\implementation\MidRangeServiceImpl.class
+com\bg\bassheadsbg\model\interfaces\DeviceSummaryDTO.class
 com\bg\bassheadsbg\model\dto\summary\MidRangeSummaryDTO.class
 com\bg\bassheadsbg\model\dto\summary\MultiChannelAmpSummaryDTO.class
 com\bg\bassheadsbg\model\entity\ExRateEntity.class
@@ -152,7 +156,6 @@ com\bg\bassheadsbg\service\interfaces\MessageStoreService.class
 com\bg\bassheadsbg\model\dto\add\AddSubwooferDTO.class
 com\bg\bassheadsbg\web\controller\speakerControllers\SubwooferController.class
 com\bg\bassheadsbg\init\AdminInitialization.class
-com\bg\bassheadsbg\model\entity\DeviceEntity.class
 com\bg\bassheadsbg\validation\fieldsMatcher\FieldsMatchValidator.class
 com\bg\bassheadsbg\messages\ExceptionMessages.class
 com\bg\bassheadsbg\model\dto\add\AddHighRangeDTO.class
@@ -165,12 +168,14 @@ com\bg\bassheadsbg\web\controller\ContactsController.class
 com\bg\bassheadsbg\repository\MonoAmplifierRepository.class
 com\bg\bassheadsbg\model\dto\details\ImageListDetailsDTO.class
 com\bg\bassheadsbg\repository\MidRangeRepository.class
+com\bg\bassheadsbg\model\interfaces\DeviceImageEntity.class
 com\bg\bassheadsbg\BassheadsbgApplication.class
 com\bg\bassheadsbg\repository\MultiChannelAmplifierRepository.class
 com\bg\bassheadsbg\scheduling\CronScheduler.class
 com\bg\bassheadsbg\model\enums\AmpClass.class
 com\bg\bassheadsbg\event\OnRegistrationCompleteEvent.class
 com\bg\bassheadsbg\util\GlobalValuesAdvice.class
+com\bg\bassheadsbg\model\interfaces\AddDeviceDTO.class
 com\bg\bassheadsbg\repository\DeviceImageRepository.class
 com\bg\bassheadsbg\exception\DeviceNotFoundException.class
 com\bg\bassheadsbg\service\implementation\CityServiceImpl.class

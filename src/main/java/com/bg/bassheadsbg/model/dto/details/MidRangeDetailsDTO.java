@@ -1,5 +1,6 @@
 package com.bg.bassheadsbg.model.dto.details;
 
+import com.bg.bassheadsbg.model.interfaces.DetailsDeviceDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public final class MidRangeDetailsDTO {
+public final class MidRangeDetailsDTO implements DetailsDeviceDTO {
     private long id;
     private int price;
     List<String> allCurrencies;
